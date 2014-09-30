@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head data-sly-use.html="/some/html/file.html">
+    <title>${currentPage.title}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body data-sly-use.string="${java.lang.String}"
+        data-sly-use.stringWithoutBraces="java.lang.String"
+        data-sly-use.list="java.util.List"
+        data-sly-use.unknown="${unknown}">
+    <div data-sly-use.ipsum="${'UseWithParameters' @ param='something'">TODO write content</div>
+    <div data-sly-list.recursive="${string.class}">
+      ${recursive.annotations}
+      <div data-sly-list.recursive2="${recursive.class}">
+        ${recursive2.annotationPresent}
+        <div data-sly-list.recursive3="${recursive2.class}">
+          ${recursive3.annotationPresent}
+        </div>
+      </div>
+    </div>
+
+    <h1>${foo.title}</h1>
+
+  </body>
+</html>

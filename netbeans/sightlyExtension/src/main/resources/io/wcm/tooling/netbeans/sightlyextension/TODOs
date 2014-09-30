@@ -1,0 +1,27 @@
+* if user uses data-sly-use, we should be able to find the actual available parameters on next usage
+<foo data-sly-use.ipsum="${my.class.Foo}>... ipsum.WE_KNOW_YOUR_PARAMETERS!!
+
+* classlookupcompleter currently does not check if there is a data-sly-use before it
+
+* classlookupcompleter currently does not filter out unusable classes (e.g. display only @Model?)
+
+* there are many missing classes in buildInClasses
+
+* generalize the detection/usage of parameters (currently this has to be done in each addItems method)
+
+* generalize the detection of the start of the entered text
+
+* add license headers
+
+* setup upgrade center or deploy into netbeans upgrade center
+
+* cleanup/document code
+
+* examples of usage
+
+* add documentation for data-sly-commands and buildin classes
+
+* display documentation for resolved classes
+
+
+
