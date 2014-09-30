@@ -1,3 +1,6 @@
 Manifest-Version: 1.0
 OpenIDE-Module-Localizing-Bundle: io/wcm/tooling/netbeans/sightlyextension/Bundle.properties
-
+OpenIDE-Module-Short-Description=This is a Netbeans Extension to support sightly autocompletion
+OpenIDE-Module-Long-Description=Module for Netbeans to support sightly autocompletion
+OpenIDE-Module-Name=SightlyExtension
+OpenIDE-Module-Display-Category=Sightly

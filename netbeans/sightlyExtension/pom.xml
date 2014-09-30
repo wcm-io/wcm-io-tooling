@@ -29,7 +29,7 @@
   <groupId>io.wcm.tooling.netbeans</groupId>
   <artifactId>netbeans-sightly-extension</artifactId>
   <name>Netbeans Sightly Extension</name>
-  <description>Module for Netbeans to support sightly autocompletion</description>
+  <description>Module for Netbeans to support sightly autocompletion.</description>
   <version>1.0-SNAPSHOT</version>
   <packaging>nbm</packaging>
 
