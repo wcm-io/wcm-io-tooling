@@ -201,7 +201,7 @@ public class InstallMojo extends AbstractContentPackageMojo {
         }
 
       }
-      else if (StringUtils.startsWith(msg, "Package already exists") && !this.force) {
+      else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !this.force) {
         getLog().info("Package skipped because it was already uploaded.");
       }
       else {

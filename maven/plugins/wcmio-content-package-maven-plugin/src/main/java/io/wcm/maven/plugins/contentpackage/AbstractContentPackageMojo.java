@@ -50,6 +50,11 @@ import org.json.JSONObject;
 abstract class AbstractContentPackageMojo extends AbstractMojo {
 
   /**
+   * Prefix or error message from CRX HTTP interfaces when uploading a package that already exists.
+   */
+  protected static final String CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX = "Package already exists: ";
+
+  /**
    * The name of the content package file to install on the target system.
    * If not set, the primary artifact of the project is considered the content package to be installed.
    */

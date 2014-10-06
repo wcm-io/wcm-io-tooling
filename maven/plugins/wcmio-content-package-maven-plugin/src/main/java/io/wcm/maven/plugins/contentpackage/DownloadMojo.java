@@ -40,29 +40,36 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.plexus.util.IOUtil;
 import org.json.JSONObject;
 
 /**
- * Downloads a content package defined on a remote CRX or AEM system.
+ * Builds and downloads a content package defined on a remote CRX or AEM system.
  */
 @Mojo(name = "download", defaultPhase = LifecyclePhase.INSTALL, requiresProject = true,
 requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
-public class DownloadFileMojo extends AbstractContentPackageMojo {
+public class DownloadMojo extends AbstractContentPackageMojo {
+
+  /**
+   * The output file to save.
+   */
+  @Parameter(property = "vault.outputFile", required = true, defaultValue = "${project.build.directory}/${project.build.finalName}.zip")
+  private String outputFile;
 
   /**
    * Downloads the files
    */
   @Override
   public void execute() throws MojoExecutionException {
-    downloadFile(getPackageFile());
+    downloadFile(getPackageFile(), this.outputFile);
   }
 
   /**
    * Download file via package manager
    */
-  protected void downloadFile(File file) throws MojoExecutionException {
+  protected void downloadFile(File file, String ouputFilePath) throws MojoExecutionException {
     if (isSkip()) {
       return;
     }
@@ -85,8 +92,8 @@ public class DownloadFileMojo extends AbstractContentPackageMojo {
       String path = response.optString("path", null);
 
       // package already exists - get path from error message and continue
-      if (!success && StringUtils.startsWith(msg, "Package already exists: ") && StringUtils.isEmpty(path)) {
-        path = StringUtils.substringAfter(msg, "Package already exists: ");
+      if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(path)) {
+        path = StringUtils.substringAfter(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX);
         success = true;
       }
       if (!success) {
@@ -111,16 +118,19 @@ public class DownloadFileMojo extends AbstractContentPackageMojo {
         InputStream responseStream = downloadMethod.getResponseBodyAsStream();
 
         // delete existing file
-        file.delete();
+        File outputFileObject = new File(ouputFilePath);
+        if (outputFileObject.exists()) {
+          outputFileObject.delete();
+        }
 
         // write response file
-        FileOutputStream fos = new FileOutputStream(file);
+        FileOutputStream fos = new FileOutputStream(outputFileObject);
         IOUtil.copy(responseStream, fos);
         fos.flush();
         responseStream.close();
         fos.close();
 
-        getLog().info("Package downloaded succesfully.");
+        getLog().info("Package downloaded succesfully to " + outputFileObject.getAbsolutePath());
       }
       else {
         throw new MojoExecutionException("Package download failed:\n"
