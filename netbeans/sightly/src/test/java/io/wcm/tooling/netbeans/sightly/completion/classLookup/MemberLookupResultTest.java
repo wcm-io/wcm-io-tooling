@@ -19,11 +19,10 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupResult;
-import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
+
+import org.junit.Test;
 /**
  * Test for MemberLookupResult
  */
