@@ -21,6 +21,7 @@ package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -46,12 +47,6 @@ public final class ParsedStatement {
    */
   private final String value;
 
-  /**
-   *
-   * @param command
-   * @param variable
-   * @param value
-   */
   private ParsedStatement(String command, String variable, String value) {
     this.command = command;
     this.variable = variable;
@@ -59,9 +54,8 @@ public final class ParsedStatement {
   }
 
   /**
-   *
    * @param matcher
-   * @return
+   * @return Parsed statement
    */
   public static ParsedStatement fromMatcher(Matcher matcher) {
     if (matcher.groupCount() >= 5) {
@@ -86,6 +80,5 @@ public final class ParsedStatement {
   public String getValue() {
     return value;
   }
-
 
 }
