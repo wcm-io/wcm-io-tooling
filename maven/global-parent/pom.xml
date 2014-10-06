@@ -910,7 +910,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <inherited>true</inherited>
+            <inherited>false</inherited>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -925,14 +925,12 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <inherited>true</inherited>
+            <inherited>false</inherited>
             <extensions>true</extensions>
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <!-- Deployed artifacts should go to staging to be reviewed before publish
-              TODO: this can be removed when deployment has been tested
-              -->
+              <!-- Deployed artifacts should go to staging to be reviewed before publish -->
               <autoReleaseAfterClose>false</autoReleaseAfterClose>
             </configuration>
           </plugin>
