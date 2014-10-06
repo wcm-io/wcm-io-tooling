@@ -13,4 +13,7 @@
   <!-- Skip certain tests outside unit tests -->
   <suppress checks="JUnitTestCase" files=".*[\\/]src[\\/]main[\\/]"/>
 
+  <!-- Skip everything in target folder -->
+  <suppress checks=".*" files=".*[\\/]target[\\/]"/>
+
 </suppressions>
