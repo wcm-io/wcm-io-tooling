@@ -24,7 +24,7 @@
   <body>
 
     <release version="1.0.0" date="2014-10-02">
-      <action type="add" dev="sseifert">
+      <action type="add" dev="isechyn">
         Initial release.
       </action>
     </release>
