@@ -1,7 +1,7 @@
 About Content Package Maven Plugin
 ==================================
 
-// TODO
+Install and download content packages via CRX package manager.
 
 
 ### Maven Dependency
@@ -21,7 +21,27 @@ About Content Package Maven Plugin
 * [Changelog][changelog]
 
 
+### Comparison to Adobe Content Package Maven Plugin
+
+Adobe has published it's own [Content Package Maven Plugin][adobe-content-package-maven-plugin]. It supports
+more goals and has more features than the `wcmio-content-package-maven-plugin`.
+
+But there are some features missing, and this is where `wcmio-content-package-maven-plugin` steps in:
+
+* `install` goal:
+    * `force` property - if set to false a package is not uploaded or installed if it was already
+    uploaded before.
+    * `recurive` property - if set to true nested packages get installed as well.
+    * `packageFiles` property - allows installing multiple package files referenced from local filesystem
+    or from maven repository at once.
+
+* `download` goal:
+    * // TODO
+
+To make it easy switching between both plugins most properties have the same name and default values.
+
 
 [usage]: usage.html
 [plugindocs]: plugin-info.html
 [changelog]: changes-report.html
+[adobe-content-package-maven-plugin]: http://repo.adobe.com/nexus/content/repositories/releases/com/day/jcr/vault/content-package-maven-plugin/

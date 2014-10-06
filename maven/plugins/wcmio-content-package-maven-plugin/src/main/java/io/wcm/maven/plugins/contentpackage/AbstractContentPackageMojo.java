@@ -60,7 +60,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * The URL of the HTTP service API of the CRX package manager.
    * See <a href=
    * "http://dev.day.com/docs/en/crx/current/how_to/package_manager.html#Managing%20Packages%20on%20the%20Command%20Line"
-   * >HTTP service Interface</> for details on this interface.
+   * >CRX HTTP service Interface</a> for details on this interface.
    */
   @Parameter(property = "vault.serviceURL", required = true, defaultValue = "http://localhost:4502/crx/packmgr/service")
   private String serviceURL;

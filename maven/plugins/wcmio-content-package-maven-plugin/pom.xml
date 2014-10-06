@@ -35,7 +35,7 @@
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
-  <description>// TODO</description>
+  <description>Install and download content packages via CRX package manager.</description>
 
   <scm>
     <connection>scm:git:git@github.com:wcm-io/wcm-io.git</connection>
@@ -45,7 +45,7 @@
   </scm>
 
   <properties>
-    <site.url.module.prefix>tooling/maven/plugins/content-package-maven-plugin</site.url.module.prefix>
+    <site.url.module.prefix>tooling/maven/plugins/wcmio-content-package-maven-plugin</site.url.module.prefix>
     <maven.version>3.0.5</maven.version>
   </properties>
 
@@ -137,6 +137,12 @@
         <configuration>
           <requirements>
             <maven>${maven.version}</maven>
+            <others>
+              <property>
+                <name>CRX</name>
+                <value>2.3</value>
+              </property>
+            </others>
           </requirements>
         </configuration>
       </plugin>
