@@ -32,6 +32,7 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
 import org.apache.maven.artifact.resolver.ArtifactResolutionResult;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -97,6 +98,12 @@ public class InstallMojo extends AbstractContentPackageMojo {
   @Component
   private RepositorySystem repository;
 
+  @Parameter(property = "localRepository", required = true, readonly = true)
+  private ArtifactRepository localRepository;
+
+  @Parameter(property = "project.remoteArtifactRepositories", required = true, readonly = true)
+  private java.util.List<ArtifactRepository> remoteRepositories;
+
   /**
    * Generates the ZIP.
    * @throws MojoFailureException
@@ -113,7 +120,7 @@ public class InstallMojo extends AbstractContentPackageMojo {
   private File getArtifactFile() throws MojoFailureException, MojoExecutionException {
     // check if artifact was specified
     if ((StringUtils.isEmpty(this.artifactId) || StringUtils.isEmpty(this.groupId) || StringUtils.isEmpty(this.version))
-        || StringUtils.isEmpty(this.artifact)) {
+        && StringUtils.isEmpty(this.artifact)) {
       return null;
     }
 
@@ -133,6 +140,8 @@ public class InstallMojo extends AbstractContentPackageMojo {
     Artifact artifactObject = repository.createArtifact(groupId, artifactId, version, packaging);
     ArtifactResolutionRequest request = new ArtifactResolutionRequest();
     request.setArtifact(artifactObject);
+    request.setLocalRepository(localRepository);
+    request.setRemoteRepositories(remoteRepositories);
     ArtifactResolutionResult result = repository.resolve(request);
     if (result.isSuccess()) {
       return artifactObject.getFile();
