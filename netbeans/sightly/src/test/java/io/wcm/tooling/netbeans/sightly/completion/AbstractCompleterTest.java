@@ -19,16 +19,17 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion;
 
-import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.netbeans.spi.editor.completion.CompletionItem;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  *

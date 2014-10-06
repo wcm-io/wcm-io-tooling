@@ -19,12 +19,11 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightly.completion.classLookup.ProvidedClassesCompleter;
+import static org.junit.Assert.assertEquals;
 import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test for ProvidedClassesCompleter
