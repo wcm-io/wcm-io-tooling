@@ -38,37 +38,34 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.plexus.util.IOUtil;
 import org.json.JSONObject;
 
 /**
- * Download CQ5/CRX package specified via parameter to CRX instance via CRX Package Manager HTTP interface
- * --- CHECKSTYLE:OFF ---
- * @goal download-file
- * @phase install
- * @requiresProject
- * @requiresDependencyResolution runtime
- * @threadSafe
- *             --- CHECKSTYLE:ON ---
+ * Downloads a content package defined on a remote CRX or AEM system.
  */
-public class DownloadFileMojo extends DeployFileMojo {
+@Mojo(name = "download", defaultPhase = LifecyclePhase.INSTALL, requiresProject = true,
+requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
+public class DownloadFileMojo extends AbstractContentPackageMojo {
 
   /**
    * Downloads the files
    */
   @Override
   public void execute() throws MojoExecutionException {
-    if (this.deployFiles != null) {
-      for (File downloadFile : this.deployFiles) {
-        downloadFile(downloadFile);
-      }
-    }
+    downloadFile(getPackageFile());
   }
 
   /**
    * Download file via package manager
    */
   protected void downloadFile(File file) throws MojoExecutionException {
+    if (isSkip()) {
+      return;
+    }
 
     try {
       getLog().info("Download " + file.getName() + " from " + getCrxPackageManagerUrl());
