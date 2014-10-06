@@ -23,10 +23,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>3</version>
-    <relativePath />
+    <groupId>io.wcm</groupId>
+    <artifactId>io.wcm.tooling.parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.tooling.netbeans</groupId>
@@ -37,6 +37,7 @@
   <packaging>nbm</packaging>
 
   <properties>
+    <site.url.module.prefix>tooling/netbeans/sightly</site.url.module.prefix>
     <netbeans.version>RELEASE80</netbeans.version>
   </properties>
 
@@ -155,5 +156,12 @@
     </dependency>
 
   </dependencies>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
 
 </project>
