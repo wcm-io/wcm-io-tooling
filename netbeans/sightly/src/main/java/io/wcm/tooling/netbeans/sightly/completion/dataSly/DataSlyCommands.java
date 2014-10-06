@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.dataSly;
+package io.wcm.tooling.netbeans.sightly.completion.dataSly;
 
 /**
  * enum with all data-sly commands

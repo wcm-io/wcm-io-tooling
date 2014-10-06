@@ -17,11 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.classLookup;
+package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.AbstractCompleter;
-import io.wcm.tooling.netbeans.sightlyextension.completion.BasicCompletionItem;
-import static io.wcm.tooling.netbeans.sightlyextension.completion.classLookup.ParsedStatement.PATTERN;
+import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;

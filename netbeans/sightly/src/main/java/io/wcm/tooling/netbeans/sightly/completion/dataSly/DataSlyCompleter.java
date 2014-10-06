@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.dataSly;
+package io.wcm.tooling.netbeans.sightly.completion.dataSly;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.AbstractCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

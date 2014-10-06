@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.classLookup;
+package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
 import java.util.Collection;
 import java.util.Iterator;

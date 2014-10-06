@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.dataSly;
+package io.wcm.tooling.netbeans.sightly.completion.dataSly;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.BasicCompletionItem;
+import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
 
 /**
  * Completion item for the sightly commands

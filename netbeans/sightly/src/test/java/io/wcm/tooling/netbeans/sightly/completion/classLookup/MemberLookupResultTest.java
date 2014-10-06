@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.classLookup;
+package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.classLookup.MemberLookupResult;
-import io.wcm.tooling.netbeans.sightlyextension.completion.BaseTest;
+import io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupResult;
+import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
