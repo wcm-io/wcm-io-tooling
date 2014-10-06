@@ -46,19 +46,20 @@
 
   <properties>
     <site.url.module.prefix>tooling/maven/plugins/cq-maven-plugin</site.url.module.prefix>
+    <maven.version>3.0.5</maven.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>3.0.5</version>
+      <version>${maven.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <version>3.0.5</version>
+      <version>${maven.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -104,6 +105,23 @@
 
     </plugins>
   </build>
+  
+  <reporting>
+    <plugins>
+    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <requirements>
+            <maven>${maven.version}</maven>
+          </requirements>
+        </configuration>
+      </plugin>
+    
+    </plugins>
+  </reporting>
 
   <distributionManagement>
     <site>
