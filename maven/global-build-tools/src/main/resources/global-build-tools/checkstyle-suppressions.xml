@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<suppressions>
+
+  <!-- Required in unit tests e.g. for public JUnit rule variables -->
+  <suppress checks="VisibilityModifier" files=".*[\\/]src[\\/]test[\\/]"/>
+
+  <!-- Skip certain tests within unit tests -->
+  <suppress checks="LineLength" files=".*[\\/]src[\\/]test[\\/]"/>
+  <suppress checks="Javadoc" files=".*[\\/]src[\\/]test[\\/]"/>
+  <suppress checks="AbstractClassName" files=".*[\\/]src[\\/]test[\\/]"/>
+
+  <!-- Skip certain tests outside unit tests -->
+  <suppress checks="JUnitTestCase" files=".*[\\/]src[\\/]main[\\/]"/>
+
+</suppressions>

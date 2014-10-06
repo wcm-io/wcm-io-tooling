@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2014 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.global-parent</artifactId>
+  <version>4-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>io.wcm.maven.global-parent</name>
+  <description>Global parent for Maven artifact hierarchy. Defines fix versions of Maven plugins to be used and certain general Maven settings.</description>
+  <url>http://wcm.io/</url>
+
+  <scm>
+    <connection>scm:git:git@github.com:wcm-io/wcm-io.git</connection>
+    <developerConnection>scm:git:git@github.com:wcm-io/wcm-io.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <inceptionYear>2014</inceptionYear>
+
+  <organization>
+    <name>wcm.io</name>
+    <url>http://wcm.io</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>wcm.io Community</name>
+      <organization>wcm.io</organization>
+      <organizationUrl>http://wcm.io</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+
+    <!-- define default encoding for all source/resource files -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Default skip settings for unit tests and integration tests -->
+    <unittests.skip>false</unittests.skip>
+    <integrationtests.skip>true</integrationtests.skip>
+
+    <!-- compiler settings (can be overridden by inheriting poms) -->
+    <build.compiler.source>1.7</build.compiler.source>
+    <build.compiler.target>1.7</build.compiler.target>
+
+    <!-- pmd needs this as a global property, even in mvn 3 - may be fixed some day -->
+    <!-- see http://jira.codehaus.org/browse/MPMD-86 -->
+    <targetJdk>${build.compiler.target}</targetJdk>
+
+    <!-- repository settings -->
+    <wcm-io-snapshotRepositoryId>ossrh</wcm-io-snapshotRepositoryId>
+    <wcm-io-snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</wcm-io-snapshotRepositoryUrl>
+    <wcm-io-releaseRepositoryId>ossrh</wcm-io-releaseRepositoryId>
+    <wcm-io-releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</wcm-io-releaseRepositoryUrl>
+  </properties>
+
+  <dependencies>
+
+    <!-- global dependency for static code analysis -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <version>3.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <extensions>
+
+      <!-- extension for build configuration -->
+      <extension>
+        <groupId>io.wcm.maven</groupId>
+        <artifactId>io.wcm.maven.global-build-tools</artifactId>
+        <version>2</version>
+      </extension>
+
+      <!-- SCP support for deploying sites -->
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.6</version>
+      </extension>
+
+    </extensions>
+    <plugins>
+
+      <!-- Compiler configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <source>${build.compiler.source}</source>
+          <target>${build.compiler.target}</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <!-- Deploy sources to repository -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Deploy javadoc to repository -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+             <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Unit tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <skip>${unittests.skip}</skip>
+          <testFailureIgnore>false</testFailureIgnore>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/*IT.java</exclude>
+          </excludes>
+          <!-- Fix Cobertura with JDK 1.7: see http://stackoverflow.com/questions/7010665/testng-emma-cobertura-coverage-and-jdk-7-result-in-classformaterror-and-verif -->
+          <argLine>-Xmx1024m -XX:-UseSplitVerifier</argLine>
+          <!-- Execute tests in parallel by default -->
+          <parallel>classes</parallel>
+          <threadCount>4</threadCount>
+        </configuration>
+      </plugin>
+
+      <!-- Integration tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <skip>${integrationtests.skip}</skip>
+          <includes>
+            <include>**/*IT.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/*Test.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <!-- Site plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <inherited>true</inherited>
+      </plugin>
+
+      <!-- Eclipse configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <useProjectReferences>false</useProjectReferences>
+          <additionalBuildcommands>
+            <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+          </additionalBuildcommands>
+          <additionalProjectnatures>
+            <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
+          </additionalProjectnatures>
+          <additionalConfig>
+            <file>
+              <name>.settings/org.eclipse.core.resources.prefs</name>
+              <location>/global-build-tools/eclipse/org.eclipse.core.resources.prefs</location>
+            </file>
+            <file>
+              <name>.settings/org.eclipse.core.runtime.prefs</name>
+              <location>/global-build-tools/eclipse/org.eclipse.core.runtime.prefs</location>
+            </file>
+            <file>
+              <name>.settings/org.eclipse.jdt.core.prefs</name>
+              <location>/global-build-tools/eclipse/org.eclipse.jdt.core.prefs</location>
+            </file>
+            <file>
+              <name>.settings/org.eclipse.jdt.ui.prefs</name>
+              <location>/global-build-tools/eclipse/org.eclipse.jdt.ui.prefs</location>
+            </file>
+            <file>
+              <name>.settings/edu.umd.cs.findbugs.core.prefs</name>
+              <location>/global-build-tools/eclipse/edu.umd.cs.findbugs.core.prefs</location>
+            </file>
+            <file>
+              <name>.checkstyle</name>
+              <content>
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                <fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
+                  <local-check-config name="wcm.io" location=".settings/plugins/checkstyle-config.xml" type="project" description="">
+                    <property name="checkstyle.suppressions.file" value="${basedir}/.settings/plugins/checkstyle-suppressions.xml" />
+                    <additional-data name="protect-config-file" value="true" />
+                  </local-check-config>
+                  <fileset name="all" enabled="true" check-config-name="wcm.io" local="true">
+                    <file-match-pattern match-pattern="^.*\.java$" include-pattern="true" />
+                  </fileset>
+                </fileset-config>]]>
+              </content>
+            </file>
+            <file>
+              <name>.settings/plugins/checkstyle-config.xml</name>
+              <location>/global-build-tools/checkstyle.xml</location>
+            </file>
+            <file>
+              <name>.settings/plugins/checkstyle-suppressions.xml</name>
+              <location>/global-build-tools/checkstyle-suppressions.xml</location>
+            </file>
+            <file>
+              <name>.settings/plugins/findbugs-exclude.xml</name>
+              <location>/global-build-tools/findbugs-exclude.xml</location>
+            </file>
+            <file>
+              <name>.pmd</name>
+              <content>
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                <pmd>
+                  <useProjectRuleSet>true</useProjectRuleSet>
+                  <ruleSetFile>.settings/plugins/pmd-ruleset.xml</ruleSetFile>
+                  <includeDerivedFiles>false</includeDerivedFiles>
+                  <violationsAsErrors>false</violationsAsErrors>
+                </pmd>]]>
+              </content>
+            </file>
+            <file>
+              <name>.settings/plugins/pmd-ruleset.xml</name>
+              <location>/global-build-tools/pmd-ruleset.xml</location>
+            </file>
+          </additionalConfig>
+        </configuration>
+      </plugin>
+
+      <!-- release plugin (only for this pom) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <inherited>false</inherited>
+      </plugin>
+
+    </plugins>
+
+    <!-- plugin management -->
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-changes-plugin</artifactId>
+          <version>2.10</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.12.1</version>
+          <configuration>
+            <configLocation>global-build-tools/checkstyle.xml</configLocation>
+            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+            <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
+            <encoding>UTF-8</encoding>
+            <enableRulesSummary>false</enableRulesSummary>
+            <linkXRef>true</linkXRef>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.8</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.10-R1595624_MECLIPSE-641</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.17</version>
+          <dependencies>
+            <dependency>
+              <groupId>xerces</groupId>
+              <artifactId>xercesImpl</artifactId>
+              <version>2.11.0</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.2</version>
+          <configuration>
+            <targetJdk>${build.compiler.target}</targetJdk>
+            <format>xml</format>
+            <linkXref>true</linkXref>
+            <sourceEncoding>utf-8</sourceEncoding>
+            <rulesets>
+              <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
+            </rulesets>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <useReleaseProfile>false</useReleaseProfile>
+            <releaseProfiles>release</releaseProfiles>
+            <goals>deploy</goals>
+          </configuration>
+          <!-- fix for http://jira.codehaus.org/browse/MRELEASE-812, still occuring with 2.5-->
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-gitexe</artifactId>
+              <version>1.9.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>1.9.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>2.17</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>3.0.0</version>
+          <configuration>
+            <xmlOutput>true</xmlOutput>
+            <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
+            <excludeFilterFile>global-build-tools/findbugs-exclude.xml</excludeFilterFile>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>taglist-maven-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>xml-maven-plugin</artifactId>
+          <version>1.0</version>
+          <!-- use saxon as XSLT 2.0 processor -->
+          <dependencies>
+            <dependency>
+              <groupId>net.sf.saxon</groupId>
+              <artifactId>saxon</artifactId>
+              <version>8.7</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <!--
+          The cobertura-maven-plugin has an instrumentation configuration
+          element which can be used to customize the instrumentation done
+          within Cobertura.
+
+          Parameter    Required?    Description    Default Value
+          -branch    No    Specify the minimum acceptable branch coverage rate needed by each class. This should be an integer value between 0 and 100.    0
+          -datafile    No    Specify the name of the file containing metadata about your classes.    "cobertura.ser" in the current directory
+          -line    No    Specify the minimum acceptable line coverage rate needed by each class. This should be an integer value between 0 and 100.    0
+          -regex    No    For finer grained control, you can optionally specify minimum branch and line coverage rates for individual classes using any number of regular expressions.    None.
+          -packagebranch    No    Specify the minimum acceptable average branch coverage rate needed by each package. This should be an integer value between 0 and 100.    0
+          -packageline    No    Specify the minimum acceptable average line coverage rate needed by each package. This should be an integer value between 0 and 100.    0
+          -totalbranch    No    Specify the minimum acceptable average branch coverage rate needed by the project as a whole. This should be an integer value between 0 and 100.    0
+          -totalline    No    Specify the minimum acceptable average line coverage rate needed by the project as a whole. This should be an integer value between 0 and 100.    0
+        -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+            <check>
+              <haltOnFailure>false</haltOnFailure>
+              <branchRate>60</branchRate>
+              <lineRate>80</lineRate>
+              <totalBranchRate>70</totalBranchRate>
+              <totalLineRate>80</totalLineRate>
+              <packageLineRate>80</packageLineRate>
+              <packageBranchRate>60</packageBranchRate>
+            </check>
+          </configuration>
+          <!-- do not execute automatically -->
+          <!--
+          <executions>
+            <execution>
+              <id>cobertura-test-coverage</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+          -->
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>dashboard-maven-plugin</artifactId>
+          <version>1.0.0-beta-1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.2</version>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+
+  </build>
+
+  <reporting>
+    <plugins>
+
+      <!-- project info -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <inherited>true</inherited>
+        <configuration>
+          <!-- following will remove the location fetching, will speed up the build process
+            but Dependency Repository Locations will not be created in report. -->
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+        </configuration>
+      </plugin>
+
+      <!-- changes -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.10</version>
+        <inherited>true</inherited>
+        <configuration>
+          <xmlPath>${basedir}/changes.xml</xmlPath>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- javadocs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <inherited>true</inherited>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- jxr -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.4</version>
+        <inherited>true</inherited>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>jxr</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- check style -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.12.1</version>
+        <inherited>true</inherited>
+        <configuration>
+          <configLocation>global-build-tools/checkstyle.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <enableRulesSummary>false</enableRulesSummary>
+          <linkXRef>false</linkXRef>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- pmd -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.2</version>
+        <inherited>true</inherited>
+        <configuration>
+          <targetJdk>${build.compiler.target}</targetJdk>
+          <format>xml</format>
+          <linkXref>true</linkXref>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <rulesets>
+            <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+
+      <!-- taglist -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.4</version>
+        <inherited>true</inherited>
+        <configuration>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Todo Work</displayName>
+                <tags>
+                  <tag>
+                    <matchString>TODO:</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>XXX</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
+      </plugin>
+
+      <!-- findbugs -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <inherited>true</inherited>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+          <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
+          <excludeFilterFile>global-build-tools/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+
+      <!-- cobertura -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.6</version>
+        <!-- specific to reporting -->
+        <configuration>
+          <formats>
+            <format>html</format>
+            <format>xml</format>
+          </formats>
+        </configuration>
+      </plugin>
+
+      <!--
+        To add this report to your site, you must add the dashboard-maven-plugin to the
+        special reporting section in the POM as the last report.
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>dashboard-maven-plugin</artifactId>
+        <version>1.0.0-beta-1</version>
+      </plugin>
+
+    </plugins>
+
+  </reporting>
+
+  <!-- Profiles -->
+  <profiles>
+
+    <!-- "Fast" profile for quick compile of the project without any unit tests etc. -->
+    <profile>
+      <id>fast</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <unittests.skip>true</unittests.skip>
+        <integrationtests.skip>true</integrationtests.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+      </properties>
+    </profile>
+
+    <!-- Profile for running unit test and site analysis in CI -->
+    <profile>
+      <id>continuous-integration</id>
+
+      <activation>
+        <property>
+          <name>continuous-integration</name>
+          <value>true</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+
+          <!-- run unit tests in continuous integration mode -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <skip>false</skip>
+              <testFailureIgnore>true</testFailureIgnore>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+      <reporting>
+        <plugins>
+
+          <!-- reduce to SCM report on continuous integration build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <inherited>true</inherited>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>index</report>
+                  <report>scm</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+          <!-- skip javadoc generation for continuous integration build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </reporting>
+
+    </profile>
+
+    <!-- Profile for running integration tests in CI -->
+    <profile>
+      <id>continuous-integration-verify</id>
+
+      <activation>
+        <property>
+          <name>continuous-integration-verify</name>
+          <value>true</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+
+          <!-- run unit tests in continuous integration mode -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </build>
+      <reporting>
+        <plugins>
+
+          <!-- reduce to SCM report on continuous integration build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <inherited>true</inherited>
+            <reportSets>
+              <reportSet>
+                <reports>
+                  <report>index</report>
+                  <report>scm</report>
+                </reports>
+              </reportSet>
+            </reportSets>
+          </plugin>
+          <!-- skip javadoc generation for continuous integration build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+
+        </plugins>
+      </reporting>
+
+    </profile>
+
+    <!-- profile used for building releases and deployment to sonatype/maven central -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!-- sign the build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <inherited>true</inherited>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- configure staging process at sonatype.-->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <inherited>true</inherited>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <!-- Deployed artifacts should go to staging to be reviewed before publish
+              TODO: this can be removed when deployment has been tested
+              -->
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+    <profile>
+      <id>only-eclipse</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.m2e</groupId>
+              <artifactId>lifecycle-mapping</artifactId>
+              <version>1.0.0</version>
+              <configuration>
+                <lifecycleMappingMetadata>
+                  <pluginExecutions>
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <versionRange>[1.7,)</versionRange>
+                        <goals>
+                          <goal>check-file-header</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <ignore />
+                      </action>
+                    </pluginExecution>
+                  </pluginExecutions>
+                </lifecycleMappingMetadata>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+
+  </profiles>
+
+  <distributionManagement>
+    <repository>
+      <id>${wcm-io-releaseRepositoryId}</id>
+      <url>${wcm-io-releaseRepositoryUrl}</url>
+    </repository>
+    <snapshotRepository>
+      <id>${wcm-io-snapshotRepositoryId}</id>
+      <url>${wcm-io-snapshotRepositoryUrl}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>

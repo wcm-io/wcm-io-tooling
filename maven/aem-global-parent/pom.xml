@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2014 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    This cq-global-parent version supports the following CQ versions:
+    - AEM 6.0.x
+  -->
+
+  <parent>
+    <groupId>io.wcm.maven</groupId>
+    <artifactId>io.wcm.maven.global-parent</artifactId>
+    <version>3</version>
+    <relativePath />
+  </parent>
+
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-global-parent</artifactId>
+  <version>1.0.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>io.wcm.maven.aem-global-parent</name>
+  <description>Global parent for Maven artifact hierarchy for AEM projects. Defines AEM-specific plugins and general Maven settings.</description>
+
+  <scm>
+    <connection>scm:git:git@github.com:wcm-io/wcm-io.git</connection>
+    <developerConnection>scm:git:git@github.com:wcm-io/wcm-io.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+
+    <!-- Sling instance parameters -->
+    <sling.url>http://localhost:4502</sling.url>
+    <sling.user>admin</sling.user>
+    <sling.password>admin</sling.password>
+
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Apache Felix Dependencies -->
+      <dependency>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.scr.annotations</artifactId>
+        <version>1.9.8</version>
+        <scope>compile</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+      <!-- copy webapp resources to SLING-INF/app-root -->
+      <resource>
+        <directory>src/main/webapp</directory>
+        <targetPath>SLING-INF</targetPath>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    <plugins>
+
+      <!-- release plugin (only for this pom) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <inherited>false</inherited>
+      </plugin>
+
+    </plugins>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.5.3</version>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+              <Bundle-Description>${project.description}</Bundle-Description>
+            </instructions>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-scr-plugin</artifactId>
+          <version>1.20.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>maven-sling-plugin</artifactId>
+          <version>2.1.0</version>
+          <!-- Default configuration for deploying bundles into running CQ instance -->
+          <configuration>
+            <slingUrl>${sling.url}/system/console</slingUrl>
+            <user>${sling.user}</user>
+            <password>${sling.password}</password>
+            <mountByFS>false</mountByFS>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.day.jcr.vault</groupId>
+          <artifactId>content-package-maven-plugin</artifactId>
+          <version>0.0.23</version>
+          <extensions>true</extensions>
+          <configuration>
+            <failOnError>true</failOnError>
+            <targetURL>${sling.url}/crx/packmgr/service.jsp</targetURL>
+            <serviceURL>${sling.url}/crx/packmgr/service/.json</serviceURL>
+            <userId>${sling.user}</userId>
+            <password>${sling.password}</password>
+            <builtContentDirectory>jcr_root</builtContentDirectory>
+            <verbose>true</verbose>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>io.wcm.maven.plugins</groupId>
+          <artifactId>nodejs-maven-plugin</artifactId>
+          <version>1.0.0</version>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+
+  </build>
+
+  <profiles>
+    <!-- This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+    <profile>
+      <id>only-eclipse</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.m2e</groupId>
+              <artifactId>lifecycle-mapping</artifactId>
+              <version>1.0.0</version>
+              <configuration>
+                <lifecycleMappingMetadata>
+                  <pluginExecutions>
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>maven-sling-plugin</artifactId>
+                        <versionRange>[2.1.0,)</versionRange>
+                        <goals>
+                          <goal>validate</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <ignore />
+                      </action>
+                    </pluginExecution>
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>io.wcm.maven.plugins</groupId>
+                        <artifactId>nodejs-maven-plugin</artifactId>
+                        <versionRange>[1.0.0,)</versionRange>
+                        <goals>
+                          <goal>run</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <ignore></ignore>
+                      </action>
+                    </pluginExecution>
+                  </pluginExecutions>
+                </lifecycleMappingMetadata>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

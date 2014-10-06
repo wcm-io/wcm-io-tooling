@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2014 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.global-build-tools</artifactId>
+  <version>3-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>io.wcm.maven.global-build-tools</name>
+  <description>Definition of rules for static code analysis tools and IDEs.</description>
+  <url>http://wcm.io</url>
+
+  <scm>
+    <connection>scm:git:git@github.com:wcm-io/wcm-io.git</connection>
+    <developerConnection>scm:git:git@github.com:wcm-io/wcm-io.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <inceptionYear>2014</inceptionYear>
+
+  <organization>
+    <name>wcm.io</name>
+    <url>http://wcm.io</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>wcm.io Community</name>
+      <organization>wcm.io</organization>
+      <organizationUrl>http://wcm.io</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+
+    <!-- define default encoding for all source/resource files -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- repository settings -->
+    <wcm-io-snapshotRepositoryId>ossrh</wcm-io-snapshotRepositoryId>
+    <wcm-io-snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</wcm-io-snapshotRepositoryUrl>
+    <wcm-io-releaseRepositoryId>ossrh</wcm-io-releaseRepositoryId>
+    <wcm-io-releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</wcm-io-releaseRepositoryUrl>
+  </properties>
+
+  <build>
+    <plugins>
+      <!-- Compiler configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <!-- Deploy sources to repository -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- do not deploy javadocs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Eclipse configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <useProjectReferences>false</useProjectReferences>
+        </configuration>
+      </plugin>
+
+      <!-- release plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <inherited>false</inherited>
+      </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+
+        <!-- we need to define plugin versions here because we cannot depend on global-parent (cyclic dependency) -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.9</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <useReleaseProfile>false</useReleaseProfile>
+            <releaseProfiles>release</releaseProfiles>
+            <goals>deploy</goals>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-gitexe</artifactId>
+              <version>1.9.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.2</version>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+
+  </build>
+
+  <profiles>
+
+    <!-- configuration to deploy into maven central -->
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!-- sign the build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- configure staging process at sonatype.-->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <!-- Deployed artifacts should go to staging to be reviewed before publish
+              TODO: this can be removed when deployment has been tested
+              -->
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
+  <distributionManagement>
+    <repository>
+      <id>${wcm-io-releaseRepositoryId}</id>
+      <url>${wcm-io-releaseRepositoryUrl}</url>
+    </repository>
+    <snapshotRepository>
+      <id>${wcm-io-snapshotRepositoryId}</id>
+      <url>${wcm-io-snapshotRepositoryUrl}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
