@@ -148,6 +148,17 @@
 
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
+          <artifactId>wcmio-content-package-maven-plugin</artifactId>
+          <version>1.0.0-SNAPSHOT</version>
+          <configuration>
+            <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
+            <userId>${sling.user}</userId>
+            <password>${sling.password}</password>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
           <version>1.0.0-SNAPSHOT</version>
           <configuration>
