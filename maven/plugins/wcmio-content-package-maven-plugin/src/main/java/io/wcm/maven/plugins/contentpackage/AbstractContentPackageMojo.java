@@ -45,15 +45,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Common functionality for all mojors
+ * Common functionality for all mojos.
  */
 abstract class AbstractContentPackageMojo extends AbstractMojo {
-
-  /**
-   * The Maven project.
-   */
-  @Parameter(property = "project", required = true, readonly = true)
-  private MavenProject project;
 
   /**
    * The name of the content package file to install on the target system.
@@ -100,6 +94,9 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   @Parameter(property = "vault.retryDelay", defaultValue = "0")
   private int retryDelay;
+
+  @Parameter(property = "project", required = true, readonly = true)
+  private MavenProject project;
 
   protected final MavenProject getProject() {
     return this.project;

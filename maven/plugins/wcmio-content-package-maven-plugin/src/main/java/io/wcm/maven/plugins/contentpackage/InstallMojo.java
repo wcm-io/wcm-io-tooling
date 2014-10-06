@@ -31,10 +31,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
-import org.apache.maven.artifact.resolver.ArtifactResolutionResult;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
@@ -80,8 +77,8 @@ public class InstallMojo extends AbstractContentPackageMojo {
   /**
    * The packaging of the artifact to install.
    */
-  @Parameter(property = "vault.packaging", defaultValue = "zip")
-  private String packaging;
+  @Parameter(alias = "packaging", property = "vault.packaging", defaultValue = "zip")
+  private String type;
 
   /**
    * The version of the artifact to install.
@@ -94,6 +91,12 @@ public class InstallMojo extends AbstractContentPackageMojo {
    */
   @Parameter(property = "vault.artifact")
   private String artifact;
+
+  /**
+   * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
+   */
+  @Parameter
+  private PackageFile[] packageFiles;
 
   @Component
   private RepositorySystem repository;
@@ -110,44 +113,28 @@ public class InstallMojo extends AbstractContentPackageMojo {
    */
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    File file = getArtifactFile();
-    if (file == null) {
-      file = getPackageFile();
-    }
-    installFile(file);
-  }
-
-  private File getArtifactFile() throws MojoFailureException, MojoExecutionException {
-    // check if artifact was specified
-    if ((StringUtils.isEmpty(this.artifactId) || StringUtils.isEmpty(this.groupId) || StringUtils.isEmpty(this.version))
-        && StringUtils.isEmpty(this.artifact)) {
-      return null;
-    }
-
-    // split up artifact string
-    if (StringUtils.isEmpty(this.artifactId)) {
-      String[] parts = StringUtils.split(this.artifact, ":");
-      if (parts.length < 3 && parts.length > 4) {
-        throw new MojoFailureException("Invalid artifact: " + artifact);
+    ArtifactHelper helper = new ArtifactHelper(repository, localRepository, remoteRepositories);
+    if (packageFiles != null && packageFiles.length > 0) {
+      for (PackageFile ref : packageFiles) {
+        File file = helper.getArtifactFile(ref.artifactId, ref.groupId, ref.version, ref.type, ref.artifact);
+        if (file != null) {
+          installFile(file);
+        }
+        file = ref.packageFile;
+        if (file != null) {
+          installFile(file);
+        }
       }
-      this.groupId = parts[0];
-      this.artifactId = parts[1];
-      this.version = parts[2];
-      if (parts.length > 3) {
-        this.packaging = parts[3];
-      }
-    }
-    Artifact artifactObject = repository.createArtifact(groupId, artifactId, version, packaging);
-    ArtifactResolutionRequest request = new ArtifactResolutionRequest();
-    request.setArtifact(artifactObject);
-    request.setLocalRepository(localRepository);
-    request.setRemoteRepositories(remoteRepositories);
-    ArtifactResolutionResult result = repository.resolve(request);
-    if (result.isSuccess()) {
-      return artifactObject.getFile();
     }
     else {
-      throw new MojoExecutionException("Unable to download artifact: " + artifactObject.toString());
+      File file = helper.getArtifactFile(this.artifactId, this.groupId, this.version, this.type, this.artifact);
+      if (file != null) {
+        installFile(file);
+      }
+      file = getPackageFile();
+      if (file != null) {
+        installFile(file);
+      }
     }
   }
 
