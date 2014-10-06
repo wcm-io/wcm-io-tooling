@@ -32,7 +32,7 @@ But there are some features missing, and this is where `wcmio-content-package-ma
 
 * `force` property - if set to false a package is not uploaded or installed if it was already
 uploaded before.
-* `recurive` property - if set to true nested packages get installed as well.
+* `recursive` property - if set to true nested packages get installed as well.
 * `packageFiles` property - allows installing multiple package files referenced from local filesystem
 or from maven repository at once.
 
