@@ -20,11 +20,9 @@
 package io.wcm.tooling.netbeans.sightly.completion;
 
 import java.io.IOException;
-
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.html.HTMLDocument;
-
 import org.apache.commons.io.IOUtils;
 
 public abstract class BaseTest {
@@ -46,7 +44,12 @@ public abstract class BaseTest {
     String content = IOUtils.toString(getClass().getResourceAsStream("/" + filename));
     return createDocument(content);
   }
-
+  /**
+   *
+   * @param content
+   * @return
+   * @throws BadLocationException
+   */
   public StyledDocument createDocument(String content) throws BadLocationException {
     StyledDocument doc = new HTMLDocument();
     doc.insertString(0, content, null);

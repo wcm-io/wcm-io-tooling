@@ -27,9 +27,6 @@
       <action type="update" dev="sseifert" issue="WCMIO-8">
         Do not inherit maven central release configuration to child POMs.
       </action>
-      <action type="update" dev="sseifert" issue="WCMIO-8">
-        Update to global-build-tools 3.
-      </action>
     </release>
 
     <release version="3" date="2014-09-18">
@@ -46,7 +43,7 @@
 
     <release version="1" date="2014-08-19">
       <action type="add" dev="sseifert">
-        Preliminary release.
+        First test release to maven central.
       </action>
     </release>
 

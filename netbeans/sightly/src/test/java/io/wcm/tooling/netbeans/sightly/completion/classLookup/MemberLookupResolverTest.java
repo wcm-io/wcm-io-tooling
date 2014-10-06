@@ -19,15 +19,15 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupResolver;
 import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
-
 import java.io.IOException;
 import java.net.URL;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import org.netbeans.spi.java.classpath.support.ClassPathSupport;
 
 /**
