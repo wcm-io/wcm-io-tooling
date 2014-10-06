@@ -31,11 +31,17 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
+import org.apache.maven.artifact.resolver.ArtifactResolutionResult;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.repository.RepositorySystem;
 import org.json.JSONObject;
 
 /**
@@ -59,11 +65,81 @@ public class InstallMojo extends AbstractContentPackageMojo {
   private boolean force;
 
   /**
+   * The groupId of the artifact to install.
+   */
+  @Parameter(property = "vault.groupId")
+  private String groupId;
+
+  /**
+   * The artifactId of the artifact to install.
+   */
+  @Parameter(property = "vault.artifactId")
+  private String artifactId;
+
+  /**
+   * The packaging of the artifact to install.
+   */
+  @Parameter(property = "vault.packaging", defaultValue = "zip")
+  private String packaging;
+
+  /**
+   * The version of the artifact to install.
+   */
+  @Parameter(property = "vault.version")
+  private String version;
+
+  /**
+   * A string of the form <code>groupId:artifactId:version[:packaging]</code>.
+   */
+  @Parameter(property = "vault.artifact")
+  private String artifact;
+
+  @Component
+  private RepositorySystem repository;
+
+  /**
    * Generates the ZIP.
+   * @throws MojoFailureException
    */
   @Override
-  public void execute() throws MojoExecutionException {
-    installFile(getPackageFile());
+  public void execute() throws MojoExecutionException, MojoFailureException {
+    File file = getArtifactFile();
+    if (file == null) {
+      file = getPackageFile();
+    }
+    installFile(file);
+  }
+
+  private File getArtifactFile() throws MojoFailureException, MojoExecutionException {
+    // check if artifact was specified
+    if ((StringUtils.isEmpty(this.artifactId) || StringUtils.isEmpty(this.groupId) || StringUtils.isEmpty(this.version))
+        || StringUtils.isEmpty(this.artifact)) {
+      return null;
+    }
+
+    // split up artifact string
+    if (StringUtils.isEmpty(this.artifactId)) {
+      String[] parts = StringUtils.split(this.artifact, ":");
+      if (parts.length < 3 && parts.length > 4) {
+        throw new MojoFailureException("Invalid artifact: " + artifact);
+      }
+      this.groupId = parts[0];
+      this.artifactId = parts[1];
+      this.version = parts[2];
+      if (parts.length > 3) {
+        this.packaging = parts[3];
+      }
+    }
+    Artifact artifactObject = repository.createArtifact(groupId, artifactId, version, packaging);
+    ArtifactResolutionRequest request = new ArtifactResolutionRequest();
+    request.setArtifact(artifactObject);
+    ArtifactResolutionResult result = repository.resolve(request);
+    if (result.isSuccess()) {
+      return artifactObject.getFile();
+    }
+    else {
+      throw new MojoExecutionException("Unable to download artifact: " + artifactObject.toString());
+    }
   }
 
   /**
