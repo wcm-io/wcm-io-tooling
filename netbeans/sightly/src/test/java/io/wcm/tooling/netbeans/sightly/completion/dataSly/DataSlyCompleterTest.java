@@ -19,8 +19,10 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.dataSly;
 
-import static org.junit.Assert.assertEquals;
+import io.wcm.tooling.netbeans.sightly.completion.dataSly.DataSlyCompleter;
 import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
+
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;

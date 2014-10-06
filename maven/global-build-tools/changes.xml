@@ -37,7 +37,7 @@
 
     <release version="1" date="2014-08-19">
       <action type="add" dev="sseifert">
-        Preliminary release.
+        First test release to maven central.
       </action>
     </release>
 
