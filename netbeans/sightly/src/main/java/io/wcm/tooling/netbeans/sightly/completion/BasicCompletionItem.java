@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion;
+package io.wcm.tooling.netbeans.sightly.completion;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -43,7 +43,7 @@ public class BasicCompletionItem implements CompletionItem {
   private final boolean hasParameters;
   private final int caretOffset;
   private final int dotOffset;
-  private static final ImageIcon FIELD_ICON = new ImageIcon(ImageUtilities.loadImage("io/wcm/tooling/netbeans/sightlyextension/icon.png"));
+  private static final ImageIcon FIELD_ICON = new ImageIcon(ImageUtilities.loadImage("io/wcm/tooling/netbeans/sightly/icon.png"));
   private static final Color FIELD_COLOR = Color.decode("0x0088cc");
 
   /**

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.wcm.tooling.netbeans.sightlyextension.completion;
+package io.wcm.tooling.netbeans.sightly.completion;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.AbstractCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.text.Document;
@@ -55,7 +55,7 @@ public class AbstractCompleterTest extends BaseTest {
     StyledDocument doc = getTestDocument("AbstractCompleterTest.html");
     //<head>
     assertEquals(600, instance.getRowFirstNonWhite(doc, 604));
-    //<div data-sly-use.foo="${io.wcm.tooling.netbeans.sightlyextension.BaseTest}">TODO write content</div>
+    //<div data-sly-use.foo="${io.wcm.tooling.netbeans.sightly.BaseTest}">TODO write content</div>
     assertEquals(778, instance.getRowFirstNonWhite(doc, 790));
     // empty line
     assertEquals(912, instance.getRowFirstNonWhite(doc, 912));

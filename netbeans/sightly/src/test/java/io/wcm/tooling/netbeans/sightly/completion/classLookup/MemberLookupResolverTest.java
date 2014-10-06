@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.classLookup;
+package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.classLookup.MemberLookupResolver;
-import io.wcm.tooling.netbeans.sightlyextension.completion.BaseTest;
+import io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupResolver;
+import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
 import java.io.IOException;
 import java.net.URL;
 import org.apache.commons.lang.StringUtils;

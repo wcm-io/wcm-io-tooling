@@ -17,10 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.dataSly;
+package io.wcm.tooling.netbeans.sightly.completion.dataSly;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.dataSly.DataSlyCompleter;
-import io.wcm.tooling.netbeans.sightlyextension.completion.BaseTest;
+import io.wcm.tooling.netbeans.sightly.completion.dataSly.DataSlyCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
 
 import static org.junit.Assert.assertEquals;
 

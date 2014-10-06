@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion;
+package io.wcm.tooling.netbeans.sightly.completion;
 
 import java.util.List;
 import javax.swing.text.BadLocationException;

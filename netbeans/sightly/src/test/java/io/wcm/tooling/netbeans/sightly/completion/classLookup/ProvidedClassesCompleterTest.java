@@ -17,9 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.tooling.netbeans.sightlyextension.completion.classLookup;
+package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightlyextension.completion.BaseTest;
+import io.wcm.tooling.netbeans.sightly.completion.classLookup.ProvidedClassesCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 
