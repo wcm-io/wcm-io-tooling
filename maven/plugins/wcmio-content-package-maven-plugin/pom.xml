@@ -30,7 +30,7 @@
   </parent>
 
   <groupId>io.wcm.maven.plugins</groupId>
-  <artifactId>content-package-maven-plugin</artifactId>
+  <artifactId>wcmio-content-package-maven-plugin</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
@@ -99,7 +99,7 @@
         <artifactId>maven-plugin-plugin</artifactId>
         <version>3.3</version>
         <configuration>
-          <goalPrefix>content-package</goalPrefix>
+          <goalPrefix>wcmio-content-package</goalPrefix>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
         </configuration>
         <executions>

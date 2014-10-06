@@ -9,7 +9,7 @@ About Content Package Maven Plugin
 ```xml
 <plugin>
   <groupId>io.wcm.maven.plugins</groupId>
-  <artifactId>content-package-maven-plugin</artifactId>
+  <artifactId>wcmio-content-package-maven-plugin</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 </plugin>
 ```
