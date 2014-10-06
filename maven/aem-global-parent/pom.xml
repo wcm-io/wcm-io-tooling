@@ -148,6 +148,18 @@
 
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
+          <artifactId>cq-maven-plugin</artifactId>
+          <version>1.0.0-SNAPSHOT</version>
+          <configuration>
+            <slingPluginVersion>2.1.0</slingPluginVersion>
+            <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
+            <slingConsoleUser>${sling.user}</slingConsoleUser>
+            <slingConsolePassword>${sling.password}</slingConsolePassword>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
           <version>1.0.0</version>
         </plugin>

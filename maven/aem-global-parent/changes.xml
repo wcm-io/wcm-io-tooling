@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Add nodejs-maven-plugin plugin incl. m2e lifecycle-mapping.
       </action>
+      <action type="update" dev="sseifert">
+        Add cq-maven-plugin plugin.
+      </action>
     </release>
 
     <release version="1.0.1" date="2014-09-18">
