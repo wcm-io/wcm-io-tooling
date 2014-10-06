@@ -72,7 +72,7 @@ public class InstallMojo extends AbstractMojo {
   /**
    * The password to authenticate at osgi console
    */
-  @Parameter(property = "sling.console.password", defaultValue = "admin")
+  @Parameter(property = "sling.console.password", required = true, defaultValue = "admin")
   private String slingConsolePassword;
 
   /**
@@ -117,9 +117,7 @@ public class InstallMojo extends AbstractMojo {
       Xpp3Dom config = convertConfiguration(mojoDescriptor.getMojoConfiguration());
       config.getChild("slingUrl").setValue(this.slingConsoleUrl);
       config.getChild("user").setValue(this.slingConsoleUser);
-      if (this.slingConsolePassword != null) {
-        config.getChild("password").setValue(this.slingConsolePassword);
-      }
+      config.getChild("password").setValue(this.slingConsolePassword);
       config.getChild("mountByFS").setValue("false");
       mojoExecution.setConfiguration(config);
 
