@@ -15,4 +15,5 @@ _*<sup>) Documentation will be added soon.</sup>_
 
 ### Maven Plugins
 
-* [Node.js Maven Plugin](plugins/nodejs-maven-plugin/)
+* [CQ Maven Plugin](plugins/cq-maven-plugin/): Convenience maven plugin for working with CQ/AEM maven projects.
+* [Node.js Maven Plugin](plugins/nodejs-maven-plugin/): Maven Plugin to wrap the Node.js execution.

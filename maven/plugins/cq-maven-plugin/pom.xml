@@ -30,12 +30,12 @@
   </parent>
 
   <groupId>io.wcm.maven.plugins</groupId>
-  <artifactId>nodejs-maven-plugin</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <artifactId>cq-maven-plugin</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>Node.js Maven Plugin</name>
-  <description>Maven Plugin to wrap the Node.js execution.</description>
+  <name>CQ Maven Plugin</name>
+  <description>Convenience maven plugin for working with CQ/AEM maven projects.</description>
 
   <scm>
     <connection>scm:git:git@github.com:wcm-io/wcm-io.git</connection>
@@ -45,19 +45,21 @@
   </scm>
 
   <properties>
-    <site.url.module.prefix>tooling/maven/plugins/nodejs-maven-plugin</site.url.module.prefix>
+    <site.url.module.prefix>tooling/maven/plugins/cq-maven-plugin</site.url.module.prefix>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-compress</artifactId>
-      <version>1.7</version>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>3.0.5</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>2.0</version>
+      <artifactId>maven-core</artifactId>
+      <version>3.0.5</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
@@ -65,35 +67,17 @@
       <version>3.2</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
-      <version>3.0.9</version>
-    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-          <compilerArgument>-Xlint:unchecked</compilerArgument>
-        </configuration>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.2</version>
+        <version>3.3</version>
         <configuration>
-          <goalPrefix>nodejs</goalPrefix>
+          <goalPrefix>cq</goalPrefix>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
         </configuration>
         <executions>
@@ -103,8 +87,21 @@
               <goal>descriptor</goal>
             </goals>
           </execution>
+          <execution>
+            <id>generated-helpmojo</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <inherited>false</inherited>
+      </plugin>
+
     </plugins>
   </build>
 
