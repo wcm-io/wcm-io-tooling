@@ -25,11 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -61,6 +63,12 @@ public class InstallMojo extends AbstractContentPackageMojo {
    */
   @Parameter(property = "vault.force", defaultValue = "true")
   private boolean force;
+
+  /**
+   * If set to true nested packages get installed as well.
+   */
+  @Parameter(property = "vault.recursive", defaultValue = "true")
+  private boolean recursive;
 
   /**
    * The groupId of the artifact to install.
@@ -177,7 +185,13 @@ public class InstallMojo extends AbstractContentPackageMojo {
         if (this.install) {
           getLog().info("Package uploaded, now installing...");
 
-          post = new PostMethod(getCrxPackageManagerUrl() + "/console.html" + path + "?cmd=install");
+          try {
+            post = new PostMethod(getCrxPackageManagerUrl() + "/console.html" + URIUtil.encodePath(path)
+                + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
+          }
+          catch (URIException ex) {
+            throw new MojoExecutionException("Invalid URI: " + path, ex);
+          }
 
           // execute post
           executePackageManagerMethodHtml(httpClient, post, 0);

@@ -149,6 +149,10 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       try {
         JSONObject response = null;
 
+        if (getLog().isDebugEnabled()) {
+          getLog().debug("Call URL: " + method.getPath());
+        }
+
         // execute method
         int httpStatus = httpClient.executeMethod(method);
         responseString = getResponseBodyAsString(method);
@@ -229,6 +233,10 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     try {
 
       try {
+
+        if (getLog().isDebugEnabled()) {
+          getLog().debug("Call URL: " + method.getPath());
+        }
 
         // execute method
         int httpStatus = httpClient.executeMethod(method);
