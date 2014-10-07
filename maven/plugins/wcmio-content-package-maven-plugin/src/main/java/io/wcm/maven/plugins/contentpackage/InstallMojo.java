@@ -49,7 +49,7 @@ import org.json.JSONObject;
  */
 @Mojo(name = "install", defaultPhase = LifecyclePhase.INSTALL, requiresProject = true,
 requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
-public class InstallMojo extends AbstractContentPackageMojo {
+public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
    * Whether to install (unpack) the uploaded package automatically or not.
@@ -121,16 +121,25 @@ public class InstallMojo extends AbstractContentPackageMojo {
    */
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
+    if (isSkip()) {
+      return;
+    }
+
+    boolean foundAny = false;
     ArtifactHelper helper = new ArtifactHelper(repository, localRepository, remoteRepositories);
     if (packageFiles != null && packageFiles.length > 0) {
       for (PackageFile ref : packageFiles) {
-        File file = helper.getArtifactFile(ref.artifactId, ref.groupId, ref.version, ref.type, ref.artifact);
+        File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getArtifact());
         if (file != null) {
           installFile(file);
+          foundAny = true;
         }
-        file = ref.packageFile;
-        if (file != null) {
-          installFile(file);
+        else {
+          file = ref.getPackageFile();
+          if (file != null) {
+            installFile(file);
+            foundAny = true;
+          }
         }
       }
     }
@@ -138,11 +147,18 @@ public class InstallMojo extends AbstractContentPackageMojo {
       File file = helper.getArtifactFile(this.artifactId, this.groupId, this.version, this.type, this.artifact);
       if (file != null) {
         installFile(file);
+        foundAny = true;
       }
-      file = getPackageFile();
-      if (file != null) {
-        installFile(file);
+      else {
+        file = getPackageFile();
+        if (file != null) {
+          installFile(file);
+          foundAny = true;
+        }
       }
+    }
+    if (!foundAny) {
+      throw new MojoExecutionException("No file found for installing.");
     }
   }
 
@@ -150,10 +166,6 @@ public class InstallMojo extends AbstractContentPackageMojo {
    * Deploy file via package manager
    */
   private void installFile(File file) throws MojoExecutionException {
-    if (isSkip()) {
-      return;
-    }
-
     try {
       if (this.install) {
         getLog().info("Upload and install " + file.getName() + " to " + getCrxPackageManagerUrl());

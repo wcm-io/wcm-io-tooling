@@ -36,8 +36,10 @@ import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -50,7 +52,7 @@ import org.json.JSONObject;
  */
 @Mojo(name = "download", defaultPhase = LifecyclePhase.INSTALL, requiresProject = true,
 requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
-public class DownloadMojo extends AbstractContentPackageMojo {
+public final class DownloadMojo extends AbstractContentPackageMojo {
 
   /**
    * The output file to save.
@@ -59,21 +61,67 @@ public class DownloadMojo extends AbstractContentPackageMojo {
   private String outputFile;
 
   /**
+   * If set to true the package is unpacked to the directory specified by <code>unpackDirectory </code>.
+   */
+  @Parameter(property = "vault.unpack", defaultValue = "false")
+  private boolean unpack;
+
+  /**
+   * Directory to unpack the content of the package to.
+   */
+  @Parameter(property = "vault.unpackDirectory", defaultValue = "${basedir}")
+  private File unpackDirectory;
+
+  /**
+   * If unpack=true: delete existing content from the named directories (relative to <code>unpackDirectory</code> root)
+   * before unpacking the package content, to make sure only the content from the downloaded package remains.
+   */
+  @Parameter
+  private String[] unpackDeleteDirectories = new String[] {
+      "jcr_root",
+      "META-INF"
+  };
+
+  /**
+   * List of regular patterns matching relative path of extracted content package. All files matching these patterns
+   * are excluded when unpacking the content package.
+   */
+  @Parameter
+  private String[] excludeFiles;
+
+  /**
+   * List of regular patterns matching node paths inside a <code>.content.xml</code> file. All nodes matching
+   * theses patterns are removed from the <code>.content.xml</code> when unpacking the content package.
+   */
+  @Parameter
+  private String[] excludeNodes;
+
+  /**
+   * List of regular patterns matching property names inside a <code>.content.xml</code> file. All properties matching
+   * theses patterns are removed from the <code>.content.xml</code> when unpacking the content package.
+   */
+  @Parameter
+  private String[] excludeProperties;
+
+  /**
    * Downloads the files
    */
   @Override
-  public void execute() throws MojoExecutionException {
-    downloadFile(getPackageFile(), this.outputFile);
-  }
-
-  /**
-   * Download file via package manager
-   */
-  protected void downloadFile(File file, String ouputFilePath) throws MojoExecutionException {
+  public void execute() throws MojoExecutionException, MojoFailureException {
     if (isSkip()) {
       return;
     }
 
+    File outputFileObject = downloadFile(getPackageFile(), this.outputFile);
+    if (this.unpack) {
+      unpackFile(outputFileObject);
+    }
+  }
+
+  /**
+   * Download content package from CRX instance
+   */
+  private File downloadFile(File file, String ouputFilePath) throws MojoExecutionException {
     try {
       getLog().info("Download " + file.getName() + " from " + getCrxPackageManagerUrl());
 
@@ -112,34 +160,38 @@ public class DownloadMojo extends AbstractContentPackageMojo {
 
       // execute download
       int httpStatus = httpClient.executeMethod(downloadMethod);
-      if (httpStatus == HttpStatus.SC_OK) {
+      try {
+        if (httpStatus == HttpStatus.SC_OK) {
 
-        // get response stream
-        InputStream responseStream = downloadMethod.getResponseBodyAsStream();
+          // get response stream
+          InputStream responseStream = downloadMethod.getResponseBodyAsStream();
 
-        // delete existing file
-        File outputFileObject = new File(ouputFilePath);
-        if (outputFileObject.exists()) {
-          outputFileObject.delete();
+          // delete existing file
+          File outputFileObject = new File(ouputFilePath);
+          if (outputFileObject.exists()) {
+            outputFileObject.delete();
+          }
+
+          // write response file
+          FileOutputStream fos = new FileOutputStream(outputFileObject);
+          IOUtil.copy(responseStream, fos);
+          fos.flush();
+          responseStream.close();
+          fos.close();
+
+          getLog().info("Package downloaded to " + outputFileObject.getAbsolutePath());
+
+          return outputFileObject;
         }
-
-        // write response file
-        FileOutputStream fos = new FileOutputStream(outputFileObject);
-        IOUtil.copy(responseStream, fos);
-        fos.flush();
-        responseStream.close();
-        fos.close();
-
-        getLog().info("Package downloaded succesfully to " + outputFileObject.getAbsolutePath());
+        else {
+          throw new MojoExecutionException("Package download failed:\n"
+              + downloadMethod.getResponseBodyAsString());
+        }
       }
-      else {
-        throw new MojoExecutionException("Package download failed:\n"
-            + downloadMethod.getResponseBodyAsString());
+      finally {
+        // cleanup
+        downloadMethod.releaseConnection();
       }
-
-      // cleanup
-      downloadMethod.releaseConnection();
-
     }
     catch (FileNotFoundException ex) {
       throw new MojoExecutionException("File not found: " + file.getAbsolutePath(), ex);
@@ -150,6 +202,44 @@ public class DownloadMojo extends AbstractContentPackageMojo {
     catch (IOException ex) {
       throw new MojoExecutionException("Post method failed.", ex);
     }
+  }
+
+  /**
+   * Unpack content package
+   */
+  private void unpackFile(File file) throws MojoExecutionException, MojoFailureException {
+
+    // initialize unpacker to validate patterns
+    ContentUnpacker unpacker = new ContentUnpacker(this.excludeFiles, this.excludeNodes, this.excludeProperties);
+
+    // validate output directory
+    if (this.unpackDirectory == null) {
+      throw new MojoExecutionException("No unpack directory specified.");
+    }
+    if (!this.unpackDirectory.exists()) {
+      this.unpackDirectory.mkdirs();
+    }
+
+    // remove existing content
+    if (this.unpackDeleteDirectories != null) {
+      for (String directory : unpackDeleteDirectories) {
+        File directoryFile = FileUtils.getFile(this.unpackDirectory, directory);
+        if (directoryFile.exists()) {
+          try {
+            FileUtils.deleteDirectory(directoryFile);
+          }
+          catch (IOException ex) {
+            throw new MojoExecutionException("Unable to delete existing content from "
+                + directoryFile.getAbsolutePath());
+          }
+        }
+      }
+    }
+
+    // unpack file
+    unpacker.unpack(file, this.unpackDirectory);
+
+    getLog().info("Package unpacked to " + this.unpackDirectory.getAbsolutePath());
   }
 
 }

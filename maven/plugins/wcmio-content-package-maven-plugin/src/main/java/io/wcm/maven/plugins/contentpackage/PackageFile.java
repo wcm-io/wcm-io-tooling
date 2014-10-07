@@ -21,47 +21,63 @@ package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
 
-import org.apache.maven.plugins.annotations.Parameter;
-
 /**
  * References a content package file for uploading.
  */
-public class PackageFile {
+public final class PackageFile {
 
   /**
    * The name of the content package file to install on the target system.
    */
-  @Parameter
-  protected File packageFile;
+  private File packageFile;
 
   /**
    * The groupId of the artifact to install.
    */
-  @Parameter
-  protected String groupId;
+  private String groupId;
 
   /**
    * The artifactId of the artifact to install.
    */
-  @Parameter
-  protected String artifactId;
+  private String artifactId;
 
   /**
    * The packaging of the artifact to install.
    */
-  @Parameter(defaultValue = "zip")
-  protected String type;
+  private String type = "zip";
 
   /**
    * The version of the artifact to install.
    */
-  @Parameter
-  protected String version;
+  private String version;
 
   /**
    * A string of the form <code>groupId:artifactId:version[:packaging]</code>.
    */
-  @Parameter
-  protected String artifact;
+  private String artifact;
+
+  File getPackageFile() {
+    return this.packageFile;
+  }
+
+  String getGroupId() {
+    return this.groupId;
+  }
+
+  String getArtifactId() {
+    return this.artifactId;
+  }
+
+  String getType() {
+    return this.type;
+  }
+
+  String getVersion() {
+    return this.version;
+  }
+
+  String getArtifact() {
+    return this.artifact;
+  }
 
 }

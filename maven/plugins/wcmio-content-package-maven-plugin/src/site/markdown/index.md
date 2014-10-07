@@ -26,9 +26,14 @@ Install and download content packages via CRX package manager.
 Adobe has published it's own [Content Package Maven Plugin][adobe-content-package-maven-plugin]. It supports
 more goals and has more features than the `wcmio-content-package-maven-plugin`.
 
-But there are some features missing, and this is where `wcmio-content-package-maven-plugin` steps in:
+But there are some features missing, and this is where `wcmio-content-package-maven-plugin` steps in.
+To make it easy switching between both plugins most properties have the same names and default values.
+Both plugins can co-exist nicely.
+
 
 #### `install` goal
+
+Additional features of the `install` goal:
 
 * `force` property - if set to false a package is not uploaded or installed if it was already
 uploaded before.
@@ -39,7 +44,6 @@ or from maven repository at once.
 If you only want to manage your `content-package` Maven project to install the content stored in the build
 artifact of the current project you can use the Adobe plugin.
 
-To make it easy switching between both plugins most properties have the same names and default values.
 
 #### `download` goal
 
@@ -52,6 +56,11 @@ before. It first starts an upload of the package (without installing it). If it 
 with the path to this package - this path is used to build the package and download it. Thus the latest
 package filter options from the local POM are used as well. This strategy is targeted only on
 `content-package` Maven projects, not for downloading arbitrary packages.
+
+Additional the `download` goal supports:
+
+* Unpacking the content package after download.
+* Exclude files, nodes and properties from the unpacked content via pattern lists. 
 
 
 [usage]: usage.html
