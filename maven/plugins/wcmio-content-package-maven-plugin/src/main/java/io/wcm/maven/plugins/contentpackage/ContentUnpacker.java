@@ -156,7 +156,9 @@ class ContentUnpacker {
     SAXBuilder saxBuilder = new SAXBuilder();
     Document doc = saxBuilder.build(inputStream);
     applyXmlExcludes(doc.getRootElement(), "");
+
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+    outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor());
     outputter.output(doc, outputStream);
     outputStream.flush();
   }
