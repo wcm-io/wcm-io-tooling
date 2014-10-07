@@ -149,7 +149,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.0.0-SNAPSHOT</version>
+          <version>1.0.0</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -173,7 +173,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
-          <version>1.0.0-SNAPSHOT</version>
+          <version>1.0.0</version>
           <configuration>
             <slingPluginVersion>2.1.0</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
