@@ -61,9 +61,6 @@
           <licenseFile>../../../LICENSE</licenseFile>
           <homePageUrl>http://wcm.io/tooling/netbeans/sightly/</homePageUrl>
           <useOSGiDependencies>false</useOSGiDependencies>
-          <keystore>${keystore}</keystore>
-          <keystorealias>${key.alias}</keystorealias>
-          <keystorepassword>${key.pass}</keystorepassword>
         </configuration>
       </plugin>
 
