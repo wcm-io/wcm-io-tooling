@@ -10,7 +10,7 @@ Install and download content packages via CRX package manager.
 <plugin>
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 </plugin>
 ```
 

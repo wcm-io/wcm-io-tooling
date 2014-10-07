@@ -10,7 +10,7 @@ Convenience maven plugin for working with CQ/AEM maven projects.
 <plugin>
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>cq-maven-plugin</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 </plugin>
 ```
 
