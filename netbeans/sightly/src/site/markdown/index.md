@@ -4,9 +4,9 @@ Plugin for [Netbeans](http://www.netbeans.org) to help developers using [Sightly
 
 ### Documentation
 
-* [Development](development)
-* [Usage](usage)
-* [Changelog](changelog)
+* [Usage](usage.html)
+* [Development](development.html)
+* [Changelog](changes-report.html)
 
 ### Overview
 
@@ -17,5 +17,4 @@ The Netbeans Sightly Extension provides autocompletion in html/jsp files for:
 * variable-names defined by data-sly-use and data-sly-list (e.g. data-sly-use.foo)
 * members of variables defined (e.g. lookup for foo.MyMethod)
 
-See [Usage](usage) for details.
-
+See [Usage](usage.html) for details.
