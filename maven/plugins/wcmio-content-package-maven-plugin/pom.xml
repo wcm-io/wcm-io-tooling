@@ -26,12 +26,12 @@
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.parent_toplevel</artifactId>
     <version>1.0.1</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
@@ -41,7 +41,7 @@
     <connection>scm:git:git@github.com:wcm-io/wcm-io.git</connection>
     <developerConnection>scm:git:git@github.com:wcm-io/wcm-io.git</developerConnection>
     <url>https://github.com/wcm-io/wcm-io</url>
-    <tag>HEAD</tag>
+    <tag>wcmio-content-package-maven-plugin-1.0.0</tag>
   </scm>
 
   <properties>
