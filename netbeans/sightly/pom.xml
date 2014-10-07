@@ -24,9 +24,9 @@
 
   <parent>
     <groupId>io.wcm</groupId>
-    <artifactId>io.wcm.tooling.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../../parent/pom.xml</relativePath>
+    <artifactId>io.wcm.parent_toplevel</artifactId>
+    <version>1.0.1</version>
+    <relativePath/>
   </parent>
 
   <groupId>io.wcm.tooling.netbeans</groupId>
