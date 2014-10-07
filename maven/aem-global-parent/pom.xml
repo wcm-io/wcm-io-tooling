@@ -154,6 +154,19 @@
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
             <password>${sling.password}</password>
+            <excludeFiles>
+              <exclude>^META-INF/.*</exclude>
+              <!-- exclude renditions that are automatically generated -->
+              <exclude>.*/cq5dam\.thumbnail\..*</exclude>
+            </excludeFiles>
+            <excludeProperties>
+              <exclude>jcr\:created</exclude>
+              <exclude>jcr\:createdBy</exclude>
+              <exclude>jcr\:lastModified</exclude>
+              <exclude>jcr\:lastModifiedBy</exclude>
+              <exclude>cq\:lastModified</exclude>
+              <exclude>cq\:lastModifiedBy</exclude>
+            </excludeProperties>
           </configuration>
         </plugin>
 
