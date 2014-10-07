@@ -30,7 +30,7 @@
 
   <groupId>io.wcm.tooling.netbeans</groupId>
   <artifactId>io.wcm.tooling.netbeans.sightly</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>nbm</packaging>
 
   <name>Netbeans Sightly Extension</name>
@@ -54,12 +54,15 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>nbm-maven-plugin</artifactId>
-        <version>3.13.3</version>
+        <version>3.14</version>
         <extensions>true</extensions>
         <configuration>
           <licenseName>Apache License, Version 2.0</licenseName>
           <licenseFile>../../../LICENSE</licenseFile>
           <useOSGiDependencies>false</useOSGiDependencies>
+          <keystore>${keystore}</keystore>
+          <keystorealias>${key.alias}</keystorealias>
+          <keystorepassword>${key.pass}</keystorepassword>
         </configuration>
       </plugin>
 
