@@ -21,7 +21,6 @@ package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,9 +53,6 @@ public class ContentUnpackerTest {
   public void testUnpack() throws Exception {
     File contentPackage = new File("src/test/resources/content-package-test.zip");
     File outputDirectory = new File("target/unpacktest");
-    if (outputDirectory.exists()) {
-      FileUtils.deleteDirectory(outputDirectory);
-    }
     outputDirectory.mkdirs();
     underTest.unpack(contentPackage, outputDirectory);
   }

@@ -225,10 +225,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       for (String directory : unpackDeleteDirectories) {
         File directoryFile = FileUtils.getFile(this.unpackDirectory, directory);
         if (directoryFile.exists()) {
-          try {
-            FileUtils.deleteDirectory(directoryFile);
-          }
-          catch (IOException ex) {
+          if (!deleteDirectoryWithRetries(directoryFile, 0)) {
             throw new MojoExecutionException("Unable to delete existing content from "
                 + directoryFile.getAbsolutePath());
           }
@@ -240,6 +237,27 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
     unpacker.unpack(file, this.unpackDirectory);
 
     getLog().info("Package unpacked to " + this.unpackDirectory.getAbsolutePath());
+  }
+
+  /**
+   * Delete fails sometimes or may be blocked by an editor - give it some time to try again (max. 1 sec).
+   */
+  private boolean deleteDirectoryWithRetries(File directory, int retryCount) {
+    if (retryCount > 100) {
+      return false;
+    }
+    if (FileUtils.deleteQuietly(directory)) {
+      return true;
+    }
+    else {
+      try {
+        Thread.sleep(10);
+      }
+      catch (InterruptedException ex) {
+        // ignore
+      }
+      return deleteDirectoryWithRetries(directory, retryCount + 1);
+    }
   }
 
 }
