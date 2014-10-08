@@ -28,8 +28,6 @@ If the variable has been completed, the autocompletion will display a list with 
 ![Build in](images/buildIn02.png)
 
 
-will display a list with **edit**, **preview**, **design** and **disabled**.
-
 ### Variable-names defined by data-sly-use and data-sly-list
 
 If you define a variable using data-sly-use or data-sly-list, the plugin will suggest it for further autocompletions.
