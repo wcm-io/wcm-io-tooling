@@ -18,3 +18,9 @@ The Netbeans Sightly Extension provides autocompletion in html/jsp files for:
 * members of variables defined (e.g. lookup for foo.MyMethod)
 
 See [Usage](usage.html) for details.
+
+### Installation
+
+You can find the Plugin in the NetBeans Plugin Portal Update Center. Navigate to **'Tools'** > **'Plugins'** and look for the Plugin.
+
+![NetbeanUpdateCenter](images/installation.png)
