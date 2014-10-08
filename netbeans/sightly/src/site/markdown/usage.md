@@ -6,9 +6,7 @@ The following examples who how to use the plugin.
 
 If you type in the start of a data-sly-\* command, the plugin will automatically give you a list with all available completions:
 
-```html
-<div da
-```
+![data-sly](images/data-sly-.png)
 
 The list displays only completions which are currently available (e.g. data-sly-u will not display data-sly-list).
 
@@ -20,19 +18,15 @@ If you type in the the begining of one of the following variables, the plugin wi
 * currentPage
 * wcmmode
 
-e.g.
 
-```html
-${curr
-```
+![Build in](images/buildIn.png)
 
-will display **currentPage** as suggestion.
 
 If the variable has been completed, the autocompletion will display a list with all members/methods of the variable:
 
-```html
-${wcmmode.
-```
+
+![Build in](images/buildIn02.png)
+
 
 will display a list with **edit**, **preview**, **design** and **disabled**.
 
@@ -40,30 +34,21 @@ will display a list with **edit**, **preview**, **design** and **disabled**.
 
 If you define a variable using data-sly-use or data-sly-list, the plugin will suggest it for further autocompletions.
 
-```html
-<div data-sly-use.foobar="${myClass}">
-${fo
-```
 
-will display "foobar" as suggestion.
+![Variables](images/variable.png)
+
 
 ### Members of variables
 
 If you define a variable using data-sly-use or data-sly-list, the plugin will suggest it's members/methods as autocompletion:
 
-```html
-<div data-sly-use.foobar="${myClass}">
-${foobar.
-```
+
+![Members](images/member01.png)
+
 
 will display a list with all members/methods which are public and have a return-value (not void).
 
 This also works in cascades:
 
-```html
-<div data-sly-use.foobar="${myClass}">
-<ul data-sly-list.items="${foobar.items}">
-${items.
-```
+![Members](images/member02.png)
 
-will display a list with all members/methods of the return-type defined in myClass.getItems()
