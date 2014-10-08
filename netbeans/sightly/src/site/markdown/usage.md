@@ -38,6 +38,13 @@ If you define a variable using data-sly-use or data-sly-list, the plugin will su
 ![Variables](images/variable.png)
 
 
+### Class Lookup
+
+If you define a variable using data-sly-use, the plugin will suggest all available classes from the current project:
+
+![ClassLookup](images/classlookup.png)
+
+
 ### Members of variables
 
 If you define a variable using data-sly-use or data-sly-list, the plugin will suggest it's members/methods as autocompletion:
