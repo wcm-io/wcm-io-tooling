@@ -166,6 +166,8 @@
               <exclude>jcr\:lastModifiedBy</exclude>
               <exclude>cq\:lastModified</exclude>
               <exclude>cq\:lastModifiedBy</exclude>
+              <exclude>cq\:lastReplicated</exclude>
+              <exclude>cq\:lastReplicatedBy</exclude>
             </excludeProperties>
           </configuration>
         </plugin>
