@@ -222,11 +222,9 @@
           <downloadSources>true</downloadSources>
           <useProjectReferences>false</useProjectReferences>
           <additionalBuildcommands>
-            <buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand>
             <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
           </additionalBuildcommands>
           <additionalProjectnatures>
-            <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
             <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
           </additionalProjectnatures>
           <additionalConfig>

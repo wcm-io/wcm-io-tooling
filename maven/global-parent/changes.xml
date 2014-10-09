@@ -27,9 +27,6 @@
       <action type="update" dev="sseifert" issue="WCMIO-8">
         Do not inherit maven central release configuration to child POMs.
       </action>
-      <action system="global-parent" type="update" dev="sseifert">
-        Add m2e nature by default for generated eclipse projects.
-      </action>
       <action type="update" dev="sseifert" issue="WCMIO-8">
         Update to global-build-tools 3.
       </action>
