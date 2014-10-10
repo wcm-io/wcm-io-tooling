@@ -79,7 +79,7 @@ public class NodeInstallationInformation {
   }
 
   /**
-   * Creates a {@link NodeInstallationInformation} for a specific nodejs and npm version and directory
+   * Creates a {@link NodeInstallationInformation} for a specific Node.js and npm version and directory
    * @param version
    * @param npmVersion
    * @param directory

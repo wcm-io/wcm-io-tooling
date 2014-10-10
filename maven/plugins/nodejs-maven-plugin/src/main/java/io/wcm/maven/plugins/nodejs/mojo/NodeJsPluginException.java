@@ -20,7 +20,7 @@
 package io.wcm.maven.plugins.nodejs.mojo;
 
 /**
- * NodeJS plugin Exception
+ * Node.js plugin Exception
  */
 public class NodeJsPluginException extends Exception {
 

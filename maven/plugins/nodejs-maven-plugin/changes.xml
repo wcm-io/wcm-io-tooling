@@ -27,6 +27,10 @@
       <action type="update" dev="sseifert">
         Add help mojo.
       </action>
+      <action type="update" dev="sseifert">
+        Allow overrding nodejs property via command line properties.
+        Add skip property.
+      </action>
     </release>
 
     <release version="1.0.0" date="2014-10-02">

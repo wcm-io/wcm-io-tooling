@@ -35,38 +35,64 @@ import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 
 /**
- *
+ * Common Node.js Mojo functionality.
  */
 public abstract class AbstractNodeJsMojo extends AbstractMojo {
 
-  @Parameter
+  /**
+   * URL to load Node.js from. If not set URL is derived automatically from nodeJsVersion and the current operating
+   * system to download the matching binaries from http://nodejs.org/dist.
+   */
+  @Parameter(property = "nodejs.download.url")
   protected String nodeJsURL;
 
-  @Parameter(defaultValue = "0.10.32")
+  /**
+   * Node.js version
+   */
+  @Parameter(property = "nodejs.version", defaultValue = "0.10.32")
   protected String nodeJsVersion;
 
-  @Parameter(defaultValue = "1.4.9")
+  /**
+   * NPM version
+   */
+  @Parameter(property = "nodejs.npm.version", defaultValue = "1.4.9")
   protected String npmVersion;
 
+  /**
+   * Default location where Node.js will be extracted to and run from
+   */
+  @Parameter(property = "nodejs.directory", defaultValue = "${java.io.tmpdir}/nodejs")
+  protected File nodeJsDirectory;
+
+  /**
+   * Tasks that should be run on Node.js execution.
+   */
   @Parameter
   protected List<? extends Task> tasks;
 
+  /**
+   * Stop maven build if error occurs.
+   */
   @Parameter
   protected boolean stopOnError;
 
   /**
-   * Default location where nodejs will be extracted to and run from
+   * If set to true all NodeJS plugin operations are skipped.
    */
-  @Parameter(defaultValue = "${java.io.tmpdir}/nodejs")
-  protected File nodeJsDirectory;
+  @Parameter(property = "nodejs.skip")
+  protected boolean skip;
 
   /**
    * Installs node js if necessary and performs defined tasks
    * @throws MojoExecutionException
    */
   public void run() throws MojoExecutionException {
+    if (skip) {
+      return;
+    }
+
     if (tasks == null || tasks.isEmpty()) {
-      getLog().warn("No NodeJSTasks have been defined. Nothing to do");
+      getLog().warn("No Node.jsTasks have been defined. Nothing to do");
     }
 
     NodeInstallationInformation information = getOrInstallNodeJS();
