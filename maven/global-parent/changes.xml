@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert" issue="WCMIO-8">
         Update to global-build-tools 3.
       </action>
+      <action type="update" dev="sseifert">
+        Add buildnumber-maven-plugin to set build number and timestamp variables.
+      </action>
     </release>
 
     <release version="3" date="2014-09-18">

@@ -106,7 +106,7 @@
           <configuration>
             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-              <Bundle-Description>${project.description}</Bundle-Description>
+              <Bundle-Description>${project.description} (Rev. ${buildNumber} at ${timestamp})</Bundle-Description>
             </instructions>
           </configuration>
         </plugin>

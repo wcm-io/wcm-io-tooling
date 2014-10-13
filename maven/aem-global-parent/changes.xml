@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert" issue="WCMIO-8">
         Do not inherit maven central release configuration to child POMs.
       </action>
+      <action type="update" dev="sseifert">
+        Add build number and build timestamp to bundle descriptions.
+      </action>
     </release>
 
     <release version="1.0.1" date="2014-09-18">
