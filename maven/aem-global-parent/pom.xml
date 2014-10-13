@@ -175,7 +175,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
-          <version>1.0.0</version>
+          <version>1.0.1-SNAPSHOT</version>
           <configuration>
             <slingPluginVersion>2.1.0</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
