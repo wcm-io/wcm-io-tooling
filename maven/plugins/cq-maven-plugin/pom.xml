@@ -46,7 +46,7 @@
 
   <properties>
     <site.url.module.prefix>tooling/maven/plugins/cq-maven-plugin</site.url.module.prefix>
-    <maven.version>3.2.3</maven.version>
+    <maven.version>3.2.2</maven.version>
   </properties>
 
   <dependencies>
