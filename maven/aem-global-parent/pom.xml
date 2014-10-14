@@ -58,23 +58,23 @@
 
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
+  <dependencies>
 
-      <!-- Apache Felix Dependencies -->
-      <dependency>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.scr.annotations</artifactId>
-        <version>1.9.8</version>
-      </dependency>
-      <dependency>
-        <groupId>biz.aQute</groupId>
-        <artifactId>bndlib</artifactId>
-        <version>1.50.0</version>
-      </dependency>
+    <!-- Apache Felix Dependencies -->
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.scr.annotations</artifactId>
+      <version>1.9.8</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>biz.aQute</groupId>
+      <artifactId>bndlib</artifactId>
+      <version>1.50.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-    </dependencies>
-  </dependencyManagement>
+  </dependencies>
 
   <build>
     <resources>
