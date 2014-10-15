@@ -115,17 +115,17 @@ public class MemberLookupCompleter extends AbstractCompleter {
    * @return Set of methods and fields, never null
    */
   private Set<String> resolveClass(String variableName, String text, Document document) {
+    Set<String> items = new LinkedHashSet<>();
     FileObject fo = getFileObject(document);
     ClassPath sourcePath = ClassPath.getClassPath(fo, ClassPath.SOURCE);
     ClassPath compilePath = ClassPath.getClassPath(fo, ClassPath.COMPILE);
     ClassPath bootPath = ClassPath.getClassPath(fo, ClassPath.BOOT);
     if (sourcePath == null) {
-      return null;
+      return items;
     }
     ClassPath cp = ClassPathSupport.createProxyClassPath(sourcePath, compilePath, bootPath);
     MemberLookupResolver resolver = new MemberLookupResolver(text, cp);
     Set<MemberLookupResult> results = resolver.performMemberLookup(StringUtils.defaultString(StringUtils.substringBefore(variableName, "."), variableName));
-    Set<String> items = new LinkedHashSet<>();
     for (MemberLookupResult result : results) {
       Matcher m = GETTER_PATTERN.matcher(result.getMethodName());
       if (m.matches() && m.groupCount() >= 2) {
