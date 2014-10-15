@@ -37,7 +37,7 @@
         Add build number and build timestamp to bundle descriptions.
       </action>
       <action type="update" dev="sseifert">
-        Define org.apache.felix.scr.annotations and biz.aQute.bndlib as default provided dependencies.
+        Define org.apache.felix.scr.annotations and org.osgi.annotation as default provided dependencies.
       </action>
     </release>
 
