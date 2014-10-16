@@ -66,7 +66,7 @@ import org.openide.util.Exceptions;
  */
 public class MemberLookupResolver {
 
-  private final String text;
+  private final String[] commands;
   private final ClassPath classPath;
   private static final Logger LOGGER = Logger.getLogger(MemberLookupResolver.class.getName());
 
@@ -76,8 +76,8 @@ public class MemberLookupResolver {
    * @param classPath
    */
   public MemberLookupResolver(String text, ClassPath classPath) {
-    this.text = text;
     this.classPath = classPath;
+    this.commands = StringUtils.splitByWholeSeparator(text, "data-sly-");
   }
 
   /**
@@ -123,7 +123,7 @@ public class MemberLookupResolver {
 
   /**
    * tries to load all methods for the given clazzname from javasource files.
-    *
+   *
    * @param clazzname
    * @param variable
    * @return set with methods or empty set if class could not be loaded
@@ -235,12 +235,15 @@ public class MemberLookupResolver {
    * @return the statement for the given variablename
    */
   private ParsedStatement getParsedStatement(String variable) {
-    Matcher m = PATTERN.matcher(text);
-    while (m.find()) {
-      ParsedStatement statement = ParsedStatement.fromMatcher(m);
-      // we only want the first match
-      if (statement != null && statement.getVariable().startsWith(variable)) {
-        return statement;
+    for (String command : commands) {
+      String candidate = command.replaceAll("\n", "").replaceAll("\r", "");
+      Matcher m = PATTERN.matcher("data-sly-" + candidate);
+      while (m.find()) {
+        ParsedStatement statement = ParsedStatement.fromMatcher(m);
+        // we only want the first match
+        if (statement != null && statement.getVariable().startsWith(variable)) {
+          return statement;
+        }
       }
     }
     return null;

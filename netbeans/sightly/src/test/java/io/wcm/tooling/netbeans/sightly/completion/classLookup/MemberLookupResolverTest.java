@@ -45,10 +45,11 @@ public class MemberLookupResolverTest extends BaseTest {
     String text = getTestDocumentContent("MemberLookupCompleterTest.html");
     assertFalse(StringUtils.isBlank(text));
     MemberLookupResolver resolver = new MemberLookupResolver(text, ClassPathSupport.createClassPath(new URL[0]));
-    assertEquals("data-sly-use.string=\"§{java.lang.String}\"", 6, resolver.performMemberLookup("string").size());
-    assertEquals("data-sly-use.stringWithoutBraces=\"java.lang.String\"", 6, resolver.performMemberLookup("string").size());
-    assertEquals("data-sly-use.list=\"§{java.util.List}\"", 2, resolver.performMemberLookup("list").size());
-    assertEquals("data-sly-use.unknown=\"§{someFoo}\"", 0, resolver.performMemberLookup("unknown").size());
+    assertEquals("data-sly-use.string=\"${java.lang.String}\"", 6, resolver.performMemberLookup("string").size());
+    assertEquals("data-sly-use.stringWithoutBraces=\"java.lang.String\"", 6, resolver.performMemberLookup("stringWith").size());
+    assertEquals("data-sly-use.multipleLines=\"${'java.lang.String' \n @ foo='bar'\n @ ipsum='lorem'}\"", 6, resolver.performMemberLookup("multiple").size());
+    assertEquals("data-sly-use.list=\"${java.util.List}\"", 2, resolver.performMemberLookup("list").size());
+    assertEquals("data-sly-use.unknown=\"${someFoo}\"", 0, resolver.performMemberLookup("unknown").size());
     assertEquals("Empty String", 0, resolver.performMemberLookup("").size());
     assertEquals("NonExisting variable", 0, resolver.performMemberLookup("someRandomFoo").size());
   }
