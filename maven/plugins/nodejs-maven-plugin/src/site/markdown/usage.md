@@ -45,7 +45,7 @@ See [plugin documentation](run-mojo.html) for a full documentation of the config
 
 Plugin provides two different task types:
 
-* `<npmInstallTask>` - executes the 'npm install' in the specified directory. 
+* `<npmInstallTask>` - executes the 'npm install' in the specified directory.
 * `<nodeJsTask>` - executes a specific nodejs module with optional parameters.
 
 Following configuration executes the npm install task in the ${project.basedir}/target folder:
@@ -56,13 +56,13 @@ Following configuration executes the npm install task in the ${project.basedir}/
 </npmInstallTask>
 ```
 
-It is also possible to specify multiple arguments: 
+It is also possible to specify multiple arguments:
 
-```xml         
+```xml
 <arguments>
   <argument>-g</argument>
 </arguments>
-```            
+```
 
 Following configuration executes the karma moduel with argument "start":
 

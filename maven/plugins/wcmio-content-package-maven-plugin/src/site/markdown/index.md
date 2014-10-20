@@ -60,7 +60,7 @@ package filter options from the local POM are used as well. This strategy is tar
 Additional the `download` goal supports:
 
 * Unpacking the content package after download.
-* Exclude files, nodes and properties from the unpacked content via pattern lists. 
+* Exclude files, nodes and properties from the unpacked content via pattern lists.
 
 
 [usage]: usage.html

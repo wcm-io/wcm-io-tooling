@@ -77,7 +77,7 @@
     <!-- pmd needs this as a global property, even in mvn 3 - may be fixed some day -->
     <!-- see http://jira.codehaus.org/browse/MPMD-86 -->
     <targetJdk>${build.compiler.target}</targetJdk>
-    
+
     <!-- Mininum maven version -->
     <maven.min-version>3.2.2</maven.min-version>
 
@@ -372,7 +372,7 @@
           <timestampFormat>{0,date,yyyy-MM-dd HH:mm:ss}</timestampFormat>
         </configuration>
       </plugin>
-      
+
       <!-- release plugin (only for this pom) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

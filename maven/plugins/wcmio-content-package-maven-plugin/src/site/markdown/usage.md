@@ -26,7 +26,7 @@ mvn wcmio-content-package:install
 ```
 
 
-### Install multiple content packages from maven repository 
+### Install multiple content packages from maven repository
 
 This usecase is useful to install hotfix and service pack packages to an AEM instance.
 The hotfixes have to be uploaded to an internal maven repository before, and can than deployed to any instance
@@ -61,7 +61,7 @@ only once, and not on every run.
 </plugin>
 ```
 
-Command line: 
+Command line:
 
 ```
 mvn wcmio-content-package:install
@@ -100,7 +100,7 @@ when versioning the unpacked package contents).
 </plugin>
 ```
 
-Command line: 
+Command line:
 
 ```
 mvn -Dvault.unpack=true wcmio-content-package:download
