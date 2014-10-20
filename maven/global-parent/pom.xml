@@ -28,7 +28,7 @@
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.global-parent</name>
-  <description>Global parent for Maven artifact hierarchy. Defines fix versions of Maven plugins to be used and certain general Maven settings.</description>
+  <description>Global parent for Maven artifact hierarchy. Defines fixed versions of Maven plugins to be used and certain general Maven settings.</description>
   <url>http://wcm.io/</url>
 
   <scm>
