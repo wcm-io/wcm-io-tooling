@@ -179,7 +179,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
-          <version>1.0.1-SNAPSHOT</version>
+          <version>1.0.2</version>
           <configuration>
             <slingPluginVersion>2.1.0</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
@@ -191,7 +191,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>1.0.1-SNAPSHOT</version>
+          <version>1.0.2</version>
         </plugin>
 
       </plugins>
