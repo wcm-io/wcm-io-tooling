@@ -30,7 +30,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>4-SNAPSHOT</version>
+    <version>4</version>
     <relativePath />
   </parent>
 
