@@ -23,14 +23,14 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="4-SNAPSHOT" date="not released">
+    <release version="4" date="2014-10-22">
       <action type="update" dev="sseifert" issue="WCMIO-8">
         Do not inherit maven central release configuration to child POMs.
       </action>
       <action system="global-parent" type="update">
         Update misc. maven plugin versions to latest version.
       </action>
-      <action type="update" dev="sseifert" issue="WCMIO-8">
+      <action type="update" dev="sseifert">
         Update to global-build-tools 3.
       </action>
       <action type="update" dev="sseifert">
