@@ -273,9 +273,9 @@
         <version>2.0</version>
       </dependency>
       <dependency>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>3.0.20100224</version>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.0.1</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet.jsp</groupId>
