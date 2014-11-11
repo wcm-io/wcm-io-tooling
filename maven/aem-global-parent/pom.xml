@@ -172,6 +172,7 @@
               <exclude>cq\:lastModifiedBy</exclude>
               <exclude>cq\:lastReplicated</exclude>
               <exclude>cq\:lastReplicatedBy</exclude>
+              <exclude>cq\:lastReplicationAction</exclude>
             </excludeProperties>
           </configuration>
         </plugin>
