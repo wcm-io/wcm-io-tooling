@@ -1345,8 +1345,12 @@
 	<head>
 		<meta charset="${outputEncoding}" />
 		<title>$title</title>
+
+    <link rel="shortcut icon" href="http://wcm.io/images/favicon.ico">
+    <link rel="apple-touch-icon" href="http://wcm.io/images/favicon-152.png">
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content="" />
+		<meta name="description" content="wcm.io - Libraries and extensions for AEM applications" />
 #*	*##foreach ( $author in $authors )##
 		<meta name="author" content="$author" />
 #*	*##end#*
