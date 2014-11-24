@@ -168,6 +168,7 @@
               <exclude>jcr\:createdBy</exclude>
               <exclude>jcr\:lastModified</exclude>
               <exclude>jcr\:lastModifiedBy</exclude>
+              <exclude>jcr\:uuid</exclude>
               <exclude>cq\:lastModified</exclude>
               <exclude>cq\:lastModifiedBy</exclude>
               <exclude>cq\:lastReplicated</exclude>
