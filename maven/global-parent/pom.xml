@@ -407,7 +407,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.13</version>
+          <version>2.14-R1632982</version>
           <configuration>
             <configLocation>global-build-tools/checkstyle.xml</configLocation>
             <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
@@ -753,7 +753,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.13</version>
+        <version>2.14-R1632982</version>
         <inherited>true</inherited>
         <configuration>
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
