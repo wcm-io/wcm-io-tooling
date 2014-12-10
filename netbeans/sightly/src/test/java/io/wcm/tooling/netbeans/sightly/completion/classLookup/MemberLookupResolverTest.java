@@ -19,16 +19,15 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import io.wcm.tooling.netbeans.sightly.completion.BaseTest;
-
 import java.io.IOException;
 import java.net.URL;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.netbeans.spi.java.classpath.support.ClassPathSupport;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Test for MemberLookupResolver
@@ -45,11 +44,11 @@ public class MemberLookupResolverTest extends BaseTest {
     String text = getTestDocumentContent("MemberLookupCompleterTest.html");
     assertFalse(StringUtils.isBlank(text));
     MemberLookupResolver resolver = new MemberLookupResolver(text, ClassPathSupport.createClassPath(new URL[0]));
-    assertEquals("data-sly-use.string=\"${java.lang.String}\"", 6, resolver.performMemberLookup("string").size());
-    assertEquals("data-sly-use.stringWithoutBraces=\"java.lang.String\"", 6, resolver.performMemberLookup("stringWith").size());
-    assertEquals("data-sly-use.multipleLines=\"${'java.lang.String' \n @ foo='bar'\n @ ipsum='lorem'}\"", 6, resolver.performMemberLookup("multiple").size());
-    assertEquals("data-sly-use.list=\"${java.util.List}\"", 2, resolver.performMemberLookup("list").size());
-    assertEquals("data-sly-use.unknown=\"${someFoo}\"", 0, resolver.performMemberLookup("unknown").size());
+    assertEquals("testclass", 8, resolver.performMemberLookup("testclass").size());
+    assertEquals("testclassWithoutBraces", 8, resolver.performMemberLookup("testclassWithoutBraces").size());
+    assertEquals("multipleLines", 8, resolver.performMemberLookup("multipleLines").size());
+    assertEquals("list", 2, resolver.performMemberLookup("list").size());
+    assertEquals("unknown", 0, resolver.performMemberLookup("unknown").size());
     assertEquals("Empty String", 0, resolver.performMemberLookup("").size());
     assertEquals("NonExisting variable", 0, resolver.performMemberLookup("someRandomFoo").size());
   }
@@ -67,7 +66,23 @@ public class MemberLookupResolverTest extends BaseTest {
     assertEquals("data-sly-list.recursive=\"${string.class\"", 51, resolver.performMemberLookup("recursive").size());
     assertEquals("data-sly-list.recursive2=\"${recursive.class}\"", 51, resolver.performMemberLookup("recursive2").size());
     assertEquals("data-sly-list.recursive3=\"${recursive2.class}\"", 51, resolver.performMemberLookup("recursive3").size());
+  }
 
+  /**
+   * Tests nested lookups
+   *
+   * @throws IOException
+   */
+  @Test
+  public void testNestedMemberLookup() throws IOException {
+    String text = getTestDocumentContent("MemberLookupCompleterTest.html");
+    assertFalse(StringUtils.isBlank(text));
+    MemberLookupResolver resolver = new MemberLookupResolver(text, ClassPathSupport.createClassPath(new URL[0]));
+    assertEquals("testclass", 8, resolver.performMemberLookup("testclass").size());
+    assertEquals("testclass.class", 51, resolver.performMemberLookup("testclass.class").size());
+    assertEquals("testclass.anotherTestClass", 3, resolver.performMemberLookup("testclass.anotherTestClass").size());
+    assertEquals("testclass.anotherTestClass.testClass", 8, resolver.performMemberLookup("testclass.anotherTestClass.testClass").size());
+    assertEquals("testclass.anotherTestClass.testClass.anotherTestClass", 3, resolver.performMemberLookup("testclass.anotherTestClass.testClass.anotherTestClass").size());
   }
 
 }

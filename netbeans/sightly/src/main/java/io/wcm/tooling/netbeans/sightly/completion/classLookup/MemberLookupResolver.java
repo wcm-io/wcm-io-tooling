@@ -19,8 +19,6 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupCompleter.GETTER_PATTERN;
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 import io.wcm.tooling.netbeans.sightly.completion.dataSly.DataSlyCommands;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -50,6 +48,9 @@ import org.netbeans.api.project.ProjectUtils;
 import org.netbeans.api.project.SourceGroup;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
+
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupCompleter.GETTER_PATTERN;
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 
 /**
  * This class is used to find the methods for a given variable. This included recursive lookup if the variable itself cannot be resolved.
@@ -86,6 +87,11 @@ public class MemberLookupResolver {
    * @return set of all elements which match the lookup
    */
   public Set<MemberLookupResult> performMemberLookup(String variable) {
+    // if there is more than one "." we need to do some magic and resolve the definition fragmented
+    if (variable.contains(".")) {
+      return performNestedLookup(variable);
+    }
+
     Set<MemberLookupResult> ret = new LinkedHashSet<>();
     // check, if the current variable resolves to a data-sly-use command
     ParsedStatement statement = getParsedStatement(variable);
@@ -100,6 +106,36 @@ public class MemberLookupResolver {
       Set<MemberLookupResult> subResults = performMemberLookup(StringUtils.substringBefore(statement.getValue(), "."));
       for (MemberLookupResult result : subResults) {
         if (result.matches(StringUtils.substringAfter(statement.getValue(), "."))) {
+          ret.addAll(getResultsForClass(result.getReturnType(), variable));
+        }
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * performs a nested lookup. E.g for foo.bar it will resolve the type of bar and then get it's methods
+   *
+   * @param variable e.g. foo.bar
+   * @return set with matching results
+   */
+  private Set<MemberLookupResult> performNestedLookup(String variable) {
+    Set<MemberLookupResult> ret = new LinkedHashSet<>();
+    // start with the first part
+    String[] parts = StringUtils.split(variable, ".");
+    if (parts.length > 2) {
+      Set<MemberLookupResult> subResult = performNestedLookup(StringUtils.substringBeforeLast(variable, "."));
+      for (MemberLookupResult result : subResult) {
+        if (result.matches(parts[parts.length - 1])) {
+          ret.addAll(getResultsForClass(result.getReturnType(), variable));
+        }
+      }
+    }
+    else {
+      Set<MemberLookupResult> subResults = performMemberLookup(parts[0]);
+      for (MemberLookupResult result : subResults) {
+        if (result.matches(parts[1])) {
+          // we found a method which has the correct name, now we can resolv this
           ret.addAll(getResultsForClass(result.getReturnType(), variable));
         }
       }
