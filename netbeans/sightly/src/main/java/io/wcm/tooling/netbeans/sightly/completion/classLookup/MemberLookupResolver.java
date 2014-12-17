@@ -20,7 +20,6 @@
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
 import io.wcm.tooling.netbeans.sightly.completion.dataSly.DataSlyCommands;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedHashSet;
@@ -28,29 +27,18 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
+import org.apache.commons.lang.StringUtils;
+import org.netbeans.api.java.classpath.ClassPath;
+
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupCompleter.GETTER_PATTERN;
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import org.apache.commons.lang.StringUtils;
-import org.netbeans.api.java.classpath.ClassPath;
-import org.netbeans.api.java.source.ClasspathInfo;
-import org.netbeans.api.java.source.CompilationController;
 import org.netbeans.api.java.source.ElementUtilities;
-import org.netbeans.api.java.source.JavaSource;
-import org.netbeans.api.java.source.Task;
-import org.netbeans.api.project.FileOwnerQuery;
-import org.netbeans.api.project.Project;
-import org.netbeans.api.project.ProjectUtils;
-import org.netbeans.api.project.SourceGroup;
-import org.openide.filesystems.FileObject;
-import org.openide.util.Exceptions;
-
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupCompleter.GETTER_PATTERN;
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 
 /**
  * This class is used to find the methods for a given variable. This included recursive lookup if the variable itself cannot be resolved.
@@ -65,10 +53,9 @@ import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedState
  * ${bar. will be resolved to all getter methods and public fields of the return-type of foo.entries
  *
  */
-public class MemberLookupResolver {
+public class MemberLookupResolver extends AbstractSourceResolver {
 
   private final String[] commands;
-  private final ClassPath classPath;
   private static final Logger LOGGER = Logger.getLogger(MemberLookupResolver.class.getName());
 
   /**
@@ -77,7 +64,7 @@ public class MemberLookupResolver {
    * @param classPath
    */
   public MemberLookupResolver(String text, ClassPath classPath) {
-    this.classPath = classPath;
+    super(classPath);
     this.commands = StringUtils.splitByWholeSeparator(text, "data-sly-");
   }
 
@@ -157,60 +144,35 @@ public class MemberLookupResolver {
     return ret;
   }
 
-  /**
-   * tries to load all methods for the given clazzname from javasource files.
-   *
-   * @param clazzname
-   * @param variable
-   * @return set with methods or empty set if class could not be loaded
-   */
-  private Set<MemberLookupResult> getMethodsFromJavaSource(final String clazzname, final String variable) {
-    final Set<MemberLookupResult> ret = new LinkedHashSet<>();
-    JavaSource javaSource = getJavaSourceForClass(clazzname);
-    if (javaSource != null) {
-      try {
-        javaSource.runUserActionTask(new Task<CompilationController>() {
-          @Override
-          public void run(CompilationController controller) throws IOException {
-            controller.toPhase(JavaSource.Phase.ELEMENTS_RESOLVED);
-            TypeElement classElem = controller.getElements().getTypeElement(clazzname);
-            if (classElem == null) {
-              return;
-            }
-            ElementUtilities eu = controller.getElementUtilities();
-            ElementUtilities.ElementAcceptor acceptor = new ElementUtilities.ElementAcceptor() {
-              @Override
-              public boolean accept(Element e, TypeMirror type) {
-                // we accept only public stuff
-                if (!e.getModifiers().contains(Modifier.PUBLIC)) {
-                  return false;
-                }
-                if (e.getKind() == ElementKind.METHOD) {
-                  ExecutableElement method = (ExecutableElement)e;
-                  if (method.getReturnType().getKind() != TypeKind.VOID) {
-                    return GETTER_PATTERN.matcher(e.getSimpleName().toString()).matches();
-                  }
-                }
-                return e.getKind() == ElementKind.FIELD;
-              }
-            };
-            Iterable<? extends Element> methods = eu.getMembers(classElem.asType(), acceptor);
-            for (Element e : methods) {
-              if (e.getKind() == ElementKind.METHOD) {
-                ExecutableElement method = (ExecutableElement)e;
-                MemberLookupResult result = new MemberLookupResult(variable, e.getSimpleName().toString(), method.getReturnType().toString());
-                ret.add(result);
-              }
-              else if (e.getKind() == ElementKind.FIELD) {
-                MemberLookupResult result = new MemberLookupResult(variable, e.getSimpleName().toString(), e.asType().toString());
-                ret.add(result);
-              }
-            }
+  private Set<MemberLookupResult> getMethodsFromJavaSource(String clazzname, String variable) {
+    Set<MemberLookupResult> ret = new LinkedHashSet<>();
+    ElementUtilities.ElementAcceptor acceptor = new ElementUtilities.ElementAcceptor() {
+      @Override
+      public boolean accept(Element e, TypeMirror type) {
+        // we accept only public stuff
+        if (!e.getModifiers().contains(Modifier.PUBLIC)) {
+          return false;
+        }
+        if (e.getKind() == ElementKind.METHOD) {
+          ExecutableElement method = (ExecutableElement)e;
+          if (method.getReturnType().getKind() != TypeKind.VOID) {
+            return GETTER_PATTERN.matcher(e.getSimpleName().toString()).matches();
           }
-        }, false);
+        }
+        return e.getKind() == ElementKind.FIELD;
       }
-      catch (IOException ioe) {
-        Exceptions.printStackTrace(ioe);
+    };
+
+    Set<Element> elems = getMembersFromJavaSource(clazzname, acceptor);
+    for (Element e : elems) {
+      if (e.getKind() == ElementKind.METHOD) {
+        ExecutableElement method = (ExecutableElement)e;
+        MemberLookupResult result = new MemberLookupResult(variable, e.getSimpleName().toString(), method.getReturnType().toString());
+        ret.add(result);
+      }
+      else if (e.getKind() == ElementKind.FIELD) {
+        MemberLookupResult result = new MemberLookupResult(variable, e.getSimpleName().toString(), e.asType().toString());
+        ret.add(result);
       }
     }
     return ret;
@@ -240,29 +202,6 @@ public class MemberLookupResolver {
       LOGGER.log(Level.FINE, "Could not resolve class " + clazzname + "defined for variable " + variable, cnfe);
     }
     return ret;
-  }
-
-  /**
-   * Resolves the clazzname to a fileobject of the java-file
-   *
-   * @param clazzname
-   * @return null or the fileobject
-   */
-  private JavaSource getJavaSourceForClass(String clazzname) {
-    String resource = clazzname.replaceAll("\\.", "/") + ".java";
-    FileObject fileObject = classPath.findResource(resource);
-    if (fileObject == null) {
-      return null;
-    }
-    Project project = FileOwnerQuery.getOwner(fileObject);
-    if (project == null) {
-      return null;
-    }
-    SourceGroup[] sourceGroups = ProjectUtils.getSources(project).getSourceGroups("java");
-    for (SourceGroup sourceGroup : sourceGroups) {
-      return JavaSource.create(ClasspathInfo.create(sourceGroup.getRootFolder()));
-    }
-    return null;
   }
 
   /**

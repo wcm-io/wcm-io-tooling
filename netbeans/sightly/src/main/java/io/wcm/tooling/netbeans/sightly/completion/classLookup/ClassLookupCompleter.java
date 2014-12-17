@@ -20,22 +20,15 @@
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
 import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
-import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.lang.model.element.TypeElement;
 import javax.swing.text.Document;
-import org.apache.commons.lang.StringUtils;
 import org.netbeans.api.editor.mimelookup.MimeRegistration;
 import org.netbeans.api.editor.mimelookup.MimeRegistrations;
 import org.netbeans.api.java.classpath.ClassPath;
-import org.netbeans.api.java.source.ClassIndex;
 import org.netbeans.api.java.source.ClasspathInfo;
-import org.netbeans.api.java.source.ElementHandle;
 import org.netbeans.spi.editor.completion.CompletionItem;
 import org.netbeans.spi.editor.completion.CompletionProvider;
 import org.openide.filesystems.FileObject;
@@ -64,18 +57,8 @@ public class ClassLookupCompleter extends AbstractCompleter {
       return ret;
     }
     final ClasspathInfo info = ClasspathInfo.create(bootCp, compileCp, sourcePath);
-    final Set<ElementHandle<TypeElement>> result = info.getClassIndex().getDeclaredTypes("",
-            ClassIndex.NameKind.PREFIX, EnumSet.of(ClassIndex.SearchScope.SOURCE));
-
-    for (ElementHandle<TypeElement> te : result) {
-      if (te.getKind().isClass()) {
-        String binaryName = te.getBinaryName();
-        if (!StringUtils.equals(binaryName, "") && StringUtils.startsWith(binaryName, filter)) {
-          ret.add(new BasicCompletionItem(te.getBinaryName(), false, startOffset, caretOffset));
-        }
-      }
-    }
-    return ret;
+    ClassLookupResolver resolver = new ClassLookupResolver(info);
+    return resolver.resolve(filter, startOffset, caretOffset);
   }
 
   @Override
