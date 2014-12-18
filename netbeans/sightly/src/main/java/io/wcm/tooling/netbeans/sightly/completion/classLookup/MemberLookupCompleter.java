@@ -125,7 +125,7 @@ public class MemberLookupCompleter extends AbstractCompleter {
     }
     ClassPath cp = ClassPathSupport.createProxyClassPath(sourcePath, compilePath, bootPath);
     MemberLookupResolver resolver = new MemberLookupResolver(text, cp);
-    Set<MemberLookupResult> results = resolver.performMemberLookup(StringUtils.defaultString(StringUtils.substringBefore(variableName, "."), variableName));
+    Set<MemberLookupResult> results = resolver.performMemberLookup(StringUtils.defaultString(StringUtils.substringBeforeLast(variableName, "."), variableName));
     for (MemberLookupResult result : results) {
       Matcher m = GETTER_PATTERN.matcher(result.getMethodName());
       if (m.matches() && m.groupCount() >= 2) {
