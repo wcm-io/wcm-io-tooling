@@ -23,6 +23,16 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.0.2" date="2014-10-07">
+      <action type="add" dev="amuthmann">
+        Nested lookup (e.g. foo.bar.ipsum will be resolved now)
+      </action>
+      <action type="add" dev="amuthmann">
+        Support for request attributes
+      </action>
+      
+    </release>
+
     <release version="1.0.0" date="2014-10-07">
       <action type="add" dev="amuthmann">
         Initial release.
