@@ -28,6 +28,7 @@ import org.netbeans.spi.java.classpath.support.ClassPathSupport;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for MemberLookupResolver
@@ -63,9 +64,9 @@ public class MemberLookupResolverTest extends BaseTest {
     String text = getTestDocumentContent("MemberLookupCompleterTest.html");
     assertFalse(StringUtils.isBlank(text));
     MemberLookupResolver resolver = new MemberLookupResolver(text, ClassPathSupport.createClassPath(new URL[0]));
-    assertEquals("data-sly-list.recursive=\"${string.class\"", 51, resolver.performMemberLookup("recursive").size());
-    assertEquals("data-sly-list.recursive2=\"${recursive.class}\"", 51, resolver.performMemberLookup("recursive2").size());
-    assertEquals("data-sly-list.recursive3=\"${recursive2.class}\"", 51, resolver.performMemberLookup("recursive3").size());
+    assertTrue("data-sly-list.recursive=\"${string.class\"", resolver.performMemberLookup("recursive").size() >= 51);
+    assertTrue("data-sly-list.recursive2=\"${recursive.class}\"", resolver.performMemberLookup("recursive2").size() >= 51);
+    assertTrue("data-sly-list.recursive3=\"${recursive2.class}\"", resolver.performMemberLookup("recursive3").size() >= 51);
   }
 
   /**
@@ -79,7 +80,7 @@ public class MemberLookupResolverTest extends BaseTest {
     assertFalse(StringUtils.isBlank(text));
     MemberLookupResolver resolver = new MemberLookupResolver(text, ClassPathSupport.createClassPath(new URL[0]));
     assertEquals("testclass", 8, resolver.performMemberLookup("testclass").size());
-    assertEquals("testclass.class", 51, resolver.performMemberLookup("testclass.class").size());
+    assertTrue("testclass.class", resolver.performMemberLookup("testclass.class").size() >= 51);
     assertEquals("testclass.anotherTestClass", 3, resolver.performMemberLookup("testclass.anotherTestClass").size());
     assertEquals("testclass.anotherTestClass.testClass", 8, resolver.performMemberLookup("testclass.anotherTestClass.testClass").size());
     assertEquals("testclass.anotherTestClass.testClass.anotherTestClass", 3, resolver.performMemberLookup("testclass.anotherTestClass.testClass.anotherTestClass").size());
