@@ -24,11 +24,14 @@
   <body>
 
     <release version="1.0.2" date="2014-12-19">
-      <action type="add" dev="amuthmann">
+      <action type="add" dev="amuthmann" issue="WCMIO-9">
         Nested lookup (e.g. foo.bar.ipsum will be resolved now)
       </action>
-      <action type="add" dev="amuthmann">
+      <action type="add" dev="amuthmann" issue="WCMIO-45">
         Support for request attributes
+      </action>
+      <action type="fix" dev="amuthmann" issue="WCMIO-19">
+        Fix for detection of multiline statements
       </action>
       
     </release>
