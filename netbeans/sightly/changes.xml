@@ -33,7 +33,6 @@
       <action type="fix" dev="amuthmann" issue="WCMIO-19">
         Fix for detection of multiline statements
       </action>
-      
     </release>
 
     <release version="1.0.0" date="2014-10-07">
