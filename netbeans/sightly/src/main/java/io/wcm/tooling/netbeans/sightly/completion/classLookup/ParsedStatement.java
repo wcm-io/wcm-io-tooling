@@ -32,7 +32,7 @@ public final class ParsedStatement {
   /**
    * Pattern to find statements
    */
-  public static final Pattern PATTERN = Pattern.compile(".*(data-sly-(use|list))\\.(.*)=\\\"(\\$\\{)?'?([^'\\}\\\"]*)'?(.*\\})?\\\"");
+  public static final Pattern PATTERN = Pattern.compile(".*(data-sly-(use|list))\\.([^\\\"]*)=\\\"(\\$\\{)?'?([^'\\}\\\"]*)'?(.*\\})?\\\"");
 
   /**
    * The command issued before the usage of the statement (e.g. data-sly-use)
