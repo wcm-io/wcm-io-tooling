@@ -33,9 +33,9 @@
   <properties>
     <pgkGroupId>io.reactivex</pgkGroupId>
     <pkgArtifactId>rxjava</pkgArtifactId>
-    <pkgVersion>1.0.0-rc.9</pkgVersion>
+    <pkgVersion>1.0.4</pkgVersion>
     <pomVersion>0000-SNAPSHOT</pomVersion>
-    <osgiVersion>1.0.0</osgiVersion>
+    <osgiVersion>${pkgVersion}</osgiVersion>
   </properties>
 
   <groupId>io.wcm.osgi.wrapper</groupId>

@@ -33,7 +33,7 @@
   <properties>
     <pgkGroupId>org.glassfish.jersey</pgkGroupId>
     <pkgArtifactId>jersey</pkgArtifactId>
-    <pkgVersion>2.13</pkgVersion>
+    <pkgVersion>2.15</pkgVersion>
     <pomVersion>0000-SNAPSHOT</pomVersion>
     <osgiVersion>${pkgVersion}</osgiVersion>
   </properties>
