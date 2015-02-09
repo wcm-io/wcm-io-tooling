@@ -33,6 +33,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +42,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,6 +101,12 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   @Parameter(property = "vault.retryDelay", defaultValue = "0")
   private int retryDelay;
+
+  /**
+   * Bundle information JSON URL.
+   */
+  @Parameter(property = "vault.bundleInformationURL", required = true, defaultValue = "http://localhost:4502/system/console/bundles/.json")
+  private String bundleInformationURL;
 
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
@@ -336,6 +344,52 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
   protected final boolean isSkip() {
     return this.skip;
+  }
+
+  /**
+   * Wait up to 1000s for bundles to become active.
+   *
+   * @throws MojoExecutionException
+   */
+  protected void waitForBunlesActivation() throws MojoExecutionException {
+    int retryCount = 100;
+    for (int i = 1; i <= retryCount; i++) {
+      if (isBundlesActive()) {
+        return;
+      }
+      getLog().info("Wating 10 seconds for bundles to become active...");
+      try {
+        Thread.sleep(10 * DateUtils.MILLIS_PER_SECOND);
+      }
+      catch (InterruptedException e) {
+        // ignore
+      }
+    }
+  }
+
+  private boolean isBundlesActive() throws MojoExecutionException {
+    boolean result = true;
+    try {
+      HttpClient httpClient = getCrxPackageManagerHttpClient();
+      HttpMethodBase method = new GetMethod(bundleInformationURL);
+
+      int httpStatus = httpClient.executeMethod(method);
+      String responseString = getResponseBodyAsString(method);
+      if (httpStatus != HttpStatus.SC_OK || responseString == null) {
+        return false;
+      }
+
+      JSONObject response = new JSONObject(responseString);
+      getLog().info(response.getString("status"));
+
+      JSONArray s = response.getJSONArray("s");
+      int resolved = s.getInt(3);
+      int installed = s.getInt(4);
+      return installed + resolved == 0;
+    }
+    catch (Exception ex) {
+      throw new MojoExecutionException("Can't determine bundles state.", ex);
+    }
   }
 
 }

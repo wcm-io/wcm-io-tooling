@@ -126,35 +126,29 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     }
 
     boolean foundAny = false;
+    File file;
     ArtifactHelper helper = new ArtifactHelper(repository, localRepository, remoteRepositories);
     if (packageFiles != null && packageFiles.length > 0) {
       for (PackageFile ref : packageFiles) {
-        File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getArtifact());
-        if (file != null) {
-          installFile(file);
-          foundAny = true;
-        }
-        else {
+        file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getArtifact());
+        if (file == null) {
           file = ref.getPackageFile();
-          if (file != null) {
-            installFile(file);
-            foundAny = true;
-          }
+        }
+        if (file != null) {
+          installPackage(file);
+          foundAny = true;
         }
       }
     }
     else {
-      File file = helper.getArtifactFile(this.artifactId, this.groupId, this.version, this.type, this.artifact);
-      if (file != null) {
-        installFile(file);
-        foundAny = true;
-      }
-      else {
+      file = helper.getArtifactFile(artifactId, groupId, version, type, artifact);
+
+      if (file == null) {
         file = getPackageFile();
-        if (file != null) {
-          installFile(file);
-          foundAny = true;
-        }
+      }
+      if (file != null) {
+        installPackage(file);
+        foundAny = true;
       }
     }
     if (!foundAny) {
@@ -223,6 +217,25 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     }
     catch (FileNotFoundException ex) {
       throw new MojoExecutionException("File not found: " + file.getAbsolutePath(), ex);
+    }
+  }
+
+  /**
+   * Bundle aware package installation
+   */
+  private void installPackage(File file) {
+    int maxAttemts = 3;
+    for (int i = 1; i <= maxAttemts; i++) {
+      getLog().info("--------------------------------------");
+      getLog().info(" Package installation attempt " + i + " of " + maxAttemts);
+      getLog().info("--------------------------------------");
+      try {
+        waitForBunlesActivation();
+        installFile(file);
+        return;
+      } catch (MojoExecutionException e) {
+        // bundles restarting?
+      }
     }
   }
 
