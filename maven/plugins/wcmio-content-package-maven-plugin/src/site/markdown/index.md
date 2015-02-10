@@ -40,6 +40,7 @@ uploaded before.
 * `recursive` property - if set to true nested packages get installed as well.
 * `packageFiles` property - allows installing multiple package files referenced from local filesystem
 or from maven repository at once.
+* `bundleStatusURL` - allows to check for bundle activation status before installing a package to avoid failed package deployments if the previous packages contained OSGi bundles that need some time to get installed properly.
 
 If you only want to manage your `content-package` Maven project to install the content stored in the build
 artifact of the current project you can use the Adobe plugin.
