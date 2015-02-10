@@ -104,8 +104,9 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
   /**
    * Bundle status JSON URL. If an URL is configured the activation status of all bundles in the system is checked
-   * before it is tried to upload and install a new package. If not all packages are installed the upload is delayed
-   * up to 10 minutes, every 5 seconds the activation status is checked anew.
+   * before it is tried to upload and install a new package and after each upload.
+   * If not all packages are installed the upload is delayed up to 10 minutes, every 5 seconds the
+   * activation status is checked anew.
    * Expected is an URL like: http://localhost:4502/system/console/bundles/.json
    */
   @Parameter(property = "vault.bundleStatusURL", required = false)
@@ -359,8 +360,9 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       return;
     }
 
-    final int CHECK_RETRY_COUNT = 120;
-    final int WAIT_INTERVAL_SEC = 5;
+    final int WAIT_MAX_SEC = 10 * 60;
+    final int WAIT_INTERVAL_SEC = 2;
+    final long CHECK_RETRY_COUNT = WAIT_MAX_SEC / WAIT_INTERVAL_SEC;
 
     getLog().info("Check bundle activation states...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
