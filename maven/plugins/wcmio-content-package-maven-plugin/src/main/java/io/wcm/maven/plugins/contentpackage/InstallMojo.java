@@ -203,10 +203,6 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
           // execute post
           executePackageManagerMethodHtml(httpClient, post, 0);
-
-          // check again for stopping/starting bundles, wait for completion
-          waitForBundlesActivation();
-
         }
         else {
           getLog().info("Package uploaded successfully (without installing).");
