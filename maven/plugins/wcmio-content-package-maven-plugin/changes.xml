@@ -27,6 +27,9 @@
       <action type="add" dev="evgeny">
         Add (optional) check for bundle activation state before trying to deploy a new package via new parameter "bundleStatusURL".
       </action>
+      <action type="fix" dev="sseifert" issue="WCMIO-41">
+        Download goal: Upload package definition without installing in "force" mode, to ensure an updated package definition is respected.
+      </action>
     </release>
 
     <release version="1.0.0" date="2014-10-07">

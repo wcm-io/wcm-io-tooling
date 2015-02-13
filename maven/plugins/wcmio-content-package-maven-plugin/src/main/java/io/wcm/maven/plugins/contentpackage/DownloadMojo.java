@@ -132,7 +132,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       PostMethod post = new PostMethod(getCrxPackageManagerUrl() + "/.json?cmd=upload");
       List<Part> parts = new ArrayList<Part>();
       parts.add(new FilePart("package", file));
-      parts.add(new StringPart("force", "false"));
+      parts.add(new StringPart("force", "true"));
       post.setRequestEntity(new MultipartRequestEntity(parts.toArray(new Part[parts.size()]), post.getParams()));
       JSONObject response = executePackageManagerMethodJson(httpClient, post, 0);
       boolean success = response.optBoolean("success", false);
