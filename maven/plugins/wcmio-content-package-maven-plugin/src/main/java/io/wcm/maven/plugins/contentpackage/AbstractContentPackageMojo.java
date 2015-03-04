@@ -42,7 +42,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -391,12 +390,11 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       }
 
       JSONObject response = new JSONObject(responseString);
-      getLog().info(response.getString("status"));
+      BundleStatus status = BundleStatus.fromStatusResponse(response);
 
-      JSONArray s = response.getJSONArray("s");
-      int resolved = s.getInt(3);
-      int installed = s.getInt(4);
-      return installed + resolved == 0;
+      getLog().info(status.getStatusLine());
+
+      return status.getInstalled() + status.getResolved() == 0;
     }
     catch (Throwable ex) {
       throw new MojoExecutionException("Can't determine bundles state via URL: " + bundleStatusURL, ex);

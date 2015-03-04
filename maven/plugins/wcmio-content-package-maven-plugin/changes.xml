@@ -24,7 +24,7 @@
   <body>
 
     <release version="1.1.0" date="not released">
-      <action type="add" dev="evgeny">
+      <action type="add" dev="evgeny" issue="WCMIO-55">
         Add (optional) check for bundle activation state before trying to deploy a new package via new parameter "bundleStatusURL".
       </action>
       <action type="fix" dev="sseifert" issue="WCMIO-41">
