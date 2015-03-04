@@ -21,9 +21,11 @@ package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -183,8 +185,14 @@ public final class InstallMojo extends AbstractContentPackageMojo {
         if (this.install) {
           getLog().info("Package uploaded, now installing...");
 
-          post = new HttpPost(getCrxPackageManagerUrl() + "/console.html" + path
-              + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
+          try {
+            post = new HttpPost(getCrxPackageManagerUrl() + "/console.html"
+                + new URIBuilder().setPath(path).build().getRawPath()
+                + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
+          }
+          catch (URISyntaxException ex) {
+            throw new MojoExecutionException("Invalid path: " + path, ex);
+          }
 
           // execute post
           executePackageManagerMethodHtml(httpClient, post, 0);
