@@ -110,6 +110,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.bundleStatusURL", required = false)
   private String bundleStatusURL;
 
+  /**
+   * Number of seconds to wait as maximum for a positive bundle status check.
+   * If this limit is reached and the bundle status is still not positive the install of the package proceeds anyway.
+   */
+  @Parameter(property = "vault.bundleStatusWaitLimit", defaultValue = "360")
+  private int bundleStatusWaitLimit;
+
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
@@ -233,9 +240,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       return;
     }
 
-    final int WAIT_MAX_SEC = 10 * 60;
-    final int WAIT_INTERVAL_SEC = 2;
-    final long CHECK_RETRY_COUNT = WAIT_MAX_SEC / WAIT_INTERVAL_SEC;
+    final int WAIT_INTERVAL_SEC = 3;
+    final long CHECK_RETRY_COUNT = bundleStatusWaitLimit / WAIT_INTERVAL_SEC;
 
     getLog().info("Check bundle activation states...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
@@ -245,7 +251,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
         return;
       }
       getLog().info(bundleStatus.getStatusLine());
-      getLog().info("Bundles are currently starting/stopping - wait " + WAIT_INTERVAL_SEC + " seconds...");
+      getLog().info("Bundles are currently starting/stopping - wait " + WAIT_INTERVAL_SEC + " seconds "
+          + "(max. " + bundleStatusWaitLimit + " seconds) ...");
       try {
         Thread.sleep(WAIT_INTERVAL_SEC * DateUtils.MILLIS_PER_SECOND);
       }

@@ -19,7 +19,6 @@
  */
 package io.wcm.maven.plugins.contentpackage.httpaction;
 
-
 /**
  * Wrapper for Status summary from Web Console Bundles Status info JSON.
  */
