@@ -28,7 +28,7 @@ import org.jdom2.output.support.AbstractXMLOutputProcessor;
 import org.jdom2.output.support.FormatStack;
 
 /**
- * XML output processer that renders one attribute per line for easier diff-ing on content changes.
+ * XML output processor that renders one attribute per line for easier diff-ing on content changes.
  */
 class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
 
