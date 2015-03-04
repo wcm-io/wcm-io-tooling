@@ -20,19 +20,12 @@
 package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.methods.multipart.StringPart;
-import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -162,6 +155,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     // if bundles are still stopping/starting, wait for completion
     waitForBundlesActivation();
 
+    CloseableHttpClient httpClient = null;
     try {
       if (this.install) {
         getLog().info("Upload and install " + file.getName() + " to " + getCrxPackageManagerUrl());
@@ -171,35 +165,30 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       }
 
       // setup http client with credentials
-      HttpClient httpClient = getCrxPackageManagerHttpClient();
+      httpClient = getHttpClient();
 
       // prepare post method
-      PostMethod post = new PostMethod(getCrxPackageManagerUrl() + "/.json?cmd=upload");
-      List<Part> parts = new ArrayList<Part>();
-      parts.add(new FilePart("package", file));
+      HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
+      MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
+          .addBinaryBody("package", file);
       if (this.force) {
-        parts.add(new StringPart("force", "true"));
+        entityBuilder.addTextBody("force", "true");
       }
-      post.setRequestEntity(new MultipartRequestEntity(parts.toArray(new Part[parts.size()]), post.getParams()));
+      post.setEntity(entityBuilder.build());
 
       // execute post
-      JSONObject response = executePackageManagerMethodJson(httpClient, post, 0);
-      boolean success = response.optBoolean("success", false);
-      String msg = response.optString("msg", null);
-      String path = response.optString("path", null);
+      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post, 0);
+      boolean success = jsonResponse.optBoolean("success", false);
+      String msg = jsonResponse.optString("msg", null);
+      String path = jsonResponse.optString("path", null);
 
       if (success) {
 
         if (this.install) {
           getLog().info("Package uploaded, now installing...");
 
-          try {
-            post = new PostMethod(getCrxPackageManagerUrl() + "/console.html" + URIUtil.encodePath(path)
-                + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
-          }
-          catch (URIException ex) {
-            throw new MojoExecutionException("Invalid URI: " + path, ex);
-          }
+          post = new HttpPost(getCrxPackageManagerUrl() + "/console.html" + path
+              + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
 
           // execute post
           executePackageManagerMethodHtml(httpClient, post, 0);
@@ -217,8 +206,15 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       }
 
     }
-    catch (FileNotFoundException ex) {
-      throw new MojoExecutionException("File not found: " + file.getAbsolutePath(), ex);
+    finally {
+      if (httpClient != null) {
+        try {
+          httpClient.close();
+        }
+        catch (IOException ex) {
+          // ignore
+        }
+      }
     }
   }
 

@@ -24,20 +24,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -122,22 +118,23 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
    * Download content package from CRX instance
    */
   private File downloadFile(File file, String ouputFilePath) throws MojoExecutionException {
+    CloseableHttpClient httpClient = null;
     try {
       getLog().info("Download " + file.getName() + " from " + getCrxPackageManagerUrl());
 
       // setup http client with credentials
-      HttpClient httpClient = getCrxPackageManagerHttpClient();
+      httpClient = getHttpClient();
 
       // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
-      PostMethod post = new PostMethod(getCrxPackageManagerUrl() + "/.json?cmd=upload");
-      List<Part> parts = new ArrayList<Part>();
-      parts.add(new FilePart("package", file));
-      parts.add(new StringPart("force", "true"));
-      post.setRequestEntity(new MultipartRequestEntity(parts.toArray(new Part[parts.size()]), post.getParams()));
-      JSONObject response = executePackageManagerMethodJson(httpClient, post, 0);
-      boolean success = response.optBoolean("success", false);
-      String msg = response.optString("msg", null);
-      String path = response.optString("path", null);
+      HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
+      MultipartEntityBuilder entity = MultipartEntityBuilder.create()
+          .addBinaryBody("package", file)
+          .addTextBody("force", "true");
+      post.setEntity(entity.build());
+      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post, 0);
+      boolean success = jsonResponse.optBoolean("success", false);
+      String msg = jsonResponse.optString("msg", null);
+      String path = jsonResponse.optString("path", null);
 
       // package already exists - get path from error message and continue
       if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(path)) {
@@ -151,20 +148,20 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       getLog().info("Package path is: " + path + " - now rebuilding package...");
 
       // 2nd: build package
-      PostMethod buildMethod = new PostMethod(getCrxPackageManagerUrl() + "/console.html" + path + "?cmd=build");
+      HttpPost buildMethod = new HttpPost(getCrxPackageManagerUrl() + "/console.html" + path + "?cmd=build");
       executePackageManagerMethodHtml(httpClient, buildMethod, 0);
 
       // 3rd: download package
       String crxUrl = StringUtils.removeEnd(getCrxPackageManagerUrl(), "/crx/packmgr/service");
-      GetMethod downloadMethod = new GetMethod(crxUrl + path);
+      HttpGet downloadMethod = new HttpGet(crxUrl + path);
 
       // execute download
-      int httpStatus = httpClient.executeMethod(downloadMethod);
+      CloseableHttpResponse response = httpClient.execute(downloadMethod);
       try {
-        if (httpStatus == HttpStatus.SC_OK) {
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
           // get response stream
-          InputStream responseStream = downloadMethod.getResponseBodyAsStream();
+          InputStream responseStream = response.getEntity().getContent();
 
           // delete existing file
           File outputFileObject = new File(ouputFilePath);
@@ -185,22 +182,36 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
         }
         else {
           throw new MojoExecutionException("Package download failed:\n"
-              + downloadMethod.getResponseBodyAsString());
+              + EntityUtils.toString(response.getEntity()));
         }
       }
       finally {
-        // cleanup
-        downloadMethod.releaseConnection();
+        if (response != null) {
+          EntityUtils.consumeQuietly(response.getEntity());
+          try {
+            response.close();
+          }
+          catch (IOException ex) {
+            // ignore
+          }
+        }
       }
     }
     catch (FileNotFoundException ex) {
       throw new MojoExecutionException("File not found: " + file.getAbsolutePath(), ex);
     }
-    catch (HttpException ex) {
-      throw new MojoExecutionException("Post method failed.", ex);
-    }
     catch (IOException ex) {
       throw new MojoExecutionException("Post method failed.", ex);
+    }
+    finally {
+      if (httpClient != null) {
+        try {
+          httpClient.close();
+        }
+        catch (IOException ex) {
+          // ignore
+        }
+      }
     }
   }
 

@@ -21,23 +21,23 @@ package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
-import org.apache.commons.httpclient.Credentials;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -136,13 +136,19 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * @return Http client
    * @throws MojoExecutionException
    */
-  protected final HttpClient getCrxPackageManagerHttpClient() throws MojoExecutionException {
+  protected final CloseableHttpClient getHttpClient() throws MojoExecutionException {
     try {
       URI crxUri = new URI(getCrxPackageManagerUrl());
-      HttpClient httpClient = new HttpClient();
-      httpClient.getParams().setAuthenticationPreemptive(true);
-      Credentials credentials = new UsernamePasswordCredentials(this.userId, this.password);
-      httpClient.getState().setCredentials(new AuthScope(crxUri.getHost(), crxUri.getPort(), AuthScope.ANY_REALM), credentials);
+
+      CredentialsProvider credsProvider = new BasicCredentialsProvider();
+      credsProvider.setCredentials(
+          new AuthScope(crxUri.getHost(), crxUri.getPort()),
+          new UsernamePasswordCredentials(this.userId, this.password));
+
+      CloseableHttpClient httpClient = HttpClients.custom()
+          .setDefaultCredentialsProvider(credsProvider)
+          .build();
+
       return httpClient;
     }
     catch (URISyntaxException ex) {
@@ -156,45 +162,43 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * @param method Get or Post method
    * @throws MojoExecutionException
    */
-  protected final JSONObject executePackageManagerMethodJson(HttpClient httpClient, HttpMethodBase method,
+  protected final JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method,
       int runCount) throws MojoExecutionException {
 
     try {
 
+      CloseableHttpResponse response = null;
       String responseString = null;
       try {
-        JSONObject response = null;
+        JSONObject jsonResponse = null;
 
         if (getLog().isDebugEnabled()) {
-          getLog().debug("Call URL: " + method.getPath());
+          getLog().debug("Call URL: " + method.getURI());
         }
 
         // execute method
-        int httpStatus = httpClient.executeMethod(method);
-        responseString = getResponseBodyAsString(method);
-        if (httpStatus == HttpStatus.SC_OK) {
+        response = httpClient.execute(method);
+        responseString = EntityUtils.toString(response.getEntity());
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
           // get response JSON
           if (responseString != null) {
-            response = new JSONObject(responseString);
+            jsonResponse = new JSONObject(responseString);
           }
-          if (response == null) {
-            response = new JSONObject();
-            response.put("success", false);
-            response.put("msg", "Invalid response (null).");
+          if (jsonResponse == null) {
+            jsonResponse = new JSONObject();
+            jsonResponse.put("success", false);
+            jsonResponse.put("msg", "Invalid response (null).");
           }
 
         }
         else {
-          response = new JSONObject();
-          response.put("success", false);
-          response.put("msg", responseString);
+          jsonResponse = new JSONObject();
+          jsonResponse.put("success", false);
+          jsonResponse.put("msg", responseString);
         }
 
-        return response;
-      }
-      catch (HttpException ex) {
-        throw new MojoExecutionException("Http method failed.", ex);
+        return jsonResponse;
       }
       catch (IOException ex) {
         throw new MojoExecutionException("Http method failed.", ex);
@@ -203,8 +207,15 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
         throw new MojoExecutionException("JSON operation failed:\n" + responseString, ex);
       }
       finally {
-        // cleanup
-        method.releaseConnection();
+        if (response != null) {
+          EntityUtils.consumeQuietly(response.getEntity());
+          try {
+            response.close();
+          }
+          catch (IOException ex) {
+            // ignore
+          }
+        }
       }
 
     }
@@ -243,27 +254,27 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * @param method Get or Post method
    * @throws MojoExecutionException
    */
-  protected final void executePackageManagerMethodHtml(HttpClient httpClient, HttpMethodBase method,
+  protected final void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method,
       int runCount) throws MojoExecutionException {
 
     try {
 
+      CloseableHttpResponse response = null;
+      String responseString = null;
       try {
 
         if (getLog().isDebugEnabled()) {
-          getLog().debug("Call URL: " + method.getPath());
+          getLog().debug("Call URL: " + method.getURI());
         }
 
         // execute method
-        int httpStatus = httpClient.executeMethod(method);
-        if (httpStatus == HttpStatus.SC_OK) {
-
-          // get response xml
-          String response = getResponseBodyAsString(method);
+        response = httpClient.execute(method);
+        responseString = EntityUtils.toString(response.getEntity());
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
           // debug output whole xml
           if (getLog().isDebugEnabled()) {
-            getLog().debug("CRX Package Manager Response:\n" + response);
+            getLog().debug("CRX Package Manager Response:\n" + responseString);
           }
 
           // remove all HTML tags and special conctent
@@ -271,27 +282,31 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
           final Pattern HTML_JAVASCRIPT = Pattern.compile("<script[^<>]*>[^<>]*</script>", Pattern.MULTILINE | Pattern.DOTALL);
           final Pattern HTML_ANYTAG = Pattern.compile("<[^<>]*>");
 
-          response = HTML_STYLE.matcher(response).replaceAll("");
-          response = HTML_JAVASCRIPT.matcher(response).replaceAll("");
-          response = HTML_ANYTAG.matcher(response).replaceAll("");
-          response = StringUtils.replace(response, "&nbsp;", " ");
+          responseString = HTML_STYLE.matcher(responseString).replaceAll("");
+          responseString = HTML_JAVASCRIPT.matcher(responseString).replaceAll("");
+          responseString = HTML_ANYTAG.matcher(responseString).replaceAll("");
+          responseString = StringUtils.replace(responseString, "&nbsp;", " ");
 
-          getLog().info(response);
+          getLog().info(responseString);
         }
         else {
-          throw new MojoExecutionException("Failure:\n" + getResponseBodyAsString(method));
+          throw new MojoExecutionException("Failure:\n" + responseString);
         }
 
-      }
-      catch (HttpException ex) {
-        throw new MojoExecutionException("Http method failed.", ex);
       }
       catch (IOException ex) {
         throw new MojoExecutionException("Http method failed.", ex);
       }
       finally {
-        // cleanup
-        method.releaseConnection();
+        if (response != null) {
+          EntityUtils.consumeQuietly(response.getEntity());
+          try {
+            response.close();
+          }
+          catch (IOException ex) {
+            // ignore
+          }
+        }
       }
 
     }
@@ -320,27 +335,6 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       }
       else {
         throw ex;
-      }
-    }
-  }
-
-  private String getResponseBodyAsString(HttpMethodBase method) throws MojoExecutionException {
-    InputStream is = null;
-    try {
-      is = method.getResponseBodyAsStream();
-      return IOUtils.toString(is, CharEncoding.UTF_8);
-    }
-    catch (IOException ex) {
-      throw new MojoExecutionException("Getting method response failed.", ex);
-    }
-    finally {
-      try {
-        if (is != null) {
-          is.close();
-        }
-      }
-      catch (IOException ex) {
-        // ignore
       }
     }
   }
@@ -379,18 +373,20 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   }
 
   private boolean isBundlesActive() throws MojoExecutionException {
+    CloseableHttpClient httpClient = null;
+    CloseableHttpResponse response = null;
     try {
-      HttpClient httpClient = getCrxPackageManagerHttpClient();
-      HttpMethodBase method = new GetMethod(bundleStatusURL);
+      httpClient = getHttpClient();
+      HttpGet method = new HttpGet(bundleStatusURL);
 
-      int httpStatus = httpClient.executeMethod(method);
-      String responseString = getResponseBodyAsString(method);
-      if (httpStatus != HttpStatus.SC_OK || responseString == null) {
+      response = httpClient.execute(method);
+      String responseString = EntityUtils.toString(response.getEntity());
+      if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK || StringUtils.isEmpty(responseString)) {
         return false;
       }
 
-      JSONObject response = new JSONObject(responseString);
-      BundleStatus status = BundleStatus.fromStatusResponse(response);
+      JSONObject jsonResponse = new JSONObject(responseString);
+      BundleStatus status = BundleStatus.fromStatusResponse(jsonResponse);
 
       getLog().info(status.getStatusLine());
 
@@ -398,6 +394,25 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     }
     catch (Throwable ex) {
       throw new MojoExecutionException("Can't determine bundles state via URL: " + bundleStatusURL, ex);
+    }
+    finally {
+      if (response != null) {
+        EntityUtils.consumeQuietly(response.getEntity());
+        try {
+          response.close();
+        }
+        catch (IOException ex) {
+          // ignore
+        }
+      }
+      if (httpClient != null) {
+        try {
+          httpClient.close();
+        }
+        catch (IOException ex) {
+          // ignore
+        }
+      }
     }
   }
 
