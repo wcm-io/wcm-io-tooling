@@ -151,21 +151,17 @@ public final class InstallMojo extends AbstractContentPackageMojo {
    * Deploy file via package manager
    */
   private void installFile(File file) throws MojoExecutionException {
+    try (CloseableHttpClient httpClient = getHttpClient()) {
 
-    // if bundles are still stopping/starting, wait for completion
-    waitForBundlesActivation();
+      // if bundles are still stopping/starting, wait for completion
+      waitForBundlesActivation(httpClient);
 
-    CloseableHttpClient httpClient = null;
-    try {
       if (this.install) {
         getLog().info("Upload and install " + file.getName() + " to " + getCrxPackageManagerUrl());
       }
       else {
         getLog().info("Upload " + file.getName() + " to " + getCrxPackageManagerUrl());
       }
-
-      // setup http client with credentials
-      httpClient = getHttpClient();
 
       // prepare post method
       HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
@@ -177,7 +173,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       post.setEntity(entityBuilder.build());
 
       // execute post
-      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post, 0);
+      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post);
       boolean success = jsonResponse.optBoolean("success", false);
       String msg = jsonResponse.optString("msg", null);
       String path = jsonResponse.optString("path", null);
@@ -206,15 +202,8 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       }
 
     }
-    finally {
-      if (httpClient != null) {
-        try {
-          httpClient.close();
-        }
-        catch (IOException ex) {
-          // ignore
-        }
-      }
+    catch (IOException ex) {
+      throw new MojoExecutionException("Install operation failed.", ex);
     }
   }
 

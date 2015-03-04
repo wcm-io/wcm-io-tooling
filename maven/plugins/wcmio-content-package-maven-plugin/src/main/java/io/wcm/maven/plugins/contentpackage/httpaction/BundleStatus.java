@@ -17,15 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage;
+package io.wcm.maven.plugins.contentpackage.httpaction;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Wrapper for Status summary from Web Console Bundles Status info JSON.
  */
-final class BundleStatus {
+public final class BundleStatus {
 
   private final String statusLine;
   private final int total;
@@ -34,7 +32,7 @@ final class BundleStatus {
   private final int resolved;
   private final int installed;
 
-  private BundleStatus(String statusLine, int total, int active, int activeFragment, int resolved, int installed) {
+  BundleStatus(String statusLine, int total, int active, int activeFragment, int resolved, int installed) {
     this.statusLine = statusLine;
     this.total = total;
     this.active = active;
@@ -67,16 +65,11 @@ final class BundleStatus {
     return this.installed;
   }
 
-  public static BundleStatus fromStatusResponse(JSONObject response) {
-    String statusLine = response.getString("status");
-    JSONArray statusArray = response.getJSONArray("s");
-    return new BundleStatus(
-        statusLine,
-        statusArray.getInt(0),
-        statusArray.getInt(1),
-        statusArray.getInt(2),
-        statusArray.getInt(3),
-        statusArray.getInt(4));
+  /**
+   * @return true if no bundles are in "installed" or "resolved" state.
+   */
+  public boolean isAllBundlesRunning() {
+    return getInstalled() + getResolved() == 0;
   }
 
 }

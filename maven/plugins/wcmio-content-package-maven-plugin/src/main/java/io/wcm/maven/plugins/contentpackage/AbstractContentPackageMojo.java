@@ -19,30 +19,29 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
+import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
+import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatusCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.HttpCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
+
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -131,6 +130,10 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return serviceUrl;
   }
 
+  protected final boolean isSkip() {
+    return this.skip;
+  }
+
   /**
    * Set up http client with credentials
    * @return Http client
@@ -157,76 +160,23 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   }
 
   /**
-   * Execute CRX HTTP Package manager method and parse/output xml response.
-   * @param httpClient Http client
-   * @param method Get or Post method
+   * Execute HTTP call with automatic retry as configured for the MOJO.
+   * @param call HTTP call
+   * @param runCount Number of runs this call was already executed
    * @throws MojoExecutionException
    */
-  protected final JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method,
-      int runCount) throws MojoExecutionException {
-
+  private <T> T executeHttpCallWithRetry(HttpCall<T> call, int runCount) throws MojoExecutionException {
     try {
-
-      CloseableHttpResponse response = null;
-      String responseString = null;
-      try {
-        JSONObject jsonResponse = null;
-
-        if (getLog().isDebugEnabled()) {
-          getLog().debug("Call URL: " + method.getURI());
-        }
-
-        // execute method
-        response = httpClient.execute(method);
-        responseString = EntityUtils.toString(response.getEntity());
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-          // get response JSON
-          if (responseString != null) {
-            jsonResponse = new JSONObject(responseString);
-          }
-          if (jsonResponse == null) {
-            jsonResponse = new JSONObject();
-            jsonResponse.put("success", false);
-            jsonResponse.put("msg", "Invalid response (null).");
-          }
-
-        }
-        else {
-          jsonResponse = new JSONObject();
-          jsonResponse.put("success", false);
-          jsonResponse.put("msg", responseString);
-        }
-
-        return jsonResponse;
-      }
-      catch (IOException ex) {
-        throw new MojoExecutionException("Http method failed.", ex);
-      }
-      catch (JSONException ex) {
-        throw new MojoExecutionException("JSON operation failed:\n" + responseString, ex);
-      }
-      finally {
-        if (response != null) {
-          EntityUtils.consumeQuietly(response.getEntity());
-          try {
-            response.close();
-          }
-          catch (IOException ex) {
-            // ignore
-          }
-        }
-      }
-
+      return call.execute();
     }
     catch (MojoExecutionException ex) {
       // retry again if configured so...
       if (runCount < this.retryCount) {
         getLog().info("ERROR: " + ex.getMessage());
-        getLog().debug("Package manager method execution failed.", ex);
+        getLog().debug("HTTP call failed.", ex);
         getLog().info("---------------");
 
-        String msg = "Package manager method failed, try again (" + (runCount + 1) + "/" + this.retryCount + ")";
+        String msg = "HTTP call failed, try again (" + (runCount + 1) + "/" + this.retryCount + ")";
         if (this.retryDelay > 0) {
           msg += " after " + this.retryDelay + " second(s)";
         }
@@ -240,12 +190,24 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
             // ignore
           }
         }
-        return executePackageManagerMethodJson(httpClient, method, runCount + 1);
+        return executeHttpCallWithRetry(call, runCount + 1);
       }
       else {
         throw ex;
       }
     }
+  }
+
+  /**
+   * Execute CRX HTTP Package manager method and parse/output xml response.
+   * @param httpClient Http client
+   * @param method Get or Post method
+   * @throws MojoExecutionException
+   */
+  protected final JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method)
+      throws MojoExecutionException {
+    PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, method, getLog());
+    return executeHttpCallWithRetry(call, 0);
   }
 
   /**
@@ -256,98 +218,16 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   protected final void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method,
       int runCount) throws MojoExecutionException {
-
-    try {
-
-      CloseableHttpResponse response = null;
-      String responseString = null;
-      try {
-
-        if (getLog().isDebugEnabled()) {
-          getLog().debug("Call URL: " + method.getURI());
-        }
-
-        // execute method
-        response = httpClient.execute(method);
-        responseString = EntityUtils.toString(response.getEntity());
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-          // debug output whole xml
-          if (getLog().isDebugEnabled()) {
-            getLog().debug("CRX Package Manager Response:\n" + responseString);
-          }
-
-          // remove all HTML tags and special conctent
-          final Pattern HTML_STYLE = Pattern.compile("<style[^<>]*>[^<>]*</style>", Pattern.MULTILINE | Pattern.DOTALL);
-          final Pattern HTML_JAVASCRIPT = Pattern.compile("<script[^<>]*>[^<>]*</script>", Pattern.MULTILINE | Pattern.DOTALL);
-          final Pattern HTML_ANYTAG = Pattern.compile("<[^<>]*>");
-
-          responseString = HTML_STYLE.matcher(responseString).replaceAll("");
-          responseString = HTML_JAVASCRIPT.matcher(responseString).replaceAll("");
-          responseString = HTML_ANYTAG.matcher(responseString).replaceAll("");
-          responseString = StringUtils.replace(responseString, "&nbsp;", " ");
-
-          getLog().info(responseString);
-        }
-        else {
-          throw new MojoExecutionException("Failure:\n" + responseString);
-        }
-
-      }
-      catch (IOException ex) {
-        throw new MojoExecutionException("Http method failed.", ex);
-      }
-      finally {
-        if (response != null) {
-          EntityUtils.consumeQuietly(response.getEntity());
-          try {
-            response.close();
-          }
-          catch (IOException ex) {
-            // ignore
-          }
-        }
-      }
-
-    }
-    catch (MojoExecutionException ex) {
-      // retry again if configured so...
-      if (runCount < this.retryCount) {
-        getLog().info("ERROR: " + ex.getMessage());
-        getLog().debug("Package manager method execution failed.", ex);
-        getLog().info("---------------");
-
-        String msg = "Package manager method failed, try again (" + (runCount + 1) + "/" + this.retryCount + ")";
-        if (this.retryDelay > 0) {
-          msg += " after " + this.retryDelay + " second(s)";
-        }
-        msg += "...";
-        getLog().info(msg);
-        if (this.retryDelay > 0) {
-          try {
-            Thread.sleep(this.retryDelay * DateUtils.MILLIS_PER_SECOND);
-          }
-          catch (InterruptedException ex1) {
-            // ignore
-          }
-        }
-        executePackageManagerMethodHtml(httpClient, method, runCount + 1);
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-
-  protected final boolean isSkip() {
-    return this.skip;
+    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, getLog());
+    String message = executeHttpCallWithRetry(call, 0);
+    getLog().info(message);
   }
 
   /**
    * Wait up to 10 min for bundles to become active.
    * @throws MojoExecutionException
    */
-  protected void waitForBundlesActivation() throws MojoExecutionException {
+  protected void waitForBundlesActivation(CloseableHttpClient httpClient) throws MojoExecutionException {
     if (StringUtils.isBlank(bundleStatusURL)) {
       getLog().debug("Skipping check for bundle activation state because no bundleStatusURL is defined.");
       return;
@@ -359,59 +239,18 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
     getLog().info("Check bundle activation states...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
-      if (isBundlesActive()) {
+      BundleStatusCall call = new BundleStatusCall(httpClient, bundleStatusURL, getLog());
+      BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
+      if (bundleStatus.isAllBundlesRunning()) {
         return;
       }
+      getLog().info(bundleStatus.getStatusLine());
       getLog().info("Bundles are currently starting/stopping - wait " + WAIT_INTERVAL_SEC + " seconds...");
       try {
         Thread.sleep(WAIT_INTERVAL_SEC * DateUtils.MILLIS_PER_SECOND);
       }
       catch (InterruptedException e) {
         // ignore
-      }
-    }
-  }
-
-  private boolean isBundlesActive() throws MojoExecutionException {
-    CloseableHttpClient httpClient = null;
-    CloseableHttpResponse response = null;
-    try {
-      httpClient = getHttpClient();
-      HttpGet method = new HttpGet(bundleStatusURL);
-
-      response = httpClient.execute(method);
-      String responseString = EntityUtils.toString(response.getEntity());
-      if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK || StringUtils.isEmpty(responseString)) {
-        return false;
-      }
-
-      JSONObject jsonResponse = new JSONObject(responseString);
-      BundleStatus status = BundleStatus.fromStatusResponse(jsonResponse);
-
-      getLog().info(status.getStatusLine());
-
-      return status.getInstalled() + status.getResolved() == 0;
-    }
-    catch (Throwable ex) {
-      throw new MojoExecutionException("Can't determine bundles state via URL: " + bundleStatusURL, ex);
-    }
-    finally {
-      if (response != null) {
-        EntityUtils.consumeQuietly(response.getEntity());
-        try {
-          response.close();
-        }
-        catch (IOException ex) {
-          // ignore
-        }
-      }
-      if (httpClient != null) {
-        try {
-          httpClient.close();
-        }
-        catch (IOException ex) {
-          // ignore
-        }
       }
     }
   }

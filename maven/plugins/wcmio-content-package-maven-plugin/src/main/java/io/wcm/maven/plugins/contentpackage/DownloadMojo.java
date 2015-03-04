@@ -19,6 +19,8 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
+import io.wcm.maven.plugins.contentpackage.unpacker.ContentUnpacker;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -118,12 +120,8 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
    * Download content package from CRX instance
    */
   private File downloadFile(File file, String ouputFilePath) throws MojoExecutionException {
-    CloseableHttpClient httpClient = null;
-    try {
+    try (CloseableHttpClient httpClient = getHttpClient()) {
       getLog().info("Download " + file.getName() + " from " + getCrxPackageManagerUrl());
-
-      // setup http client with credentials
-      httpClient = getHttpClient();
 
       // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
       HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
@@ -131,7 +129,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
           .addBinaryBody("package", file)
           .addTextBody("force", "true");
       post.setEntity(entity.build());
-      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post, 0);
+      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post);
       boolean success = jsonResponse.optBoolean("success", false);
       String msg = jsonResponse.optString("msg", null);
       String path = jsonResponse.optString("path", null);
@@ -201,17 +199,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       throw new MojoExecutionException("File not found: " + file.getAbsolutePath(), ex);
     }
     catch (IOException ex) {
-      throw new MojoExecutionException("Post method failed.", ex);
-    }
-    finally {
-      if (httpClient != null) {
-        try {
-          httpClient.close();
-        }
-        catch (IOException ex) {
-          // ignore
-        }
-      }
+      throw new MojoExecutionException("Download operation failed.", ex);
     }
   }
 

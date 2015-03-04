@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage;
+package io.wcm.maven.plugins.contentpackage.unpacker;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,12 +48,18 @@ import org.jdom2.output.XMLOutputter;
 /**
  * Manages unpacking ZIP file content applying exclude patterns.
  */
-class ContentUnpacker {
+public class ContentUnpacker {
 
   private final Pattern[] excludeFiles;
   private final Pattern[] excludeNodes;
   private final Pattern[] excludeProperties;
 
+  /**
+   * @param excludeFiles Exclude files
+   * @param excludeNodes Exclude nodes
+   * @param excludeProperties Exclude properties
+   * @throws MojoFailureException
+   */
   public ContentUnpacker(String[] excludeFiles, String[] excludeNodes, String[] excludeProperties) throws MojoFailureException {
     this.excludeFiles = toPatternArray(excludeFiles);
     this.excludeNodes = toPatternArray(excludeNodes);
@@ -92,6 +98,12 @@ class ContentUnpacker {
     return StringUtils.endsWith(name, "/.content.xml");
   }
 
+  /**
+   * Unpacks file
+   * @param file File
+   * @param outputDirectory Output directory
+   * @throws MojoExecutionException
+   */
   public void unpack(File file, File outputDirectory) throws MojoExecutionException {
     ZipFile zipFile = null;
     try {
