@@ -26,18 +26,27 @@ import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageC
 import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.http.HttpException;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthState;
+import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -150,16 +159,22 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     try {
       URI crxUri = new URI(getCrxPackageManagerUrl());
 
-      CredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(
-          new AuthScope(crxUri.getHost(), crxUri.getPort()),
-          new UsernamePasswordCredentials(this.userId, this.password));
+      final AuthScope authScope = new AuthScope(crxUri.getHost(), crxUri.getPort());
+      final Credentials credentials = new UsernamePasswordCredentials(this.userId, this.password);
+      final CredentialsProvider credsProvider = new BasicCredentialsProvider();
+      credsProvider.setCredentials(authScope, credentials);
 
-      CloseableHttpClient httpClient = HttpClients.custom()
+      return HttpClients.custom()
           .setDefaultCredentialsProvider(credsProvider)
+          .addInterceptorFirst(new HttpRequestInterceptor() {
+            @Override
+            public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+              // enable preemptive authentication
+              AuthState authState = (AuthState)context.getAttribute(HttpClientContext.TARGET_AUTH_STATE);
+              authState.update(new BasicScheme(), credentials);
+            }
+          })
           .build();
-
-      return httpClient;
     }
     catch (URISyntaxException ex) {
       throw new MojoExecutionException("Invalid url: " + getCrxPackageManagerUrl(), ex);
