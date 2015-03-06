@@ -150,10 +150,6 @@
     <module name="InnerAssignment"/>
     <module name="MissingSwitchDefault"/>
     <module name="ModifiedControlVariable"/>
-    <module name="RedundantThrows">
-      <property name="allowUnchecked" value="true"/>
-      <property name="allowSubclasses" value="true"/>
-    </module>
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
     <module name="StringLiteralEquality"/>
@@ -165,7 +161,6 @@
     </module>
     <module name="IllegalThrows"/>
     <module name="PackageDeclaration"/>
-    <module name="JUnitTestCase"/>
     <module name="IllegalType">
       <property name="tokens" value="METHOD_DEF,PARAMETER_DEF"/>
     </module>

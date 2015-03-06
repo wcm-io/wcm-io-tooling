@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="4" date="not released">
+      <action type="update" dev="sseifert">
+        Set default line endings for Eclipse projects to unix-style.
+      </action>
+      <action type="fix" dev="sseifert">
+        Remove RedundantThrows and JUnitTestCase from checkstyle settings (no longer available in Checkstyle 6.2).
+      </action>
+    </release>
+
     <release version="3" date="2014-10-22">
       <action type="update" dev="sseifert">
         Exclude checkstyle checks for generated sources in target folder, add PMD exclusion.
