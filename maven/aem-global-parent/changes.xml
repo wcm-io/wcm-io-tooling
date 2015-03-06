@@ -25,7 +25,7 @@
 
     <release version="1.0.5" date="not released">
       <action type="update" dev="sseifert">
-        Update global-parent dependency to 5.
+        Update global-parent dependency to 6.
       </action>
       <action type="update" dev="sseifert">
         Update to latest wcmio-content-package-maven-plugin including support for bundle activation state check on package deploy.
