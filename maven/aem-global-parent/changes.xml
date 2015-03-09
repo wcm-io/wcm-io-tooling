@@ -28,7 +28,10 @@
         Update global-parent dependency to 6.
       </action>
       <action type="update" dev="sseifert">
-        Update to latest wcmio-content-package-maven-plugin including support for bundle activation state check on package deploy.
+        Update to wcmio-content-package-maven-plugin 1.1.0 including support for bundle activation state check on package deploy.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to nodejs-maven-plugin 1.0.4.
       </action>
     </release>
 
