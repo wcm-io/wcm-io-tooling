@@ -10,7 +10,7 @@ Maven Plugin to wrap the Node.js execution.
 <plugin>
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>nodejs-maven-plugin</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.4</version>
 </plugin>
 ```
 

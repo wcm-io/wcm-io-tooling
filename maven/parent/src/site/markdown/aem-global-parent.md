@@ -9,7 +9,7 @@ Global parent for Maven artifact hierarchy for AEM projects. Defines AEM-specifi
 <dependency>
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.6</version>
 </dependency>
 ```
 

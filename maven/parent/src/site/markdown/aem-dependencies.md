@@ -9,7 +9,7 @@ Defines Maven dependencies for a specific AEM version, including those that are 
 <dependency>
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.0.0.0000</version>
+  <version>6.0.0.0001</version>
 </dependency>
 ```
 

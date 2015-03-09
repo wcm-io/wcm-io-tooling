@@ -10,7 +10,7 @@ Install and download content packages via CRX package manager.
 <plugin>
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </plugin>
 ```
 
@@ -28,7 +28,8 @@ more goals and has more features than the `wcmio-content-package-maven-plugin`.
 
 But there are some features missing, and this is where `wcmio-content-package-maven-plugin` steps in.
 To make it easy switching between both plugins most properties have the same names and default values.
-Both plugins can co-exist nicely.
+Both plugins can co-exist nicely. As a rule of thumb it is recommended to use the Adobe plugin only for the
+"content-package" packaging type, and the wcm.io plugin for the upload and download goals.
 
 
 #### `install` goal
