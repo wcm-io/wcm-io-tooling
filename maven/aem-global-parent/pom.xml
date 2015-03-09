@@ -30,7 +30,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>6-SNAPSHOT</version>
+    <version>6</version>
     <relativePath />
   </parent>
 
@@ -153,7 +153,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.0.1-SNAPSHOT</version>
+          <version>1.1.0</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <bundleStatusURL>${sling.url}/system/console/bundles/.json</bundleStatusURL>
@@ -196,7 +196,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>1.0.2</version>
+          <version>1.0.4</version>
         </plugin>
 
       </plugins>
