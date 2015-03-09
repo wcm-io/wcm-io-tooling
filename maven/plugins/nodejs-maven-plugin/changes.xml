@@ -23,13 +23,10 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.0.3" date="not released yet">
+    <release version="1.0.4" date="not released yet">
       <action type="fix" dev="isechyn" issue="WCMIO-60">
         Make sure the nodejs plugin checks, if all artefacts are installed correctly before executing tasks
       </action>
-    </release>
-
-    <release version="1.0.3" date="not released yet">
       <action type="fix" dev="isechyn" issue="WCMIO-59">
         Make sure nodejs plugin uses specified version of npm
       </action>
