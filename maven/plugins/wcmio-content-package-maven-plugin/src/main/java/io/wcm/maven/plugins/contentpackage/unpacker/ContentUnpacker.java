@@ -43,9 +43,8 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
+import org.jdom2.output.LineSeparator;
 import org.jdom2.output.XMLOutputter;
-
-import com.sun.org.apache.xml.internal.serialize.LineSeparator;
 
 /**
  * Manages unpacking ZIP file content applying exclude patterns.
@@ -172,7 +171,7 @@ public class ContentUnpacker {
     applyXmlExcludes(doc.getRootElement(), "");
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
-        .setLineSeparator(LineSeparator.Unix));
+        .setLineSeparator(LineSeparator.UNIX));
     outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor());
     outputter.output(doc, outputStream);
     outputStream.flush();
