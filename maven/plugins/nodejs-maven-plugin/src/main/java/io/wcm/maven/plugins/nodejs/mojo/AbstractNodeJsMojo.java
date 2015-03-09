@@ -49,13 +49,13 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   /**
    * Node.js version
    */
-  @Parameter(property = "nodejs.version", defaultValue = "0.10.32")
+  @Parameter(property = "nodejs.version", defaultValue = "0.12.0")
   protected String nodeJsVersion;
 
   /**
    * NPM version
    */
-  @Parameter(property = "nodejs.npm.version", defaultValue = "1.4.9")
+  @Parameter(property = "nodejs.npm.version", defaultValue = "2.5.1")
   protected String npmVersion;
 
   /**
@@ -123,6 +123,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
           installNPM(information);
         }
+        updateNPMExecutable(information);
       }
     }
     catch (java.net.MalformedURLException ex) {
@@ -138,7 +139,23 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         throw new MojoExecutionException("Execution Exception", ex);
       }
     }
+    NodeInstallationInformation.updateNpmExecutable(information, nodeJsDirectory);
     return information;
+  }
+
+  /**
+   * Makes sure the specified npm version is installed in the base directory, regardless in which environment.
+   * @param information
+   * @throws MojoExecutionException
+   */
+  private void updateNPMExecutable(NodeInstallationInformation information) throws MojoExecutionException {
+    getLog().info("Installing specified npm version " + npmVersion);
+    NpmInstallTask npmInstallTask = new NpmInstallTask();
+    npmInstallTask.setLog(getLog());
+    npmInstallTask.setArguments(new String[] {
+        "--prefix", nodeJsDirectory.getAbsolutePath(), "npm@" + npmVersion
+    });
+    npmInstallTask.execute(information);
   }
 
   private void installNPM(NodeInstallationInformation information) throws IOException, MojoExecutionException {

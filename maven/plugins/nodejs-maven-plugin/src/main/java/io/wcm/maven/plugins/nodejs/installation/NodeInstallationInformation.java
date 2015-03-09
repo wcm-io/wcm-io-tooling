@@ -22,6 +22,7 @@ package io.wcm.maven.plugins.nodejs.installation;
 import java.io.File;
 import java.net.URL;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.Os;
 
@@ -37,6 +38,8 @@ public class NodeInstallationInformation {
   private File nodeExecutable;
   private File npmExecutable;
   private String basePath;
+
+  private static final String LATEST_WINDOWS_NPM_VERSION = "1.4.9";
 
   public URL getUrl() {
     return url;
@@ -104,6 +107,7 @@ public class NodeInstallationInformation {
     result.setBasePath(basePath);
     try {
       if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
+        npmVersion = getWindowsNpmVersion(npmVersion);
         basePath = basePath + "v-" + version + File.separator;
         result.setUrl(new URL(baseURL + "node.exe"));
         result.setNpmUrl(new URL("http://nodejs.org/dist/npm/npm-" + npmVersion + ".tgz"));
@@ -135,6 +139,37 @@ public class NodeInstallationInformation {
     }
     return result;
 
+  }
+
+  /**
+   * Sets the executable of the npm to specified version, previosly installed in the base directory
+   * @param information
+   * @param directory
+   * @throws MojoExecutionException
+   */
+  public static void updateNpmExecutable(NodeInstallationInformation information, File directory) throws MojoExecutionException {
+    String basePath = directory.getAbsolutePath() + File.separator;
+    if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
+      //basePath = basePath + "v-" + version + File.separator;
+      information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
+    }
+    else if (Os.isFamily(Os.FAMILY_MAC)) {
+      information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
+    }
+    else if (Os.isFamily(Os.FAMILY_UNIX)) {
+      information.setNpmExecutable(new File(basePath + File.separator + "node_modules/npm/bin/npm-cli.js"));
+    }
+    else {
+      throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);
+    }
+
+  }
+
+  private static String getWindowsNpmVersion(String npmVersion) {
+    if (StringUtils.startsWith(npmVersion, "2.")) {
+      return LATEST_WINDOWS_NPM_VERSION;
+    }
+    return npmVersion;
   }
 
   public File getNpmArchive() {
