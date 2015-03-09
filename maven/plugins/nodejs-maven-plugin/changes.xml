@@ -24,6 +24,12 @@
   <body>
 
     <release version="1.0.3" date="not released yet">
+      <action type="fix" dev="isechyn" issue="WCMIO-60">
+        Make sure the nodejs plugin checks, if all artefacts are installed correctly before executing tasks
+      </action>
+    </release>
+
+    <release version="1.0.3" date="not released yet">
       <action type="fix" dev="isechyn" issue="WCMIO-59">
         Make sure nodejs plugin uses specified version of npm
       </action>

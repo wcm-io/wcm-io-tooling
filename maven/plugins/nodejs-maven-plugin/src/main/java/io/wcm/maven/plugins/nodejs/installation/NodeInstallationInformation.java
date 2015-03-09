@@ -147,17 +147,16 @@ public class NodeInstallationInformation {
    * @param directory
    * @throws MojoExecutionException
    */
-  public static void updateNpmExecutable(NodeInstallationInformation information, File directory) throws MojoExecutionException {
+  public static void setSpecifiedNpmExecutable(NodeInstallationInformation information, File directory) throws MojoExecutionException {
     String basePath = directory.getAbsolutePath() + File.separator;
     if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
-      //basePath = basePath + "v-" + version + File.separator;
       information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
     }
     else if (Os.isFamily(Os.FAMILY_MAC)) {
       information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
     }
     else if (Os.isFamily(Os.FAMILY_UNIX)) {
-      information.setNpmExecutable(new File(basePath + File.separator + "node_modules/npm/bin/npm-cli.js"));
+      information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
     }
     else {
       throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);

@@ -73,7 +73,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   /**
    * Stop maven build if error occurs.
    */
-  @Parameter
+  @Parameter(defaultValue = "true")
   protected boolean stopOnError;
 
   /**
@@ -112,7 +112,10 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         information.setUrl(new URL(nodeJsURL));
       }
 
-      if (!information.getNodeExecutable().exists()) {
+      if (!information.getNodeExecutable().exists() || !information.getNpmExecutable().exists()) {
+        if (!cleanBaseDirectory()) {
+          throw new MojoExecutionException("Could not delete node js directory: " + nodeJsDirectory);
+        }
         getLog().info("Downloading Node JS from " + information.getUrl());
         FileUtils.copyURLToFile(information.getUrl(), information.getArchive());
         if (information.getArchive().getName().endsWith(".tar.gz")) {
@@ -123,6 +126,9 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
           installNPM(information);
         }
+      }
+
+      if (!specifiedNPMIsInstalled()) {
         updateNPMExecutable(information);
       }
     }
@@ -139,8 +145,25 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         throw new MojoExecutionException("Execution Exception", ex);
       }
     }
-    NodeInstallationInformation.updateNpmExecutable(information, nodeJsDirectory);
+    NodeInstallationInformation.setSpecifiedNpmExecutable(information, nodeJsDirectory);
     return information;
+  }
+
+  private boolean specifiedNPMIsInstalled() {
+    return new File(nodeJsDirectory.getAbsolutePath() + File.separator + "node_modules/npm/bin/npm-cli.js").exists();
+  }
+
+  private boolean cleanBaseDirectory() {
+    if (nodeJsDirectory.exists()) {
+      try {
+        FileUtils.deleteDirectory(nodeJsDirectory);
+      }
+      catch (IOException ex) {
+        getLog().error(ex);
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
