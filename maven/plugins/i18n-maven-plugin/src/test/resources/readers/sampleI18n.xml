@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- comment should be ignored -->
+<i18n>
+  <key1>value1</key1>
+  <key21>
+    <key22>
+      <key23>value 2</key23>
+    </key22>
+  </key21>
+  <key3>valueäöüß€</key3>
+</i18n>

@@ -1,0 +1,10 @@
+/* comment should be ignored */
+{
+  "key1": "value1",
+	"key21": {
+	  "key22": {
+	    "key23": "value 2"
+	  }
+	},	 
+	"key3": "valueäöüß€"
+}
