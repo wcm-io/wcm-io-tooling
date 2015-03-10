@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update to nodejs-maven-plugin 1.0.6.
       </action>
+      <action type="update" dev="sseifert">
+        Add i18n-maven-plugin.
+      </action>
     </release>
 
     <release version="1.0.6" date="2015-03-09">

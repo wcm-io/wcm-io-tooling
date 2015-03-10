@@ -195,6 +195,12 @@
 
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
+          <artifactId>i18n-maven-plugin</artifactId>
+          <version>1.0.0-SNAPSHOT</version>
+        </plugin>
+
+        <plugin>
+          <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
           <version>1.0.5-SNAPSHOT</version>
         </plugin>
@@ -273,6 +279,19 @@
                       </pluginExecutionFilter>
                       <action>
                         <ignore />
+                      </action>
+                    </pluginExecution>
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>io.wcm.maven.plugins</groupId>
+                        <artifactId>i18n-maven-plugin</artifactId>
+                        <versionRange>[1.0.0-SNAPSHOT,)</versionRange>
+                        <goals>
+                          <goal>transform</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <ignore></ignore>
                       </action>
                     </pluginExecution>
                     <pluginExecution>
