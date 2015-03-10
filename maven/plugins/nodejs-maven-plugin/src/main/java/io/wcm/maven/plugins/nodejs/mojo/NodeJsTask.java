@@ -22,11 +22,12 @@ package io.wcm.maven.plugins.nodejs.mojo;
 import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.cli.Arg;
-import org.codehaus.plexus.util.cli.Commandline;
 
 /**
  * Wrapper around the execution of a nodejs module.
@@ -58,28 +59,21 @@ public class NodeJsTask extends Task {
   private String[] arguments;
 
   @Override
-  public Commandline getCommandline(NodeInstallationInformation information) throws MojoExecutionException {
-    Commandline commandLine = new Commandline();
-    commandLine.getShell().setQuotedExecutableEnabled(false);
-    commandLine.getShell().setQuotedArgumentsEnabled(false);
-
-    setCommandlineWorkingDirectory(commandLine);
-    commandLine.setExecutable(information.getNodeExecutable().getAbsolutePath());
-
-    setNodeModule(commandLine, information);
+  protected List<String> getCommand(NodeInstallationInformation information) throws MojoExecutionException {
+    List<String> commands = new ArrayList<>();
+    commands.add(information.getNodeExecutable().getAbsolutePath());
+    setNodeModule(commands, information);
     if (arguments != null) {
-      commandLine.addArguments(arguments);
+      commands.addAll(Arrays.asList(arguments));
     }
 
-
-    return commandLine;
+    return commands;
   }
 
-  private void setNodeModule(Commandline commandLine, NodeInstallationInformation information) throws MojoExecutionException {
+  private void setNodeModule(List<String> commands, NodeInstallationInformation information) throws MojoExecutionException {
     String modulePath = installModule(information);
     String moduleExecutable = getModuleExecutable(modulePath);
-    Arg argument = commandLine.createArg();
-    argument.setValue(moduleExecutable);
+    commands.add(moduleExecutable);
   }
 
   private String installModule(NodeInstallationInformation information) throws MojoExecutionException {

@@ -22,23 +22,22 @@ package io.wcm.maven.plugins.nodejs.mojo;
 import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
 
 import java.io.File;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.cli.CommandLineException;
-import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
-import org.codehaus.plexus.util.cli.StreamConsumer;
+import org.codehaus.plexus.util.Os;
 
 /**
  * General task implementation.
  */
 public class Task {
 
-  private static final Pattern ERROR_LOG_PATTERN = Pattern.compile(".*(ERROR|FAILED|ERR|npm error).*");
-  private static final Pattern WARNING_LOG_PATTERN = Pattern.compile(".*(warn).*", Pattern.CASE_INSENSITIVE);
+  private static final String PATH_VARIABLE_NAME = "PATH";
 
   /**
    * Directory in which the should be executed.
@@ -49,43 +48,76 @@ public class Task {
   private Log log;
 
   /**
-   * Executes the command line returned by {@link Task#getCommandline(NodeInstallationInformation)}.
+   * Executes the {@link Process} with commands returned by {@link #getCommand(NodeInstallationInformation)}.
    * @param information
    * @throws MojoExecutionException
    */
   public void execute(NodeInstallationInformation information) throws MojoExecutionException {
-    StreamConsumer customNodejsLogger = new CustomNodeJsLogStreamConsumer(getLog());
-    Commandline commandLine = getCommandline(information);
-    getLog().info("Executing command: " + commandLine.toString());
-    int exitCode;
-    try {
-      exitCode = CommandLineUtils.executeCommandLine(commandLine, customNodejsLogger, customNodejsLogger);
-    }
-    catch (CommandLineException ex) {
-      getLog().error("Command Line Exception", ex);
-      throw new MojoExecutionException("Command execution failed.", ex);
-    }
-    if (exitCode != 0) {
-      throw new MojoExecutionException("Result of " + commandLine + " execution is: '" + exitCode + "'.");
-    }
-
-  }
-
-  protected void setCommandlineWorkingDirectory(Commandline commandLine) {
+    ProcessBuilder processBuilder = new ProcessBuilder(getCommand(information));
     if (workingDirectory != null) {
       if (!workingDirectory.exists()) {
-        workingDirectory.mkdirs();
+        workingDirectory.mkdir();
       }
-      commandLine.setWorkingDirectory(workingDirectory.getAbsolutePath());
+      processBuilder.directory(workingDirectory);
+    }
+    setNodePath(processBuilder, information);
+    startProcess(processBuilder);
+  }
+
+  private void startProcess(ProcessBuilder processBuilder) throws MojoExecutionException {
+    try {
+      final Process process = processBuilder.start();
+      getLog().info("Running process: " + StringUtils.join(processBuilder.command(), " "));
+      initLogging(process);
+      int result = process.waitFor();
+      if (result != 0) {
+        throw new MojoExecutionException("Process: " + StringUtils.join(processBuilder.command(), " ") + " terminated with " + result);
+      }
+    }
+    catch (IOException ex) {
+      throw new MojoExecutionException("Error executing process: " + StringUtils.join(processBuilder.command(), " "), ex);
+    }
+    catch (InterruptedException ex) {
+      throw new MojoExecutionException("Error executing process: " + StringUtils.join(processBuilder.command(), " "), ex);
+    }
+  }
+
+  private void initLogging(final Process process) throws InterruptedException {
+    final Thread infoLogThread = new NodejsOutputStreamHandler(process.getInputStream(), getLog());
+    final Thread errorLogThread = new NodejsOutputStreamHandler(process.getErrorStream(), getLog());
+
+    infoLogThread.start();
+    errorLogThread.start();
+    infoLogThread.join();
+    errorLogThread.join();
+  }
+
+  private void setNodePath(ProcessBuilder pbuilder, NodeInstallationInformation information) {
+    final Map<String, String> environment = pbuilder.environment();
+    String pathVariableName = PATH_VARIABLE_NAME;
+    String pathValue = environment.get(pathVariableName);
+    if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
+      for (String key : environment.keySet()) {
+        if (PATH_VARIABLE_NAME.equalsIgnoreCase(key)) {
+          pathVariableName = key;
+          pathValue = environment.get(key);
+        }
+      }
+    }
+    if (pathValue == null) {
+      environment.put(pathVariableName, information.getNodeExecutable().getParent());
+    }
+    else {
+      environment.put(pathVariableName, information.getNodeExecutable().getParent() + File.pathSeparator + pathValue);
     }
   }
 
   /**
    * @param information about the node installation
-   * @return {@link Commandline} which will be executed by the task
+   * @return {@link List} of commands which will be executed by the task
    * @throws MojoExecutionException
    */
-  protected Commandline getCommandline(NodeInstallationInformation information) throws MojoExecutionException {
+  protected List<String> getCommand(NodeInstallationInformation information) throws MojoExecutionException {
     return null;
   }
 
@@ -95,27 +127,5 @@ public class Task {
 
   public void setLog(Log log) {
     this.log = log;
-  }
-
-  private static class CustomNodeJsLogStreamConsumer implements StreamConsumer {
-
-    protected Log logger;
-
-    public CustomNodeJsLogStreamConsumer(Log logger) {
-      this.logger = logger;
-    }
-
-    @Override
-    public void consumeLine(String pLine) {
-      if (ERROR_LOG_PATTERN.matcher(pLine).matches()) {
-        logger.error(pLine);
-      }
-      else if (WARNING_LOG_PATTERN.matcher(pLine).matches()) {
-        logger.warn(pLine);
-      }
-      else {
-        logger.info(pLine);
-      }
-    }
   }
 }
