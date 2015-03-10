@@ -196,7 +196,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>1.0.4</version>
+          <version>1.0.5-SNAPSHOT</version>
         </plugin>
 
       </plugins>

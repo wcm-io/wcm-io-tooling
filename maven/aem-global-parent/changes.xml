@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.0.8" date="not released">
+      <action type="update" dev="sseifert">
+        Update to nodejs-maven-plugin 1.0.6.
+      </action>
+    </release>
+
     <release version="1.0.6" date="2015-03-09">
       <action type="update" dev="sseifert">
         Update global-parent dependency to 6.
