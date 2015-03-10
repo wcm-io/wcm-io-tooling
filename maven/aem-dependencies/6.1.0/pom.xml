@@ -63,7 +63,7 @@
   <properties>
     <!-- versions -->
     <slf4j.version>1.7.6</slf4j.version>
-  
+
     <!-- repository settings -->
     <wcm-io-snapshotRepositoryId>ossrh</wcm-io-snapshotRepositoryId>
     <wcm-io-snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</wcm-io-snapshotRepositoryUrl>

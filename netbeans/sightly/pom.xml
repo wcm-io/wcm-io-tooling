@@ -165,7 +165,7 @@
       <groupId>org.apache.sling</groupId>
       <scope>test</scope>
     </dependency>
-  
+
   </dependencies>
 
   <profiles>
