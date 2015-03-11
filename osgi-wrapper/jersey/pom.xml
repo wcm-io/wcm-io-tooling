@@ -116,7 +116,12 @@
               *;scope=compile|runtime;inline=false;groupId=org.glassfish.jersey.*,
               *;scope=compile|runtime;inline=false;groupId=org.glassfish.hk2.*,
               *;scope=compile|runtime;inline=false;groupId=org.javassist,
-              *;scope=compile|runtime;inline=false;groupId=org.jvnet.mimepull
+              *;scope=compile|runtime;inline=false;groupId=org.jvnet.mimepull,
+              *;scope=compile|runtime;inline=false;groupId=org.hibernate;artifactId=hibernate-validator,
+              *;scope=compile|runtime;inline=false;groupId=org.jboss.logging;artifactId=jboss-logging,
+              *;scope=compile|runtime;inline=false;groupId=com.fasterxml;artifactId=classmate,
+              *;scope=compile|runtime;inline=false;groupId=javax.el;artifactId=javax.el-api,
+              *;scope=compile|runtime;inline=false;groupId=org.glassfish.web;artifactId=javax.el
             </Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
             <!-- use _exportcontents instead of Export-Package to avoid conflict with Embed-Dependency an inline=true -->
@@ -128,6 +133,11 @@
               javax.persistence.*;resolution:=optional,
               sun.misc.*;resolution:=optional,
               javax.servlet.annotation.*;resolution:=optional,
+              javax.servlet.annotation.*;resolution:=optional,
+              com.thoughtworks.paranamer.*;resolution:=optional,
+              org.jboss.logmanager.*;resolution:=optional,
+              org.joda.time.*;resolution:=optional,
+              org.jsoup.*;resolution:=optional,
               jersey.repackaged.com.google.common.cache.LocalCache.jersey.repackaged.com.google.common.cache.*;resolution:=optional,
               jersey.repackaged.com.google.common.collect.AbstractMapBasedMultimap.jersey.repackaged.com.google.common.collect.*;resolution:=optional,
               jersey.repackaged.com.google.common.collect.ImmutableMultiset.jersey.repackaged.com.google.common.collect.*;resolution:=optional,
