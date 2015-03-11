@@ -126,7 +126,8 @@
             <Embed-Transitive>true</Embed-Transitive>
             <!-- use _exportcontents instead of Export-Package to avoid conflict with Embed-Dependency an inline=true -->
             <_exportcontents>
-              org.glassfish.jersey.*;version=${pkgVersion}
+              org.glassfish.jersey.*;version=${pkgVersion},
+              org.hibernate.validator.*
             </_exportcontents>
             <Import-Package>
               com.sun.jdi.*;resolution:=optional,
