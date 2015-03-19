@@ -92,6 +92,7 @@
         <configuration>
           <instructions>
             <!-- Do not inline jars, include as jar files -->
+            <!-- Except hibernate validator itself to allow java.util.ServiceLoader detection -->
             <Embed-Dependency>
               *;scope=compile|runtime;inline=true;groupId=org.hibernate;artifactId=hibernate-validator,
               *;scope=compile|runtime;inline=false;groupId=org.jboss.logging;artifactId=jboss-logging,
@@ -102,7 +103,8 @@
             <Embed-Transitive>true</Embed-Transitive>
             <!-- use _exportcontents instead of Export-Package to avoid conflict with Embed-Dependency an inline=true -->
             <_exportcontents>
-              org.hibernate.validator.*;version=${osgiVersion}
+              !org.hibernate.validator.internal.*,
+              org.hibernate.validator.*;version=${osgiVersion}              
             </_exportcontents>
             <Import-Package>
               javax.persistence.*;resolution:=optional,
