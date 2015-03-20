@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.0.6" date="2015-03-20">
+      <action type="update" dev="isechyn" issue="WCMIO-61">
+        Refactored task execution to use java.lang.Process to be able to set the path variable.
+      </action>
+    </release>
+
     <release version="1.0.4" date="2015-03-09">
       <action type="fix" dev="isechyn" issue="WCMIO-60">
         Make sure the nodejs plugin checks, if all artefacts are installed correctly before executing tasks.
