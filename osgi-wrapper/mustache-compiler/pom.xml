@@ -26,7 +26,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.8</version>
     <relativePath/>
   </parent>
 
