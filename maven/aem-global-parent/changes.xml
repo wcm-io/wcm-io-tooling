@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.0.8" date="not released">
+    <release version="1.0.8" date="2015-03-20">
       <action type="update" dev="sseifert">
         Update to nodejs-maven-plugin 1.0.6.
       </action>
