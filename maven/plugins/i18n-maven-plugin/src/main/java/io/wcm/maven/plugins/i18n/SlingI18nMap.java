@@ -39,7 +39,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * Helper class integrating i18n JSON generation into a sorted map.
  */
-public class SlingI18nMap {
+class SlingI18nMap {
 
   private static final String JCR_LANGUAGE = "language";
   private static final List<String> JCR_MIX_LANGUAGE = ImmutableList.of("mix:language");

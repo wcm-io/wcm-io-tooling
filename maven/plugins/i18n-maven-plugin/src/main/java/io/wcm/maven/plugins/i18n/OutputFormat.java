@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Output format for Sling i18n message file.
  */
-public enum OutputFormat {
+enum OutputFormat {
 
   /**
    * JCR JSON
