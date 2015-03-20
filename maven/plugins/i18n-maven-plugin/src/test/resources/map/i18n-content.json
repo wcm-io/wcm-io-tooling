@@ -1,0 +1,26 @@
+{
+  "jcr:primaryType": "nt:folder",
+  "jcr:mixinTypes": ["mix:language"],
+  "jcr:language": "en",
+  "key1": {
+    "jcr:primaryType": "nt:folder",
+    "jcr:mixinTypes": ["sling:Message"],
+    "sling:message": "value1"
+  },
+  "key2.key21.key211": {
+    "jcr:primaryType": "nt:folder",
+    "jcr:mixinTypes": ["sling:Message"],
+    "sling:message": "value2"
+  },
+  "key3-with-special-chars-aeoeuess-": {
+    "jcr:primaryType": "nt:folder",
+    "jcr:mixinTypes": ["sling:Message"],
+    "sling:key": "key3 with special chars äöüß€",
+    "sling:message": "value3"
+  },
+  "key4": {
+    "jcr:primaryType": "nt:folder",
+    "jcr:mixinTypes": ["sling:Message"],
+    "sling:message": "value4 äöüß€"
+  }
+}

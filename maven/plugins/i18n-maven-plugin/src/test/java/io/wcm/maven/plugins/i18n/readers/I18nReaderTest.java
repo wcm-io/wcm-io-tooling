@@ -19,11 +19,10 @@
  */
 package io.wcm.maven.plugins.i18n.readers;
 
+import static io.wcm.maven.plugins.i18n.FileUtil.getFileFromClasspath;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 
 import org.junit.Test;
@@ -57,11 +56,6 @@ public class I18nReaderTest {
     File sampleFile = getFileFromClasspath("readers/sampleI18n.json");
     Map<String, String> result = ImmutableMap.copyOf(new JsonI18nReader().read(sampleFile));
     assertEquals(EXPECTED_MAP, result);
-  }
-
-  private File getFileFromClasspath(String resourcePath) throws URISyntaxException {
-    URL url = getClass().getClassLoader().getResource(resourcePath);
-    return new File(url.toURI());
   }
 
 }

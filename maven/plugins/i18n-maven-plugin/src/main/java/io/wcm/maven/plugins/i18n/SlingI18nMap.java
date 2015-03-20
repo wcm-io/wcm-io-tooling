@@ -19,30 +19,42 @@
  */
 package io.wcm.maven.plugins.i18n;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.sling.commons.json.JSONArray;
 import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.JSONObject;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Helper class integrating i18n JSON generation into a sorted map.
  */
 public class SlingI18nMap {
 
-  private static final String JCR_LANGUAGE = "jcr:language";
-  private static final JSONArray JCR_MIX_LANGUAGE = new JSONArray().put("mix:language");
-  private static final String JCR_MIXIN_TYPES = "jcr:mixinTypes";
+  private static final String JCR_LANGUAGE = "language";
+  private static final List<String> JCR_MIX_LANGUAGE = ImmutableList.of("mix:language");
+  private static final String JCR_MIXIN_TYPES = "mixinTypes";
   private static final String JCR_NODETYPE_FOLDER = "nt:folder";
-  private static final String JCR_PRIMARY_TYPE = "jcr:primaryType";
+  private static final String JCR_PRIMARY_TYPE = "primaryType";
 
-  private static final String SLING_KEY = "sling:key";
-  private static final String SLING_MESSAGE = "sling:message";
-  private static final JSONArray SLING_MESSAGE_MIXIN_TYPE = new JSONArray().put("sling:Message");
+  private static final String SLING_KEY = "key";
+  private static final String SLING_MESSAGE = "message";
+  private static final List<String> SLING_MESSAGE_MIXIN_TYPE = ImmutableList.of("sling:Message");
+
+  private static final Namespace NAMESPACE_SLING = Namespace.getNamespace("sling", "http://sling.apache.org/jcr/sling/1.0");
+  private static final Namespace NAMESPACE_JCR = Namespace.getNamespace("jcr", "http://www.jcp.org/jcr/1.0");
+  private static final Namespace NAMESPACE_MIX = Namespace.getNamespace("mix", "http://www.jcp.org/jcr/mix/1.0");
+  private static final Namespace NAMESPACE_NT = Namespace.getNamespace("nt", "http://www.jcp.org/jcr/nt/1.0");
 
   private String languageKey;
   private final SortedMap<String, String> properties;
@@ -61,11 +73,7 @@ public class SlingI18nMap {
    * @throws JSONException
    */
   public String getI18nJsonString() throws JSONException {
-    return getI18nJson().toString(2);
-  }
-
-  private JSONObject getI18nJson() throws JSONException {
-    return buildI18nJson();
+    return buildI18nJson().toString(2);
   }
 
   private JSONObject buildI18nJson() throws JSONException {
@@ -90,11 +98,11 @@ public class SlingI18nMap {
     JSONObject root = new JSONObject();
 
     // add boiler plate
-    root.put(JCR_PRIMARY_TYPE, JCR_NODETYPE_FOLDER);
-    root.put(JCR_MIXIN_TYPES, JCR_MIX_LANGUAGE);
+    root.put("jcr:" + JCR_PRIMARY_TYPE, JCR_NODETYPE_FOLDER);
+    root.put("jcr:" + JCR_MIXIN_TYPES, JCR_MIX_LANGUAGE);
 
     // add language
-    root.put(JCR_LANGUAGE, languageKey);
+    root.put("jcr:" + JCR_LANGUAGE, languageKey);
 
     return root;
   }
@@ -103,16 +111,81 @@ public class SlingI18nMap {
     JSONObject valueNode = new JSONObject();
 
     // add boiler plate
-    valueNode.put(JCR_PRIMARY_TYPE, JCR_NODETYPE_FOLDER);
-    valueNode.put(JCR_MIXIN_TYPES, SLING_MESSAGE_MIXIN_TYPE);
+    valueNode.put("jcr:" + JCR_PRIMARY_TYPE, JCR_NODETYPE_FOLDER);
+    valueNode.put("jcr:" + JCR_MIXIN_TYPES, SLING_MESSAGE_MIXIN_TYPE);
 
     // add extra key attribute
     if (generatedKeyProperty) {
-      valueNode.put(SLING_KEY, key);
+      valueNode.put("sling:" + SLING_KEY, key);
     }
 
     // add actual i18n value
-    valueNode.put(SLING_MESSAGE, value);
+    valueNode.put("sling:" + SLING_MESSAGE, value);
+
+    return valueNode;
+  }
+
+  /**
+   * Build i18n resource XML in Sling i18n Message format.
+   * @return XML
+   */
+  public String getI18nXmlString() {
+    Format format = Format.getPrettyFormat();
+    XMLOutputter outputter = new XMLOutputter(format);
+    return outputter.outputString(buildI18nXml());
+  }
+
+  private Document buildI18nXml() {
+
+    // get root
+    Document xmlDocument = getMixLanguageXmlDocument();
+
+    // add entries
+    for (Entry<String, String> entry : properties.entrySet()) {
+      String key = entry.getKey();
+      String escapedKey = validName(key);
+      Element value = getXmlI18nValue(escapedKey, key, entry.getValue(), !StringUtils.equals(key, escapedKey));
+
+      xmlDocument.getRootElement().addContent(value);
+    }
+
+    // return result
+    return xmlDocument;
+  }
+
+  private Document getMixLanguageXmlDocument() {
+    Document doc = new Document();
+    Element root = new Element("root", NAMESPACE_JCR);
+    root.addNamespaceDeclaration(NAMESPACE_JCR);
+    root.addNamespaceDeclaration(NAMESPACE_MIX);
+    root.addNamespaceDeclaration(NAMESPACE_NT);
+    root.addNamespaceDeclaration(NAMESPACE_SLING);
+    doc.setRootElement(root);
+
+    // add boiler plate
+    root.setAttribute(JCR_PRIMARY_TYPE, JCR_NODETYPE_FOLDER, NAMESPACE_JCR);
+    root.setAttribute(JCR_MIXIN_TYPES, "[" + StringUtils.join(JCR_MIX_LANGUAGE, ",") + "]", NAMESPACE_JCR);
+
+    // add language
+    root.setAttribute(JCR_LANGUAGE, languageKey, NAMESPACE_JCR);
+
+    return doc;
+  }
+
+  private Element getXmlI18nValue(String escapedKey, String key, String value, boolean generatedKeyProperty) {
+    Element valueNode = new Element(escapedKey);
+
+    // add boiler plate
+    valueNode.setAttribute(JCR_PRIMARY_TYPE, JCR_NODETYPE_FOLDER, NAMESPACE_JCR);
+    valueNode.setAttribute(JCR_MIXIN_TYPES, "[" + StringUtils.join(SLING_MESSAGE_MIXIN_TYPE, ",") + "]", NAMESPACE_JCR);
+
+    // add extra key attribute
+    if (generatedKeyProperty) {
+      valueNode.setAttribute(SLING_KEY, key, NAMESPACE_SLING);
+    }
+
+    // add actual i18n value
+    valueNode.setAttribute(SLING_MESSAGE, value, NAMESPACE_SLING);
 
     return valueNode;
   }

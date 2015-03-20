@@ -44,7 +44,7 @@ import org.apache.sling.commons.json.JSONException;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Transform i18n resources in Java Properties, JSON or XML file format to Sling i18n Messages JSON format.
+ * Transform i18n resources in Java Properties, JSON or XML file format to Sling i18n Messages JSON or XML format.
  */
 @Mojo(name = "transform", defaultPhase = LifecyclePhase.GENERATE_RESOURCES, requiresProject = true, threadSafe = true)
 public class TransformMojo extends AbstractMojo {
@@ -66,6 +66,12 @@ public class TransformMojo extends AbstractMojo {
   @Parameter(defaultValue = "SLING-INF/app-root/i18n")
   private String target;
 
+  /**
+   * Output format for i18n: "json" or "xml"
+   */
+  @Parameter(defaultValue = "json")
+  private String outputFormat;
+
   @Parameter(defaultValue = "generated-i18n-resources")
   private String generatedResourcesFolderPath;
 
@@ -77,6 +83,7 @@ public class TransformMojo extends AbstractMojo {
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
+    OutputFormat selectedOutputFormat = OutputFormat.valueOf(StringUtils.upperCase(outputFormat));
     try {
       intialize();
 
@@ -90,8 +97,8 @@ public class TransformMojo extends AbstractMojo {
           SlingI18nMap i18nMap = new SlingI18nMap(languageKey, reader.read(file));
 
           // write mappings to target file
-          File targetFile = getTargetFile(file);
-          writeTargetI18nFile(i18nMap, targetFile);
+          File targetFile = getTargetFile(file, selectedOutputFormat);
+          writeTargetI18nFile(i18nMap, targetFile, selectedOutputFormat);
 
           getLog().info("Transformed " + file.getPath() + " to  " + targetFile.getPath());
         }
@@ -177,25 +184,32 @@ public class TransformMojo extends AbstractMojo {
   /**
    * Writes mappings to file in Sling compatible JSON format.
    * @param i18nMap mappings
-   * @param jsonFile target file
+   * @param targetfile target file
+   * @param selectedOutputFormat Output format
    * @throws IOException
    * @throws JSONException
    */
-  private void writeTargetI18nFile(SlingI18nMap i18nMap, File jsonFile) throws IOException, JSONException {
-    FileUtils.fileWrite(jsonFile, CharEncoding.UTF_8, i18nMap.getI18nJsonString());
+  private void writeTargetI18nFile(SlingI18nMap i18nMap, File targetfile, OutputFormat selectedOutputFormat) throws IOException, JSONException {
+    if (selectedOutputFormat == OutputFormat.XML) {
+      FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nXmlString());
+    }
+    else {
+      FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nJsonString());
+    }
   }
 
   /**
    * Get the JSON file for source file.
    * @param sourceFile the source file
-   * @return JSON file with name and path based on file parameter
+   * @param selectedOutputFormat Output format
+   * @return File with name and path based on file parameter
    * @throws IOException
    */
-  private File getTargetFile(File sourceFile) throws IOException {
+  private File getTargetFile(File sourceFile, OutputFormat selectedOutputFormat) throws IOException {
 
     File sourceDirectory = getSourceDirectory();
     String relativePath = StringUtils.substringAfter(sourceFile.getAbsolutePath(), sourceDirectory.getAbsolutePath());
-    String relativeTargetPath = FileUtils.removeExtension(relativePath) + "." + FILE_EXTENSION_JSON;
+    String relativeTargetPath = FileUtils.removeExtension(relativePath) + "." + selectedOutputFormat.getFileExtension();
 
     File jsonFile = new File(getGeneratedResourcesFolder().getPath() + relativeTargetPath);
 
