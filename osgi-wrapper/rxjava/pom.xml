@@ -33,7 +33,7 @@
   <properties>
     <pgkGroupId>io.reactivex</pgkGroupId>
     <pkgArtifactId>rxjava</pkgArtifactId>
-    <pkgVersion>1.0.4</pkgVersion>
+    <pkgVersion>1.0.9</pkgVersion>
     <pomVersion>0000-SNAPSHOT</pomVersion>
     <osgiVersion>${pkgVersion}</osgiVersion>
   </properties>
