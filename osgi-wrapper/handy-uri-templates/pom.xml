@@ -24,23 +24,20 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.0.8</version>
-    <relativePath/>
+    <groupId>io.wcm.osgi.wrapper</groupId>
+    <artifactId>io.wcm.osgi.wrapper.parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <properties>
-    <pgkGroupId>com.damnhandy</pgkGroupId>
-    <pkgArtifactId>handy-uri-templates</pkgArtifactId>
     <pkgVersion>2.0.2</pkgVersion>
-    <pomVersion>0000-SNAPSHOT</pomVersion>
     <osgiVersion>${pkgVersion}</osgiVersion>
   </properties>
 
   <groupId>io.wcm.osgi.wrapper</groupId>
-  <artifactId>${project.groupId}.${pkgArtifactId}</artifactId>
-  <version>${pkgVersion}-${pomVersion}</version>
+  <artifactId>io.wcm.osgi.wrapper.handy-uri-templates</artifactId>
+  <version>2.0.2-0000-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Handy URI Templates</name>
 
@@ -53,8 +50,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>${pgkGroupId}</groupId>
-      <artifactId>${pkgArtifactId}</artifactId>
+      <groupId>com.damnhandy</groupId>
+      <artifactId>handy-uri-templates</artifactId>
       <version>${pkgVersion}</version>
     </dependency>
   </dependencies>

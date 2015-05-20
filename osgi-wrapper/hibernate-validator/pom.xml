@@ -24,23 +24,20 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.0.8</version>
-    <relativePath/>
+    <groupId>io.wcm.osgi.wrapper</groupId>
+    <artifactId>io.wcm.osgi.wrapper.parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <properties>
-    <pgkGroupId>org.hibernate</pgkGroupId>
-    <pkgArtifactId>hibernate-validator</pkgArtifactId>
     <pkgVersion>5.1.3.Final</pkgVersion>
-    <pomVersion>0000-SNAPSHOT</pomVersion>
     <osgiVersion>5.1.3</osgiVersion>
   </properties>
 
   <groupId>io.wcm.osgi.wrapper</groupId>
-  <artifactId>${project.groupId}.${pkgArtifactId}</artifactId>
-  <version>${osgiVersion}-${pomVersion}</version>
+  <artifactId>io.wcm.osgi.wrapper.hibernate-validator</artifactId>
+  <version>5.1.3-0000-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Hibernate Validator</name>
 
@@ -53,8 +50,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>${pgkGroupId}</groupId>
-      <artifactId>${pkgArtifactId}</artifactId>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
       <version>${pkgVersion}</version>
     </dependency>
     <dependency>
