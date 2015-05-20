@@ -36,7 +36,7 @@
 
   <groupId>io.wcm.osgi.wrapper</groupId>
   <artifactId>io.wcm.osgi.wrapper.handy-uri-templates</artifactId>
-  <version>2.0.2-0000</version>
+  <version>2.0.2-0001-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Handy URI Templates</name>
 
@@ -51,7 +51,7 @@
     <connection>scm:git:https://github.com/wcm-io/wcm-io.git</connection>
     <developerConnection>scm:git:https://github.com/wcm-io/wcm-io.git</developerConnection>
     <url>https://github.com/wcm-io/wcm-io</url>
-    <tag>io.wcm.osgi.wrapper.handy-uri-templates-2.0.2-0000</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
