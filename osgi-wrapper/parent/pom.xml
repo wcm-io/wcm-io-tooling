@@ -45,6 +45,26 @@
   </scm>
 
   <inceptionYear>2014</inceptionYear>
+  
+  <build>
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <configuration>
+            <instructions>
+              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+              <Bundle-Description>${project.description}</Bundle-Description>
+            </instructions>
+          </configuration>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+  </build>
 
   <profiles>
     <!-- profile used for building releases and deployment to sonatype/maven central -->
