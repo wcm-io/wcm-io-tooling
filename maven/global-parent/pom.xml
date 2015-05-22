@@ -835,7 +835,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <!-- do not update yet to cobartura 2.7 - it creates conflicts with felix bundle plugin baseline check and some unit test runs -->
         <version>2.7</version>
         <!-- specific to reporting -->
         <configuration>
