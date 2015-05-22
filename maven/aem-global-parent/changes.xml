@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.0.10" date="not released">
+      <action type="update" dev="sseifert">
+        Update all build plugins to latest versions.
+      </action>
+      <action type="update" dev="sseifert">
+        Enable strict mode for maven-scr-plugin and define execution of scr goal by default.
+      </action>
+    </release>
+
     <release version="1.0.8" date="2015-03-20">
       <action type="update" dev="sseifert">
         Update to nodejs-maven-plugin 1.0.6.

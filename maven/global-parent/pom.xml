@@ -115,7 +115,7 @@
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-ssh</artifactId>
-        <version>2.7</version>
+        <version>2.9</version>
       </extension>
 
     </extensions>
@@ -395,7 +395,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.5.3</version>
+          <version>2.5.4</version>
         </plugin>
 
         <plugin>
@@ -407,7 +407,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.14</version>
+          <version>2.15</version>
           <configuration>
             <configLocation>global-build-tools/checkstyle.xml</configLocation>
             <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
@@ -427,7 +427,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.2</version>
+          <version>3.3</version>
         </plugin>
 
         <plugin>
@@ -476,13 +476,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.5</version>
+          <version>2.6</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.1</version>
+          <version>2.10.3</version>
         </plugin>
 
         <plugin>
@@ -515,7 +515,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.1</version>
+          <version>2.5.2</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <useReleaseProfile>false</useReleaseProfile>
@@ -527,7 +527,7 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.9.2</version>
+              <version>1.9.4</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -548,7 +548,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.9.2</version>
+          <version>1.9.4</version>
         </plugin>
 
         <plugin>
@@ -590,7 +590,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.0.1</version>
           <configuration>
             <xmlOutput>true</xmlOutput>
             <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
@@ -636,8 +636,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>cobertura-maven-plugin</artifactId>
-          <!-- do not update yet to cobartura 2.7 - it creates conflicts with felix bundle plugin baseline check and some unit test runs -->
-          <version>2.6</version>
+          <version>2.7</version>
           <configuration>
             <check>
               <haltOnFailure>false</haltOnFailure>
@@ -724,7 +723,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.1</version>
+        <version>2.10.3</version>
         <inherited>true</inherited>
         <reportSets>
           <reportSet>
@@ -754,7 +753,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.14</version>
+        <version>2.15</version>
         <inherited>true</inherited>
         <configuration>
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
@@ -823,7 +822,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1</version>
         <inherited>true</inherited>
         <configuration>
           <xmlOutput>true</xmlOutput>
@@ -837,7 +836,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <!-- do not update yet to cobartura 2.7 - it creates conflicts with felix bundle plugin baseline check and some unit test runs -->
-        <version>2.6</version>
+        <version>2.7</version>
         <!-- specific to reporting -->
         <configuration>
           <formats>
