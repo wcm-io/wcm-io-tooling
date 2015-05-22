@@ -107,7 +107,7 @@
             <!-- use _exportcontents instead of Export-Package to avoid conflict with Embed-Dependency an inline=true -->
             <_exportcontents>
               !org.hibernate.validator.internal.*,
-              org.hibernate.validator.*;version=${osgiVersion}              
+              org.hibernate.validator.*;version=${osgiVersion}
             </_exportcontents>
             <Import-Package>
               javax.persistence.*;resolution:=optional,

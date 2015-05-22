@@ -45,7 +45,7 @@
   </scm>
 
   <inceptionYear>2014</inceptionYear>
-  
+
   <build>
     <pluginManagement>
       <plugins>
