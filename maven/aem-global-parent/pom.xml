@@ -152,7 +152,8 @@
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <version>0.0.24</version>
+          <!-- Do not update yet to version 0.0.24 because it depends on newer maven version which conflicts with jenkins analyze build -->
+          <version>0.0.23</version>
           <extensions>true</extensions>
           <configuration>
             <failOnError>true</failOnError>
