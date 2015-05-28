@@ -25,6 +25,7 @@
   <!--
     This cq-global-parent version supports the following CQ versions:
     - AEM 6.0.x
+    - AEM 6.1.x
   -->
 
   <parent>
