@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.global-build-tools</artifactId>
-  <version>5-SNAPSHOT</version>
+  <version>5</version>
   <packaging>jar</packaging>
 
   <name>io.wcm.maven.global-build-tools</name>
@@ -35,7 +35,7 @@
     <connection>scm:git:https://github.com/wcm-io/wcm-io.git</connection>
     <developerConnection>scm:git:https://github.com/wcm-io/wcm-io.git</developerConnection>
     <url>https://github.com/wcm-io/wcm-io</url>
-    <tag>HEAD</tag>
+    <tag>io.wcm.maven.global-build-tools-5</tag>
   </scm>
 
   <inceptionYear>2014</inceptionYear>
