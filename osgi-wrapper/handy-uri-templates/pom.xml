@@ -30,13 +30,13 @@
   </parent>
 
   <properties>
-    <pkgVersion>2.0.2</pkgVersion>
+    <pkgVersion>2.0.3-expandPartial-150603</pkgVersion>
     <osgiVersion>${pkgVersion}</osgiVersion>
   </properties>
 
   <groupId>io.wcm.osgi.wrapper</groupId>
   <artifactId>io.wcm.osgi.wrapper.handy-uri-templates</artifactId>
-  <version>2.0.2-0001-SNAPSHOT</version>
+  <version>2.0.3-0000-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Handy URI Templates</name>
 
