@@ -169,12 +169,6 @@
         <configuration>
           <requirements>
             <maven>${maven.version}</maven>
-            <others>
-              <property>
-                <name>CRX</name>
-                <value>2.3</value>
-              </property>
-            </others>
           </requirements>
         </configuration>
       </plugin>
