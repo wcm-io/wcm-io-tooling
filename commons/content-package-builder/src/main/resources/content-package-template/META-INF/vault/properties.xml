@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <entry key="group">{{group}}</entry>
+  <entry key="name">{{name}}</entry>
+  <entry key="description">{{description}}</entry>
+  <entry key="path">{{path}}</entry>
+  <entry key="created">{{created}}</entry>
+  <entry key="createdBy">{{createdBy}}</entry>
+  <entry key="version">{{version}}</entry>
+  <entry key="requiresRoot">false</entry>
+</properties>
