@@ -22,6 +22,7 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -78,9 +79,10 @@ public class ContentPackageBuilderTest {
     underTest.version("1.2.3");
     underTest.rootPath("/content/mypath");
 
-    // just build empty content package to test meta data
-    ContentPackage contentPackage = underTest.build(testFile);
-    contentPackage.close();
+    try (ContentPackage contentPackage = underTest.build(testFile)) {
+      // just build empty content package to test meta data
+      assertEquals("/content/mypath", contentPackage.getRootPath());
+    }
 
     // validate metadata files
     Document configXml = getXmlFromZip("META-INF/vault/config.xml");
@@ -107,12 +109,13 @@ public class ContentPackageBuilderTest {
 
   @Test
   public void testAddPages() throws Exception {
-    ContentPackage contentPackage = underTest.group("myGroup").name("myName").build(testFile);
 
-    // add two content pages
-    contentPackage.addPage("/content/page1", ImmutableMap.<String, Object>of("var1", "v1"));
-    contentPackage.addPage("/content/page2", ImmutableMap.<String, Object>of("var2", "v2"));
-    contentPackage.close();
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add two content pages
+      contentPackage.addPage("/content/page1", ImmutableMap.<String, Object>of("var1", "v1"));
+      contentPackage.addPage("/content/page2", ImmutableMap.<String, Object>of("var2", "v2"));
+    }
 
     // validate resulting XML
     Document page1Xml = getXmlFromZip("jcr_root/content/page1/.content.xml");
@@ -124,19 +127,22 @@ public class ContentPackageBuilderTest {
 
   @Test
   public void testAddBinaries() throws Exception {
-    ContentPackage contentPackage = underTest.group("myGroup").name("myName").build(testFile);
 
     byte[] data1 = "content1".getBytes(CharEncoding.UTF_8);
     byte[] data2 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
 
-    // add two binary files
-    try (InputStream is1 = new ByteArrayInputStream(data1)) {
-      contentPackage.addFile("/content/file1.txt", is1, "text/plain;charset=UTF-8");
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+
+      // add two binary files
+      try (InputStream is1 = new ByteArrayInputStream(data1)) {
+        contentPackage.addFile("/content/file1.txt", is1, "text/plain;charset=UTF-8");
+      }
+      try (InputStream is2 = new ByteArrayInputStream(data2)) {
+        contentPackage.addFile("/content/file2.bin", is2);
+      }
+
     }
-    try (InputStream is2 = new ByteArrayInputStream(data2)) {
-      contentPackage.addFile("/content/file2.bin", is2);
-    }
-    contentPackage.close();
 
     // validate resulting files
     assertArrayEquals(data1, getDataFromZip("jcr_root/content/file1.txt"));

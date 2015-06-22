@@ -19,6 +19,7 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,7 +46,7 @@ import com.google.common.base.Charsets;
  * Builds CMS content packages.
  * This class is not thread-safe.
  */
-public class ContentPackage {
+public class ContentPackage implements Closeable {
 
   private final PackageMetadata metadata;
   private final ZipOutputStream zip;
@@ -135,9 +136,17 @@ public class ContentPackage {
    * Close ZIP stream
    * @throws IOException
    */
+  @Override
   public void close() throws IOException {
     zip.flush();
     zip.close();
+  }
+
+  /**
+   * @return Root path of package
+   */
+  public String getRootPath() {
+    return metadata.getRootPath();
   }
 
   /**

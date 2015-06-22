@@ -68,12 +68,19 @@ class PackageMetadata {
     this.rootPath = rootPath;
   }
 
+  public String getRootPath() {
+    return rootPath;
+  }
+
   /**
    * Validates that the mandatory properties are set.
    */
   public void validate() {
     if (StringUtils.isEmpty(name) || StringUtils.isEmpty(group)) {
       throw new IllegalArgumentException("Package name or group not set.");
+    }
+    if (StringUtils.isEmpty(rootPath)) {
+      throw new IllegalArgumentException("Package root path not set.");
     }
     if (created == null) {
       throw new IllegalArgumentException("Package creation date not set.");
