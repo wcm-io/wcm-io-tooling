@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -51,6 +52,7 @@ public class ContentPackage implements Closeable {
   private final PackageMetadata metadata;
   private final ZipOutputStream zip;
   private final TransformerFactory transformerFactory;
+  private final Transformer transformer;
   private final XmlContentBuilder xmlContentBuilder = new XmlContentBuilder();
 
   private static final String CONTENT_TYPE_CHARSET_EXTENSION = ";charset=";
@@ -62,7 +64,18 @@ public class ContentPackage implements Closeable {
   ContentPackage(PackageMetadata metadata, OutputStream os) throws IOException {
     this.metadata = metadata;
     this.zip = new ZipOutputStream(os);
+
     this.transformerFactory = TransformerFactory.newInstance();
+    this.transformerFactory.setAttribute("indent-number", 2);
+    try {
+      this.transformer = transformerFactory.newTransformer();
+      this.transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      this.transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+    }
+    catch (TransformerException ex) {
+      throw new RuntimeException("Failed to set up XML transformer: " + ex.getMessage(), ex);
+    }
+
     buildPackageMetadata();
   }
 
@@ -192,13 +205,12 @@ public class ContentPackage implements Closeable {
   private void writeXmlDocument(String path, Document doc) throws IOException {
     zip.putNextEntry(new ZipEntry(path));
     try {
-      Transformer transformer = transformerFactory.newTransformer();
       DOMSource source = new DOMSource(doc);
       StreamResult result = new StreamResult(zip);
       transformer.transform(source, result);
     }
     catch (TransformerException ex) {
-      throw new IOException("Faild to generate XML: " + ex.getMessage(), ex);
+      throw new IOException("Failed to generate XML: " + ex.getMessage(), ex);
     }
     finally {
       zip.closeEntry();

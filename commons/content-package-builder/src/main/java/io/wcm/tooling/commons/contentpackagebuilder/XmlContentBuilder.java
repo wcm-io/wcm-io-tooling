@@ -62,7 +62,7 @@ class XmlContentBuilder {
       this.documentBuilder = documentBuilderFactory.newDocumentBuilder();
     }
     catch (ParserConfigurationException ex) {
-      throw new RuntimeException("Failed to set up document builder: " + ex.getMessage(), ex);
+      throw new RuntimeException("Failed to set up XML document builder: " + ex.getMessage(), ex);
     }
   }
 
