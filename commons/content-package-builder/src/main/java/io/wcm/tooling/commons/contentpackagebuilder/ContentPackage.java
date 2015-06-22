@@ -19,7 +19,6 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,7 +50,9 @@ public class ContentPackage {
   private final PackageMetadata metadata;
   private final ZipOutputStream zip;
   private final TransformerFactory transformerFactory;
-  private final PageXmlBuilder pageXmlBuilder = new PageXmlBuilder();
+  private final XmlContentBuilder xmlContentBuilder = new XmlContentBuilder();
+
+  private static final String CONTENT_TYPE_CHARSET_EXTENSION = ";charset=";
 
   /**
    * @param os Output stream
@@ -72,7 +73,7 @@ public class ContentPackage {
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
     String fullPath = "jcr_root" + path + "/.content.xml";
-    Document doc = pageXmlBuilder.build(content);
+    Document doc = xmlContentBuilder.buildPage(content);
     writeXmlDocument(fullPath, doc);
   }
 
@@ -83,19 +84,27 @@ public class ContentPackage {
    * @throws IOException
    */
   public void addFile(String path, InputStream inputStream) throws IOException {
-    String fullPath = "jcr_root" + path;
-    writeBinaryFile(fullPath, inputStream);
+    addFile(path, inputStream, null);
   }
 
   /**
    * Create a binary file.
    * @param path Full content path and file name of file
-   * @param data Byte array with binary data
+   * @param inputStream Input stream with binary data
+   * @param contentType Mime type, optionally with ";charset=XYZ" extension
    * @throws IOException
    */
-  public void addFile(String path, byte[] data) throws IOException {
-    try (InputStream is = new ByteArrayInputStream(data)) {
-      addFile(path, is);
+  public void addFile(String path, InputStream inputStream, String contentType) throws IOException {
+    String fullPath = "jcr_root" + path;
+    writeBinaryFile(fullPath, inputStream);
+
+    if (StringUtils.isNotEmpty(contentType)) {
+      String mimeType = StringUtils.substringBefore(contentType, CONTENT_TYPE_CHARSET_EXTENSION);
+      String encoding = StringUtils.substringAfter(contentType, CONTENT_TYPE_CHARSET_EXTENSION);
+
+      String fullPathMetadata = fullPath + ".dir/.content.xml";
+      Document doc = xmlContentBuilder.buildNtFile(mimeType, encoding);
+      writeXmlDocument(fullPathMetadata, doc);
     }
   }
 
@@ -106,8 +115,19 @@ public class ContentPackage {
    * @throws IOException
    */
   public void addFile(String path, File file) throws IOException {
+    addFile(path, file, null);
+  }
+
+  /**
+   * Create a binary file.
+   * @param path Full content path and file name of file
+   * @param file File with binary data
+   * @param contentType Mime type, optionally with ";charset=XYZ" extension
+   * @throws IOException
+   */
+  public void addFile(String path, File file, String contentType) throws IOException {
     try (InputStream is = new FileInputStream(file)) {
-      addFile(path, is);
+      addFile(path, is, contentType);
     }
   }
 
@@ -140,7 +160,7 @@ public class ContentPackage {
   private void buildPackageMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
       String xmlContent = IOUtils.toString(is);
-      for (Map.Entry<String, Object> entry : metadata.getVars(pageXmlBuilder.getJcrTimestampFormat()).entrySet()) {
+      for (Map.Entry<String, Object> entry : metadata.getVars(xmlContentBuilder.getJcrTimestampFormat()).entrySet()) {
         xmlContent = StringUtils.replace(xmlContent, "{{" + entry.getKey() + "}}",
             StringEscapeUtils.escapeXml(entry.getValue().toString()));
       }
