@@ -34,8 +34,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.CharEncoding;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +54,7 @@ public class ContentPackageBuilderTest {
 
   @Before
   public void setUp() {
-    XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(XmlContentBuilder.BUILTIN_NAMESPACES));
+    XmlUnitUtil.registerXmlUnitNamespaces();
     underTest = new ContentPackageBuilder();
 
     testFile = new File("target/testing/" + UUID.randomUUID() + ".zip");
@@ -141,6 +139,21 @@ public class ContentPackageBuilderTest {
 
     Document page2Xml = getXmlFromZip("jcr_root/content/node2/.content.xml");
     assertXpathEvaluatesTo("v2", "/jcr:root/@var2", page2Xml);
+  }
+
+  @Test
+  public void testAddContentCustomNamespace() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test")
+        .xmlNamespace(XmlUnitUtil.CUSTOM_NS_PREFIX, XmlUnitUtil.CUSTOM_NS_URI);
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add some content
+      contentPackage.addContent("/content/node1", ImmutableMap.<String, Object>of("myns:var1", "v1"));
+    }
+
+    // validate resulting XML
+    Document page1Xml = getXmlFromZip("jcr_root/content/node1/.content.xml");
+    assertXpathEvaluatesTo("v1", "/jcr:root/@myns:var1", page1Xml);
   }
 
   @Test

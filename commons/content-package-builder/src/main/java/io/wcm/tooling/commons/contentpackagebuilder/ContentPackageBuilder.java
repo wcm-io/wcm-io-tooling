@@ -98,6 +98,18 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Register an XML namespace that is reuqired in the JCR XML.
+   * By default the JCR namespaces "jcr", "nt", "cq" and "sling" are registered.
+   * @param prefix Namespace prefix
+   * @param uri Namespace URI
+   * @return this
+   */
+  public ContentPackageBuilder xmlNamespace(String prefix, String uri) {
+    metadata.addXmlNamespace(prefix, uri);
+    return this;
+  }
+
+  /**
    * Build {@link ContentPackage} to which additional content (Pages or binary files) can be added.
    * Please make sure you call the {@link ContentPackage#close()} method when all content was added.
    * @param outputStream Output stream

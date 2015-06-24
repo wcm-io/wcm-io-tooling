@@ -53,7 +53,7 @@ public class ContentPackage implements Closeable {
   private final ZipOutputStream zip;
   private final TransformerFactory transformerFactory;
   private final Transformer transformer;
-  private final XmlContentBuilder xmlContentBuilder = new XmlContentBuilder();
+  private final XmlContentBuilder xmlContentBuilder;
 
   private static final String CONTENT_TYPE_CHARSET_EXTENSION = ";charset=";
 
@@ -75,6 +75,8 @@ public class ContentPackage implements Closeable {
     catch (TransformerException ex) {
       throw new RuntimeException("Failed to set up XML transformer: " + ex.getMessage(), ex);
     }
+
+    this.xmlContentBuilder = new XmlContentBuilder(metadata.getXmlNamespaces());
 
     buildPackageMetadata();
   }

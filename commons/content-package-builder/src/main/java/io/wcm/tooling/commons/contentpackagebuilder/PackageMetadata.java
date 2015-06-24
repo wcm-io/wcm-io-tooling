@@ -21,6 +21,7 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,15 @@ class PackageMetadata {
   private Date created = new Date();
   private String version = "1.0";
   private String rootPath;
+  private Map<String, String> xmlNamespaces = new HashMap<>();
+
+  /**
+   * Default constructor
+   */
+  public PackageMetadata() {
+    // register default XML namesapces
+    xmlNamespaces.putAll(XmlNamespaces.DEFAULT_NAMESPACES);
+  }
 
   public void setGroup(String group) {
     this.group = group;
@@ -72,6 +82,10 @@ class PackageMetadata {
     return rootPath;
   }
 
+  public void addXmlNamespace(String prefix, String uri) {
+    xmlNamespaces.put(prefix, uri);
+  }
+
   /**
    * Validates that the mandatory properties are set.
    */
@@ -101,6 +115,13 @@ class PackageMetadata {
         .put("version", StringUtils.defaultString(version))
         .put("rootPath", StringUtils.defaultString(rootPath))
         .build();
+  }
+
+  /**
+   * @return XML namespaces
+   */
+  public Map<String, String> getXmlNamespaces() {
+    return this.xmlNamespaces;
   }
 
 }

@@ -22,8 +22,6 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
 
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -36,8 +34,8 @@ public class XmlContentBuilderTest {
 
   @Before
   public void setUp() {
-    XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(XmlContentBuilder.BUILTIN_NAMESPACES));
-    underTest = new XmlContentBuilder();
+    XmlUnitUtil.registerXmlUnitNamespaces();
+    underTest = new XmlContentBuilder(XmlNamespaces.DEFAULT_NAMESPACES);
   }
 
   @Test
