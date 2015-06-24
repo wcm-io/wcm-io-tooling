@@ -20,12 +20,15 @@
 package io.wcm.tooling.commons.contentpackagebuilder;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
@@ -39,7 +42,7 @@ class PackageMetadata {
   private String createdBy = "admin";
   private Date created = new Date();
   private String version = "1.0";
-  private String rootPath;
+  private List<PackageFilter> filters = new ArrayList<>();
   private Map<String, String> xmlNamespaces = new HashMap<>();
 
   /**
@@ -74,16 +77,23 @@ class PackageMetadata {
     this.version = version;
   }
 
-  public void setRootPath(String rootPath) {
-    this.rootPath = rootPath;
+  public void addFilter(PackageFilter filter) {
+    filters.add(filter);
   }
 
-  public String getRootPath() {
-    return rootPath;
+  public List<PackageFilter> getFilters() {
+    return ImmutableList.copyOf(filters);
   }
 
   public void addXmlNamespace(String prefix, String uri) {
     xmlNamespaces.put(prefix, uri);
+  }
+
+  /**
+   * @return XML namespaces
+   */
+  public Map<String, String> getXmlNamespaces() {
+    return ImmutableMap.copyOf(this.xmlNamespaces);
   }
 
   /**
@@ -93,8 +103,8 @@ class PackageMetadata {
     if (StringUtils.isEmpty(name) || StringUtils.isEmpty(group)) {
       throw new IllegalArgumentException("Package name or group not set.");
     }
-    if (StringUtils.isEmpty(rootPath)) {
-      throw new IllegalArgumentException("Package root path not set.");
+    if (filters.isEmpty()) {
+      throw new IllegalArgumentException("No package filter defined / no package root path set.");
     }
     if (created == null) {
       throw new IllegalArgumentException("Package creation date not set.");
@@ -113,15 +123,7 @@ class PackageMetadata {
         .put("created", dateFormat.format(created))
         .put("createdBy", StringUtils.defaultString(createdBy))
         .put("version", StringUtils.defaultString(version))
-        .put("rootPath", StringUtils.defaultString(rootPath))
         .build();
-  }
-
-  /**
-   * @return XML namespaces
-   */
-  public Map<String, String> getXmlNamespaces() {
-    return this.xmlNamespaces;
   }
 
 }

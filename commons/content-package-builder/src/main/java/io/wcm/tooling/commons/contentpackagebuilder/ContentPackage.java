@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -173,7 +174,19 @@ public class ContentPackage implements Closeable {
    * @return Root path of package
    */
   public String getRootPath() {
-    return metadata.getRootPath();
+    if (metadata.getFilters().size() == 1) {
+      return metadata.getFilters().get(0).getRootPath();
+    }
+    else {
+      throw new IllegalStateException("Content package has more than one package filter - please use getFilters().");
+    }
+  }
+
+  /**
+   * @return List of package filters, optionally with include/exclude rules.
+   */
+  public List<PackageFilter> getFilters() {
+    return metadata.getFilters();
   }
 
   /**
@@ -182,10 +195,10 @@ public class ContentPackage implements Closeable {
    */
   private void buildPackageMetadata() throws IOException {
     metadata.validate();
-    buildPackageMetadataFile("META-INF/vault/config.xml");
-    buildPackageMetadataFile("META-INF/vault/filter.xml");
-    buildPackageMetadataFile("META-INF/vault/properties.xml");
-    buildPackageMetadataFile("META-INF/vault/settings.xml");
+    buildTemplatedMetadataFile("META-INF/vault/config.xml");
+    buildTemplatedMetadataFile("META-INF/vault/properties.xml");
+    buildTemplatedMetadataFile("META-INF/vault/settings.xml");
+    writeXmlDocument("META-INF/vault/filter.xml", xmlContentBuilder.buildFilter(metadata.getFilters()));
   }
 
   /**
@@ -193,7 +206,7 @@ public class ContentPackage implements Closeable {
    * @param path Path
    * @throws IOException
    */
-  private void buildPackageMetadataFile(String path) throws IOException {
+  private void buildTemplatedMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
       String xmlContent = IOUtils.toString(is);
       for (Map.Entry<String, Object> entry : metadata.getVars(xmlContentBuilder.getJcrTimestampFormat()).entrySet()) {

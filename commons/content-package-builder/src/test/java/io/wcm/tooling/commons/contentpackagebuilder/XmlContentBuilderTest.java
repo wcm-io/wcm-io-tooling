@@ -22,10 +22,13 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 public class XmlContentBuilderTest {
@@ -137,6 +140,27 @@ public class XmlContentBuilderTest {
 
     assertXpathNotExists("/jcr:root/jcr:content/@jcr:mimeType", doc);
     assertXpathNotExists("/jcr:root/jcr:content/@jcr:encoding", doc);
+  }
+
+  @Test
+  public void testBuildFilter() throws Exception {
+    List<PackageFilter> filters = ImmutableList.of(
+        new PackageFilter("/path1"),
+        new PackageFilter("/path2").addIncludeRule("/pattern1").addExcludeRule("/pattern2").addIncludeRule("/pattern3"));
+
+    Document doc = underTest.buildFilter(filters);
+
+    assertXpathEvaluatesTo("2", "count(/workspaceFilter/filter)", doc);
+    assertXpathEvaluatesTo("/path1", "/workspaceFilter/filter[1]/@root", doc);
+    assertXpathEvaluatesTo("/path2", "/workspaceFilter/filter[2]/@root", doc);
+
+    assertXpathEvaluatesTo("3", "count(/workspaceFilter/filter[2]/*)", doc);
+    assertXpathEvaluatesTo("include", "name(/workspaceFilter/filter[2]/*[1])", doc);
+    assertXpathEvaluatesTo("/pattern1", "/workspaceFilter/filter[2]/*[1]/@pattern", doc);
+    assertXpathEvaluatesTo("exclude", "name(/workspaceFilter/filter[2]/*[2])", doc);
+    assertXpathEvaluatesTo("/pattern2", "/workspaceFilter/filter[2]/*[2]/@pattern", doc);
+    assertXpathEvaluatesTo("include", "name(/workspaceFilter/filter[2]/*[3])", doc);
+    assertXpathEvaluatesTo("/pattern3", "/workspaceFilter/filter[2]/*[3]/@pattern", doc);
   }
 
 }

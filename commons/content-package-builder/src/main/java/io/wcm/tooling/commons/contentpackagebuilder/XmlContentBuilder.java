@@ -22,6 +22,7 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 import static io.wcm.tooling.commons.contentpackagebuilder.XmlNamespaces.NS_JCR;
 
 import java.text.DateFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -108,6 +109,33 @@ class XmlContentBuilder {
     }
     if (StringUtils.isNotEmpty(encoding)) {
       setAttributeNamespaceAware(jcrContent, "jcr:encoding", encoding);
+    }
+
+    return doc;
+  }
+
+  /**
+   * Build filter XML for package metadata files.
+   * @param filters Filters
+   * @return Filter XML
+   */
+  public Document buildFilter(List<PackageFilter> filters) {
+    Document doc = documentBuilder.newDocument();
+
+    Element workspaceFilterElement = doc.createElement("workspaceFilter");
+    workspaceFilterElement.setAttribute("version", "1.0");
+    doc.appendChild(workspaceFilterElement);
+
+    for (PackageFilter filter : filters) {
+      Element filterElement = doc.createElement("filter");
+      filterElement.setAttribute("root", filter.getRootPath());
+      workspaceFilterElement.appendChild(filterElement);
+
+      for (PackageFilterRule rule : filter.getRules()) {
+        Element ruleElement = doc.createElement(rule.isInclude() ? "include" : "exclude");
+        ruleElement.setAttribute("pattern", rule.getPattern());
+        filterElement.appendChild(ruleElement);
+      }
     }
 
     return doc;

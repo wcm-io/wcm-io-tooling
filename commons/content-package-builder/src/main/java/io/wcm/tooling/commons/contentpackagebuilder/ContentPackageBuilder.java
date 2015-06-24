@@ -88,12 +88,22 @@ public final class ContentPackageBuilder {
   }
 
   /**
-   * Simplified version for setting up package filter - creates a page with one filter containing this path.
+   * Creates a package filter with this root path.
    * @param value Root path for package
    * @return this
    */
   public ContentPackageBuilder rootPath(String value) {
-    metadata.setRootPath(value);
+    metadata.addFilter(new PackageFilter(value));
+    return this;
+  }
+
+  /**
+   * Add package filter.
+   * @param value Package filter optionally with include/exclude rules.
+   * @return this
+   */
+  public ContentPackageBuilder filter(PackageFilter value) {
+    metadata.addFilter(value);
     return this;
   }
 

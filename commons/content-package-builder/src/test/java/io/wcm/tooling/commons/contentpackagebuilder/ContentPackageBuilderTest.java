@@ -124,6 +124,25 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
+  public void testAddContentMultipleFilters() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName")
+        .filter(new PackageFilter("/path1"))
+        .filter(new PackageFilter("/path2"));
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add some content
+      contentPackage.addContent("/content/node1", ImmutableMap.<String, Object>of("var1", "v1"));
+      assertEquals(2, contentPackage.getFilters().size());
+    }
+
+    // validate resulting XML
+    Document filterXml = getXmlFromZip("META-INF/vault/filter.xml");
+    assertXpathEvaluatesTo("2", "count(/workspaceFilter/filter)", filterXml);
+    assertXpathEvaluatesTo("/path1", "/workspaceFilter/filter[1]/@root", filterXml);
+    assertXpathEvaluatesTo("/path2", "/workspaceFilter/filter[2]/@root", filterXml);
+  }
+
+  @Test
   public void testAddContent() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
