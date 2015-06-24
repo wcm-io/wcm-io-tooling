@@ -42,11 +42,12 @@ public class XmlContentBuilderTest {
 
   @Test
   public void testPageSimpleMap() throws Exception {
-    Document doc = underTest.buildPage(ImmutableMap.<String, Object>of("var1", "v1",
+    Document doc = underTest.buildPage(ImmutableMap.<String, Object>of(
+        "var1", "v1",
         "var2", 55,
         "var3", new String[] {
-        "v1", "v2", "v3"
-    }));
+            "v1", "v2", "v3"
+        }));
     assertXpathEvaluatesTo("cq:Page", "/jcr:root/@jcr:primaryType", doc);
     assertXpathEvaluatesTo("cq:PageContent", "/jcr:root/jcr:content/@jcr:primaryType", doc);
     assertXpathEvaluatesTo("v1", "/jcr:root/jcr:content/@var1", doc);
@@ -56,7 +57,8 @@ public class XmlContentBuilderTest {
 
   @Test
   public void testPageNestedMaps() throws Exception {
-    Document doc = underTest.buildPage(ImmutableMap.<String, Object>of("var1", "v1",
+    Document doc = underTest.buildPage(ImmutableMap.<String, Object>of(
+        "var1", "v1",
         "var2", 55,
         "node1", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var3", "v3"),
         "node2", ImmutableMap.<String, Object>of("var4", "v4",
@@ -76,6 +78,45 @@ public class XmlContentBuilderTest {
 
     assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/jcr:content/node2/node21/@jcr:primaryType", doc);
     assertXpathEvaluatesTo("v5", "/jcr:root/jcr:content/node2/node21/@var5", doc);
+  }
+
+  @Test
+  public void testContentSimpleMap() throws Exception {
+    Document doc = underTest.buildContent(ImmutableMap.<String, Object>of(
+        "jcr:primaryType", "myPrimaryType",
+        "var1", "v1",
+        "var2", 55,
+        "var3", new String[] {
+            "v1", "v2", "v3"
+        }));
+    assertXpathEvaluatesTo("myPrimaryType", "/jcr:root/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", doc);
+    assertXpathEvaluatesTo("{Long}55", "/jcr:root/@var2", doc);
+    assertXpathEvaluatesTo("[v1,v2,v3]", "/jcr:root/@var3", doc);
+  }
+
+  @Test
+  public void testContentNestedMaps() throws Exception {
+    Document doc = underTest.buildContent(ImmutableMap.<String, Object>of(
+        "var1", "v1",
+        "var2", 55,
+        "node1", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var3", "v3"),
+        "node2", ImmutableMap.<String, Object>of("var4", "v4",
+            "node21", ImmutableMap.<String, Object>of("var5", "v5"))
+        ));
+
+    assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", doc);
+    assertXpathEvaluatesTo("{Long}55", "/jcr:root/@var2", doc);
+
+    assertXpathEvaluatesTo("myNodeType", "/jcr:root/node1/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v3", "/jcr:root/node1/@var3", doc);
+
+    assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/node2/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v4", "/jcr:root/node2/@var4", doc);
+
+    assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/node2/node21/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v5", "/jcr:root/node2/node21/@var5", doc);
   }
 
   @Test

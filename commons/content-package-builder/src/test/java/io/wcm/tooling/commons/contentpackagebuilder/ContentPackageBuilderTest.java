@@ -126,6 +126,24 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
+  public void testAddContent() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add some content
+      contentPackage.addContent("/content/node1", ImmutableMap.<String, Object>of("var1", "v1"));
+      contentPackage.addContent("/content/node2", ImmutableMap.<String, Object>of("var2", "v2"));
+    }
+
+    // validate resulting XML
+    Document page1Xml = getXmlFromZip("jcr_root/content/node1/.content.xml");
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", page1Xml);
+
+    Document page2Xml = getXmlFromZip("jcr_root/content/node2/.content.xml");
+    assertXpathEvaluatesTo("v2", "/jcr:root/@var2", page2Xml);
+  }
+
+  @Test
   public void testAddBinaries() throws Exception {
 
     byte[] data1 = "content1".getBytes(CharEncoding.UTF_8);

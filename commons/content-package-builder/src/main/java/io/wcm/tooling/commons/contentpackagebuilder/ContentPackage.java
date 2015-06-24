@@ -80,14 +80,26 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Create page with given content.
+   * Create page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
    * @param path Full content path of page.
-   * @param content Map with page properties (my contain nested maps for subnodes)
+   * @param content Map with page properties (may contain nested maps for sub nodes).
    * @throws IOException
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
     String fullPath = "jcr_root" + path + "/.content.xml";
     Document doc = xmlContentBuilder.buildPage(content);
+    writeXmlDocument(fullPath, doc);
+  }
+
+  /**
+   * Add some content structure directly to the package.
+   * @param path Full content path of content root node.
+   * @param content Map with node properties (may contain nested maps for sub nodes)
+   * @throws IOException
+   */
+  public void addContent(String path, Map<String, Object> content) throws IOException {
+    String fullPath = "jcr_root" + path + "/.content.xml";
+    Document doc = xmlContentBuilder.buildContent(content);
     writeXmlDocument(fullPath, doc);
   }
 

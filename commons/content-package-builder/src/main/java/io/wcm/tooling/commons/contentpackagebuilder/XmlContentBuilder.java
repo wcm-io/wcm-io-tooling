@@ -54,6 +54,11 @@ class XmlContentBuilder {
       .build();
 
   static final String PN_PRIMARY_TYPE = "jcr:primaryType";
+  static final String NT_PAGE = "cq:Page";
+  static final String NT_PAGE_CONTENT = "cq:PageContent";
+  static final String NT_UNSTRUCTURED = "nt:unstructured";
+  static final String NT_FILE = "nt:file";
+  static final String NT_RESOURCE = "nt:resource";
 
   public XmlContentBuilder() {
     this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -68,15 +73,31 @@ class XmlContentBuilder {
 
   /**
    * Build XML for cq:Page.
-   * @param content Content wiht page properties and nested nodes
-   * @return cq:Page XML
+   * @param content Content with page properties and nested nodes
+   * @return cq:Page JCR XML
    */
   public Document buildPage(Map<String, Object> content) {
     Document doc = documentBuilder.newDocument();
-    Element jcrRoot = createJcrRoot(doc, "cq:Page");
-    Element jcrContent = createJcrContent(doc, jcrRoot, "cq:PageContent");
+    Element jcrRoot = createJcrRoot(doc, NT_PAGE);
+    Element jcrContent = createJcrContent(doc, jcrRoot, NT_PAGE_CONTENT);
 
     exportPayload(doc, jcrContent, content);
+
+    return doc;
+  }
+
+  /**
+   * Build XML for any JCR content.
+   * @param content Content with properties and nested nodes
+   * @return JCR XML
+   */
+  public Document buildContent(Map<String, Object> content) {
+    Document doc = documentBuilder.newDocument();
+
+    String primaryType = StringUtils.defaultString((String)content.get(PN_PRIMARY_TYPE), NT_UNSTRUCTURED);
+    Element jcrRoot = createJcrRoot(doc, primaryType);
+
+    exportPayload(doc, jcrRoot, content);
 
     return doc;
   }
@@ -89,8 +110,8 @@ class XmlContentBuilder {
    */
   public Document buildNtFile(String mimeType, String encoding) {
     Document doc = documentBuilder.newDocument();
-    Element jcrRoot = createJcrRoot(doc, "nt:file");
-    Element jcrContent = createJcrContent(doc, jcrRoot, "nt:resource");
+    Element jcrRoot = createJcrRoot(doc, NT_FILE);
+    Element jcrContent = createJcrContent(doc, jcrRoot, NT_RESOURCE);
 
     if (StringUtils.isNotEmpty(mimeType)) {
       setAttributeNamespaceAware(jcrContent, "jcr:mimeType", mimeType);
@@ -130,12 +151,12 @@ class XmlContentBuilder {
         Map<String, Object> childMap = (Map<String, Object>)value;
         Element subElement = doc.createElement(entry.getKey());
         if (!hasAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE) && !childMap.containsKey(PN_PRIMARY_TYPE)) {
-          setAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE, "nt:unstructured");
+          setAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE, NT_UNSTRUCTURED);
         }
         element.appendChild(subElement);
         exportPayload(doc, subElement, childMap);
       }
-      else {
+      else if (!hasAttributeNamespaceAware(element, entry.getKey())) {
         String stringValue = valueConverter.toString(value);
         setAttributeNamespaceAware(element, entry.getKey(), stringValue);
       }
