@@ -12,7 +12,7 @@ ContentPackageBuilder builder = new ContentPackageBuilder()
     .name("myName")
     .group("myGroup")
     .rootPath("/apps/myapp/config");
-try (ContentPackage contentPackage = new builder.build(zipFile)) {
+try (ContentPackage contentPackage = builder.build(zipFile)) {
 
   // add two content pages
   contentPackage.addPage("/content/page1", ImmutableMap.<String, Object>of("var1", "v1"));
@@ -25,3 +25,31 @@ try (ContentPackage contentPackage = new builder.build(zipFile)) {
 ```
 
 The required metadata files at 'META-INF/vault' are created automatically.
+
+
+### Use package filters
+
+In this example we define more complex package filters and use a free content structure:
+
+```java
+File zipFile = new File("myZipFile.zip");
+
+ContentPackageBuilder builder = new ContentPackageBuilder()
+    .name("myName")
+    .group("myGroup")
+    .filter(new PackageFilter("/etc/map/http")
+        .addExcludeRule("/etc/map/http")
+        .addIncludeRule("/etc/map/http/.*")
+        .addExcludeRule("/etc/map/http/AppMeasurementBridge"));
+
+try (ContentPackage contentPackage = builder.build(zipFile)) {
+
+  // add some JCR nodes
+  contentPackage.addContent("/etc/map/http", ImmutableMap.<String, Object>builder()
+      .put("jcr:primaryType", "sling:Folder")
+      .put("mysite.com", ImmutableMap.of("jcr:primaryType", "sling:Mapping",
+          "sling:internalRedirect", ImmutableList.of("/content/mysite", "/")))
+      .build());
+
+}
+```
