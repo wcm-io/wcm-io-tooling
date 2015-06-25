@@ -24,7 +24,7 @@
   <parent>
     <groupId>io.wcm.tooling.commons</groupId>
     <artifactId>io.wcm.tooling.commons.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
