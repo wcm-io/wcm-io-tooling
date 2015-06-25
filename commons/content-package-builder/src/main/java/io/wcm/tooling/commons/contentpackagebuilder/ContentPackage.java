@@ -45,10 +45,11 @@ import org.w3c.dom.Document;
 import com.google.common.base.Charsets;
 
 /**
- * Builds CMS content packages.
+ * Represents an AEM content package.
+ * Content like structured JCR data and binary files can be added.
  * This class is not thread-safe.
  */
-public class ContentPackage implements Closeable {
+public final class ContentPackage implements Closeable {
 
   private final PackageMetadata metadata;
   private final ZipOutputStream zip;
@@ -83,9 +84,11 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Create page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
+   * Adds a page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
    * @param path Full content path of page.
-   * @param content Map with page properties (may contain nested maps for sub nodes).
+   * @param content Map with page properties. If the map contains nested maps this builds a tree of JCR nodes.
+   *          The key of the nested map in its parent map is the node name,
+   *          the nested map contain the properties of the child node.
    * @throws IOException
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
@@ -95,9 +98,11 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Add some content structure directly to the package.
+   * Add some JCR content structure directly to the package.
    * @param path Full content path of content root node.
-   * @param content Map with node properties (may contain nested maps for sub nodes)
+   * @param content Map with node properties. If the map contains nested maps this builds a tree of JCR nodes.
+   *          The key of the nested map in its parent map is the node name,
+   *          the nested map contain the properties of the child node.
    * @throws IOException
    */
   public void addContent(String path, Map<String, Object> content) throws IOException {
@@ -107,7 +112,7 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Create a binary file.
+   * Adds a binary file.
    * @param path Full content path and file name of file
    * @param inputStream Input stream with binary dta
    * @throws IOException
@@ -117,7 +122,7 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Create a binary file.
+   * Adds a binary file with explicit mime type.
    * @param path Full content path and file name of file
    * @param inputStream Input stream with binary data
    * @param contentType Mime type, optionally with ";charset=XYZ" extension
@@ -138,7 +143,7 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Create a binary file.
+   * Adds a binary file.
    * @param path Full content path and file name of file
    * @param file File with binary data
    * @throws IOException
@@ -148,7 +153,7 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Create a binary file.
+   * Adds a binary file with explicit mime type.
    * @param path Full content path and file name of file
    * @param file File with binary data
    * @param contentType Mime type, optionally with ";charset=XYZ" extension
@@ -161,7 +166,7 @@ public class ContentPackage implements Closeable {
   }
 
   /**
-   * Close ZIP stream
+   * Close the underlying ZIP stream of the package.
    * @throws IOException
    */
   @Override
@@ -171,6 +176,8 @@ public class ContentPackage implements Closeable {
   }
 
   /**
+   * Get root path of the package. This does only work if there is only one filter of the package.
+   * If they are more filters use {@link #getFilters()} instead.
    * @return Root path of package
    */
   public String getRootPath() {
@@ -183,6 +190,7 @@ public class ContentPackage implements Closeable {
   }
 
   /**
+   * Get filters defined for this package.
    * @return List of package filters, optionally with include/exclude rules.
    */
   public List<PackageFilter> getFilters() {

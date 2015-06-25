@@ -34,6 +34,7 @@ public final class ContentPackageBuilder {
   private final PackageMetadata metadata = new PackageMetadata();
 
   /**
+   * Set content package name.
    * @param value Package name
    * @return this
    */
@@ -43,6 +44,7 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set content package group.
    * @param value Package group
    * @return this
    */
@@ -52,6 +54,7 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set content package description.
    * @param value Package description
    * @return this
    */
@@ -61,6 +64,7 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set use name who created the package.
    * @param value Created by user name (default: 'admin')
    * @return this
    */
@@ -70,6 +74,7 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set timestamp for package creation.
    * @param value Creation timestamp (default: now)
    * @return this
    */
@@ -79,6 +84,7 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set package version.
    * @param value Package version
    * @return this
    */
@@ -89,6 +95,8 @@ public final class ContentPackageBuilder {
 
   /**
    * Creates a package filter with this root path.
+   * This implicitly adds a {@link PackageFilter} with this pah and no further rules.
+   * If this is executed multiple times multiple filters are addded.
    * @param value Root path for package
    * @return this
    */
@@ -99,6 +107,7 @@ public final class ContentPackageBuilder {
 
   /**
    * Add package filter.
+   * If this is executed multiple times multiple filters are added.
    * @param value Package filter optionally with include/exclude rules.
    * @return this
    */
@@ -108,8 +117,9 @@ public final class ContentPackageBuilder {
   }
 
   /**
-   * Register an XML namespace that is reuqired in the JCR XML.
-   * By default the JCR namespaces "jcr", "nt", "cq" and "sling" are registered.
+   * Register a XML namespace that is used by your content added to the JCR XML.
+   * This method can be called multiple times to register multiple namespaces.
+   * The JCR namespaces "jcr", "nt", "cq" and "sling" are registered by default.
    * @param prefix Namespace prefix
    * @param uri Namespace URI
    * @return this

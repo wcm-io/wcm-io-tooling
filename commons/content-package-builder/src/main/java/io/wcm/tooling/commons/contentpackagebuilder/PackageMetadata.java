@@ -34,7 +34,7 @@ import com.google.common.collect.ImmutableMap;
 /**
  * Package metadata
  */
-class PackageMetadata {
+final class PackageMetadata {
 
   private String group;
   private String name;

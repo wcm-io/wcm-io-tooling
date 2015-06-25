@@ -32,7 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Converts an value to string for a content property in XML including type prefix.
  */
-class ValueConverter {
+final class ValueConverter {
 
   private final DateFormat jcrTimestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmmZ", Locale.US);
 

@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 /**
  * Builds CMS content packages.
  */
-class XmlContentBuilder {
+final class XmlContentBuilder {
 
   private final DocumentBuilderFactory documentBuilderFactory;
   private final DocumentBuilder documentBuilder;

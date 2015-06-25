@@ -25,7 +25,9 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 /**
- * Root path filter for package defintion.
+ * Filter for AEM content package. Defines which content parts of the content package should be extracted when
+ * installing the package, and optionally rules can define further includes/excludes when doing this. Please refer to
+ * the AEM documentation for full details what is possible with package filters.
  */
 public final class PackageFilter {
 
@@ -33,6 +35,7 @@ public final class PackageFilter {
   private final List<PackageFilterRule> rules = new ArrayList<>();
 
   /**
+   * Create filter with root path.
    * @param rootPath Root path
    */
   public PackageFilter(String rootPath) {
@@ -40,6 +43,7 @@ public final class PackageFilter {
   }
 
   /**
+   * Get root path.
    * @return Root path
    */
   public String getRootPath() {
@@ -47,7 +51,7 @@ public final class PackageFilter {
   }
 
   /**
-   * Add include rule
+   * Add include rule.
    * @param pattern Rule pattern
    * @return this
    */
@@ -57,7 +61,7 @@ public final class PackageFilter {
   }
 
   /**
-   * Add exclude rule
+   * Add exclude rule.
    * @param pattern Rule pattern
    * @return this
    */
@@ -67,6 +71,7 @@ public final class PackageFilter {
   }
 
   /**
+   * Get defined rules.
    * @return Get include/exclude rules
    */
   public List<PackageFilterRule> getRules() {

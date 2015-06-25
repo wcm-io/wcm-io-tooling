@@ -33,6 +33,7 @@ public final class PackageFilterRule {
   }
 
   /**
+   * Get rule pattern.
    * @return Rule pattern
    */
   public String getPattern() {
@@ -40,14 +41,16 @@ public final class PackageFilterRule {
   }
 
   /**
-   * @return Is include rule
+   * Check if this rule is an include rule.
+   * @return true if it is an include rule.
    */
   public boolean isInclude() {
     return this.include;
   }
 
   /**
-   * @return Is exclude rule
+   * Check if this rule is an exclude rule.
+   * @return true if it is an exclude rule.
    */
   public boolean isExclude() {
     return !this.include;
