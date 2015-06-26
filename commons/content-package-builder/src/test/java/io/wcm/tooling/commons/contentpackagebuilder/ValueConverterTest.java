@@ -57,6 +57,11 @@ public class ValueConverterTest {
   }
 
   @Test
+  public void testStringWithBrackets() {
+    assertEquals("\\{myString}", underTest.toString("{myString}"));
+  }
+
+  @Test
   public void testStringArray() {
     assertEquals("[myString1,myString2]", underTest.toString(new String[] {
         "myString1", "myString2"

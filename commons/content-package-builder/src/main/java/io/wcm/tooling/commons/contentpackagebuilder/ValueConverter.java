@@ -96,7 +96,7 @@ final class ValueConverter {
       return "";
     }
     if (value instanceof String) {
-      return (String)value;
+      return escapeStringValue((String)value);
     }
     if (value instanceof Boolean) {
       return ((Boolean)value).toString();
@@ -117,6 +117,10 @@ final class ValueConverter {
       return jcrTimestampFormat.format(((Calendar)value).getTime());
     }
     throw new IllegalArgumentException("Type not supported: " + value.getClass().getName());
+  }
+
+  private String escapeStringValue(String value) {
+    return StringUtils.replace(value, "{", "\\{");
   }
 
   private String getTypePrefix(Object value) {
