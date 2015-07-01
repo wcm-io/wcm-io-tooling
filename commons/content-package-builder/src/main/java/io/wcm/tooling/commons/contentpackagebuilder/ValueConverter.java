@@ -120,7 +120,10 @@ final class ValueConverter {
   }
 
   private String escapeStringValue(String value) {
-    return StringUtils.replace(value, "{", "\\{");
+    if (StringUtils.startsWith(value, "{")) {
+      return "\\" + value;
+    }
+    return value;
   }
 
   private String getTypePrefix(Object value) {

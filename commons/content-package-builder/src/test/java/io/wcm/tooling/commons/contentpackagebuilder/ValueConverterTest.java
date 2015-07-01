@@ -57,8 +57,13 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testStringWithBrackets() {
+  public void testStringStartingWithBrackets() {
     assertEquals("\\{myString}", underTest.toString("{myString}"));
+  }
+
+  @Test
+  public void testStringWithBracketsInside() {
+    assertEquals("aaa{myString}", underTest.toString("aaa{myString}"));
   }
 
   @Test
