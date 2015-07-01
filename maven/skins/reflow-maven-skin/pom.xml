@@ -37,6 +37,13 @@
   <name>wcm.io Reflow Maven Skin</name>
   <description>This is a customized skin derived from http://andriusvelykis.github.io/reflow-maven-skin/</description>
 
+  <scm>
+    <connection>scm:git:https://github.com/wcm-io/wcm-io.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <build>
     <resources>
       <resource>
