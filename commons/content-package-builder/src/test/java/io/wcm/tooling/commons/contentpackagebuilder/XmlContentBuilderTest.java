@@ -24,6 +24,7 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
 
 import java.util.List;
 
+import org.apache.jackrabbit.util.ISO9075;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -94,6 +95,17 @@ public class XmlContentBuilderTest {
     assertXpathEvaluatesTo("v1", "/jcr:root/@var1", doc);
     assertXpathEvaluatesTo("{Long}55", "/jcr:root/@var2", doc);
     assertXpathEvaluatesTo("[v1,v2,v3]", "/jcr:root/@var3", doc);
+  }
+
+  @Test
+  public void testContentWithSpecialElementNames() throws Exception {
+    Document doc = underTest.buildContent(ImmutableMap.<String, Object>of(
+        "0abc", "v1",
+        "abc#def", ImmutableMap.of("prop1", "v2"),
+        "äöäß€", 55));
+    assertXpathEvaluatesTo("v1", "/jcr:root/@" + ISO9075.encode("0abc"), doc);
+    assertXpathEvaluatesTo("v2", "/jcr:root/" + ISO9075.encode("abc#def") + "/@prop1", doc);
+    assertXpathEvaluatesTo("{Long}55", "/jcr:root/@" + ISO9075.encode("äöäß€"), doc);
   }
 
   @Test

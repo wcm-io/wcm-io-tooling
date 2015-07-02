@@ -27,6 +27,9 @@
       <action type="fix" dev="sseifert">
         Ensure String values are escaped properly in JCR XML if they contain brackets.
       </action>
+      <action type="fix" dev="sseifert">
+        Apply ISO9075 encoding to XML element names and attributes.
+      </action>
     </release>
 
     <release version="1.0.0" date="2015-06-25">

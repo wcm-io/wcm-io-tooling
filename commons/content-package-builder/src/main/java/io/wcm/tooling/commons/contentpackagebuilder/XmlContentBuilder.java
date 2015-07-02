@@ -30,6 +30,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.util.ISO9075;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -167,7 +168,7 @@ final class XmlContentBuilder {
       }
       if (value instanceof Map) {
         Map<String, Object> childMap = (Map<String, Object>)value;
-        Element subElement = doc.createElement(entry.getKey());
+        Element subElement = doc.createElement(ISO9075.encode(entry.getKey()));
         if (!hasAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE) && !childMap.containsKey(PN_PRIMARY_TYPE)) {
           setAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE, NT_UNSTRUCTURED);
         }
@@ -184,10 +185,10 @@ final class XmlContentBuilder {
   private void setAttributeNamespaceAware(Element element, String key, String value) {
     String namespace = getNamespace(key);
     if (namespace == null) {
-      element.setAttribute(key, value);
+      element.setAttribute(ISO9075.encode(key), value);
     }
     else {
-      element.setAttributeNS(namespace, key, value);
+      element.setAttributeNS(namespace, ISO9075.encode(key), value);
     }
   }
 
