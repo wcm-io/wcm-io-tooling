@@ -82,10 +82,10 @@
     <maven.min-version>3.2.2</maven.min-version>
 
     <!-- repository settings -->
-    <wcm-io-snapshotRepositoryId>ossrh</wcm-io-snapshotRepositoryId>
-    <wcm-io-snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</wcm-io-snapshotRepositoryUrl>
-    <wcm-io-releaseRepositoryId>ossrh</wcm-io-releaseRepositoryId>
-    <wcm-io-releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</wcm-io-releaseRepositoryUrl>
+    <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
+    <distribution.snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</distribution.snapshotRepositoryUrl>
+    <distribution.releaseRepositoryId>ossrh</distribution.releaseRepositoryId>
+    <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
 
   </properties>
 
@@ -1113,12 +1113,12 @@
 
   <distributionManagement>
     <repository>
-      <id>${wcm-io-releaseRepositoryId}</id>
-      <url>${wcm-io-releaseRepositoryUrl}</url>
+      <id>${distribution.releaseRepositoryId}</id>
+      <url>${distribution.releaseRepositoryUrl}</url>
     </repository>
     <snapshotRepository>
-      <id>${wcm-io-snapshotRepositoryId}</id>
-      <url>${wcm-io-snapshotRepositoryUrl}</url>
+      <id>${distribution.snapshotRepositoryId}</id>
+      <url>${distribution.snapshotRepositoryUrl}</url>
     </snapshotRepository>
   </distributionManagement>
 
