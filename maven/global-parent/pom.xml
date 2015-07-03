@@ -81,7 +81,7 @@
     <!-- Mininum maven version -->
     <maven.min-version>3.2.2</maven.min-version>
 
-    <!-- repository settings -->
+    <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
     <distribution.snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</distribution.snapshotRepositoryUrl>
     <distribution.releaseRepositoryId>ossrh</distribution.releaseRepositoryId>
