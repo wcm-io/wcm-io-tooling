@@ -135,35 +135,14 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
+            <!-- Embed the nessecary parts of the jackrabbit-jcr-commons bundle as described in http://njbartlett.name/2014/05/26/static-linking.html -->
+            <Conditional-Package>org.apache.jackrabbit.util</Conditional-Package>
             <Import-Package>
               !org.apache.jackrabbit.*,
               *
             </Import-Package>
           </instructions>
         </configuration>
-      </plugin>
-
-      <!-- Embed the required classes from org.apache.jackrabbit:jackrabbit-jcr-commons in bundle -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <minimizeJar>true</minimizeJar>
-              <artifactSet>
-                <includes>
-                  <include>org.apache.jackrabbit:jackrabbit-jcr-commons</include>
-                </includes>
-              </artifactSet>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
 
     </plugins>
