@@ -9,7 +9,7 @@ Java Library for building AEM Content Packages with content pages and binary fil
 <dependency>
   <groupId>io.wcm.tooling.commons</groupId>
   <artifactId>io.wcm.tooling.commons.content-package-builder</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
