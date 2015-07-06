@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Change property names for distribution settings from "wcm-io-*" to "distribution-*" to allow overriding them in projects.
       </action>
+      <action type="update" dev="sseifert">
+        Add jgitflow-maven-plugin.
+      </action>
     </release>
 
     <release version="7" date="2015-05-28">
