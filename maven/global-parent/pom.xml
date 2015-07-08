@@ -683,6 +683,10 @@
           <groupId>external.atlassian.jgitflow</groupId>
           <artifactId>jgitflow-maven-plugin</artifactId>
           <version>1.0-m5.1</version>
+          <configuration>
+            <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+          </configuration>
         </plugin>
 
       </plugins>
