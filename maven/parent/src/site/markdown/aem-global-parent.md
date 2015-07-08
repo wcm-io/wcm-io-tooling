@@ -6,11 +6,12 @@ Global parent for Maven artifact hierarchy for AEM projects. Defines AEM-specifi
 ### Maven Dependency
 
 ```xml
-<dependency>
+<parent>
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
   <version>1.0.12</version>
-</dependency>
+  <relativePath/>
+</parent>
 ```
 
 ### Overview
