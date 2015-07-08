@@ -1001,6 +1001,12 @@
     <!-- profile used for building releases and deployment to sonatype/maven central -->
     <profile>
       <id>release</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
       <build>
         <plugins>
           <!-- sign the build -->
