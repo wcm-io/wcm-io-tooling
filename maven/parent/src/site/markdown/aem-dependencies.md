@@ -7,7 +7,7 @@ Defines Maven dependencies for a specific AEM version, including those that are 
 
 ```xml
 <dependency>
-  <groupId>io.wcm</groupId>
+  <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>6.0.0.0001</version>
 </dependency>
@@ -17,7 +17,7 @@ Defines Maven dependencies for a specific AEM version, including those that are 
 
 ```xml
 <dependency>
-  <groupId>io.wcm</groupId>
+  <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>5.5.0.0000</version>
 </dependency>

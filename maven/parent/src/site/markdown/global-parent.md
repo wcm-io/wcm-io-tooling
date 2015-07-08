@@ -7,7 +7,7 @@ Global parent for Maven artifact hierarchy. Defines fixed versions of Maven plug
 
 ```xml
 <parent>
-  <groupId>io.wcm</groupId>
+  <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.global-parent</artifactId>
   <version>8</version>
   <relativePath/>

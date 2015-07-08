@@ -7,7 +7,7 @@ Definition of rules for static code analysis tools and IDEs.
 
 ```xml
 <dependency>
-  <groupId>io.wcm</groupId>
+  <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.global-build-tools</artifactId>
   <version>5</version>
 </dependency>
