@@ -60,10 +60,6 @@
     </developer>
   </developers>
 
-  <prerequisites>
-    <maven>3.2.3</maven>
-  </prerequisites>
-
   <properties>
 
     <!-- define default encoding for all source/resource files -->
@@ -83,7 +79,7 @@
     <targetJdk>${build.compiler.target}</targetJdk>
 
     <!-- Mininum maven version -->
-    <maven.min-version>3.2.2</maven.min-version>
+    <maven.min-version>3.2.3</maven.min-version>
 
     <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
@@ -92,6 +88,10 @@
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
 
   </properties>
+
+  <prerequisites>
+    <maven>${maven.min-version}</maven>
+  </prerequisites>
 
   <dependencies>
 
