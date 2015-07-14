@@ -153,8 +153,7 @@
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <!-- Do not update to 0.0.24 - problems with slf4j dependency (no further research yet) -->
-          <version>0.0.23</version>
+          <version>0.0.24</version>
           <extensions>true</extensions>
           <configuration>
             <failOnError>true</failOnError>
