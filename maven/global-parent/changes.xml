@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Customize jgitflow-maven-plugin configuration.
       </action>
+      <action type="update" dev="sseifert">
+        Update build and report plugins to latest versions. Set minimum Maven version to 3.2.3.
+      </action>
     </release>
 
     <release version="8" date="2015-07-06">
