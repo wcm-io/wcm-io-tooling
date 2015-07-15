@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2014 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm.maven</groupId>
+    <artifactId>io.wcm.maven.aem-global-parent</artifactId>
+    <version>1.0.13-SNAPSHOT</version>
+    <relativePath />
+  </parent>
+
+  <groupId>io.wcm</groupId>
+  <artifactId>io.wcm.parent_toplevel</artifactId>
+  <version>1.0.7-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Toplevel Parent</name>
+  <description>Toplevel POM for all wcm.io Maven projects.</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
+
+  <scm>
+    <connection>scm:git:https://github.com/wcm-io/wcm-io.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <inceptionYear>2014</inceptionYear>
+
+  <organization>
+    <name>wcm.io</name>
+    <url>http://wcm.io</url>
+  </organization>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>https://wcm-io.atlassian.net/browse/</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/wcm-io/wcm-io</url>
+  </ciManagement>
+
+  <developers>
+    <developer>
+      <name>wcm.io Community</name>
+      <organization>wcm.io</organization>
+      <organizationUrl>http://wcm.io</organizationUrl>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <properties>
+
+    <!-- Sling instance parameters -->
+    <sling.url>http://localhost:4502</sling.url>
+    <sling.user>admin</sling.user>
+    <sling.password>admin</sling.password>
+
+    <!-- compiler settings -->
+    <build.compiler.source>1.7</build.compiler.source>
+    <build.compiler.target>1.7</build.compiler.target>
+
+    <!-- site settings -->
+    <site.url.module.prefix>parent_toplevel</site.url.module.prefix>
+    <site.url>http://wcm.io</site.url>
+    <site.deploy.id>ssh-wcm.io</site.deploy.id>
+    <site.deploy.url>scp://wcm.io:222/var/www/wcm.io/www/</site.deploy.url>
+
+  </properties>
+
+  <!-- default dependencies for all projects -->
+  <dependencies>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Depend on newer Sling artifact versions than included in AEM API -->
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.models.api</artifactId>
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.models.impl</artifactId>
+        <version>1.1.0</version>
+      </dependency>
+
+      <!-- Import AEM dependencies -->
+      <dependency>
+        <groupId>io.wcm.maven</groupId>
+        <artifactId>io.wcm.maven.aem-dependencies</artifactId>
+        <version>6.0.0.0001</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- Testing -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>1.10.19</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+
+      <!-- license check -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>check-file-header</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- bnd baseline check -->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>baseline</id>
+            <goals>
+              <goal>baseline</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- site configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>lt.velykis.maven.skins</groupId>
+            <artifactId>reflow-velocity-tools</artifactId>
+            <version>1.1.1</version>
+          </dependency>
+          <!-- Reflow skin requires Velocity >= 1.7  -->
+          <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <generateReports>true</generateReports>
+          <inputEncoding>UTF-8</inputEncoding>
+          <outputEncoding>UTF-8</outputEncoding>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-descriptor</id>
+            <goals>
+              <goal>attach-descriptor</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <Bundle-Category>wcm.io</Bundle-Category>
+              <Bundle-Vendor>wcm.io</Bundle-Vendor>
+              <Bundle-Name>wcm.io ${project.name}</Bundle-Name>
+            </instructions>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <configuration>
+            <licenseName>apache_v2</licenseName>
+            <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+            <projectName>wcm.io</projectName>
+            <excludes>
+              <exclude>**/*.json</exclude>
+              <exclude>**/*.html</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <excludePackageNames>*.impl</excludePackageNames>
+          </configuration>
+        </plugin>
+
+      </plugins>
+
+    </pluginManagement>
+  </build>
+
+  <reporting>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <inherited>true</inherited>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>dependencies</report>
+              <report>scm</report>
+              <report>license</report>
+              <report>summary</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- Downgrade to 2.6 to solve conflict with maven-bundle-plugin/baseline check when compiling against Java 7 -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <!-- profile used for building releases and deployment to sonatype/maven central -->
+    <profile>
+      <id>release</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- sign the build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <inherited>true</inherited>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- configure staging process at sonatype.-->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <inherited>true</inherited>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <!-- Deployed artifacts should go to staging to be reviewed before publish -->
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <name>Deployment through GitHub's site deployment plugin</name>
+      <url>${site.deploy.url}${site.url.module.prefix}</url>
+    </site>
+  </distributionManagement>
+
+</project>
