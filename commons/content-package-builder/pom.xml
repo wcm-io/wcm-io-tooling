@@ -37,9 +37,9 @@
   <description>Java Library for building AEM Content Packages with content pages and binary files.</description>
 
   <scm>
-    <connection>scm:git:https://github.com/wcm-io/wcm-io.git</connection>
-    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io.git</developerConnection>
-    <url>https://github.com/wcm-io/wcm-io</url>
+    <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io-tooling</url>
     <tag>HEAD</tag>
   </scm>
 
