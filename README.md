@@ -1,6 +1,6 @@
 <img src="http://wcm.io/images/favicon-16@2x.png"/> wcm.io Tooling
 ======
-[![Build Status](https://travis-ci.org/wcm-io/wcm-io-tooling.png?branch=master)](https://travis-ci.org/wcm-io/wcm-io-tooling)
+[![Build Status](https://travis-ci.org/wcm-io/wcm-io-tooling.png?branch=develop)](https://travis-ci.org/wcm-io/wcm-io-tooling)
 
 Tooling for Maven and IDEs.
 
