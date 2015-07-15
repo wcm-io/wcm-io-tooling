@@ -16,3 +16,8 @@ Tooling for Maven and IDEs.
 ### Commons
 
 * [Commons](commons/): Support for AEM tooling.
+
+
+### GitHub Repository
+
+Sources: https://github.com/wcm-io/wcm-io-tooling
