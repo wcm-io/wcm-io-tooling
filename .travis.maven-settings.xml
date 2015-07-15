@@ -67,7 +67,20 @@
             <enabled>false</enabled>
           </snapshots>
         </repository>
-
+        
+        <repository>
+          <id>netbeans-releases</id>
+          <name>Netbeans Repository</name>
+          <url>http://bits.netbeans.org/nexus/content/groups/netbeans</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        
         <repository>
           <id>oss-snapshots</id>
           <url>https://oss.sonatype.org/content/repositories/snapshots</url>
