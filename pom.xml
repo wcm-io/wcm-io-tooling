@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2014 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.wcm</groupId>
+    <artifactId>io.wcm.parent_toplevel</artifactId>
+    <version>1.0.7-SNAPSHOT</version>
+    <relativePath>../parent_toplevel/pom.xml</relativePath>
+  </parent>
+
+  <groupId>io.wcm</groupId>
+  <artifactId>io.wcm.tooling</artifactId>
+  <version>1</version>
+  <packaging>pom</packaging>
+
+  <name>Tooling Root</name>
+  <description>Tooling for Maven and IDEs.</description>
+
+  <modules>
+    <module>parent_toplevel</module>
+    <module>parent</module>
+    <module>commons</module>
+    <module>maven/parent</module>
+    <module>maven/aem-dependencies/5.5.0</module>
+    <module>maven/aem-dependencies/6.0.0</module>
+    <module>maven/aem-dependencies/6.1.0</module>
+    <module>maven/aem-global-parent</module>
+    <module>maven/global-build-tools</module>
+    <module>maven/global-build-tools-test</module>
+    <module>maven/global-parent</module>
+    <module>maven/plugins/cq-maven-plugin</module>
+    <module>maven/plugins/i18n-maven-plugin</module>
+    <module>maven/plugins/nodejs-maven-plugin</module>
+    <module>maven/plugins/wcmio-content-package-maven-plugin</module>
+    <module>maven/skins/reflow-maven-skin</module>
+    <module>netbeans/sightly</module>
+    <module>public_site</module>
+  </modules>
+
+  <build>
+    <plugins>
+
+      <!-- do not deploy this hierarchy pom into maven repository -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <!-- do not generate site for this project -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
