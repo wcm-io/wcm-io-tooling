@@ -122,13 +122,14 @@
       <item name="Imprint" href="http://wcm.io/imprint.html" />
     </menu>
     <menu name="Categories" inherit="top">
-      <item name="WCM" href="../wcm/"/>
+      <item name="WCM" href="http://wcm.io/wcm/"/>
+      <item name="DAM" href="http://wcm.io/dam/"/>
       <item name="Configuration" href="../config/"/>
-      <item name="Handler" href="../handler/"/>
-      <item name="Sling" href="../sling/"/>
-      <item name="Testing" href="../testing/"/>
-      <item name="Samples" href="../samples/"/>
-      <item name="Tooling" href="../tooling/"/>
+      <item name="Handler" href="http://wcm.io/handler/"/>
+      <item name="Sling" href="http://wcm.io/sling/"/>
+      <item name="Testing" href="http://wcm.io/testing/"/>
+      <item name="Samples" href="http://wcm.io/samples/"/>
+      <item name="Tooling" href="http://wcm.io/tooling/"/>
     </menu>
     <menu name="Contribute" inherit="top">
       <item name="Contribute" href="http://wcm.io/contribute.html" />
