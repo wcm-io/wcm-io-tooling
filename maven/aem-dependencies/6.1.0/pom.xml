@@ -71,6 +71,10 @@
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
   </properties>
 
+  <prerequisites>
+    <maven>3.2.3</maven>
+  </prerequisites>
+
   <dependencyManagement>
     <dependencies>
 
@@ -332,6 +336,15 @@
         <artifactId>maven-release-plugin</artifactId>
         <inherited>false</inherited>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>true</skip>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -343,7 +356,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.5</version>
+          <version>1.6</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -353,7 +366,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.1</version>
+          <version>2.10.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -372,6 +385,11 @@
               <version>1.9.1</version>
             </dependency>
           </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.4</version>
         </plugin>
         <plugin>
           <groupId>org.sonatype.plugins</groupId>

@@ -218,7 +218,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <inherited>true</inherited>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>true</skip>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
       </plugin>
 
       <!-- Eclipse configuration -->
