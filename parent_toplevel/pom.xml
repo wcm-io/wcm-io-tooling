@@ -89,7 +89,7 @@
     <build.compiler.target>1.7</build.compiler.target>
 
     <!-- site settings -->
-    <site.url.module.prefix>parent_toplevel</site.url.module.prefix>
+    <site.url.module.prefix>tooling/parent_toplevel</site.url.module.prefix>
     <site.url>http://wcm.io</site.url>
     <site.deploy.id>ssh-wcm.io</site.deploy.id>
     <site.deploy.url>scp://wcm.io:222/var/www/wcm.io/www/</site.deploy.url>
