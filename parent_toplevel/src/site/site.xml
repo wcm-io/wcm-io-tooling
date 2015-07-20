@@ -137,7 +137,7 @@
       <item name="Issues" href="https://wcm-io.atlassian.net" />
       <item name="Wiki" href="https://wcm-io.atlassian.net/wiki/" />
       <item name="Mailing Lists" href="http://wcm.io/mailing-lists.html" />
-      <item name="Continuous Integration" href="https://travis-ci.org/" />
+      <item name="Continuous Integration" href="https://travis-ci.org/wcm-io" />
       <item name="Fork on GitHub" href="http://github.com/wcm-io" />
     </menu>
     <menu name="Maven documentation" inherit="top" ref="reports"/>
