@@ -59,7 +59,7 @@
 
   <ciManagement>
     <system>Travis CI</system>
-    <url>https://travis-ci.org/wcm-io/wcm-io</url>
+    <url>https://travis-ci.org/wcm-io</url>
   </ciManagement>
 
   <developers>
@@ -350,7 +350,7 @@
   <distributionManagement>
     <site>
       <id>${site.deploy.id}</id>
-      <name>Deployment through GitHub's site deployment plugin</name>
+      <name>Maven Site Deployment</name>
       <url>${site.deploy.url}${site.url.module.prefix}</url>
     </site>
   </distributionManagement>
