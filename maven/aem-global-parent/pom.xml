@@ -96,13 +96,6 @@
     </resources>
     <plugins>
 
-      <!-- release plugin (only for this pom) -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <inherited>false</inherited>
-      </plugin>
-
       <!-- Do not generate site (only for this pom) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
