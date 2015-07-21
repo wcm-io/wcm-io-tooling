@@ -37,7 +37,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.0.14</version>
+  <version>1.0.15-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -95,13 +95,6 @@
       </resource>
     </resources>
     <plugins>
-
-      <!-- release plugin (only for this pom) -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <inherited>false</inherited>
-      </plugin>
 
       <!-- Do not generate site (only for this pom) -->
       <plugin>

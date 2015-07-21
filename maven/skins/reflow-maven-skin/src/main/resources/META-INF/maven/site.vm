@@ -1403,17 +1403,16 @@
 
     *##if ( $bootswatchTheme )#*
       *##set ( $bootstrapCssPath = "$protocol//netdna.bootstrapcdn.com/bootswatch/${bootswatchVersion}/$bootswatchTheme" )#*
-      // use Bootstrap 2.3.1 for responsive CDN, because 2.3.2 is not available (CSS did not change 2.3.1 -> 2.3.2)
-      *##set ( $bootstrapCssResponsivePath = "$protocol//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css" )#*
+      *##set ( $bootstrapCssResponsivePath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
       *##set ( $bootstrapCssCombined = false )#*
     *##else#*
-      *##set ( $bootstrapCssPath = "$protocol//netdna.bootstrapcdn.com/twitter-bootstrap/${bootstrapVersion}/css" )#*
+      *##set ( $bootstrapCssPath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
       // since Bootstrap 2.3.2, the CDN hosts a combined version of default Bootstrap
       *##set ( $bootstrapCssCombined = true )#*
     *##end#*
 
 
-    *##set ( $bootstrapJsPath = "$protocol//netdna.bootstrapcdn.com/twitter-bootstrap/${bootstrapVersion}/js" )#*
+    *##set ( $bootstrapJsPath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/js" )#*
 
   *##end##
 

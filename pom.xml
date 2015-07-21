@@ -23,10 +23,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm</groupId>
-    <artifactId>io.wcm.parent_toplevel</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
-    <relativePath>../parent_toplevel/pom.xml</relativePath>
+    <groupId>io.wcm.maven</groupId>
+    <artifactId>io.wcm.maven.aem-global-parent</artifactId>
+    <version>1.0.14</version>
+    <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
