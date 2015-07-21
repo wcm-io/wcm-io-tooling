@@ -1403,16 +1403,16 @@
 
     *##if ( $bootswatchTheme )#*
       *##set ( $bootstrapCssPath = "$protocol//netdna.bootstrapcdn.com/bootswatch/${bootswatchVersion}/$bootswatchTheme" )#*
-      *##set ( $bootstrapCssResponsivePath = "$protocol//maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
+      *##set ( $bootstrapCssResponsivePath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
       *##set ( $bootstrapCssCombined = false )#*
     *##else#*
-      *##set ( $bootstrapCssPath = "$protocol//maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
+      *##set ( $bootstrapCssPath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
       // since Bootstrap 2.3.2, the CDN hosts a combined version of default Bootstrap
       *##set ( $bootstrapCssCombined = true )#*
     *##end#*
 
 
-    *##set ( $bootstrapJsPath = "$protocol//maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/js" )#*
+    *##set ( $bootstrapJsPath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/js" )#*
 
   *##end##
 
