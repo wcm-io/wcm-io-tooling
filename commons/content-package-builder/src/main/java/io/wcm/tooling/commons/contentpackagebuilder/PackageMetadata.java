@@ -19,14 +19,15 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.util.ISO8601;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -114,13 +115,15 @@ final class PackageMetadata {
   /**
    * @return Variables for placeholder replacement in package metadata.
    */
-  public Map<String, Object> getVars(DateFormat dateFormat) {
-    return ImmutableMap.<String, Object>builder()
+  public Map<String, Object> getVars() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(created);
+    return ImmutableMap.<String, Object> builder()
         .put("group", StringUtils.defaultString(group))
         .put("name", StringUtils.defaultString(name))
         .put("description", StringUtils.defaultString(description))
         .put("path", "/etc/packages/" + group + "/" + name + ".zip")
-        .put("created", dateFormat.format(created))
+        .put("created", ISO8601.format(calendar))
         .put("createdBy", StringUtils.defaultString(createdBy))
         .put("version", StringUtils.defaultString(version))
         .build();

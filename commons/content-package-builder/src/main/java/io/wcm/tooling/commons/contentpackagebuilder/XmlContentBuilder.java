@@ -21,7 +21,6 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 
 import static io.wcm.tooling.commons.contentpackagebuilder.XmlNamespaces.NS_JCR;
 
-import java.text.DateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -210,11 +209,5 @@ final class XmlContentBuilder {
     return xmlNamespaces.get(nsPrefix);
   }
 
-  /**
-   * @return Date format used for formatting timestamps in content package.
-   */
-  public DateFormat getJcrTimestampFormat() {
-    return valueConverter.getJcrTimestampFormat();
-  }
 
 }
