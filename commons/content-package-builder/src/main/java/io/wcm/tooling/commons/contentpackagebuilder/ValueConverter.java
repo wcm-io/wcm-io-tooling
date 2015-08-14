@@ -32,8 +32,6 @@ import org.apache.jackrabbit.util.ISO8601;
  */
 final class ValueConverter {
 
-
-
   /**
    * Converts an object to a string representation.
    * Supported are String, Boolean, Integer, Long, Double, BigDecimal, Date, Calendar and arrays of them.
@@ -141,6 +139,5 @@ final class ValueConverter {
     }
     return "";
   }
-
 
 }

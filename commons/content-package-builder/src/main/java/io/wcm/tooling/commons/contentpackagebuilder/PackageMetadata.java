@@ -118,7 +118,7 @@ final class PackageMetadata {
   public Map<String, Object> getVars() {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(created);
-    return ImmutableMap.<String, Object> builder()
+    return ImmutableMap.<String, Object>builder()
         .put("group", StringUtils.defaultString(group))
         .put("name", StringUtils.defaultString(name))
         .put("description", StringUtils.defaultString(description))
