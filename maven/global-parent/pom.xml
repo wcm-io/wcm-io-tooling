@@ -702,6 +702,7 @@
           <configuration>
             <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
             <autoVersionSubmodules>true</autoVersionSubmodules>
+            <eol>lf</eol>
           </configuration>
         </plugin>
 

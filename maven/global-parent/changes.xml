@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="10" date="not released">
+      <action type="update" dev="sseifert">
+        jgitflow-maven-plugin: Set default line ending to unix-style (lf).
+      </action>
+    </release>
+
     <release version="9" date="2015-07-16">
       <action type="update" dev="sseifert">
         Customize jgitflow-maven-plugin configuration.
