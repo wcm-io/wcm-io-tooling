@@ -47,6 +47,13 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   protected String nodeJsURL;
 
   /**
+   * URL to load NPM from (only used on windows). If not set URL is derived automatically from nodeJsVersion and the
+   * current operating system to download the matching binaries from http://nodejs.org/dist.
+   */
+  @Parameter(property = "nodejs.npm.download.url")
+  protected String npmURL;
+
+  /**
    * Node.js version
    */
   @Parameter(property = "nodejs.version", defaultValue = "0.12.0")
@@ -124,6 +131,9 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
           installationTask.execute(information);
         }
         if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
+          if (npmURL != null) {
+            information.setNpmUrl(new URL(npmURL));
+          }
           installNPM(information);
         }
       }
@@ -136,8 +146,8 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
       throw new MojoExecutionException("Malformed provided node URL", ex);
     }
     catch (IOException ex) {
-      getLog().error("Failed to downloading nodeJs from " + nodeJsURL, ex);
-      throw new MojoExecutionException("Failed to downloading nodeJs from " + nodeJsURL, ex);
+      getLog().error("Failed to downloading nodeJs from " + information.getUrl(), ex);
+      throw new MojoExecutionException("Failed to downloading nodeJs from " + information.getUrl(), ex);
     }
     catch (MojoExecutionException ex) {
       getLog().error("Execution Exception", ex);
@@ -182,7 +192,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   }
 
   private void installNPM(NodeInstallationInformation information) throws IOException, MojoExecutionException {
-    getLog().info("Downloading npm from " + information.getNpmUrl() + "to " + information.getNpmArchive().getAbsolutePath());
+    getLog().info("Downloading npm from " + information.getNpmUrl() + " to " + information.getNpmArchive().getAbsolutePath());
     FileUtils.copyURLToFile(information.getNpmUrl(), information.getNpmArchive());
     Task installationTask = new NpmUnarchiveTask(nodeJsDirectory.getAbsolutePath() + File.separator + "v-" + nodeJsVersion);
     installationTask.setLog(getLog());
