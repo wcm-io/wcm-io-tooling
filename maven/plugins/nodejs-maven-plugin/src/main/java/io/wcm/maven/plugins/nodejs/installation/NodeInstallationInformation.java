@@ -120,7 +120,7 @@ public class NodeInstallationInformation {
       String windowsNpmVersion = getWindowsNpmVersion(npmVersion);
       basePath = basePath + "v-" + version + File.separator;
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, "windows", arch, "exe"));
-      result.setNpmDependency(buildDependency(NODEJS_BINARIES_GROUPID, NPM_BINARIES_ARTIFACTID, windowsNpmVersion, null, null, "exe"));
+      result.setNpmDependency(buildDependency(NODEJS_BINARIES_GROUPID, NPM_BINARIES_ARTIFACTID, windowsNpmVersion, null, null, "tgz"));
       result.setArchive(new File(basePath + "node.exe"));
       result.setNpmArchive(new File(basePath + "npm-" + windowsNpmVersion + ".tgz"));
       result.setNodeExecutable(new File(basePath + "node.exe"));
