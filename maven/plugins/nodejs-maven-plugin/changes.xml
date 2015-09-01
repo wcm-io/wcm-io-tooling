@@ -30,6 +30,9 @@
       <action type="remove" dev="sseifert" issue="WTOOL-16">
         Remove support for direct download of NodeJS binaries and related plugin parameters.
       </action>
+      <action type="remove" dev="sseifert">
+        Remove ANSI control characters from NodeJS log output.
+      </action>
     </release>
 
     <release version="1.0.6" date="2015-03-20">

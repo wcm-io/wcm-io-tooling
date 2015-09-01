@@ -49,6 +49,7 @@ final class NodejsOutputStreamHandler extends Thread {
     String line;
     try {
       while ((line = reader.readLine()) != null) {
+        line = formatLine(line);
         if (ERROR_LOG_PATTERN.matcher(line).matches()) {
           logger.error(line);
         }
@@ -59,8 +60,21 @@ final class NodejsOutputStreamHandler extends Thread {
           logger.info(line);
         }
       }
-    } catch (IOException e) {
-      logger.error(e.getMessage());
+    }
+    catch (IOException ex) {
+      logger.error(ex);
     }
   }
+
+  /**
+   * Format line for maven output
+   * @param line Line string
+   * @return Formatted line
+   */
+  private String formatLine(String line) {
+    // Remove ANSI VT100  control characters
+    String formatted = line.replaceAll("\u001B\\[[\\d;]*[^\\d;]", "");
+    return "[nodejs] " + formatted;
+  }
+
 }
