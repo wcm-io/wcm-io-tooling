@@ -25,12 +25,22 @@ import io.wcm.maven.plugins.nodejs.installation.NpmUnarchiveTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
+import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
+import org.apache.maven.artifact.resolver.ArtifactResolutionException;
+import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.versioning.VersionRange;
+import org.apache.maven.execution.MavenSession;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
 
@@ -38,20 +48,6 @@ import org.codehaus.plexus.util.Os;
  * Common Node.js Mojo functionality.
  */
 public abstract class AbstractNodeJsMojo extends AbstractMojo {
-
-  /**
-   * URL to load Node.js from. If not set URL is derived automatically from nodeJsVersion and the current operating
-   * system to download the matching binaries from http://nodejs.org/dist.
-   */
-  @Parameter(property = "nodejs.download.url")
-  protected String nodeJsURL;
-
-  /**
-   * URL to load NPM from (only used on windows). If not set URL is derived automatically from nodeJsVersion and the
-   * current operating system to download the matching binaries from http://nodejs.org/dist.
-   */
-  @Parameter(property = "nodejs.npm.download.url")
-  protected String npmURL;
 
   /**
    * Node.js version
@@ -89,6 +85,15 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   @Parameter(property = "nodejs.skip")
   protected boolean skip;
 
+  @Component
+  private MavenProject project;
+  @Component
+  private MavenSession session;
+  @Component
+  private ArtifactHandlerManager artifactHandlerManager;
+  @Component
+  private ArtifactResolver resolver;
+
   /**
    * Installs node js if necessary and performs defined tasks
    * @throws MojoExecutionException
@@ -115,25 +120,18 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   private NodeInstallationInformation getOrInstallNodeJS() throws MojoExecutionException {
     NodeInstallationInformation information = NodeInstallationInformation.forVersion(nodeJsVersion, npmVersion, nodeJsDirectory);
     try {
-      if (nodeJsURL != null) {
-        information.setUrl(new URL(nodeJsURL));
-      }
-
       if (!information.getNodeExecutable().exists() || !information.getNpmExecutable().exists()) {
         if (!cleanBaseDirectory()) {
           throw new MojoExecutionException("Could not delete node js directory: " + nodeJsDirectory);
         }
-        getLog().info("Downloading Node JS from " + information.getUrl());
-        FileUtils.copyURLToFile(information.getUrl(), information.getArchive());
+        File nodeJsBinary = resolveArtifact(information.getNodeJsDependency());
+        FileUtils.copyFile(nodeJsBinary, information.getArchive());
         if (information.getArchive().getName().endsWith(".tar.gz")) {
           Task installationTask = new NodeUnarchiveTask(nodeJsDirectory.getAbsolutePath());
           installationTask.setLog(getLog());
           installationTask.execute(information);
         }
         if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
-          if (npmURL != null) {
-            information.setNpmUrl(new URL(npmURL));
-          }
           installNPM(information);
         }
       }
@@ -146,8 +144,8 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
       throw new MojoExecutionException("Malformed provided node URL", ex);
     }
     catch (IOException ex) {
-      getLog().error("Failed to downloading nodeJs from " + information.getUrl(), ex);
-      throw new MojoExecutionException("Failed to downloading nodeJs from " + information.getUrl(), ex);
+      getLog().error("Failed to get nodeJs from " + information.getNodeJsDependency(), ex);
+      throw new MojoExecutionException("Failed to downloading nodeJs from " + information.getNodeJsDependency(), ex);
     }
     catch (MojoExecutionException ex) {
       getLog().error("Execution Exception", ex);
@@ -192,11 +190,32 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   }
 
   private void installNPM(NodeInstallationInformation information) throws IOException, MojoExecutionException {
-    getLog().info("Downloading npm from " + information.getNpmUrl() + " to " + information.getNpmArchive().getAbsolutePath());
-    FileUtils.copyURLToFile(information.getNpmUrl(), information.getNpmArchive());
+    File npmBinary = resolveArtifact(information.getNpmDependency());
+    FileUtils.copyFile(npmBinary, information.getNpmArchive());
     Task installationTask = new NpmUnarchiveTask(nodeJsDirectory.getAbsolutePath() + File.separator + "v-" + nodeJsVersion);
     installationTask.setLog(getLog());
     installationTask.execute(information);
+  }
+
+  @SuppressWarnings("deprecation")
+  private File resolveArtifact(Dependency dependency) throws MojoExecutionException {
+    Artifact artifact = new DefaultArtifact(dependency.getGroupId(),
+        dependency.getArtifactId(),
+        VersionRange.createFromVersion(dependency.getVersion()),
+        Artifact.SCOPE_PROVIDED,
+        dependency.getType(),
+        dependency.getClassifier(),
+        artifactHandlerManager.getArtifactHandler(dependency.getType()));
+    try {
+      resolver.resolve(artifact, project.getRemoteArtifactRepositories(), session.getLocalRepository());
+    }
+    catch (ArtifactResolutionException ex) {
+      throw new MojoExecutionException("Unable to get artifact for " + dependency, ex);
+    }
+    catch (ArtifactNotFoundException ex) {
+      throw new MojoExecutionException("Unable to get artifact for " + dependency, ex);
+    }
+    return artifact.getFile();
   }
 
 }

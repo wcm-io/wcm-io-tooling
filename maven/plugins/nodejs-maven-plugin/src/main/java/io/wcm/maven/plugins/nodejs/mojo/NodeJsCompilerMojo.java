@@ -26,7 +26,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  * Executes the run goal of the plugin
  */
-@Mojo(name = "run", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+@Mojo(name = "run", defaultPhase = LifecyclePhase.PROCESS_SOURCES, requiresProject = true)
 public class NodeJsCompilerMojo extends AbstractNodeJsMojo {
 
   @Override
