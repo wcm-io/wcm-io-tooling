@@ -38,6 +38,7 @@ import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
@@ -84,13 +85,13 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   @Parameter(property = "nodejs.skip")
   protected boolean skip;
 
-  @Parameter
+  @Component
   private MavenProject project;
-  @Parameter
+  @Component
   private MavenSession session;
-  @Parameter
+  @Component
   private ArtifactHandlerManager artifactHandlerManager;
-  @Parameter
+  @Component
   private ArtifactResolver resolver;
 
   /**
