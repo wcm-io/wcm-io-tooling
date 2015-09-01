@@ -69,6 +69,28 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
 
   /**
    * Tasks that should be run on Node.js execution.
+   * <p>
+   * You can define different types of tasks: <code>npmInstallTask</code> or <code>nodeJsTask</code> items.
+   * </p>
+   * <p>
+   * Examples:
+   * </p>
+   *
+   * <pre>
+   * &lt;tasks&gt;
+   *   &lt;npmInstallTask&gt;
+   *     &lt;workingDirectory&gt;${frontend.dir}&lt;/workingDirectory&gt;
+   *   &lt;/npmInstallTask&gt;
+   *   &lt;nodeJsTask&gt;
+   *     &lt;workingDirectory&gt;${frontend.dir}&lt;/workingDirectory&gt;
+   *     &lt;moduleName&gt;grunt-cli&lt;/moduleName&gt;
+   *     &lt;executableName&gt;grunt&lt;/executableName&gt;
+   *     &lt;arguments&gt;
+   *       &lt;argument&gt;build&lt;/argument&gt;
+   *     &lt;/arguments&gt;
+   *   &lt;/nodeJsTask&gt;
+   * &lt;/tasks&gt;
+   * </pre>
    */
   @Parameter
   protected List<? extends Task> tasks;
