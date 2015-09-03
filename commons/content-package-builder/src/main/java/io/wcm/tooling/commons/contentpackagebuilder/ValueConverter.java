@@ -20,21 +20,17 @@
 package io.wcm.tooling.commons.contentpackagebuilder;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.util.ISO8601;
 
 /**
  * Converts an value to string for a content property in XML including type prefix.
  */
 final class ValueConverter {
-
-  private final DateFormat jcrTimestampFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmmZ", Locale.US);
 
   /**
    * Converts an object to a string representation.
@@ -111,10 +107,12 @@ final class ValueConverter {
       return Double.toString(((BigDecimal)value).doubleValue());
     }
     if (value instanceof Date) {
-      return jcrTimestampFormat.format((Date)value);
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime((Date)value);
+      return ISO8601.format(calendar);
     }
     if (value instanceof Calendar) {
-      return jcrTimestampFormat.format(((Calendar)value).getTime());
+      return ISO8601.format((Calendar)value);
     }
     throw new IllegalArgumentException("Type not supported: " + value.getClass().getName());
   }
@@ -140,13 +138,6 @@ final class ValueConverter {
       return "{Date}";
     }
     return "";
-  }
-
-  /**
-   * @return Date format used for formatting timestamps in content package.
-   */
-  public DateFormat getJcrTimestampFormat() {
-    return this.jcrTimestampFormat;
   }
 
 }

@@ -20,9 +20,9 @@
 package io.wcm.maven.plugins.nodejs.installation;
 
 import java.io.File;
-import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.Os;
 
@@ -31,22 +31,34 @@ import org.codehaus.plexus.util.Os;
  */
 public class NodeInstallationInformation {
 
-  private URL url;
-  private URL npmUrl;
+  private static final String NODEJS_BINARIES_GROUPID = "org.nodejs.dist";
+  private static final String NODEJS_BINARIES_ARTIFACTID = "nodejs-binaries";
+  private static final String NPM_BINARIES_ARTIFACTID = "npm-binaries";
+
+  private static final String LATEST_WINDOWS_NPM_VERSION = "1.4.9";
+
+  private Dependency nodeJsDependency;
+  private Dependency npmDependency;
   private File archive;
   private File npmArchive;
   private File nodeExecutable;
   private File npmExecutable;
   private String basePath;
 
-  private static final String LATEST_WINDOWS_NPM_VERSION = "1.4.9";
-
-  public URL getUrl() {
-    return url;
+  public Dependency getNodeJsDependency() {
+    return this.nodeJsDependency;
   }
 
-  public void setUrl(URL url) {
-    this.url = url;
+  public void setNodeJsDependency(Dependency nodeJsDependency) {
+    this.nodeJsDependency = nodeJsDependency;
+  }
+
+  public Dependency getNpmDependency() {
+    return this.npmDependency;
+  }
+
+  public void setNpmDependency(Dependency npmDependency) {
+    this.npmDependency = npmDependency;
   }
 
   public File getArchive() {
@@ -90,7 +102,6 @@ public class NodeInstallationInformation {
    * @throws MojoExecutionException
    */
   public static NodeInstallationInformation forVersion(String version, String npmVersion, File directory) throws MojoExecutionException {
-    String baseURL = "http://nodejs.org/dist/v" + version + "/";
     String basePath = directory.getAbsolutePath() + File.separator;
     String arch;
     if (Os.isArch("x86") || Os.isArch("i386")) {
@@ -105,40 +116,53 @@ public class NodeInstallationInformation {
 
     NodeInstallationInformation result = new NodeInstallationInformation();
     result.setBasePath(basePath);
-    try {
-      if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
-        npmVersion = getWindowsNpmVersion(npmVersion);
-        basePath = basePath + "v-" + version + File.separator;
-        result.setUrl(new URL(baseURL + "node.exe"));
-        result.setNpmUrl(new URL("http://nodejs.org/dist/npm/npm-" + npmVersion + ".tgz"));
-        result.setArchive(new File(basePath + "node.exe"));
-        result.setNpmArchive(new File(basePath + "npm-" + npmVersion + ".tgz"));
-        result.setNodeExecutable(new File(basePath + "node.exe"));
-        result.setNpmExecutable(new File(basePath + "npm/bin/npm-cli.js"));
-      }
-      else if (Os.isFamily(Os.FAMILY_MAC)) {
-        result.setUrl(new URL(baseURL + "node-v" + version + "-darwin-" + arch + ".tar.gz"));
-        result.setArchive(new File(basePath + "node-v" + version + "-darwin-" + arch + ".tar.gz"));
-        result.setNodeExecutable(new File(basePath + "node-v" + version + "-darwin-" + arch + File.separator + "bin" + File.separator + "node"));
-        result.setNpmExecutable(new File(basePath + "node-v" + version + "-darwin-" + arch + File.separator + "lib" + File.separator
-            + "node_modules/npm/bin/npm-cli.js"));
-      }
-      else if (Os.isFamily(Os.FAMILY_UNIX)) {
-        result.setUrl(new URL(baseURL + "node-v" + version + "-linux-" + arch + ".tar.gz"));
-        result.setArchive(new File(basePath + "node-v" + version + "-linux-" + arch + ".tar.gz"));
-        result.setNodeExecutable(new File(basePath + "node-v" + version + "-linux-" + arch + File.separator + "bin" + File.separator + "node"));
-        result.setNpmExecutable(new File(basePath + "node-v" + version + "-linux-" + arch + File.separator + "lib" + File.separator
-            + "node_modules/npm/bin/npm-cli.js"));
-      }
-      else {
-        throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);
-      }
+    if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
+      String windowsNpmVersion = getWindowsNpmVersion(npmVersion);
+      basePath = basePath + "v-" + version + File.separator;
+      result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, "windows", arch, "exe"));
+      result.setNpmDependency(buildDependency(NODEJS_BINARIES_GROUPID, NPM_BINARIES_ARTIFACTID, windowsNpmVersion, null, null, "tgz"));
+      result.setArchive(new File(basePath + "node.exe"));
+      result.setNpmArchive(new File(basePath + "npm-" + windowsNpmVersion + ".tgz"));
+      result.setNodeExecutable(new File(basePath + "node.exe"));
+      result.setNpmExecutable(new File(basePath + "npm/bin/npm-cli.js"));
     }
-    catch (java.net.MalformedURLException ex) {
-      throw new MojoExecutionException("Malformed node URL", ex);
+    else if (Os.isFamily(Os.FAMILY_MAC)) {
+      result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, "darwin", arch, "tar.gz"));
+      result.setArchive(new File(basePath + "node-v" + version + "-darwin-" + arch + ".tar.gz"));
+      result.setNodeExecutable(new File(basePath + "node-v" + version + "-darwin-" + arch + File.separator + "bin" + File.separator + "node"));
+      result.setNpmExecutable(new File(basePath + "node-v" + version + "-darwin-" + arch + File.separator + "lib" + File.separator
+          + "node_modules/npm/bin/npm-cli.js"));
+    }
+    else if (Os.isFamily(Os.FAMILY_UNIX)) {
+      result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, "linux", arch, "tar.gz"));
+      result.setArchive(new File(basePath + "node-v" + version + "-linux-" + arch + ".tar.gz"));
+      result.setNodeExecutable(new File(basePath + "node-v" + version + "-linux-" + arch + File.separator + "bin" + File.separator + "node"));
+      result.setNpmExecutable(new File(basePath + "node-v" + version + "-linux-" + arch + File.separator + "lib" + File.separator
+          + "node_modules/npm/bin/npm-cli.js"));
+    }
+    else {
+      throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);
     }
     return result;
 
+  }
+
+  private static Dependency buildDependency(String groupId, String artifactId, String version, String os, String arch, String type) {
+    String classifier = null;
+    if (StringUtils.isNotEmpty(os)) {
+      classifier = os;
+    }
+    if (StringUtils.isNotEmpty(arch)) {
+      classifier += "-" + arch;
+    }
+
+    Dependency dependency = new Dependency();
+    dependency.setGroupId(groupId);
+    dependency.setArtifactId(artifactId);
+    dependency.setVersion(version);
+    dependency.setType(type);
+    dependency.setClassifier(classifier);
+    return dependency;
   }
 
   /**
@@ -165,6 +189,7 @@ public class NodeInstallationInformation {
   }
 
   private static String getWindowsNpmVersion(String npmVersion) {
+    // NPM 2.x is no longer published and nodejs.org/dist - use latest 1.x version and update to 2.x via NPM
     if (StringUtils.startsWith(npmVersion, "2.")) {
       return LATEST_WINDOWS_NPM_VERSION;
     }
@@ -177,14 +202,6 @@ public class NodeInstallationInformation {
 
   public void setNpmArchive(File npmArchive) {
     this.npmArchive = npmArchive;
-  }
-
-  public URL getNpmUrl() {
-    return npmUrl;
-  }
-
-  public void setNpmUrl(URL npmUrl) {
-    this.npmUrl = npmUrl;
   }
 
 }

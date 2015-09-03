@@ -23,17 +23,29 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="2.0.0" date="2015-09-03">
+      <action type="add" dev="sseifert" issue="WTOOL-16">
+        Use Maven NodeJS Proxy-produced dependencies for downloading NodeJS binaries to allow caching them in Maven artifact managers.
+      </action>
+      <action type="remove" dev="sseifert" issue="WTOOL-16">
+        Remove support for direct download of NodeJS binaries and related plugin parameters.
+      </action>
+      <action type="remove" dev="sseifert">
+        Remove ANSI control characters from NodeJS log output.
+      </action>
+    </release>
+
     <release version="1.0.6" date="2015-03-20">
-      <action type="update" dev="isechyn" issue="WCMIO-61">
+      <action type="update" dev="isechyn" issue="WTOOL-9">
         Refactored task execution to use java.lang.Process to be able to set the path variable.
       </action>
     </release>
 
     <release version="1.0.4" date="2015-03-09">
-      <action type="fix" dev="isechyn" issue="WCMIO-60">
+      <action type="fix" dev="isechyn" issue="WTOOL-18">
         Make sure the nodejs plugin checks, if all artefacts are installed correctly before executing tasks.
       </action>
-      <action type="fix" dev="isechyn" issue="WCMIO-59">
+      <action type="fix" dev="isechyn" issue="WTOOL-20">
         Make sure nodejs plugin uses specified version of npm.
       </action>
     </release>

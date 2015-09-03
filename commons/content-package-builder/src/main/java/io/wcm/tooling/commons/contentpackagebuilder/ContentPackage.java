@@ -217,7 +217,7 @@ public final class ContentPackage implements Closeable {
   private void buildTemplatedMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
       String xmlContent = IOUtils.toString(is);
-      for (Map.Entry<String, Object> entry : metadata.getVars(xmlContentBuilder.getJcrTimestampFormat()).entrySet()) {
+      for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
         xmlContent = StringUtils.replace(xmlContent, "{{" + entry.getKey() + "}}",
             StringEscapeUtils.escapeXml(entry.getValue().toString()));
       }
