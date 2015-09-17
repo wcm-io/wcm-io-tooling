@@ -28,7 +28,7 @@
         Add support for "AC Handling" parameter in content package metadata.
       </action>
       <action type="add" dev="sseifert">
-        Add JCR "rep" XML namespace to the list of default namespaces.
+        Add JCR "rep" and "crx" XML namespaces to the list of default namespaces.
       </action>
       <action type="fix" dev="pmannel" issue="WTOOL-23">
         Use ISO-8601 for formatting date/calender values.
