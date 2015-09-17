@@ -8,5 +8,6 @@
   <entry key="created">{{created}}</entry>
   <entry key="createdBy">{{createdBy}}</entry>
   <entry key="version">{{version}}</entry>
+  <entry key="acHandling">{{acHandling}}</entry>
   <entry key="requiresRoot">false</entry>
 </properties>
