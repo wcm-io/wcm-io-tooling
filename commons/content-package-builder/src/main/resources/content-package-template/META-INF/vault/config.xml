@@ -16,32 +16,33 @@
   -->
 <vaultfs version="1.1">
   <!--
-        Defines the content aggregation. The order of the defined aggregates
-        is important for finding the correct aggregator.
-    -->
+    Defines the content aggregation. The order of the defined aggregates
+    is important for finding the correct aggregator.
+  -->
   <aggregates>
     <!--
-            Defines an aggregate that handles nt:file and nt:resource nodes.
-        -->
+      Defines an aggregate that handles nt:file and nt:resource nodes.
+    -->
     <aggregate type="file" title="File Aggregate"/>
     <!--
-            Defines an aggregate that handles file/folder like nodes. It matches
-            all nt:hierarchyNode nodes that have or define a jcr:content
-            child node and excludes child nodes that are nt:hierarchyNodes.
-        -->
+      Defines an aggregate that handles file/folder like nodes. It matches
+      all nt:hierarchyNode nodes that have or define a jcr:content
+      child node and excludes child nodes that are nt:hierarchyNodes.
+    -->
     <aggregate type="filefolder" title="File/Folder Aggregate"/>
     <!--
-            Defines an aggregate that handles nt:nodeType nodes and serializes
-            them into .cnd notation.
-        -->
+      Defines an aggregate that handles nt:nodeType nodes and serializes
+      them into .cnd notation.
+    -->
     <aggregate type="nodetype" title="Node Type Aggregate"/>
     <!--
-            Defines an aggregate that defines full coverage for certain node
-            types that cannot be covered by the default aggregator.
-        -->
+      Defines an aggregate that defines full coverage for certain node
+      types that cannot be covered by the default aggregator.
+    -->
     <aggregate type="full" title="Full Coverage Aggregate">
       <matches>
         <include nodeType="rep:AccessControl" respectSupertype="true"/>
+        <include nodeType="rep:Policy" respectSupertype="true" />
         <include nodeType="cq:Widget" respectSupertype="true"/>
         <include nodeType="cq:WidgetCollection" respectSupertype="true"/>
         <include nodeType="cq:EditConfig" respectSupertype="true"/>
@@ -52,8 +53,8 @@
       </matches>
     </aggregate>
     <!--
-            Defines an aggregate that handles nt:folder like nodes.
-        -->
+      Defines an aggregate that handles nt:folder like nodes.
+    -->
     <aggregate type="generic" title="Folder Aggregate">
       <matches>
         <include nodeType="nt:folder" respectSupertype="true"/>
@@ -63,20 +64,20 @@
       </contains>
     </aggregate>
     <!--
-            Defines the default aggregate
-        -->
+      Defines the default aggregate
+    -->
     <aggregate type="generic" title="Default Aggregator" isDefault="true">
-      <contains>
-        <exclude nodeType="nt:hierarchyNode" respectSupertype="true"/>
-      </contains>
       <matches>
         <!-- all -->
       </matches>
+      <contains>
+        <exclude nodeType="nt:hierarchyNode" respectSupertype="true"/>
+      </contains>
     </aggregate>
   </aggregates>
   <!--
-      defines the input handlers
-    -->
+    defines the input handlers
+  -->
   <handlers>
     <handler type="folder"/>
     <handler type="file"/>
