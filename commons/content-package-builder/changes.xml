@@ -25,7 +25,10 @@
 
     <release version="1.1.0" date="not released">
       <action type="add" dev="sseifert">
-        Add support for "AC Handling" parameter in package metadata.
+        Add support for "AC Handling" parameter in content package metadata.
+      </action>
+      <action type="add" dev="sseifert">
+        Add JCR "rep" XML namespace to the list of default namespaces.
       </action>
       <action type="fix" dev="pmannel" issue="WTOOL-23">
         Use ISO-8601 for formatting date/calender values.

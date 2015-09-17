@@ -39,6 +39,11 @@ public final class XmlNamespaces {
   public static final String NS_JCR_NT = "http://www.jcp.org/jcr/nt/1.0";
 
   /**
+   * JCR "rep" internal namespace
+   */
+  public static final String NS_JCR_REP = "internal";
+
+  /**
    * CQ namespace
    */
   public static final String NS_CQ = "http://www.day.com/jcr/cq/1.0";
@@ -54,6 +59,7 @@ public final class XmlNamespaces {
   public static final Map<String, String> DEFAULT_NAMESPACES = ImmutableMap.<String, String>builder()
       .put("jcr", NS_JCR)
       .put("nt", NS_JCR_NT)
+      .put("rep", NS_JCR_REP)
       .put("cq", NS_CQ)
       .put("sling", NS_SLING)
       .build();
