@@ -30,6 +30,9 @@
       <action type="add" dev="sseifert">
         Add JCR "rep" and "crx" XML namespaces to the list of default namespaces.
       </action>
+      <action type="update" dev="sseifert">
+        Set "{Name}" prefix for 'rep:privileges' property.
+      </action>
       <action type="fix" dev="pmannel" issue="WTOOL-23">
         Use ISO-8601 for formatting date/calender values.
       </action>

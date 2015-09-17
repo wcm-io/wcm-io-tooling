@@ -175,7 +175,7 @@ final class XmlContentBuilder {
         exportPayload(doc, subElement, childMap);
       }
       else if (!hasAttributeNamespaceAware(element, entry.getKey())) {
-        String stringValue = valueConverter.toString(value);
+        String stringValue = valueConverter.toString(entry.getKey(), value);
         setAttributeNamespaceAware(element, entry.getKey(), stringValue);
       }
     }

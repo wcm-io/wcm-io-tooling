@@ -10,4 +10,5 @@
   <entry key="version">{{version}}</entry>
   <entry key="acHandling">{{acHandling}}</entry>
   <entry key="requiresRoot">false</entry>
+  <entry key="packageFormatVersion">2</entry>
 </properties>

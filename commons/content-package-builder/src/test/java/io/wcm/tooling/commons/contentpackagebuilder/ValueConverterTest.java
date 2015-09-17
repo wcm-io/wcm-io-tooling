@@ -43,127 +43,134 @@ public class ValueConverterTest {
 
   @Test
   public void testNull() {
-    assertEquals("", underTest.toString(null));
+    assertEquals("", underTest.toString("prop", null));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalid() {
-    underTest.toString(new Object());
+    underTest.toString("prop", new Object());
   }
 
   @Test
   public void testString() {
-    assertEquals("myString", underTest.toString("myString"));
+    assertEquals("myString", underTest.toString("prop", "myString"));
   }
 
   @Test
   public void testStringStartingWithBrackets() {
-    assertEquals("\\{myString}", underTest.toString("{myString}"));
+    assertEquals("\\{myString}", underTest.toString("prop", "{myString}"));
   }
 
   @Test
   public void testStringWithBracketsInside() {
-    assertEquals("aaa{myString}", underTest.toString("aaa{myString}"));
+    assertEquals("aaa{myString}", underTest.toString("prop", "aaa{myString}"));
   }
 
   @Test
   public void testStringArray() {
-    assertEquals("[myString1,myString2]", underTest.toString(new String[] {
+    assertEquals("[myString1,myString2]", underTest.toString("prop", new String[] {
         "myString1", "myString2"
     }));
   }
 
   @Test
   public void testStringArraySpecialChars() {
-    assertEquals("[myString1\\,[]\\\\äöüß€,myString2]", underTest.toString(new String[] {
+    assertEquals("[myString1\\,[]\\\\äöüß€,myString2]", underTest.toString("prop", new String[] {
         "myString1,[]\\äöüß€", "myString2"
     }));
   }
 
   @Test
   public void testBoolean() {
-    assertEquals("{Boolean}true", underTest.toString(true));
-    assertEquals("{Boolean}true", underTest.toString(Boolean.TRUE));
+    assertEquals("{Boolean}true", underTest.toString("prop", true));
+    assertEquals("{Boolean}true", underTest.toString("prop", Boolean.TRUE));
   }
 
   @Test
   public void testBooleanArray() {
-    assertEquals("{Boolean}[true,false]", underTest.toString(new boolean[] {
+    assertEquals("{Boolean}[true,false]", underTest.toString("prop", new boolean[] {
         true, false
     }));
-    assertEquals("{Boolean}[true,false]", underTest.toString(new Boolean[] {
+    assertEquals("{Boolean}[true,false]", underTest.toString("prop", new Boolean[] {
         Boolean.TRUE, Boolean.FALSE
     }));
   }
 
   @Test
   public void testInteger() {
-    assertEquals("{Long}1", underTest.toString(1));
-    assertEquals("{Long}2", underTest.toString(new Integer(2)));
+    assertEquals("{Long}1", underTest.toString("prop", 1));
+    assertEquals("{Long}2", underTest.toString("prop", new Integer(2)));
   }
 
   @Test
   public void testIntegerArray() {
-    assertEquals("{Long}[1,2]", underTest.toString(new int[] {
+    assertEquals("{Long}[1,2]", underTest.toString("prop", new int[] {
         1, 2
     }));
-    assertEquals("{Long}[1,2]", underTest.toString(new Integer[] {
+    assertEquals("{Long}[1,2]", underTest.toString("prop", new Integer[] {
         new Integer(1), new Integer(2)
     }));
   }
 
   @Test
   public void testLong() {
-    assertEquals("{Long}10000000000", underTest.toString(10000000000L));
-    assertEquals("{Long}20000000000", underTest.toString(new Long(20000000000L)));
+    assertEquals("{Long}10000000000", underTest.toString("prop", 10000000000L));
+    assertEquals("{Long}20000000000", underTest.toString("prop", new Long(20000000000L)));
   }
 
   @Test
   public void testLongArray() {
-    assertEquals("{Long}[10000000000,20000000000]", underTest.toString(new long[] {
+    assertEquals("{Long}[10000000000,20000000000]", underTest.toString("prop", new long[] {
         10000000000L, 20000000000L
     }));
-    assertEquals("{Long}[10000000000,20000000000]", underTest.toString(new Long[] {
+    assertEquals("{Long}[10000000000,20000000000]", underTest.toString("prop", new Long[] {
         new Long(10000000000L), new Long(20000000000L)
     }));
   }
 
   @Test
   public void testDouble() {
-    assertEquals("{Decimal}1.234", underTest.toString(1.234d));
-    assertEquals("{Decimal}2.345", underTest.toString(new Double(2.345d)));
+    assertEquals("{Decimal}1.234", underTest.toString("prop", 1.234d));
+    assertEquals("{Decimal}2.345", underTest.toString("prop", new Double(2.345d)));
   }
 
   @Test
   public void testDoubleArray() {
-    assertEquals("{Decimal}[1.234,2.345]", underTest.toString(new double[] {
+    assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new double[] {
         1.234d, 2.345d
     }));
-    assertEquals("{Decimal}[1.234,2.345]", underTest.toString(new Double[] {
+    assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new Double[] {
         new Double(1.234d), new Double(2.345d)
     }));
   }
 
   @Test
   public void testBigDecimal() {
-    assertEquals("{Decimal}2.345", underTest.toString(new BigDecimal(2.345d)));
+    assertEquals("{Decimal}2.345", underTest.toString("prop", new BigDecimal(2.345d)));
   }
 
   @Test
   public void testBigDecimalArray() {
-    assertEquals("{Decimal}[1.234,2.345]", underTest.toString(new BigDecimal[] {
+    assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new BigDecimal[] {
         new BigDecimal(1.234d), new BigDecimal(2.345d)
     }));
   }
 
   @Test
   public void testDate() {
-    assertTrue(StringUtils.startsWith(underTest.toString(sampleDate), "{Date}2010-09-05T15:10:20"));
+    assertTrue(StringUtils.startsWith(underTest.toString("prop", sampleDate), "{Date}2010-09-05T15:10:20"));
   }
 
   @Test
   public void testCalendar() {
-    assertTrue(StringUtils.startsWith(underTest.toString(DateUtils.toCalendar(sampleDate)), "{Date}2010-09-05T15:10:20"));
+    assertTrue(StringUtils.startsWith(underTest.toString("prop", DateUtils.toCalendar(sampleDate)), "{Date}2010-09-05T15:10:20"));
+  }
+
+  @Test
+  public void testStringArrayRepPrivileges() {
+    assertEquals("{Name}[rep:write,crx:replicate,jcr:read]", underTest.toString("rep:privileges", new String[] {
+        "rep:write", "crx:replicate", "jcr:read"
+    }));
   }
 
 }
