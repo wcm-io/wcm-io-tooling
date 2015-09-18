@@ -94,6 +94,16 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set access control handling.
+   * @param value Access control handling mode
+   * @return this
+   */
+  public ContentPackageBuilder acHandling(AcHandling value) {
+    metadata.setAcHandling(value);
+    return this;
+  }
+
+  /**
    * Creates a package filter with this root path.
    * This implicitly adds a {@link PackageFilter} with this pah and no further rules.
    * If this is executed multiple times multiple filters are addded.

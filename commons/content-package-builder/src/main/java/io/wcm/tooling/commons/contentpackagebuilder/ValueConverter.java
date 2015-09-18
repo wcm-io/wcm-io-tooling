@@ -32,42 +32,44 @@ import org.apache.jackrabbit.util.ISO8601;
  */
 final class ValueConverter {
 
+  static final String PN_PRIVILEGES = "rep:privileges";
+
   /**
    * Converts an object to a string representation.
    * Supported are String, Boolean, Integer, Long, Double, BigDecimal, Date, Calendar and arrays of them.
    * @param value value
    * @return Converted value
    */
-  public String toString(Object value) {
+  public String toString(String propertyName, Object value) {
     if (value == null) {
       return "";
     }
     else if (value instanceof boolean[]) {
-      return arrayToString(ArrayUtils.toObject((boolean[])value));
+      return arrayToString(propertyName, ArrayUtils.toObject((boolean[])value));
     }
     else if (value instanceof int[]) {
-      return arrayToString(ArrayUtils.toObject((int[])value));
+      return arrayToString(propertyName, ArrayUtils.toObject((int[])value));
     }
     else if (value instanceof long[]) {
-      return arrayToString(ArrayUtils.toObject((long[])value));
+      return arrayToString(propertyName, ArrayUtils.toObject((long[])value));
     }
     else if (value instanceof double[]) {
-      return arrayToString(ArrayUtils.toObject((double[])value));
+      return arrayToString(propertyName, ArrayUtils.toObject((double[])value));
     }
     else if (value.getClass().isArray()) {
-      return arrayToString((Object[])value);
+      return arrayToString(propertyName, (Object[])value);
     }
     else {
-      return getTypePrefix(value) + singleObjectToString(value);
+      return getTypePrefix(propertyName, value) + singleObjectToString(value);
     }
   }
 
-  private <T> String arrayToString(T[] values) {
+  private <T> String arrayToString(String propertyName, T[] values) {
     if (values.length == 0) {
       return "";
     }
     else {
-      String typePrefix = getTypePrefix(values[0]);
+      String typePrefix = getTypePrefix(propertyName, values[0]);
       StringBuilder arrayString = new StringBuilder();
       arrayString.append("[");
       for (int i = 0; i < values.length; i++) {
@@ -124,7 +126,7 @@ final class ValueConverter {
     return value;
   }
 
-  private String getTypePrefix(Object value) {
+  private String getTypePrefix(String propertyName, Object value) {
     if (value instanceof Boolean) {
       return "{Boolean}";
     }
@@ -136,6 +138,9 @@ final class ValueConverter {
     }
     else if (value instanceof Date || value instanceof Calendar) {
       return "{Date}";
+    }
+    else if (StringUtils.equals(propertyName, PN_PRIVILEGES)) {
+      return "{Name}";
     }
     return "";
   }

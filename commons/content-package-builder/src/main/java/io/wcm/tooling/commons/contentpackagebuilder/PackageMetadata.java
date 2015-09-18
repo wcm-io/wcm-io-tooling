@@ -43,6 +43,7 @@ final class PackageMetadata {
   private String createdBy = "admin";
   private Date created = new Date();
   private String version = "1.0";
+  private AcHandling acHandling;
   private List<PackageFilter> filters = new ArrayList<>();
   private Map<String, String> xmlNamespaces = new HashMap<>();
 
@@ -76,6 +77,10 @@ final class PackageMetadata {
 
   public void setVersion(String version) {
     this.version = version;
+  }
+
+  public void setAcHandling(AcHandling acHandling) {
+    this.acHandling = acHandling;
   }
 
   public void addFilter(PackageFilter filter) {
@@ -118,7 +123,7 @@ final class PackageMetadata {
   public Map<String, Object> getVars() {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(created);
-    return ImmutableMap.<String, Object>builder()
+    return ImmutableMap.<String,Object>builder()
         .put("group", StringUtils.defaultString(group))
         .put("name", StringUtils.defaultString(name))
         .put("description", StringUtils.defaultString(description))
@@ -126,6 +131,7 @@ final class PackageMetadata {
         .put("created", ISO8601.format(calendar))
         .put("createdBy", StringUtils.defaultString(createdBy))
         .put("version", StringUtils.defaultString(version))
+        .put("acHandling", acHandling != null ? acHandling.getMode() : "")
         .build();
   }
 

@@ -23,7 +23,16 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.0.4" date="not released">
+    <release version="1.1.0" date="not released">
+      <action type="add" dev="sseifert">
+        Add support for "AC Handling" parameter in content package metadata.
+      </action>
+      <action type="add" dev="sseifert">
+        Add JCR "rep" and "crx" XML namespaces to the list of default namespaces.
+      </action>
+      <action type="update" dev="sseifert">
+        Set "{Name}" prefix for 'rep:privileges' property.
+      </action>
       <action type="fix" dev="pmannel" issue="WTOOL-23">
         Use ISO-8601 for formatting date/calender values.
       </action>

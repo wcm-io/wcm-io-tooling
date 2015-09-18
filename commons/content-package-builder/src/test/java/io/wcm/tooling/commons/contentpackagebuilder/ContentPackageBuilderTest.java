@@ -76,6 +76,7 @@ public class ContentPackageBuilderTest {
     underTest.createdBy("myUser");
     underTest.version("1.2.3");
     underTest.rootPath("/content/mypath");
+    underTest.acHandling(AcHandling.OVERWRITE);
 
     try (ContentPackage contentPackage = underTest.build(testFile)) {
       // just build empty content package to test meta data
@@ -99,10 +100,10 @@ public class ContentPackageBuilderTest {
     assertXpathEvaluatesTo("myUser", "/properties/entry[@key='createdBy']", propsXml);
     assertXpathEvaluatesTo("1.2.3", "/properties/entry[@key='version']", propsXml);
     assertXpathEvaluatesTo("false", "/properties/entry[@key='requiresRoot']", propsXml);
+    assertXpathEvaluatesTo("overwrite", "/properties/entry[@key='acHandling']", propsXml);
 
     Document settingsXml = getXmlFromZip("META-INF/vault/settings.xml");
     assertXpathEvaluatesTo("1.0", "/vault/@version", settingsXml);
-
   }
 
   @Test
