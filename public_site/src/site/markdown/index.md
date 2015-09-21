@@ -7,7 +7,6 @@ AEM ([Adobe Experience Manager][aem-website], formerly called CQ) is an enterpri
 
 ### Modules
 
-wcm.io is a collection of independent modules which can be used standalone or in combination.
 
 <!-- Foamtree graphical module display -->
 <div id="visualization-wrapper">
@@ -17,6 +16,9 @@ wcm.io is a collection of independent modules which can be used standalone or in
   <script src="js/hammer.min.js"></script>
   <script src="js/wcm-io-projects-data.js"></script>
 </div>
+
+
+wcm.io is a collection of independent modules which can be used standalone or in combination.
 
 Overview of modules by category:
 
