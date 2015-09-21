@@ -1,0 +1,30 @@
+/** Set some preferred visualization size, but cap it to the maximum screen size */
+#visualization-wrapper {
+  width: 600px;
+  max-width: 100%;
+}
+@media (min-width: 1000px) {
+  #visualization-wrapper {
+    float: right;
+  }  
+}
+@media (min-width: 1200px) {
+  #visualization-wrapper {
+    width: 750px;
+  }  
+}
+
+ 
+#visualization {
+  width: 100%;
+  padding-bottom: 62.5%;
+  position: relative;
+}
+ 
+#visualization > div {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
