@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -38,6 +39,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
@@ -204,7 +206,7 @@ public final class ContentPackage implements Closeable {
   private void buildPackageMetadata() throws IOException {
     metadata.validate();
     buildTemplatedMetadataFile("META-INF/vault/config.xml");
-    buildTemplatedMetadataFile("META-INF/vault/properties.xml");
+    buildPropertiesFile("META-INF/vault/properties.xml");
     buildTemplatedMetadataFile("META-INF/vault/settings.xml");
     writeXmlDocument("META-INF/vault/filter.xml", xmlContentBuilder.buildFilter(metadata.getFilters()));
   }
@@ -228,6 +230,32 @@ public final class ContentPackage implements Closeable {
       finally {
         zip.closeEntry();
       }
+    }
+  }
+
+  /**
+   * Build java Properties XML file.
+   * @param path Path
+   * @throws IOException
+   */
+  private void buildPropertiesFile(String path) throws IOException {
+    Properties properties = new Properties();
+    properties.put("packageFormatVersion", "2");
+    properties.put("requiresRoot", "false");
+
+    for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
+      String value = ObjectUtils.toString(entry.getValue());
+      if (StringUtils.isNotEmpty(value)) {
+        properties.put(entry.getKey(), value);
+      }
+    }
+
+    zip.putNextEntry(new ZipEntry(path));
+    try {
+      properties.storeToXML(zip, null);
+    }
+    finally {
+      zip.closeEntry();
     }
   }
 
