@@ -27,6 +27,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -38,6 +41,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
@@ -58,6 +62,8 @@ public final class ContentPackage implements Closeable {
   private final XmlContentBuilder xmlContentBuilder;
 
   private static final String CONTENT_TYPE_CHARSET_EXTENSION = ";charset=";
+
+  private static final Pattern NAMESPACE_PATH_PART = Pattern.compile("^([^/\\:]+)\\:([^/]+)$");
 
   /**
    * @param os Output stream
@@ -92,7 +98,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
-    String fullPath = "jcr_root" + path + "/.content.xml";
+    String fullPath = buildJcrPathForZip(path) + "/.content.xml";
     Document doc = xmlContentBuilder.buildPage(content);
     writeXmlDocument(fullPath, doc);
   }
@@ -106,7 +112,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addContent(String path, Map<String, Object> content) throws IOException {
-    String fullPath = "jcr_root" + path + "/.content.xml";
+    String fullPath = buildJcrPathForZip(path) + "/.content.xml";
     Document doc = xmlContentBuilder.buildContent(content);
     writeXmlDocument(fullPath, doc);
   }
@@ -129,7 +135,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addFile(String path, InputStream inputStream, String contentType) throws IOException {
-    String fullPath = "jcr_root" + path;
+    String fullPath = buildJcrPathForZip(path);
     writeBinaryFile(fullPath, inputStream);
 
     if (StringUtils.isNotEmpty(contentType)) {
@@ -140,6 +146,23 @@ public final class ContentPackage implements Closeable {
       Document doc = xmlContentBuilder.buildNtFile(mimeType, encoding);
       writeXmlDocument(fullPathMetadata, doc);
     }
+  }
+
+  /**
+   * If path parts contain namespace definitions they need to be escaped for the ZIP file.
+   * Example: oak:index -> _oak_index
+   * @param path Path
+   * @return Safe path
+   */
+  private String buildJcrPathForZip(String path) {
+    String[] pathParts = StringUtils.split(path, "/");
+    for (int i = 0; i < pathParts.length; i++) {
+      Matcher matcher = NAMESPACE_PATH_PART.matcher(pathParts[i]);
+      if (matcher.matches()) {
+        pathParts[i] = "_" + matcher.group(1) + "_" + matcher.group(2);
+      }
+    }
+    return "jcr_root/" + StringUtils.join(pathParts, "/");
   }
 
   /**
@@ -204,7 +227,7 @@ public final class ContentPackage implements Closeable {
   private void buildPackageMetadata() throws IOException {
     metadata.validate();
     buildTemplatedMetadataFile("META-INF/vault/config.xml");
-    buildTemplatedMetadataFile("META-INF/vault/properties.xml");
+    buildPropertiesFile("META-INF/vault/properties.xml");
     buildTemplatedMetadataFile("META-INF/vault/settings.xml");
     writeXmlDocument("META-INF/vault/filter.xml", xmlContentBuilder.buildFilter(metadata.getFilters()));
   }
@@ -228,6 +251,32 @@ public final class ContentPackage implements Closeable {
       finally {
         zip.closeEntry();
       }
+    }
+  }
+
+  /**
+   * Build java Properties XML file.
+   * @param path Path
+   * @throws IOException
+   */
+  private void buildPropertiesFile(String path) throws IOException {
+    Properties properties = new Properties();
+    properties.put("packageFormatVersion", "2");
+    properties.put("requiresRoot", "false");
+
+    for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
+      String value = ObjectUtils.toString(entry.getValue());
+      if (StringUtils.isNotEmpty(value)) {
+        properties.put(entry.getKey(), value);
+      }
+    }
+
+    zip.putNextEntry(new ZipEntry(path));
+    try {
+      properties.storeToXML(zip, null);
+    }
+    finally {
+      zip.closeEntry();
     }
   }
 

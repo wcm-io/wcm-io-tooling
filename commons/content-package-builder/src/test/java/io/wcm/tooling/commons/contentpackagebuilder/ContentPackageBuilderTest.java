@@ -113,14 +113,14 @@ public class ContentPackageBuilderTest {
     try (ContentPackage contentPackage = builder.build(testFile)) {
       // add two content pages
       contentPackage.addPage("/content/page1", ImmutableMap.<String, Object>of("var1", "v1"));
-      contentPackage.addPage("/content/page2", ImmutableMap.<String, Object>of("var2", "v2"));
+      contentPackage.addPage("/content/ns:page2", ImmutableMap.<String, Object>of("var2", "v2"));
     }
 
     // validate resulting XML
     Document page1Xml = getXmlFromZip("jcr_root/content/page1/.content.xml");
     assertXpathEvaluatesTo("v1", "/jcr:root/jcr:content/@var1", page1Xml);
 
-    Document page2Xml = getXmlFromZip("jcr_root/content/page2/.content.xml");
+    Document page2Xml = getXmlFromZip("jcr_root/content/_ns_page2/.content.xml");
     assertXpathEvaluatesTo("v2", "/jcr:root/jcr:content/@var2", page2Xml);
   }
 
