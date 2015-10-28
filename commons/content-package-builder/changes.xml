@@ -27,6 +27,9 @@
       <action type="fix" dev="sseifert">
         Avoid warning when uploading package to AEM and no "AC Handling" parameter was set in content package metadata.
       </action>
+      <action type="fix" dev="sseifert">
+        Properly escape files/paths in ZIP file derived from JCR paths with namespaces.
+      </action>
     </release>
 
     <release version="1.1.0" date="2015-09-18">

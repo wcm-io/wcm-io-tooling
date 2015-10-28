@@ -28,6 +28,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -60,6 +62,8 @@ public final class ContentPackage implements Closeable {
   private final XmlContentBuilder xmlContentBuilder;
 
   private static final String CONTENT_TYPE_CHARSET_EXTENSION = ";charset=";
+
+  private static final Pattern NAMESPACE_PATH_PART = Pattern.compile("^([^/\\:]+)\\:([^/]+)$");
 
   /**
    * @param os Output stream
@@ -94,7 +98,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
-    String fullPath = "jcr_root" + path + "/.content.xml";
+    String fullPath = buildJcrPathForZip(path) + "/.content.xml";
     Document doc = xmlContentBuilder.buildPage(content);
     writeXmlDocument(fullPath, doc);
   }
@@ -108,7 +112,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addContent(String path, Map<String, Object> content) throws IOException {
-    String fullPath = "jcr_root" + path + "/.content.xml";
+    String fullPath = buildJcrPathForZip(path) + "/.content.xml";
     Document doc = xmlContentBuilder.buildContent(content);
     writeXmlDocument(fullPath, doc);
   }
@@ -131,7 +135,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addFile(String path, InputStream inputStream, String contentType) throws IOException {
-    String fullPath = "jcr_root" + path;
+    String fullPath = buildJcrPathForZip(path);
     writeBinaryFile(fullPath, inputStream);
 
     if (StringUtils.isNotEmpty(contentType)) {
@@ -142,6 +146,23 @@ public final class ContentPackage implements Closeable {
       Document doc = xmlContentBuilder.buildNtFile(mimeType, encoding);
       writeXmlDocument(fullPathMetadata, doc);
     }
+  }
+
+  /**
+   * If path parts contain namespace definitions they need to be escaped for the ZIP file.
+   * Example: oak:index -> _oak_index
+   * @param path Path
+   * @return Safe path
+   */
+  private String buildJcrPathForZip(String path) {
+    String[] pathParts = StringUtils.split(path, "/");
+    for (int i = 0; i < pathParts.length; i++) {
+      Matcher matcher = NAMESPACE_PATH_PART.matcher(pathParts[i]);
+      if (matcher.matches()) {
+        pathParts[i] = "_" + matcher.group(1) + "_" + matcher.group(2);
+      }
+    }
+    return "jcr_root/" + StringUtils.join(pathParts, "/");
   }
 
   /**
