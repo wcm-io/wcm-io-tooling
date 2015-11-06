@@ -36,6 +36,9 @@
       <action type="update" dev="sseifert">
         Update to global-build-tools 6.
       </action>
+      <action type="update" dev="sseifert">
+        Switch from Cobertura to JaCoCo for code coverage analysis.
+      </action>
     </release>
 
     <release version="9" date="2015-07-16">
