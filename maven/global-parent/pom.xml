@@ -182,8 +182,6 @@
           <excludes>
             <exclude>**/*IT.java</exclude>
           </excludes>
-          <!-- Fix Cobertura with JDK 1.7: see http://stackoverflow.com/questions/7010665/testng-emma-cobertura-coverage-and-jdk-7-result-in-classformaterror-and-verif -->
-          <argLine>-Xmx1024m -XX:-UseSplitVerifier</argLine>
           <!-- Execute tests in parallel by default -->
           <parallel>classes</parallel>
           <threadCount>4</threadCount>
@@ -640,47 +638,10 @@
           </dependencies>
         </plugin>
 
-        <!--
-          The cobertura-maven-plugin has an instrumentation configuration
-          element which can be used to customize the instrumentation done
-          within Cobertura.
-
-          Parameter    Required?    Description    Default Value
-          -branch    No    Specify the minimum acceptable branch coverage rate needed by each class. This should be an integer value between 0 and 100.    0
-          -datafile    No    Specify the name of the file containing metadata about your classes.    "cobertura.ser" in the current directory
-          -line    No    Specify the minimum acceptable line coverage rate needed by each class. This should be an integer value between 0 and 100.    0
-          -regex    No    For finer grained control, you can optionally specify minimum branch and line coverage rates for individual classes using any number of regular expressions.    None.
-          -packagebranch    No    Specify the minimum acceptable average branch coverage rate needed by each package. This should be an integer value between 0 and 100.    0
-          -packageline    No    Specify the minimum acceptable average line coverage rate needed by each package. This should be an integer value between 0 and 100.    0
-          -totalbranch    No    Specify the minimum acceptable average branch coverage rate needed by the project as a whole. This should be an integer value between 0 and 100.    0
-          -totalline    No    Specify the minimum acceptable average line coverage rate needed by the project as a whole. This should be an integer value between 0 and 100.    0
-        -->
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.7</version>
-          <configuration>
-            <check>
-              <haltOnFailure>false</haltOnFailure>
-              <branchRate>60</branchRate>
-              <lineRate>80</lineRate>
-              <totalBranchRate>70</totalBranchRate>
-              <totalLineRate>80</totalLineRate>
-              <packageLineRate>80</packageLineRate>
-              <packageBranchRate>60</packageBranchRate>
-            </check>
-          </configuration>
-          <!-- do not execute automatically -->
-          <!--
-          <executions>
-            <execution>
-              <id>cobertura-test-coverage</id>
-              <goals>
-                <goal>check</goal>
-              </goals>
-            </execution>
-          </executions>
-          -->
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.7.5.201505241946</version>
         </plugin>
 
         <plugin>
@@ -864,18 +825,11 @@
         </configuration>
       </plugin>
 
-      <!-- cobertura -->
+      <!-- Code coverage -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.7</version>
-        <!-- specific to reporting -->
-        <configuration>
-          <formats>
-            <format>html</format>
-            <format>xml</format>
-          </formats>
-        </configuration>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.5.201505241946</version>
       </plugin>
 
       <!--
@@ -933,6 +887,82 @@
             </configuration>
           </plugin>
 
+          <!-- Code coverage report -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <destFile>${project.build.directory}/jacoco-unit.exec</destFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>prepare-agent-integration</id>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+                <configuration>
+                  <destFile>${project.build.directory}/jacoco-it.exec</destFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+                <configuration>
+                  <dataFile>${project.build.directory}/jacoco-unit.exec</dataFile>
+                  <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit</outputDirectory>
+                </configuration>
+              </execution>
+              <execution>
+                <id>report-integration</id>
+                <goals>
+                  <goal>report-integration</goal>
+                </goals>
+                <configuration>
+                  <dataFile>${project.build.directory}/jacoco-it.exec</dataFile>
+                  <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                </configuration>
+              </execution>
+              <execution>
+                <id>merge-unit-and-it</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>merge</goal>
+                </goals>
+                <configuration>
+                  <destFile>${project.build.directory}/jacoco.exec</destFile>
+                  <fileSets>
+                    <fileSet>
+                      <directory>${project.build.directory}</directory>
+                      <includes>
+                        <include>jacoco-unit.exec</include>
+                        <include>jacoco-it.exec</include>
+                      </includes>
+                    </fileSet>
+                  </fileSets>
+                </configuration>
+              </execution>
+              <execution>
+                <id>report-merged</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+                <configuration>
+                  <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                  <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+                
         </plugins>
       </build>
       <reporting>
@@ -951,15 +981,6 @@
                 </reports>
               </reportSet>
             </reportSets>
-          </plugin>
-          <!-- skip javadoc generation for continuous integration build -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
           </plugin>
 
         </plugins>
@@ -1009,15 +1030,6 @@
                 </reports>
               </reportSet>
             </reportSets>
-          </plugin>
-          <!-- skip javadoc generation for continuous integration build -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <inherited>true</inherited>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
           </plugin>
 
         </plugins>
