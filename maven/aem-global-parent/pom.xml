@@ -75,6 +75,15 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- global dependency for static code analysis -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <!-- Downgrade to 3.0.0 because 3.0.1u2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
+      <version>3.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
