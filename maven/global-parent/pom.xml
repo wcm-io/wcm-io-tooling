@@ -643,7 +643,8 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.5.201505241946</version>
+          <!-- Do not use 0.7.5.201505241946 because jenkins jacoco plugin does not support it yet -->
+          <version>0.7.4.201502262128</version>
         </plugin>
 
         <plugin>
