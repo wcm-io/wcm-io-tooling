@@ -672,12 +672,6 @@
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
-          <artifactId>dashboard-maven-plugin</artifactId>
-          <version>1.0.0-beta-1</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>1.8</version>
         </plugin>
@@ -814,16 +808,6 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <!-- Do not use 0.7.5.201505241946 because jenkins jacoco plugin does not support it yet -->
         <version>0.7.4.201502262128</version>
-      </plugin>
-
-      <!--
-        To add this report to your site, you must add the dashboard-maven-plugin to the
-        special reporting section in the POM as the last report.
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>dashboard-maven-plugin</artifactId>
-        <version>1.0.0-beta-1</version>
       </plugin>
 
     </plugins>
