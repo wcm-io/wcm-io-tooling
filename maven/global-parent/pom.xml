@@ -624,6 +624,29 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
           <version>2.4</version>
+          <configuration>
+            <tagListOptions>
+              <tagClasses>
+                <tagClass>
+                  <displayName>Todo Work</displayName>
+                  <tags>
+                    <tag>
+                      <matchString>TODO:</matchString>
+                      <matchType>exact</matchType>
+                    </tag>
+                    <tag>
+                      <matchString>FIXME</matchString>
+                      <matchType>exact</matchType>
+                    </tag>
+                    <tag>
+                      <matchString>XXX</matchString>
+                      <matchType>exact</matchType>
+                    </tag>
+                  </tags>
+                </tagClass>
+              </tagClasses>
+            </tagListOptions>
+          </configuration>
         </plugin>
 
         <plugin>
@@ -752,12 +775,6 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.17</version>
         <inherited>true</inherited>
-        <configuration>
-          <configLocation>global-build-tools/checkstyle.xml</configLocation>
-          <encoding>UTF-8</encoding>
-          <enableRulesSummary>false</enableRulesSummary>
-          <linkXRef>false</linkXRef>
-        </configuration>
         <reportSets>
           <reportSet>
             <reports>
@@ -773,15 +790,6 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.5</version>
         <inherited>true</inherited>
-        <configuration>
-          <targetJdk>${build.compiler.target}</targetJdk>
-          <format>xml</format>
-          <linkXref>true</linkXref>
-          <sourceEncoding>utf-8</sourceEncoding>
-          <rulesets>
-            <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
-          </rulesets>
-        </configuration>
       </plugin>
 
       <!-- taglist -->
@@ -790,29 +798,6 @@
         <artifactId>taglist-maven-plugin</artifactId>
         <version>2.4</version>
         <inherited>true</inherited>
-        <configuration>
-          <tagListOptions>
-            <tagClasses>
-              <tagClass>
-                <displayName>Todo Work</displayName>
-                <tags>
-                  <tag>
-                    <matchString>TODO:</matchString>
-                    <matchType>exact</matchType>
-                  </tag>
-                  <tag>
-                    <matchString>FIXME</matchString>
-                    <matchType>exact</matchType>
-                  </tag>
-                  <tag>
-                    <matchString>XXX</matchString>
-                    <matchType>exact</matchType>
-                  </tag>
-                </tags>
-              </tagClass>
-            </tagClasses>
-          </tagListOptions>
-        </configuration>
       </plugin>
 
       <!-- findbugs -->
@@ -821,11 +806,6 @@
         <artifactId>findbugs-maven-plugin</artifactId>
         <version>3.0.2</version>
         <inherited>true</inherited>
-        <configuration>
-          <xmlOutput>true</xmlOutput>
-          <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
-          <excludeFilterFile>global-build-tools/findbugs-exclude.xml</excludeFilterFile>
-        </configuration>
       </plugin>
 
       <!-- Code coverage -->
