@@ -292,13 +292,6 @@
         </reportSets>
       </plugin>
 
-      <!-- Downgrade to 2.6 to solve conflict with maven-bundle-plugin/baseline check when compiling against Java 7 -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-      </plugin>
-
     </plugins>
   </reporting>
 

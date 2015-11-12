@@ -30,6 +30,18 @@
       <action type="add" dev="sseifert">
         Add default versions for additional maven plugins: maven-shade-plugin
       </action>
+      <action type="update" dev="sseifert">
+        Update build and report plugins to latest versions.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 6.
+      </action>
+      <action type="update" dev="sseifert">
+        Switch from Cobertura to JaCoCo for code coverage analysis.
+      </action>
+      <action type="update" dev="sseifert">
+        Do not skip javadoc generation for continous-integration build to make sure Java 8 javadoc errors break the build.
+      </action>
     </release>
 
     <release version="9" date="2015-07-16">

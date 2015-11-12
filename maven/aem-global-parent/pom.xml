@@ -31,7 +31,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>9</version>
+    <version>10-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -72,6 +72,15 @@
       <groupId>org.osgi</groupId>
       <artifactId>osgi.annotation</artifactId>
       <version>6.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- global dependency for static code analysis -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <!-- Downgrade to 3.0.0 because 3.0.1u2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
+      <version>3.0.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -129,7 +138,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.0.1</version>
           <extensions>true</extensions>
           <configuration>
             <instructions>
@@ -159,7 +168,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
-          <version>2.1.0</version>
+          <version>2.1.6</version>
           <!-- Default configuration for deploying bundles into running CQ instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
@@ -263,6 +272,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
             <inherited>false</inherited>
             <executions>
               <execution>
@@ -278,6 +288,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.6</version>
             <inherited>false</inherited>
             <extensions>true</extensions>
             <configuration>

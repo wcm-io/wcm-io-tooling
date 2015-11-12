@@ -29,9 +29,6 @@
 
     <!-- Naming conventions -->
     <!-- http://checkstyle.sourceforge.net/config_naming.html -->
-    <module name="AbstractClassName">
-      <property name="format" value="^Abstract.*$"/>
-    </module>
     <module name="MemberName">
       <property name="format" value="^[a-z][_a-zA-Z0-9]*$"/>
     </module>
