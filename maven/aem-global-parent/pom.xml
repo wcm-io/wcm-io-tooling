@@ -37,7 +37,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.0.17-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -70,8 +70,14 @@
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
-      <artifactId>osgi.annotation</artifactId>
-      <version>6.0.1</version>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>1.3.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.metatype.annotations</artifactId>
+      <version>1.3.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -144,25 +150,21 @@
             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
               <Bundle-Description>${project.description} (Rev. ${buildNumber} at ${timestamp})</Bundle-Description>
+              <!-- Enable processing of OSGI DS component annotations -->
+              <_dsannotations>*</_dsannotations>
+              <!-- Enable processing of OSGI metatype annotations -->
+              <_metatypeannotations>*</_metatypeannotations>
+              <!-- Support parsing of maven-scr-plugin annotations through the felix.scr.bnd plugin -->
+              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=target/classes</_plugin> 
             </instructions>
           </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-scr-plugin</artifactId>
-          <version>1.21.0</version>
-          <executions>
-            <execution>
-              <id>generate-scr-scrdescriptor</id>
-              <goals>
-                <goal>scr</goal>
-              </goals>
-              <configuration>
-                <strictMode>true</strictMode>
-              </configuration>
-            </execution>
-          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>org.apache.felix.scr.bnd</artifactId>
+              <version>1.4.1-R1710494</version>
+            </dependency> 
+          </dependencies>
         </plugin>
 
         <plugin>
