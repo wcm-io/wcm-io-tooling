@@ -155,14 +155,14 @@
               <!-- Enable processing of OSGI metatype annotations -->
               <_metatypeannotations>*</_metatypeannotations>
               <!-- Support parsing of maven-scr-plugin annotations through the felix.scr.bnd plugin -->
-              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=target/classes</_plugin> 
+              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=target/classes;logToFile=false</_plugin> 
             </instructions>
           </configuration>
           <dependencies>
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.4.1-R1710494</version>
+              <version>1.4.1-R1710494-FELIX-5108</version>
             </dependency> 
           </dependencies>
         </plugin>
