@@ -183,7 +183,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.0.2-R1713394-FELIX-5116</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'bundle' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -191,8 +191,12 @@
               <id>bundle</id>
               <phase>process-classes</phase>
               <goals>
-                <goal>bundle</goal>
+                <goal>manifest</goal>
               </goals>
+              <configuration>
+                <exportScr>true</exportScr>
+                <scrLocation>${project.build.outputDirectory}</scrLocation>
+              </configuration>
             </execution>
           </executions>
           <configuration>
@@ -204,7 +208,7 @@
               <!-- Enable processing of OSGI metatype annotations -->
               <_metatypeannotations>*</_metatypeannotations>
               <!-- Support parsing of maven-scr-plugin annotations through the felix.scr.bnd plugin -->
-              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=${project.build.outputDirectory};logToFile=false</_plugin> 
+              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=${project.build.outputDirectory};logToFile=false</_plugin>
             </instructions>
           </configuration>
           <dependencies>
@@ -388,6 +392,19 @@
                         <versionRange>[3.0.1,)</versionRange>
                         <goals>
                           <goal>bundle</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <ignore />
+                      </action>
+                    </pluginExecution>
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.apache.felix</groupId>
+                        <artifactId>maven-bundle-plugin</artifactId>
+                        <versionRange>[3.0.1,)</versionRange>
+                        <goals>
+                          <goal>manifest</goal>
                         </goals>
                       </pluginExecutionFilter>
                       <action>
