@@ -186,10 +186,9 @@
           <version>3.0.2-R1713394-FELIX-5116</version>
           <extensions>true</extensions>
           <executions>
-            <!-- Configure extra execution of 'bundle' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
+            <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
             <execution>
-              <id>bundle</id>
-              <phase>process-classes</phase>
+              <id>scr-metadata</id>
               <goals>
                 <goal>manifest</goal>
               </goals>
@@ -416,6 +415,7 @@
                       </pluginExecutionFilter>
                       <action>
                         <execute>
+                          <runOnConfiguration>true</runOnConfiguration>
                           <runOnIncremental>true</runOnIncremental>
                         </execute>
                       </action>
