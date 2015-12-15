@@ -50,7 +50,7 @@ final class PackageMetadata {
   /**
    * Default constructor
    */
-  public PackageMetadata() {
+  PackageMetadata() {
     // register default XML namesapces
     xmlNamespaces.putAll(XmlNamespaces.DEFAULT_NAMESPACES);
   }
