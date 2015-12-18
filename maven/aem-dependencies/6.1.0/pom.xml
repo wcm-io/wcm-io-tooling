@@ -246,12 +246,12 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.10.0</version>
+        <version>1.10</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.5.0</version>
+        <version>1.5</version>
       </dependency>
 
       <!-- OSGI -->
