@@ -200,9 +200,7 @@
             <dependency>
               <groupId>biz.aQute.bnd</groupId>
               <artifactId>biz.aQute.bndlib</artifactId>
-              <!-- temporary update to a newer bndlib intermediate release until and official one is released -->
-              <!-- we need the fix from https://github.com/bndtools/bnd/issues/1183 to support AEM 6.1 -->
-              <version>3.1.0-R151204</version>
+              <version>3.1.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
