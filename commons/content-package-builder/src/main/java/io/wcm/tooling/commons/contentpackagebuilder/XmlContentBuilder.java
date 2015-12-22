@@ -50,7 +50,7 @@ final class XmlContentBuilder {
   static final String NT_FILE = "nt:file";
   static final String NT_RESOURCE = "nt:resource";
 
-  public XmlContentBuilder(Map<String, String> xmlNamespaces) {
+  XmlContentBuilder(Map<String, String> xmlNamespaces) {
     this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
     this.documentBuilderFactory.setNamespaceAware(true);
     try {
