@@ -394,7 +394,8 @@
                       </pluginExecutionFilter>
                       <action>
                         <execute>
-                          <runOnConfiguration>true</runOnConfiguration>
+                          <!-- disabled - provokes too much builds in eclipse? -->
+                          <!--runOnConfiguration>true</runOnConfiguration-->
                           <runOnIncremental>true</runOnIncremental>
                         </execute>
                       </action>
