@@ -253,7 +253,7 @@
             <bundleStatusURL>${sling.url}/system/console/bundles/.json</bundleStatusURL>
             <userId>${sling.user}</userId>
             <password>${sling.password}</password>
-            <retryCount>12</retryCount>
+            <retryCount>24</retryCount>
             <retryDelay>5</retryDelay>
             <excludeFiles>
               <exclude>^META-INF/.*</exclude>
