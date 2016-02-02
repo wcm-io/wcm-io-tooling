@@ -37,7 +37,7 @@ class ArtifactHelper {
   private final ArtifactRepository localRepository;
   private final java.util.List<ArtifactRepository> remoteRepositories;
 
-  public ArtifactHelper(RepositorySystem repository, ArtifactRepository localRepository, List<ArtifactRepository> remoteRepositories) {
+  ArtifactHelper(RepositorySystem repository, ArtifactRepository localRepository, List<ArtifactRepository> remoteRepositories) {
     this.repository = repository;
     this.localRepository = localRepository;
     this.remoteRepositories = remoteRepositories;
