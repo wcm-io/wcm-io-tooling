@@ -25,7 +25,7 @@
 
     <release version="1.1.2" date="not released">
       <action type="fix" dev="sseifert">
-        Retry HTTP method if server retruns with HTTP 503 (service not available).
+        Retry HTTP calls if server returns HTTP error code.
       </action>
     </release>
 
