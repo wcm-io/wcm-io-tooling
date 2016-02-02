@@ -3,16 +3,8 @@ About CQ Maven Plugin
 
 Convenience maven plugin for working with CQ/AEM maven projects.
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/cq-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/cq-maven-plugin)
 
-### Maven Dependency
-
-```xml
-<plugin>
-  <groupId>io.wcm.maven.plugins</groupId>
-  <artifactId>cq-maven-plugin</artifactId>
-  <version>1.0.2</version>
-</plugin>
-```
 
 ### Documentation
 
