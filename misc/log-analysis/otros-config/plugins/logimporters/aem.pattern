@@ -1,0 +1,19 @@
+type=log4j
+dateFormat=dd.MM.yyyy HH:mm:ss.SSS
+name=AEM error logs
+
+rePattern=(\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d \\d\\d\\:\\d\\d\\:\\d\\d\\.\\d\\d\\d) \\*([^\\]\\[]+)\\* \\[([^\\]\\[]+|\\S+ \\[\\d+\\] [^\\]\\[]+)\\] (\\S+) (.*)
+
+# "thread" has two variants: internal thread with a [name] or http thread with [ip [threadid] 1st line of http request]
+
+TIMESTAMP.group=1
+LEVEL.group=2
+THREAD.group=3
+CLASS.group=4
+MESSAGE.group=5
+
+# examples
+# 14.10.2014 21:45:39.480 *INFO* [pool-6-thread-1] com.adobe.granite.repository Service [3178] ServiceEvent REGISTERED
+# 20.03.2014 06:33:05.176 *WARN* [10.0.0.58 [1395293522102] POST /crx/packmgr/service/console.html/etc/packages/vwd4/vwd4_new_pia_samplecontent.zip?cmd=install HTTP/1.1] com.day.jcr.vault.fs.impl.io.DocViewSAXImporter Packaged node at /content/vw_nfz/dealers/de_sample/p_70289/brand/de/tools/event_pool/2010/test_event_6/jcr:content is referenceable and collides with existing node at /content/vw_nfz/dealers/sample_content/p_70289/brand/de/tools/event_pool/2010/test_event_6/jcr:content. Will create new UUID.
+# 14.10.2014 21:57:03.705 *INFO* [Background Update io.wcm.config.core (395)] io.wcm.config.core Service [io.wcm.config.core.override.impl.RequestHeaderOverrideProvider,3188] ServiceEvent REGISTERED
+# 14.10.2014 21:46:27.148 *DEBUG* [127.0.0.1 [1413315987145] POST /content/config-test/_jcr_content.configProvider.json HTTP/1.1] io.wcm.config.core.management.impl.ConfigurationFinderImpl find(/content/config-test/jcr:content, /apps/wcm-io-config-sample-app): /content/config-test/jcr:content
