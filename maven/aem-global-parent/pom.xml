@@ -247,7 +247,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.1.0</version>
+          <version>1.1.1-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <bundleStatusURL>${sling.url}/system/console/bundles/.json</bundleStatusURL>
