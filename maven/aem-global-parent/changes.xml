@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         org.apache.felix.scr.annotations are no longer included as default provided dependency, but are still supported if included explicitly.
       </action>
+      <action type="update" dev="sseifert">
+        Increase wcmio-content-package-maven-plugin retryCount to make deployment of AEM service packs more reliable.
+      </action>
     </release>
 
     <release version="1.0.16" date="2015-11-12">
