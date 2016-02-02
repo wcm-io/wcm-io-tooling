@@ -79,6 +79,9 @@ public class PackageManagerHtmlMessageCall implements HttpCall<String> {
 
         return responseString;
       }
+      else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_SERVICE_UNAVAILABLE) {
+        throw new MojoExecutionException("Service not available: " + responseString);
+      }
       else {
         throw new MojoExecutionException("Failure:\n" + responseString);
       }
