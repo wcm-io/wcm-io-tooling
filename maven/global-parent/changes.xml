@@ -23,6 +23,13 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="11" date="not released">
+      <action type="update" dev="sseifert">
+        Replaced Maven Eclipse plugin with org.apache.maven.plugins:maven-eclipse-plugin with io.wcm.devops.maven.plugins:eclipse-maven-plugin
+        - we have to use our own fork of this plugin because the original plugin is retired.
+      </action>
+    </release>
+
     <release version="10" date="2015-11-12">
       <action type="update" dev="sseifert">
         jgitflow-maven-plugin: Set default line ending to unix-style (lf).

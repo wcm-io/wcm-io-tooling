@@ -25,6 +25,9 @@
 
     <release version="1.1.0" date="not released">
       <action type="update" dev="sseifert">
+        Update global-parent dependency to 11.
+      </action>
+      <action type="update" dev="sseifert">
         Add full support of OSGi DS and Metatype annotations and remove Maven SCR Plugin.
         Felix SCR annotations are still supported as well, but it is recommended to migrate to OSGi annotations.
         Support for Felix SCR annotations will be removed in the future.

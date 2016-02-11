@@ -226,8 +226,8 @@
 
       <!-- Eclipse configuration -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
+        <groupId>io.wcm.devops.maven.plugins</groupId>
+        <artifactId>eclipse-maven-plugin</artifactId>
         <inherited>true</inherited>
         <configuration>
           <downloadSources>true</downloadSources>
@@ -352,6 +352,46 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>ban-maven-eclipse-plugin</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedPlugins>
+                  <excludes>
+                    <exclude>org.apache.maven.plugins:maven-eclipse-plugin</exclude>
+                  </excludes>
+                  <message>
+*********************************************************************
+
+  PLEASE UPDATE YOUR PROJECT POMS:
+
+  Please replace the Maven plugin
+
+    org.apache.maven.plugins:maven-eclipse-plugin
+
+  with
+
+    io.wcm.devops.maven.plugins:eclipse-maven-plugin
+  
+  in all of your POMs - we have to use our own fork of this plugin
+  because the original plugin is retired.
+  
+  If you do not do this your application will still build, but
+  you may not get the correct genrate eclipse and static code
+  generation settings in your projects.
+  
+
+*********************************************************************
+
+</message>
+                </bannedPlugins>
+              </rules>
+              <fail>false</fail>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -458,9 +498,9 @@
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-eclipse-plugin</artifactId>
-          <version>2.10-R1595624_MECLIPSE-641</version>
+          <groupId>io.wcm.devops.maven.plugins</groupId>
+          <artifactId>eclipse-maven-plugin</artifactId>
+          <version>3.0.0-SNAPSHOT</version>
         </plugin>
 
         <plugin>
