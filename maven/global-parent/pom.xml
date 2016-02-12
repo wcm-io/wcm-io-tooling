@@ -226,8 +226,8 @@
 
       <!-- Eclipse configuration -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-eclipse-plugin</artifactId>
+        <groupId>io.wcm.devops.maven.plugins</groupId>
+        <artifactId>eclipse-maven-plugin</artifactId>
         <inherited>true</inherited>
         <configuration>
           <downloadSources>true</downloadSources>
@@ -352,6 +352,46 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>ban-maven-eclipse-plugin</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedPlugins>
+                  <excludes>
+                    <exclude>org.apache.maven.plugins:maven-eclipse-plugin</exclude>
+                  </excludes>
+                  <message>
+*********************************************************************
+
+  PLEASE UPDATE YOUR PROJECT POMS:
+
+  Please replace the Maven plugin
+
+    org.apache.maven.plugins:maven-eclipse-plugin
+
+  with
+
+    io.wcm.devops.maven.plugins:eclipse-maven-plugin
+  
+  in all of your POMs - we have to use our own fork of this plugin
+  because the original plugin is retired.
+  
+  If you do not do this your application will still build, but
+  you may not get the correct genrate eclipse and static code
+  generation settings in your projects.
+  
+
+*********************************************************************
+
+</message>
+                </bannedPlugins>
+              </rules>
+              <fail>false</fail>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -442,7 +482,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.3</version>
+          <version>3.5.1</version>
         </plugin>
 
         <plugin>
@@ -458,9 +498,9 @@
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-eclipse-plugin</artifactId>
-          <version>2.10-R1595624_MECLIPSE-641</version>
+          <groupId>io.wcm.devops.maven.plugins</groupId>
+          <artifactId>eclipse-maven-plugin</artifactId>
+          <version>3.0.0-SNAPSHOT</version>
         </plugin>
 
         <plugin>
@@ -472,7 +512,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.19</version>
+          <version>2.19.1</version>
           <dependencies>
             <dependency>
               <groupId>xerces</groupId>
@@ -515,7 +555,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.5</version>
+          <version>3.6</version>
           <configuration>
             <targetJdk>${build.compiler.target}</targetJdk>
             <format>xml</format>
@@ -569,7 +609,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>2.4.2</version>
+          <version>2.4.3</version>
         </plugin>
 
         <plugin>
@@ -587,13 +627,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19</version>
+          <version>2.19.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.19</version>
+          <version>2.19.1</version>
         </plugin>
 
         <plugin>
@@ -612,7 +652,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>3.0.3</version>
           <configuration>
             <xmlOutput>true</xmlOutput>
             <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
@@ -652,7 +692,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>xml-maven-plugin</artifactId>
-          <version>1.0</version>
+          <version>1.0.1</version>
           <!-- use saxon as XSLT 2.0 processor -->
           <dependencies>
             <dependency>
@@ -782,7 +822,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.5</version>
+        <version>3.6</version>
         <inherited>true</inherited>
       </plugin>
 
@@ -798,7 +838,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
         <inherited>true</inherited>
       </plugin>
 
