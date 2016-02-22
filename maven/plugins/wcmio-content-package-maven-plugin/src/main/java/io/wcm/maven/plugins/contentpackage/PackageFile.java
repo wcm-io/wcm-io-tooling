@@ -57,7 +57,7 @@ public final class PackageFile {
   private String classifier;
 
   /**
-   * A string of the form <code>groupId:artifactId:version[:packaging]</code>.
+   * A string of the form <code>groupId:artifactId[:packaging][:classifier]:version</code>.
    */
   private String artifact;
 

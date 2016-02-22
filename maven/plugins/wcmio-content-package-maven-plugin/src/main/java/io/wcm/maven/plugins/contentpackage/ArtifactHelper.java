@@ -44,7 +44,7 @@ class ArtifactHelper {
   }
 
   public File getArtifactFile(final String artifactId, final String groupId, final String version,
-      final String packaging, final String artifact, final String classifier) throws MojoFailureException, MojoExecutionException {
+      final String packaging, final String classifier, final String artifact) throws MojoFailureException, MojoExecutionException {
     // check if artifact was specified
     if ((StringUtils.isEmpty(artifactId) || StringUtils.isEmpty(groupId) || StringUtils.isEmpty(version))
         && StringUtils.isEmpty(artifact)) {
@@ -54,7 +54,7 @@ class ArtifactHelper {
     // split up artifact string
     Artifact artifactObject;
     if (StringUtils.isEmpty(artifactId)) {
-      artifactObject = getArtifactFromArtifactString(artifact);
+      artifactObject = getArtifactFromMavenCoordinates(artifact);
     }
     else {
       artifactObject = createArtifact(artifactId, groupId, version, packaging, classifier);
@@ -74,7 +74,13 @@ class ArtifactHelper {
     }
   }
 
-  private Artifact getArtifactFromArtifactString(final String artifact) throws MojoFailureException {
+  /**
+   * Parse coordinates following definition from https://maven.apache.org/pom.html#Maven_Coordinates
+   * @param artifact Artifact coordinates
+   * @return Artifact object
+   * @throws MojoFailureException if coordinates are semantically invalid
+   */
+  private Artifact getArtifactFromMavenCoordinates(final String artifact) throws MojoFailureException {
 
     String[] parts = StringUtils.split(artifact, ":");
 
@@ -105,8 +111,8 @@ class ArtifactHelper {
         throw new MojoFailureException("Invalid artifact: " + artifact);
     }
 
-    String artifactId = parts[1];
     String groupId = parts[0];
+    String artifactId = parts[1];
 
     return createArtifact(artifactId, groupId, version, packaging, classifier);
   }
