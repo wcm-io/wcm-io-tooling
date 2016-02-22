@@ -90,6 +90,12 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String version;
 
   /**
+   * The classifier of the artifact to install.
+   */
+  @Parameter(property = "vault.classifier")
+  private String classifier;
+
+  /**
    * A string of the form <code>groupId:artifactId:version[:packaging]</code>.
    */
   @Parameter(property = "vault.artifact")
@@ -124,7 +130,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     ArtifactHelper helper = new ArtifactHelper(repository, localRepository, remoteRepositories);
     if (packageFiles != null && packageFiles.length > 0) {
       for (PackageFile ref : packageFiles) {
-        File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getArtifact());
+        File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getArtifact(), ref.getClassifier());
         if (file == null) {
           file = ref.getPackageFile();
         }
@@ -135,7 +141,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       }
     }
     else {
-      File file = helper.getArtifactFile(artifactId, groupId, version, type, artifact);
+      File file = helper.getArtifactFile(artifactId, groupId, version, type, artifact, classifier);
       if (file == null) {
         file = getPackageFile();
       }
