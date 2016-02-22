@@ -52,7 +52,12 @@ public final class PackageFile {
   private String version;
 
   /**
-   * A string of the form <code>groupId:artifactId:version[:packaging]</code>.
+   * The classifier of the artifact to install.
+   */
+  private String classifier;
+
+  /**
+   * A string of the form <code>groupId:artifactId[:packaging][:classifier]:version</code>.
    */
   private String artifact;
 
@@ -78,6 +83,10 @@ public final class PackageFile {
 
   String getArtifact() {
     return this.artifact;
+  }
+
+  public String getClassifier() {
+    return classifier;
   }
 
 }

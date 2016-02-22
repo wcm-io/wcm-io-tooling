@@ -44,7 +44,7 @@ class ArtifactHelper {
   }
 
   public File getArtifactFile(final String artifactId, final String groupId, final String version,
-      final String packaging, final String artifact) throws MojoFailureException, MojoExecutionException {
+      final String packaging, final String classifier, final String artifact) throws MojoFailureException, MojoExecutionException {
     // check if artifact was specified
     if ((StringUtils.isEmpty(artifactId) || StringUtils.isEmpty(groupId) || StringUtils.isEmpty(version))
         && StringUtils.isEmpty(artifact)) {
@@ -54,14 +54,10 @@ class ArtifactHelper {
     // split up artifact string
     Artifact artifactObject;
     if (StringUtils.isEmpty(artifactId)) {
-      String[] parts = StringUtils.split(artifact, ":");
-      if (parts.length < 3 && parts.length > 4) {
-        throw new MojoFailureException("Invalid artifact: " + artifact);
-      }
-      artifactObject = repository.createArtifact(parts[0], parts[1], parts[2], parts.length > 3 ? parts[3] : null);
+      artifactObject = getArtifactFromMavenCoordinates(artifact);
     }
     else {
-      artifactObject = repository.createArtifact(groupId, artifactId, version, packaging);
+      artifactObject = createArtifact(artifactId, groupId, version, packaging, classifier);
     }
 
     // resolve artifact
@@ -76,6 +72,57 @@ class ArtifactHelper {
     else {
       throw new MojoExecutionException("Unable to download artifact: " + artifactObject.toString());
     }
+  }
+
+  /**
+   * Parse coordinates following definition from https://maven.apache.org/pom.html#Maven_Coordinates
+   * @param artifact Artifact coordinates
+   * @return Artifact object
+   * @throws MojoFailureException if coordinates are semantically invalid
+   */
+  private Artifact getArtifactFromMavenCoordinates(final String artifact) throws MojoFailureException {
+
+    String[] parts = StringUtils.split(artifact, ":");
+
+    String version;
+    String packaging = null;
+    String classifier = null;
+
+    switch (parts.length) {
+      case 3:
+        // groupId:artifactId:version
+        version = parts[2];
+        break;
+
+      case 4:
+        // groupId:artifactId:packaging:version
+        packaging = parts[2];
+        version = parts[3];
+        break;
+
+      case 5:
+        // groupId:artifactId:packaging:classifier:version
+        packaging = parts[2];
+        classifier = parts[3];
+        version = parts[4];
+        break;
+
+      default:
+        throw new MojoFailureException("Invalid artifact: " + artifact);
+    }
+
+    String groupId = parts[0];
+    String artifactId = parts[1];
+
+    return createArtifact(artifactId, groupId, version, packaging, classifier);
+  }
+
+  private Artifact createArtifact(final String artifactId, final String groupId, final String version, final String packaging, String classifier) {
+    if (StringUtils.isEmpty(classifier)) {
+      return repository.createArtifact(groupId, artifactId, version, packaging);
+    }
+
+    return repository.createArtifactWithClassifier(groupId, artifactId, version, packaging, classifier);
   }
 
 }
