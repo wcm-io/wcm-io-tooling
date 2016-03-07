@@ -1,5 +1,5 @@
 @echo off
-set otros_home=C:\java\olv-1.3.1
+set otros_home=C:\java\olv-1.4.0
 
 echo. Installs AEM-related OTROS plugins to %otros_home%
 echo. Deletes pre-installed example plugins
