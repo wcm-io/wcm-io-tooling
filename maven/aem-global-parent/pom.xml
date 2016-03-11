@@ -394,9 +394,9 @@
                       </pluginExecutionFilter>
                       <action>
                         <execute>
-                          <!-- disabled - provokes too much builds in eclipse? -->
-                          <!--runOnConfiguration>true</runOnConfiguration-->
-                          <runOnIncremental>true</runOnIncremental>
+                          <!-- Disable incremental building for bundle manifest, it leads to numerous build cycles in Eclipse on every file change -->
+                          <runOnIncremental>false</runOnIncremental>
+                          <runOnConfiguration>false</runOnConfiguration>
                         </execute>
                       </action>
                     </pluginExecution>
