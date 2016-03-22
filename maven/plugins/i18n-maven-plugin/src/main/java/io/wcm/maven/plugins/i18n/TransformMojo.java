@@ -19,11 +19,6 @@
  */
 package io.wcm.maven.plugins.i18n;
 
-import io.wcm.maven.plugins.i18n.readers.I18nReader;
-import io.wcm.maven.plugins.i18n.readers.JsonI18nReader;
-import io.wcm.maven.plugins.i18n.readers.PropertiesI18nReader;
-import io.wcm.maven.plugins.i18n.readers.XmlI18nReader;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -36,12 +31,20 @@ import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.sling.commons.json.JSONException;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.Scanner;
+import org.sonatype.plexus.build.incremental.BuildContext;
+
+import io.wcm.maven.plugins.i18n.readers.I18nReader;
+import io.wcm.maven.plugins.i18n.readers.JsonI18nReader;
+import io.wcm.maven.plugins.i18n.readers.PropertiesI18nReader;
+import io.wcm.maven.plugins.i18n.readers.XmlI18nReader;
 
 /**
  * Transform i18n resources in Java Properties, JSON or XML file format to Sling i18n Messages JSON or XML format.
@@ -53,6 +56,12 @@ public class TransformMojo extends AbstractMojo {
   private static final String FILE_EXTENSION_JSON = "json";
   private static final String FILE_EXTENSION_XML = "xml";
   private static final String FILE_EXTENSION_PROPERTIES = "properties";
+
+  private static final String[] SOURCE_FILES_INCLUDES = new String[] {
+      "**/*." + FILE_EXTENSION_PROPERTIES,
+      "**/*." + FILE_EXTENSION_XML,
+      "**/*." + FILE_EXTENSION_JSON
+  };
 
   /**
    * Source path containing the i18n source .properties or .xml files.
@@ -78,6 +87,9 @@ public class TransformMojo extends AbstractMojo {
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
+  @Component
+  private BuildContext buildContext;
+
   private File generatedResourcesFolder;
   private List<File> i18nSourceFiles;
 
@@ -85,10 +97,15 @@ public class TransformMojo extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     OutputFormat selectedOutputFormat = OutputFormat.valueOf(StringUtils.upperCase(outputFormat));
     try {
-      intialize();
+      File sourceDirectory = getSourceDirectory();
+      intialize(sourceDirectory);
 
-      List<File> sourceFiles = getI18nSourceFiles();
+      // skip incremental build if no i18n source file was changed
+      if (buildContext.isIncremental() && !isI18nSourceFileChanged(sourceDirectory)) {
+        return;
+      }
 
+      List<File> sourceFiles = getI18nSourceFiles(sourceDirectory);
       for (File file : sourceFiles) {
         try {
           // transform i18n files
@@ -113,25 +130,43 @@ public class TransformMojo extends AbstractMojo {
   }
 
   /**
+   * Checks if and i18n source file was changes in incremental build.
+   * @param sourceDirectory Source directory
+   * @return true if changes detected
+   */
+  private boolean isI18nSourceFileChanged(File sourceDirectory) {
+    Scanner scanner = buildContext.newScanner(sourceDirectory);
+    Scanner deleteScanner = buildContext.newDeleteScanner(sourceDirectory);
+    return isI18nSourceFileChanged(scanner) || isI18nSourceFileChanged(deleteScanner);
+  }
+
+  private boolean isI18nSourceFileChanged(Scanner scanner) {
+    scanner.setIncludes(SOURCE_FILES_INCLUDES);
+    scanner.addDefaultExcludes();
+    scanner.scan();
+    return scanner.getIncludedFiles().length > 0;
+  }
+
+  /**
    * Initialize parameters, which cannot get defaults from annotations. Currently only the root nodes.
    * @throws IOException
    */
-  private void intialize() throws IOException {
+  private void intialize(File sourceDirectory) throws IOException {
     getLog().debug("Initializing i18n plugin...");
 
     // resource
-    if (!getI18nSourceFiles().isEmpty()) {
+    if (!getI18nSourceFiles(sourceDirectory).isEmpty()) {
       File myGeneratedResourcesFolder = getGeneratedResourcesFolder();
       addResource(myGeneratedResourcesFolder.getPath(), target);
     }
 
   }
 
-  private void addResource(String sourceDirectory, String targetPath) {
+  private void addResource(String generatedResourcesDirectory, String targetPath) {
 
     // construct resource
     Resource resource = new Resource();
-    resource.setDirectory(sourceDirectory);
+    resource.setDirectory(generatedResourcesDirectory);
     resource.setTargetPath(targetPath);
 
     // add to build
@@ -142,23 +177,20 @@ public class TransformMojo extends AbstractMojo {
 
   /**
    * Fetches i18n source files from source directory.
+   * @param sourceDirectory Source directory
    * @return a list of XML files
    * @throws IOException
    */
   @SuppressWarnings("unchecked")
-  private List<File> getI18nSourceFiles() throws IOException {
+  private List<File> getI18nSourceFiles(File sourceDirectory) throws IOException {
 
     if (i18nSourceFiles == null) {
-      File sourceDirectory = getSourceDirectory();
-
       if (!sourceDirectory.isDirectory()) {
         i18nSourceFiles = Collections.emptyList();
       }
       else {
-        // get list of xml files
-        String includes = "**/*." + FILE_EXTENSION_PROPERTIES + ","
-            + "**/*." + FILE_EXTENSION_XML + ","
-            + "**/*." + FILE_EXTENSION_JSON;
+        // get list of source files
+        String includes = StringUtils.join(SOURCE_FILES_INCLUDES, ",");
         String excludes = FileUtils.getDefaultExcludesAsString();
 
         i18nSourceFiles = FileUtils.getFiles(sourceDirectory, includes, excludes);
@@ -196,6 +228,7 @@ public class TransformMojo extends AbstractMojo {
     else {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nJsonString());
     }
+    buildContext.refresh(targetfile);
   }
 
   /**
@@ -218,6 +251,7 @@ public class TransformMojo extends AbstractMojo {
     File parentDirectory = jsonFile.getParentFile();
     if (!parentDirectory.exists()) {
       parentDirectory.mkdirs();
+      buildContext.refresh(parentDirectory);
     }
 
     return jsonFile;
@@ -229,6 +263,7 @@ public class TransformMojo extends AbstractMojo {
       generatedResourcesFolder = new File(generatedResourcesFolderAbsolutePath);
       if (!generatedResourcesFolder.exists()) {
         generatedResourcesFolder.mkdirs();
+        buildContext.refresh(generatedResourcesFolder);
       }
     }
     return generatedResourcesFolder;

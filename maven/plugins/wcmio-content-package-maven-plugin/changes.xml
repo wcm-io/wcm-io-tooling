@@ -34,6 +34,9 @@
       <action type="fix" dev="sseifert">
         Retry HTTP calls if server returns HTTP error code.
       </action>
+      <action type="update" dev="sseifert">
+        Add m2e lifecycle mapping - ignore all goals by default in Eclipse.
+      </action>
     </release>
 
     <release version="1.1.0" date="2015-03-09">
