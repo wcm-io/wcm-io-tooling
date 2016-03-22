@@ -40,7 +40,7 @@
         Increase wcmio-content-package-maven-plugin retryCount to make deployment of AEM service packs more reliable.
       </action>
       <action type="update" dev="sseifert">
-        Update to wcmio-content-package-maven-plugin 1.1.2.
+        Update to latest wcm.io Maven Plugins.
       </action>
     </release>
 
