@@ -38,7 +38,7 @@ final class NodejsOutputStreamHandler extends Thread {
   private final InputStream inputStream;
   private final Log logger;
 
-  public NodejsOutputStreamHandler(InputStream inputStream, Log logger) {
+  NodejsOutputStreamHandler(InputStream inputStream, Log logger) {
     this.inputStream = inputStream;
     this.logger = logger;
   }
