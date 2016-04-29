@@ -37,6 +37,9 @@
       <action type="update" dev="sseifert">
         Add m2e lifecycle mapping - ignore all goals by default in Eclipse.
       </action>
+      <action type="add" dev="amuthmann">
+        Introduce 'relaxedSSLCheck' property to allow communication with hosts with self-signed certificates or non-matching host names.
+      </action>
     </release>
 
     <release version="1.1.0" date="2015-03-09">
