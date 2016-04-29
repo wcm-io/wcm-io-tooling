@@ -82,7 +82,7 @@
      #######################################################################
 
       Dependencies from this CQ release:
-      - cq-quickstart-beta-6.2.0-load20b.jar
+      - AEM_6.2_Quickstart.jar
 
      #######################################################################
 -->
@@ -91,7 +91,7 @@
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.2.0-load20b</version>
+        <version>6.2.0</version>
         <classifier>apis</classifier>
       </dependency>
 
