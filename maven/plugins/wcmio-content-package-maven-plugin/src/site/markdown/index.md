@@ -3,16 +3,8 @@ About Content Package Maven Plugin
 
 Install and download content packages via CRX package manager.
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/wcmio-content-package-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/wcmio-content-package-maven-plugin)
 
-### Maven Dependency
-
-```xml
-<plugin>
-  <groupId>io.wcm.maven.plugins</groupId>
-  <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.1.0</version>
-</plugin>
-```
 
 ### Documentation
 

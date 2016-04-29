@@ -30,6 +30,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.SSLContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
@@ -42,11 +46,16 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -126,6 +135,12 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.bundleStatusWaitLimit", defaultValue = "360")
   private int bundleStatusWaitLimit;
 
+  /**
+   * If set to true also self-signed certificates are accepted.
+   */
+  @Parameter(property = "vault.relaxedSSLCheck", defaultValue = "false")
+  private boolean relaxedSSLCheck;
+
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
 
@@ -164,7 +179,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       final CredentialsProvider credsProvider = new BasicCredentialsProvider();
       credsProvider.setCredentials(authScope, credentials);
 
-      return HttpClients.custom()
+      HttpClientBuilder httpClientBuilder = HttpClients.custom()
           .setDefaultCredentialsProvider(credsProvider)
           .addInterceptorFirst(new HttpRequestInterceptor() {
             @Override
@@ -173,11 +188,21 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
               AuthState authState = (AuthState)context.getAttribute(HttpClientContext.TARGET_AUTH_STATE);
               authState.update(new BasicScheme(), credentials);
             }
-          })
-          .build();
+          });
+
+      if (this.relaxedSSLCheck) {
+        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+        httpClientBuilder.setSSLSocketFactory(sslsf);
+      }
+
+      return httpClientBuilder.build();
     }
     catch (URISyntaxException ex) {
       throw new MojoExecutionException("Invalid url: " + getCrxPackageManagerUrl(), ex);
+    }
+    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex){
+      throw new MojoExecutionException("Could not set relaxedSSLCheck", ex);
     }
   }
 

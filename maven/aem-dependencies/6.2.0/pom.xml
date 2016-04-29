@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.1.0.0001-SNAPSHOT</version>
+  <version>6.2.0.0000-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-dependencies</name>
@@ -38,7 +38,7 @@
     <tag>HEAD</tag>
   </scm>
 
-  <inceptionYear>2014</inceptionYear>
+  <inceptionYear>2016</inceptionYear>
 
   <organization>
     <name>wcm.io</name>
@@ -82,7 +82,7 @@
      #######################################################################
 
       Dependencies from this CQ release:
-      - AEM_6.1_Quickstart.jar
+      - cq-quickstart-beta-6.2.0-load20b.jar
 
      #######################################################################
 -->
@@ -91,7 +91,7 @@
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.1.0</version>
+        <version>6.2.0-load20b</version>
         <classifier>apis</classifier>
       </dependency>
 
@@ -146,7 +146,7 @@
       <dependency>
         <groupId>joda-time</groupId>
         <artifactId>joda-time</artifactId>        
-        <version>2.7</version>
+        <version>2.9.1</version>
       </dependency>
 
       <!-- ################################################################################# -->
@@ -211,7 +211,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.3.2</version>
+        <version>3.4</version>
       </dependency>
       <!--
       json-20090211_1.jar
@@ -226,7 +226,7 @@
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.2</version>
       </dependency>
 
       <!-- from crx-quickstart/app/cq-quickstart-*-standalone.jar/resources/install/14 -->
@@ -251,7 +251,13 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.5</version>
+        <version>1.10</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-imaging</artifactId>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
 
       <!-- OSGI -->
@@ -283,9 +289,9 @@
         <version>2.2</version>
       </dependency>
       <dependency>
-        <groupId>javax.inject</groupId>
-        <artifactId>javax.inject</artifactId>
-        <version>1</version>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-atinject_1.0_spec</artifactId>
+        <version>1.0</version>
       </dependency>
 
       <!-- Guava -->
@@ -306,32 +312,32 @@
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>jackrabbit-jcr-commons</artifactId>
-        <version>2.10.0</version>
+        <version>2.12.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.commons.osgi</artifactId>
-        <version>2.2.2</version>
+        <version>2.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.resourceresolver</artifactId>
-        <version>1.2.4</version>
+        <version>1.4.8</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.serviceusermapper</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.2</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.jcr.api</artifactId>
-        <version>2.2.0</version>
+        <version>2.3.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.jcr.resource</artifactId>
-        <version>2.5.0</version>
+        <version>2.7.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -341,7 +347,7 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.commons.json</artifactId>
-        <version>2.0.10</version>
+        <version>2.0.16</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -351,19 +357,17 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.settings</artifactId>
-        <version>1.3.6</version>
+        <version>1.3.8</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.i18n</artifactId>
-        <!-- 2.4.0 was never released to maven central -->
-        <!--version>2.4.0</version-->
-        <version>2.3.2</version>
+        <version>2.4.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.models.impl</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.2</version>
       </dependency>
 
     </dependencies>

@@ -2,16 +2,8 @@
 
 Definition of rules for static code analysis tools and IDEs.
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.global-build-tools/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.global-build-tools)
 
-### Maven Dependency
-
-```xml
-<dependency>
-  <groupId>io.wcm.maven</groupId>
-  <artifactId>io.wcm.maven.global-build-tools</artifactId>
-  <version>6</version>
-</dependency>
-```
 
 ### Overview
 

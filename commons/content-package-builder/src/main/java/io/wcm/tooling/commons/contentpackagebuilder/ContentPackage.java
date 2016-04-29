@@ -162,7 +162,12 @@ public final class ContentPackage implements Closeable {
         pathParts[i] = "_" + matcher.group(1) + "_" + matcher.group(2);
       }
     }
-    return "jcr_root/" + StringUtils.join(pathParts, "/");
+    if (pathParts.length == 0) {
+      return "jcr_root";
+    }
+    else {
+      return "jcr_root/" + StringUtils.join(pathParts, "/");
+    }
   }
 
   /**

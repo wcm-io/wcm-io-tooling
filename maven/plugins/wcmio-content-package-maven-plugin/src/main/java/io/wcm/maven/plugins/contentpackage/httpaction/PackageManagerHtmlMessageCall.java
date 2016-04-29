@@ -80,7 +80,9 @@ public class PackageManagerHtmlMessageCall implements HttpCall<String> {
         return responseString;
       }
       else {
-        throw new MojoExecutionException("Failure:\n" + responseString);
+        throw new MojoExecutionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+            + " " + response.getStatusLine().getReasonPhrase() + "\n"
+            + responseString);
       }
 
     }

@@ -80,9 +80,9 @@ public class PackageManagerJsonCall implements HttpCall<JSONObject> {
 
       }
       else {
-        jsonResponse = new JSONObject();
-        jsonResponse.put("success", false);
-        jsonResponse.put("msg", responseString);
+        throw new MojoExecutionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+            + " " + response.getStatusLine().getReasonPhrase() + "\n"
+            + responseString);
       }
 
       return jsonResponse;

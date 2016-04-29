@@ -3,7 +3,17 @@
 Defines Maven dependencies for a specific AEM version, including those that are not defined in the aem-api "Uber" JAR provided by Adobe.
 
 
-### Maven Dependency (AEM6)
+### Maven Dependency (AEM 6.1)
+
+```xml
+<dependency>
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
+  <version>6.1.0.0000</version>
+</dependency>
+```
+
+### Maven Dependency (AEM 6.0)
 
 ```xml
 <dependency>
@@ -13,7 +23,7 @@ Defines Maven dependencies for a specific AEM version, including those that are 
 </dependency>
 ```
 
-### Maven Dependency (CQ55)
+### Maven Dependency (CQ 5.5)
 
 ```xml
 <dependency>

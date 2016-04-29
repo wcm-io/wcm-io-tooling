@@ -31,7 +31,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>10</version>
+    <version>11-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -169,7 +169,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.0.2-R1713394-FELIX-5116</version>
+          <version>3.0.2-R1735038-FELIX-4009</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -179,12 +179,13 @@
                 <goal>manifest</goal>
               </goals>
               <configuration>
-                <exportScr>true</exportScr>
-                <scrLocation>${project.build.outputDirectory}</scrLocation>
+                <supportIncrementalBuild>true</supportIncrementalBuild>
               </configuration>
             </execution>
           </executions>
           <configuration>
+            <exportScr>true</exportScr>
+            <scrLocation>${project.build.outputDirectory}</scrLocation>
             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
               <Bundle-Description>${project.description} (Rev. ${buildNumber} at ${timestamp})</Bundle-Description>
@@ -193,19 +194,14 @@
               <!-- Enable processing of OSGI metatype annotations -->
               <_metatypeannotations>*</_metatypeannotations>
               <!-- Support parsing of maven-scr-plugin annotations through the felix.scr.bnd plugin -->
-              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=${project.build.outputDirectory};logToFile=false</_plugin>
+              <_plugin>org.apache.felix.scrplugin.bnd.SCRDescriptorBndPlugin;destdir=${project.build.outputDirectory};</_plugin>
             </instructions>
           </configuration>
           <dependencies>
             <dependency>
-              <groupId>biz.aQute.bnd</groupId>
-              <artifactId>biz.aQute.bndlib</artifactId>
-              <version>3.1.0</version>
-            </dependency>
-            <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.4.1-R1710494-FELIX-5108</version>
+              <version>1.4.1-R1726715</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
@@ -252,13 +248,13 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.1.0</version>
+          <version>1.1.1-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <bundleStatusURL>${sling.url}/system/console/bundles/.json</bundleStatusURL>
             <userId>${sling.user}</userId>
             <password>${sling.password}</password>
-            <retryCount>3</retryCount>
+            <retryCount>24</retryCount>
             <retryDelay>5</retryDelay>
             <excludeFiles>
               <exclude>^META-INF/.*</exclude>
@@ -283,7 +279,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
-          <version>1.0.2</version>
+          <version>1.0.3-SNAPSHOT</version>
           <configuration>
             <slingPluginVersion>2.1.0</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
@@ -295,13 +291,13 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>i18n-maven-plugin</artifactId>
-          <version>1.0.0</version>
+          <version>1.0.1-SNAPSHOT</version>
         </plugin>
 
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>2.0.0</version>
+          <version>2.0.1-SNAPSHOT</version>
         </plugin>
 
       </plugins>
@@ -377,66 +373,11 @@
                   <pluginExecutions>
                     <pluginExecution>
                       <pluginExecutionFilter>
-                        <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-bundle-plugin</artifactId>
-                        <versionRange>[3.0.1,)</versionRange>
-                        <goals>
-                          <goal>bundle</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>org.apache.felix</groupId>
-                        <artifactId>maven-bundle-plugin</artifactId>
-                        <versionRange>[3.0.1,)</versionRange>
-                        <goals>
-                          <goal>manifest</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <execute>
-                          <runOnConfiguration>true</runOnConfiguration>
-                          <runOnIncremental>true</runOnIncremental>
-                        </execute>
-                      </action>
-                    </pluginExecution>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
                         <groupId>org.apache.sling</groupId>
                         <artifactId>maven-sling-plugin</artifactId>
                         <versionRange>[2.1.0,)</versionRange>
                         <goals>
                           <goal>validate</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>io.wcm.maven.plugins</groupId>
-                        <artifactId>i18n-maven-plugin</artifactId>
-                        <versionRange>[1.0.0,)</versionRange>
-                        <goals>
-                          <goal>transform</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>io.wcm.maven.plugins</groupId>
-                        <artifactId>nodejs-maven-plugin</artifactId>
-                        <versionRange>[1.0.0,)</versionRange>
-                        <goals>
-                          <goal>run</goal>
                         </goals>
                       </pluginExecutionFilter>
                       <action>

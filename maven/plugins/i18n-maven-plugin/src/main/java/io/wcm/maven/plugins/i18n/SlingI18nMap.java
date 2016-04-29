@@ -62,7 +62,7 @@ class SlingI18nMap {
   /**
    * @param languageKey Language key
    */
-  public SlingI18nMap(String languageKey, Map<String, String> properties) {
+  SlingI18nMap(String languageKey, Map<String, String> properties) {
     this.languageKey = languageKey;
     this.properties = new TreeMap<>(properties);
   }
