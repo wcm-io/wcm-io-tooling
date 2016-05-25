@@ -79,7 +79,7 @@
     <targetJdk>${build.compiler.target}</targetJdk>
 
     <!-- Mininum maven version -->
-    <maven.min-version>3.2.3</maven.min-version>
+    <maven.min-version>3.2.5</maven.min-version>
 
     <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
