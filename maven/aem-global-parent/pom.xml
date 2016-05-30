@@ -201,7 +201,7 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.4.1-R1726715</version>
+              <version>1.5.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
