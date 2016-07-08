@@ -31,6 +31,9 @@
       <action type="update" dev="sseifert">
         Update build and report plugins to latest versions.
       </action>
+      <action type="update" dev="amuthmann">
+        Set shortRevisionLEngth to 8 for buildnumber-maven-plugin.
+      </action>
     </release>
 
     <release version="10" date="2015-11-12">
