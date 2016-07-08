@@ -413,6 +413,7 @@
           <doUpdate>false</doUpdate>
           <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
           <format>{0}</format>
+          <shortRevisionLength>8</shortRevisionLength>
           <items>
             <item>scmVersion</item>
           </items>
