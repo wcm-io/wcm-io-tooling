@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.2.0.0000-SNAPSHOT</version>
+  <version>6.2.0.0000</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-dependencies</name>
@@ -257,7 +257,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-imaging</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-R1725432</version>
       </dependency>
 
       <!-- OSGI -->

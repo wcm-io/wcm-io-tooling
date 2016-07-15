@@ -87,7 +87,7 @@
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.scr.annotations</artifactId>
-        <version>1.9.12</version>
+        <version>1.10.0</version>
       </dependency>
 
     </dependencies>  
@@ -169,7 +169,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.0.2-R1735038-FELIX-4009</version>
+          <version>3.1.0-R1752585</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -201,17 +201,17 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.4.1-R1726715</version>
+              <version>1.5.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.generator</artifactId>
-              <version>1.13.0</version>
+              <version>1.14.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.annotations</artifactId>
-              <version>1.9.12</version>
+              <version>1.10.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -219,7 +219,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
-          <version>2.1.6</version>
+          <version>2.1.8</version>
           <!-- Default configuration for deploying bundles into running CQ instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
@@ -232,7 +232,7 @@
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <version>0.0.24</version>
+          <version>0.5.1</version>
           <extensions>true</extensions>
           <configuration>
             <failOnError>true</failOnError>
@@ -339,7 +339,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.6</version>
+            <version>1.6.7</version>
             <inherited>false</inherited>
             <extensions>true</extensions>
             <configuration>

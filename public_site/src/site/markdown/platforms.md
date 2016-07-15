@@ -2,7 +2,7 @@
 
 The wcm.io modules depend on the following system dependencies:
 
-* AEM Version 6.0, 6.1
+* AEM Version 6.0, 6.1, 6.2
 * Apache Sling, Apache Felix an others: Versions as included in the corresponding AEM version
 * Oracle Java 7, Java 8
 

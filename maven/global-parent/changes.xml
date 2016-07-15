@@ -29,7 +29,10 @@
         - we have to use our own fork of this plugin because the original plugin is retired.
       </action>
       <action type="update" dev="sseifert">
-        Update build and report plugins to latest versions.
+        Update build and report plugins to latest versions. Set minimum Maven version to 3.2.5.
+      </action>
+      <action type="update" dev="amuthmann">
+        Set shortRevisionLEngth to 8 for buildnumber-maven-plugin.
       </action>
     </release>
 
