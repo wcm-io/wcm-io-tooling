@@ -144,6 +144,8 @@
         <groupId>external.atlassian.jgitflow</groupId>
         <artifactId>jgitflow-maven-plugin</artifactId>
         <configuration>
+          <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
+          <eol>lf</eol>
           <!-- Prefix release numbers with artifactId for GIT repo with more than one released artifact -->
           <flowInitContext>
             <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
