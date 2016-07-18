@@ -26,12 +26,13 @@
     This cq-global-parent version supports the following CQ versions:
     - AEM 6.0.x
     - AEM 6.1.x
+    - AEM 6.2.x
   -->
 
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>11-SNAPSHOT</version>
+    <version>11</version>
     <relativePath />
   </parent>
 
