@@ -87,7 +87,7 @@
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.scr.annotations</artifactId>
-        <version>1.10.0</version>
+        <version>1.11.0</version>
       </dependency>
 
     </dependencies>  
@@ -169,7 +169,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.1.0-R1752585</version>
+          <version>3.2.0</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -185,7 +185,6 @@
           </executions>
           <configuration>
             <exportScr>true</exportScr>
-            <scrLocation>${project.build.outputDirectory}</scrLocation>
             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
               <Bundle-Description>${project.description} (Rev. ${buildNumber} at ${timestamp})</Bundle-Description>
@@ -211,7 +210,7 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.annotations</artifactId>
-              <version>1.10.0</version>
+              <version>1.11.0</version>
             </dependency>
           </dependencies>
         </plugin>
