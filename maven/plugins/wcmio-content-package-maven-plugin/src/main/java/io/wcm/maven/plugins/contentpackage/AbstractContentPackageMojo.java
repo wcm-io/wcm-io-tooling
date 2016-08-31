@@ -19,21 +19,16 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
-import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
-import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatusCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.HttpCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+
 import javax.net.ssl.SSLContext;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
@@ -59,8 +54,13 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 import org.json.JSONObject;
+
+import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
+import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatusCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.HttpCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
 
 /**
  * Common functionality for all mojos.
@@ -141,13 +141,6 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.relaxedSSLCheck", defaultValue = "false")
   private boolean relaxedSSLCheck;
 
-  @Parameter(property = "project", required = true, readonly = true)
-  private MavenProject project;
-
-  protected final MavenProject getProject() {
-    return this.project;
-  }
-
   protected final File getPackageFile() {
     return this.packageFile;
   }
@@ -168,7 +161,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   /**
    * Set up http client with credentials
    * @return Http client
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected final CloseableHttpClient getHttpClient() throws MojoExecutionException {
     try {
@@ -201,7 +194,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     catch (URISyntaxException ex) {
       throw new MojoExecutionException("Invalid url: " + getCrxPackageManagerUrl(), ex);
     }
-    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex){
+    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex) {
       throw new MojoExecutionException("Could not set relaxedSSLCheck", ex);
     }
   }
@@ -210,7 +203,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Execute HTTP call with automatic retry as configured for the MOJO.
    * @param call HTTP call
    * @param runCount Number of runs this call was already executed
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   private <T> T executeHttpCallWithRetry(HttpCall<T> call, int runCount) throws MojoExecutionException {
     try {
@@ -249,7 +242,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Execute CRX HTTP Package manager method and parse/output xml response.
    * @param httpClient Http client
    * @param method Get or Post method
-   * @throws MojoExecutionException
+   * @return JSON object
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected final JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method)
       throws MojoExecutionException {
@@ -261,7 +255,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Execute CRX HTTP Package manager method and parse/output xml response.
    * @param httpClient Http client
    * @param method Get or Post method
-   * @throws MojoExecutionException
+   * @param runCount Execution run count
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected final void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method,
       int runCount) throws MojoExecutionException {
@@ -272,7 +267,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
   /**
    * Wait up to 10 min for bundles to become active.
-   * @throws MojoExecutionException
+   * @param httpClient Http client
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected void waitForBundlesActivation(CloseableHttpClient httpClient) throws MojoExecutionException {
     if (StringUtils.isBlank(bundleStatusURL)) {

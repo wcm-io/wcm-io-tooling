@@ -105,3 +105,20 @@ Command line:
 ```
 mvn -Dvault.unpack=true wcmio-content-package:download
 ```
+
+
+### Run from command line without pom.xml context
+
+You can execute the `install` and `download` goals also directly from the command line without a pom.xml context. You have to pass all parameters as Java System parameters then as well.
+
+Example for directly installing a package without a pom:
+
+```
+mvn io.wcm.maven.plugins:wcmio-content-package-maven-plugin:1.2.1-SNAPSHOT:install \
+    -Dvault.file=./pv-aem-cms-rootfolders.zip -Dvault.serviceURL=http://localhost:4502/crx/packmgr/service
+```
+
+The full list of available parameters (user property names) can be found in the [plugin documentation][plugindocs].
+
+
+[plugindocs]: plugin-info.html

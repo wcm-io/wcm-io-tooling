@@ -59,7 +59,7 @@ public class ContentUnpacker {
    * @param excludeFiles Exclude files
    * @param excludeNodes Exclude nodes
    * @param excludeProperties Exclude properties
-   * @throws MojoFailureException
+   * @throws MojoFailureException Mojo failure exception
    */
   public ContentUnpacker(String[] excludeFiles, String[] excludeNodes, String[] excludeProperties) throws MojoFailureException {
     this.excludeFiles = toPatternArray(excludeFiles);
@@ -103,7 +103,7 @@ public class ContentUnpacker {
    * Unpacks file
    * @param file File
    * @param outputDirectory Output directory
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   public void unpack(File file, File outputDirectory) throws MojoExecutionException {
     ZipFile zipFile = null;

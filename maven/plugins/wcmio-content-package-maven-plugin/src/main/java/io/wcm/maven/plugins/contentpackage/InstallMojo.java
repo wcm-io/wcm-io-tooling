@@ -42,8 +42,7 @@ import org.json.JSONObject;
 /**
  * Install a Content Package on a remote CRX or AEM system.
  */
-@Mojo(name = "install", defaultPhase = LifecyclePhase.INSTALL, requiresProject = true,
-requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
+@Mojo(name = "install", defaultPhase = LifecyclePhase.INSTALL, requiresProject = false, requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
 public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
@@ -118,7 +117,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
    * Generates the ZIP.
-   * @throws MojoFailureException
+   * @throws MojoFailureException Mojo failure exception
    */
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
