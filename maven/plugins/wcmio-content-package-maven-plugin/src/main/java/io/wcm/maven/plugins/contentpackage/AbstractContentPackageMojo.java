@@ -19,21 +19,16 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
-import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
-import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatusCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.HttpCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+
 import javax.net.ssl.SSLContext;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
@@ -61,6 +56,12 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.json.JSONObject;
+
+import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
+import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatusCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.HttpCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageCall;
+import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
 
 /**
  * Common functionality for all mojos.
@@ -201,7 +202,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     catch (URISyntaxException ex) {
       throw new MojoExecutionException("Invalid url: " + getCrxPackageManagerUrl(), ex);
     }
-    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex){
+    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex) {
       throw new MojoExecutionException("Could not set relaxedSSLCheck", ex);
     }
   }
