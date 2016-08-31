@@ -19,8 +19,6 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
-import io.wcm.maven.plugins.contentpackage.unpacker.ContentUnpacker;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,11 +43,12 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.plexus.util.IOUtil;
 import org.json.JSONObject;
 
+import io.wcm.maven.plugins.contentpackage.unpacker.ContentUnpacker;
+
 /**
  * Builds and downloads a content package defined on a remote CRX or AEM system.
  */
-@Mojo(name = "download", defaultPhase = LifecyclePhase.INSTALL, requiresProject = true,
-requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
+@Mojo(name = "download", defaultPhase = LifecyclePhase.INSTALL, requiresProject = false, requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)
 public final class DownloadMojo extends AbstractContentPackageMojo {
 
   /**
