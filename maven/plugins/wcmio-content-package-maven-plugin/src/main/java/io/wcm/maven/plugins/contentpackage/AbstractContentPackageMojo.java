@@ -54,7 +54,6 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
 import org.json.JSONObject;
 
 import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
@@ -141,13 +140,6 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   @Parameter(property = "vault.relaxedSSLCheck", defaultValue = "false")
   private boolean relaxedSSLCheck;
-
-  @Parameter(property = "project", required = true, readonly = true)
-  private MavenProject project;
-
-  protected final MavenProject getProject() {
-    return this.project;
-  }
 
   protected final File getPackageFile() {
     return this.packageFile;
