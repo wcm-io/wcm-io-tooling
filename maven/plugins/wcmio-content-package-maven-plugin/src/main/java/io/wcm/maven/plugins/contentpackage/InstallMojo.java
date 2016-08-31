@@ -118,7 +118,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
    * Generates the ZIP.
-   * @throws MojoFailureException
+   * @throws MojoFailureException Mojo failure exception
    */
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {

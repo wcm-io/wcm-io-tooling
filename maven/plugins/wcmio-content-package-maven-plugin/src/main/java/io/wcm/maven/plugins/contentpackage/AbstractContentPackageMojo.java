@@ -161,7 +161,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   /**
    * Set up http client with credentials
    * @return Http client
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected final CloseableHttpClient getHttpClient() throws MojoExecutionException {
     try {
@@ -203,7 +203,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Execute HTTP call with automatic retry as configured for the MOJO.
    * @param call HTTP call
    * @param runCount Number of runs this call was already executed
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   private <T> T executeHttpCallWithRetry(HttpCall<T> call, int runCount) throws MojoExecutionException {
     try {
@@ -242,7 +242,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Execute CRX HTTP Package manager method and parse/output xml response.
    * @param httpClient Http client
    * @param method Get or Post method
-   * @throws MojoExecutionException
+   * @return JSON object
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected final JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method)
       throws MojoExecutionException {
@@ -254,7 +255,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Execute CRX HTTP Package manager method and parse/output xml response.
    * @param httpClient Http client
    * @param method Get or Post method
-   * @throws MojoExecutionException
+   * @param runCount Execution run count
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected final void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method,
       int runCount) throws MojoExecutionException {
@@ -265,7 +267,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
   /**
    * Wait up to 10 min for bundles to become active.
-   * @throws MojoExecutionException
+   * @param httpClient Http client
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected void waitForBundlesActivation(CloseableHttpClient httpClient) throws MojoExecutionException {
     if (StringUtils.isBlank(bundleStatusURL)) {

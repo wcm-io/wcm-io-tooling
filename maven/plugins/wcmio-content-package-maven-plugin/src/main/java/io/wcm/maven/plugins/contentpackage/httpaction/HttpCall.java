@@ -30,7 +30,7 @@ public interface HttpCall<T> {
   /**
    * Execute action
    * @return Response
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   T execute() throws MojoExecutionException;
 
