@@ -26,19 +26,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for DataSlyCompleter
+ * Test for DataSlyCompletionProvider
  */
-public class DataSlyCompleterTest extends BaseTest {
+public class DataSlyCompletionProviderTest extends BaseTest {
 
-  private DataSlyCompleter instance;
+  private DataSlyCompletionProvider instance;
 
   @Before
   public void setUp() {
-    instance = new DataSlyCompleter();
+    instance = new DataSlyCompletionProvider();
   }
 
   /**
-   * Test of getCompletionItems method, of class DataSlyCompleter.
+   * Test of getCompletionItems method, of class DataSlyCompletionProvider.
    */
   @Test
   public void testGetCompletionItems() {
@@ -57,7 +57,7 @@ public class DataSlyCompleterTest extends BaseTest {
   }
 
   /**
-   * Test of indexOfStartCharacter method, of class DataSlyCompleter.
+   * Test of indexOfStartCharacter method, of class DataSlyCompletionProvider.
    */
   @Test
   public void testIndexOfStartCharacter() {

@@ -19,6 +19,8 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.dataSly;
 
+import org.openide.util.NbBundle;
+
 /**
  * enum with all data-sly commands
  */
@@ -26,56 +28,57 @@ public enum DataSlyCommands {
   /**
    * Attribute
    */
-  DATA_SLY_ATTRIBUTE("data-sly-attribute", true),
+  DATA_SLY_ATTRIBUTE("data-sly-attribute", "dataSlyAttribute_documentation", true),
   /**
    * Call
    */
-  DATA_SLY_CALL("data-sly-call"),
+  DATA_SLY_CALL("data-sly-call", "dataSlyCall_documentation"),
   /**
    * Element
    */
-  DATA_SLY_ELEMENT("data-sly-element"),
+  DATA_SLY_ELEMENT("data-sly-element", "dataSlyElement_documentation"),
   /**
    * Include
    */
-  DATA_SLY_INCLUDE("data-sly-include"),
+  DATA_SLY_INCLUDE("data-sly-include", "dataSlyInclude_documentation"),
   /**
    * List
    */
-  DATA_SLY_LIST("data-sly-list", true),
+  DATA_SLY_LIST("data-sly-list", "dataSlyList_documentation", true),
   /**
    * Resource
    */
-  DATA_SLY_RESOURCE("data-sly-resource"),
+  DATA_SLY_RESOURCE("data-sly-resource", null),
   /**
    * Test
    */
-  DATA_SLY_TEST("data-sly-test"),
+  DATA_SLY_TEST("data-sly-test", null),
   /**
    * Text
    */
-  DATA_SLY_TEXT("data-sly-text"),
+  DATA_SLY_TEXT("data-sly-text", null),
   /**
    * Template
    */
-  DATA_SLY_TEMPLATE("data-sly-template", true),
+  DATA_SLY_TEMPLATE("data-sly-template", null, true),
   /**
    * Use
    */
-  DATA_SLY_USE("data-sly-use", true),
+  DATA_SLY_USE("data-sly-use", null, true),
   /**
    * Unwrap
    */
-  DATA_SLY_UNWRAP("data-sly-unwrap");
+  DATA_SLY_UNWRAP("data-sly-unwrap", null);
 
   private final String command;
+  private final String documentation;
   private final boolean allowsVariables;
 
   /**
    * constructor for commands which don't allow variables
    */
-  DataSlyCommands(String command) {
-    this(command, false);
+  DataSlyCommands(String command, String documentation) {
+    this(command, documentation, false);
   }
 
   /**
@@ -84,8 +87,9 @@ public enum DataSlyCommands {
    * @param command
    * @param allowsVariables
    */
-  DataSlyCommands(String command, boolean allowsVariables) {
+  DataSlyCommands(String command, String documentationKey, boolean allowsVariables) {
     this.command = command;
+    this.documentation = documentationKey != null ? NbBundle.getMessage(DataSlyCommands.class, documentationKey) : null;
     this.allowsVariables = allowsVariables;
   }
 
@@ -94,6 +98,10 @@ public enum DataSlyCommands {
    */
   public String getCommand() {
     return command;
+  }
+
+  public String getDocumentation() {
+    return documentation;
   }
 
   /**

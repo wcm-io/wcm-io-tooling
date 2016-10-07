@@ -19,7 +19,7 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.AbstractCompletionProvider;
 import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import org.openide.util.Exceptions;
   @MimeRegistration(mimeType = "text/html", service = CompletionProvider.class),
   @MimeRegistration(mimeType = "text/x-jsp", service = CompletionProvider.class)
 })
-public class RequestAttributeCompleter extends AbstractCompleter {
+public class RequestAttributeCompleter extends AbstractCompletionProvider {
 
   @Override
   public List<CompletionItem> getCompletionItems(Document document, String filter, int startOffset, int caretOffset) {

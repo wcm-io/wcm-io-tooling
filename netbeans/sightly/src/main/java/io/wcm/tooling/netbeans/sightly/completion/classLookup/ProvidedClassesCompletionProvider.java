@@ -19,7 +19,7 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.AbstractCompletionProvider;
 import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ import org.netbeans.spi.editor.completion.CompletionProvider;
   @MimeRegistration(mimeType = "text/html", service = CompletionProvider.class),
   @MimeRegistration(mimeType = "text/x-jsp", service = CompletionProvider.class)
 })
-public class ProvidedClassesCompleter extends AbstractCompleter {
+public class ProvidedClassesCompletionProvider extends AbstractCompletionProvider {
 
   private static final Pattern LAST_DOLLAR_CURLYBRACE = Pattern.compile("(\\$\\{)(?!.*\\})");
   private static final Pattern LAST_VARIABLE = Pattern.compile("([a-zA-Z0-9.])+$");

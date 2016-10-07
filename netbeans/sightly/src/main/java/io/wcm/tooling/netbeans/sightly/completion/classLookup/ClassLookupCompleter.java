@@ -19,7 +19,7 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightly.completion.AbstractCompleter;
+import io.wcm.tooling.netbeans.sightly.completion.AbstractCompletionProvider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,7 +40,7 @@ import org.openide.filesystems.FileObject;
   @MimeRegistration(mimeType = "text/html", service = CompletionProvider.class),
   @MimeRegistration(mimeType = "text/x-jsp", service = CompletionProvider.class)
 })
-public class ClassLookupCompleter extends AbstractCompleter {
+public class ClassLookupCompleter extends AbstractCompletionProvider {
 
   private static final Pattern LAST_DOLLAR_CURLYBRACE = Pattern.compile("(\\$\\{)(?!.*\\})");
   private static final Pattern LAST_VARIABLE = Pattern.compile("([a-zA-Z0-9.])+$");

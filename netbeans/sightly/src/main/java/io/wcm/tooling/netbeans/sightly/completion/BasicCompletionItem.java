@@ -23,13 +23,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.net.URL;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
+import org.apache.commons.lang.StringUtils;
 import org.netbeans.api.editor.completion.Completion;
+import org.netbeans.spi.editor.completion.CompletionDocumentation;
 import org.netbeans.spi.editor.completion.CompletionItem;
 import org.netbeans.spi.editor.completion.CompletionTask;
+import org.netbeans.spi.editor.completion.support.AsyncCompletionTask;
 import org.netbeans.spi.editor.completion.support.CompletionUtilities;
 import org.openide.util.Exceptions;
 import org.openide.util.ImageUtilities;
@@ -40,6 +45,7 @@ import org.openide.util.ImageUtilities;
 public class BasicCompletionItem implements CompletionItem {
 
   private final String completionText;
+  private final String documentation;
   private final boolean hasParameters;
   private final int caretOffset;
   private final int dotOffset;
@@ -47,15 +53,28 @@ public class BasicCompletionItem implements CompletionItem {
   private static final Color FIELD_COLOR = Color.decode("0x0088cc");
 
   /**
+   *
+   * @param completionText
+   * @param hasParameters
+   * @param dotOffset
+   * @param caretOffset
+   */
+  public BasicCompletionItem(String completionText, boolean hasParameters, int dotOffset, int caretOffset) {
+    this(completionText, null, hasParameters, dotOffset, caretOffset);
+  }
+
+  /**
    * constructor
    *
    * @param completionText the completion text
+   * @param documentation
    * @param hasParameters
    * @param dotOffset offset of start
    * @param caretOffset caret offset
    */
-  public BasicCompletionItem(String completionText, boolean hasParameters, int dotOffset, int caretOffset) {
+  public BasicCompletionItem(String completionText, String documentation, boolean hasParameters, int dotOffset, int caretOffset) {
     this.completionText = completionText;
+    this.documentation = documentation;
     this.hasParameters = hasParameters;
     this.dotOffset = dotOffset;
     this.caretOffset = caretOffset;
@@ -117,8 +136,7 @@ public class BasicCompletionItem implements CompletionItem {
 
   @Override
   public CompletionTask createDocumentationTask() {
-    //TODO implement
-    return null;
+    return new AsyncCompletionTask(new AbstractCompletionProvider.DocQuery(this, false));
   }
 
   @Override
@@ -144,6 +162,34 @@ public class BasicCompletionItem implements CompletionItem {
   @Override
   public CharSequence getInsertPrefix() {
     return completionText;
+  }
+
+  public boolean hasDocumentation() {
+    return !StringUtils.isBlank(documentation);
+  }
+
+  public CompletionDocumentation getDocumentation() {
+    return new CompletionDocumentation() {
+      @Override
+      public String getText() {
+        return documentation;
+      }
+
+      @Override
+      public URL getURL() {
+        return null;
+      }
+
+      @Override
+      public CompletionDocumentation resolveLink(String link) {
+        return null;
+      }
+
+      @Override
+      public Action getGotoSourceAction() {
+        return null;
+      }
+    };
   }
 
 }

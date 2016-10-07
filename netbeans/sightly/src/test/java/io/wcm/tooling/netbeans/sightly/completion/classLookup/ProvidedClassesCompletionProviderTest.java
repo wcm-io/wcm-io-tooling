@@ -26,15 +26,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for ProvidedClassesCompleter
+ * Test for ProvidedClassesCompletionProvider
  */
-public class ProvidedClassesCompleterTest extends BaseTest {
+public class ProvidedClassesCompletionProviderTest extends BaseTest {
 
-  private ProvidedClassesCompleter instance;
+  private ProvidedClassesCompletionProvider instance;
 
   @Before
   public void setUp() {
-    instance = new ProvidedClassesCompleter();
+    instance = new ProvidedClassesCompletionProvider();
   }
 
   /**
@@ -72,7 +72,7 @@ public class ProvidedClassesCompleterTest extends BaseTest {
   }
 
   /**
-   * Test of indexOfStartCharacter method, of class ProvidedClassesCompleter.
+   * Test of indexOfStartCharacter method, of class ProvidedClassesCompletionProvider.
    */
   @Test
   public void testIndexOfStartCharacter() {

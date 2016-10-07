@@ -35,7 +35,7 @@ public class DataSlyCompetionItem extends BasicCompletionItem {
    * @param caretOffset caret offset
    */
   public DataSlyCompetionItem(DataSlyCommands command, int dotOffset, int caretOffset) {
-    super(command.getCommand(), command.allowsVariables(), dotOffset, caretOffset);
+    super(command.getCommand(), command.getDocumentation(), command.allowsVariables(), dotOffset, caretOffset);
   }
 
 }
