@@ -25,6 +25,9 @@
 
     <release version="1.1.2" date="not released">
       <action type="update" dev="sseifert">
+        Update global-parent dependency to 12.
+      </action>
+      <action type="update" dev="sseifert">
         Enable validation of JSON and Sightly HTML files by default.
       </action>
       <action type="update" dev="sseifert">
