@@ -40,7 +40,7 @@ import org.openide.filesystems.FileObject;
   @MimeRegistration(mimeType = "text/html", service = CompletionProvider.class),
   @MimeRegistration(mimeType = "text/x-jsp", service = CompletionProvider.class)
 })
-public class ClassLookupCompleter extends AbstractCompletionProvider {
+public class ClassLookupCompletionProvider extends AbstractCompletionProvider {
 
   private static final Pattern LAST_DOLLAR_CURLYBRACE = Pattern.compile("(\\$\\{)(?!.*\\})");
   private static final Pattern LAST_VARIABLE = Pattern.compile("([a-zA-Z0-9.])+$");

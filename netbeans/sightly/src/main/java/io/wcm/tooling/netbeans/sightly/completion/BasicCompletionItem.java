@@ -27,13 +27,17 @@ import java.net.URL;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.StyledDocument;
 import org.apache.commons.lang.StringUtils;
+import org.netbeans.api.editor.EditorRegistry;
 import org.netbeans.api.editor.completion.Completion;
 import org.netbeans.spi.editor.completion.CompletionDocumentation;
 import org.netbeans.spi.editor.completion.CompletionItem;
+import org.netbeans.spi.editor.completion.CompletionResultSet;
 import org.netbeans.spi.editor.completion.CompletionTask;
+import org.netbeans.spi.editor.completion.support.AsyncCompletionQuery;
 import org.netbeans.spi.editor.completion.support.AsyncCompletionTask;
 import org.netbeans.spi.editor.completion.support.CompletionUtilities;
 import org.openide.util.Exceptions;
@@ -136,7 +140,7 @@ public class BasicCompletionItem implements CompletionItem {
 
   @Override
   public CompletionTask createDocumentationTask() {
-    return new AsyncCompletionTask(new AbstractCompletionProvider.DocQuery(this, false));
+    return new AsyncCompletionTask(new BasicCompletionItem.DocQuery(this, false), EditorRegistry.lastFocusedComponent());
   }
 
   @Override
@@ -191,5 +195,27 @@ public class BasicCompletionItem implements CompletionItem {
       }
     };
   }
+
+  /**
+   * Query looking up documentation for a given completion Item
+   */
+  public static class DocQuery extends AsyncCompletionQuery {
+
+    private final BasicCompletionItem item;
+
+    public DocQuery(BasicCompletionItem item, boolean triggeredByAutocompletion) {
+      super();
+      this.item = item;
+    }
+
+    @Override
+    protected void query(CompletionResultSet resultSet, Document doc, int caretOffset) {
+      if (item != null && item.hasDocumentation()) {
+        resultSet.setDocumentation(item.getDocumentation());
+      }
+      resultSet.finish();
+    }
+  }
+
 
 }

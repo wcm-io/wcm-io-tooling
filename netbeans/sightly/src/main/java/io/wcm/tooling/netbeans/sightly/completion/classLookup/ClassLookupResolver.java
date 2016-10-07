@@ -19,7 +19,6 @@
  */
 package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
-import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -54,11 +53,12 @@ public class ClassLookupResolver {
       if (te.getKind().isClass()) {
         String binaryName = te.getBinaryName();
         if (!StringUtils.equals(binaryName, "") && StringUtils.startsWith(binaryName, filter)) {
-          ret.add(new BasicCompletionItem(te.getBinaryName(), false, startOffset, caretOffset));
+          ret.add(new JavaElementCompletionItem(te, te.getBinaryName(), false, startOffset, caretOffset));
         }
       }
     }
     return ret;
   }
+
 
 }

@@ -21,12 +21,11 @@ package io.wcm.tooling.netbeans.sightly.completion.classLookup;
 
 import io.wcm.tooling.netbeans.sightly.completion.AbstractCompletionProvider;
 import io.wcm.tooling.netbeans.sightly.completion.BasicCompletionItem;
-
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
-
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +42,8 @@ import org.netbeans.spi.java.classpath.support.ClassPathSupport;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Exceptions;
 
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
+
 /**
  * This completer tries to find usages of the entered text in data-sly commands which support variables and then tries to resolve the class
  */
@@ -50,7 +51,7 @@ import org.openide.util.Exceptions;
   @MimeRegistration(mimeType = "text/html", service = CompletionProvider.class),
   @MimeRegistration(mimeType = "text/x-jsp", service = CompletionProvider.class)
 })
-public class MemberLookupCompleter extends AbstractCompletionProvider {
+public class MemberLookupCompletionProvider extends AbstractCompletionProvider {
 
   /**
    * Pattern to find the command
@@ -75,12 +76,7 @@ public class MemberLookupCompleter extends AbstractCompletionProvider {
       }
       // otherwise we lookup the defined class and return all of it's members
       if (ret.isEmpty()) {
-        Set<String> items = resolveClass(filter, text, document);
-        for (String item : items) {
-          if (StringUtils.startsWith(item, filter)) {
-            ret.add(new BasicCompletionItem(item, false, startOffset, caretOffset));
-          }
-        }
+        ret.addAll(resolveClass(filter, text, document, startOffset, caretOffset));
       }
     }
     catch (BadLocationException ex) {
@@ -116,28 +112,32 @@ public class MemberLookupCompleter extends AbstractCompletionProvider {
    * @param document
    * @return Set of methods and fields, never null
    */
-  private Set<String> resolveClass(String variableName, String text, Document document) {
-    Set<String> items = new LinkedHashSet<>();
+  private Collection<CompletionItem> resolveClass(String variableName, String text, Document document, int startOffset, int caretOffset) {
+    Map<String, CompletionItem> items = new LinkedHashMap<>();
     FileObject fo = getFileObject(document);
     ClassPath sourcePath = ClassPath.getClassPath(fo, ClassPath.SOURCE);
     ClassPath compilePath = ClassPath.getClassPath(fo, ClassPath.COMPILE);
     ClassPath bootPath = ClassPath.getClassPath(fo, ClassPath.BOOT);
     if (sourcePath == null) {
-      return items;
+      return items.values();
     }
     ClassPath cp = ClassPathSupport.createProxyClassPath(sourcePath, compilePath, bootPath);
     MemberLookupResolver resolver = new MemberLookupResolver(text, cp);
     Set<MemberLookupResult> results = resolver.performMemberLookup(StringUtils.defaultString(StringUtils.substringBeforeLast(variableName, "."), variableName));
     for (MemberLookupResult result : results) {
       Matcher m = GETTER_PATTERN.matcher(result.getMethodName());
+      String memberName = result.getVariableName() + ".";
       if (m.matches() && m.groupCount() >= 2) {
-        items.add(result.getVariableName() + "." + WordUtils.uncapitalize(m.group(2)));
+        memberName += WordUtils.uncapitalize(m.group(2));
       }
       else {
-        items.add(result.getVariableName() + "." + WordUtils.uncapitalize(result.getMethodName()));
+        memberName += WordUtils.uncapitalize(result.getMethodName());
+      }
+      if (StringUtils.startsWith(memberName,variableName) && !items.containsKey(memberName)) {
+        items.put(memberName, new JavaElementCompletionItem(result.getElement(), memberName, false, startOffset, caretOffset));
       }
     }
-    return items;
+    return items.values();
   }
 
   private static final Pattern LAST_DOLLAR_CURLYBRACE = Pattern.compile("(\\$\\{)(?!.*\\})");

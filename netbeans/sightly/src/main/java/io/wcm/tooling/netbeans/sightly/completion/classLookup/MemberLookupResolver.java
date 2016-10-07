@@ -27,18 +27,18 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
-import org.apache.commons.lang.StringUtils;
-import org.netbeans.api.java.classpath.ClassPath;
-
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupCompleter.GETTER_PATTERN;
-import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import org.apache.commons.lang.StringUtils;
+import org.netbeans.api.java.classpath.ClassPath;
 import org.netbeans.api.java.source.ElementUtilities;
+
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.MemberLookupCompletionProvider.GETTER_PATTERN;
+import static io.wcm.tooling.netbeans.sightly.completion.classLookup.ParsedStatement.PATTERN;
 
 /**
  * This class is used to find the methods for a given variable. This included recursive lookup if the variable itself cannot be resolved.
@@ -164,14 +164,14 @@ public class MemberLookupResolver extends AbstractSourceResolver {
     };
 
     Set<Element> elems = getMembersFromJavaSource(clazzname, acceptor);
-    for (Element e : elems) {
-      if (e.getKind() == ElementKind.METHOD) {
-        ExecutableElement method = (ExecutableElement)e;
-        MemberLookupResult result = new MemberLookupResult(variable, e.getSimpleName().toString(), method.getReturnType().toString());
+    for (Element element : elems) {
+      if (element.getKind() == ElementKind.METHOD) {
+        ExecutableElement method = (ExecutableElement)element;
+        MemberLookupResult result = new MemberLookupResult(variable, element.getSimpleName().toString(), method.getReturnType().toString(), element);
         ret.add(result);
       }
-      else if (e.getKind() == ElementKind.FIELD) {
-        MemberLookupResult result = new MemberLookupResult(variable, e.getSimpleName().toString(), e.asType().toString());
+      else if (element.getKind() == ElementKind.FIELD) {
+        MemberLookupResult result = new MemberLookupResult(variable, element.getSimpleName().toString(), element.asType().toString(), element);
         ret.add(result);
       }
     }

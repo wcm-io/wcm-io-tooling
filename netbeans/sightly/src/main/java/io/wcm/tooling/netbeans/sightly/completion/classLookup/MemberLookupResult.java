@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.lang.model.element.Element;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -34,6 +35,8 @@ public class MemberLookupResult {
   private final String methodName;
   private final String variableName;
   private final String returnType;
+  private final Element element;
+
   /**
    *
    * @param variableName
@@ -41,6 +44,18 @@ public class MemberLookupResult {
    * @param returnType
    */
   public MemberLookupResult(String variableName, String methodName, String returnType) {
+    this(variableName, methodName, returnType, null);
+  }
+
+  /**
+   *
+   * @param variableName
+   * @param methodName
+   * @param returnType
+   * @param element
+   */
+  public MemberLookupResult(String variableName, String methodName, String returnType, Element element) {
+    this.element = element;
     this.variableName = variableName;
     this.methodName = methodName;
 
@@ -88,6 +103,14 @@ public class MemberLookupResult {
    */
   public String getReturnType() {
     return returnType;
+  }
+
+  /**
+   *
+   * @return
+   */
+  public Element getElement() {
+    return element;
   }
 
   /**

@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.0" date="2016-12-31">
+      <action type="add" dev="amuthmann" issue="WTOOL-25">
+        Support for Documentation of data-sly-*, member-lookup and class-lookup autocompletion.
+      </action>
+    </release>
+
     <release version="1.1.0" date="2014-12-19">
       <action type="add" dev="amuthmann" issue="WCMIO-9">
         Nested lookup (e.g. foo.bar.ipsum will be resolved now)

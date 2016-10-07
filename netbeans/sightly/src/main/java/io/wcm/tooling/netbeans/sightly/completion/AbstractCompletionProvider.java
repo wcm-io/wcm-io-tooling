@@ -142,25 +142,4 @@ public abstract class AbstractCompletionProvider implements CompletionProvider {
     return NbEditorUtilities.getFileObject(doc);
   }
 
-  /**
-   * Query looking up documentation for a given completion Item
-   */
-  public static class DocQuery extends AsyncCompletionQuery {
-
-    private final BasicCompletionItem item;
-
-    public DocQuery(BasicCompletionItem item, boolean triggeredByAutocompletion) {
-      super();
-      this.item = item;
-    }
-
-    @Override
-    protected void query(CompletionResultSet resultSet, Document doc, int caretOffset) {
-      if (item != null && item.hasDocumentation()) {
-        resultSet.setDocumentation(item.getDocumentation());
-      }
-      resultSet.finish();
-    }
-  }
-
 }
