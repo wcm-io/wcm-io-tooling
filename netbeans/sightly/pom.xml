@@ -45,7 +45,7 @@
 
   <properties>
     <site.url.module.prefix>tooling/netbeans/sightly</site.url.module.prefix>
-    <netbeans.version>RELEASE80</netbeans.version>
+    <netbeans.version>RELEASE81</netbeans.version>
   </properties>
 
   <build>
@@ -54,7 +54,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>nbm-maven-plugin</artifactId>
-        <version>3.14</version>
+        <version>3.14.1</version>
         <extensions>true</extensions>
         <configuration>
           <licenseName>Apache License, Version 2.0</licenseName>
@@ -117,7 +117,7 @@
       <groupId>org.netbeans.api</groupId>
       <artifactId>org-openide-util</artifactId>
       <scope>compile</scope>
-      <version>${netbeans.version}</version>
+      <version>RELEASE81</version>
     </dependency>
     <dependency>
       <artifactId>org-openide-filesystems</artifactId>
@@ -149,6 +149,21 @@
       <scope>compile</scope>
       <version>${netbeans.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-netbeans-modules-csl-api</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-netbeans-modules-java-sourceui</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-netbeans-modules-editor-lib2</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>
@@ -164,6 +179,32 @@
       <artifactId>org.apache.sling.models.api</artifactId>
       <groupId>org.apache.sling</groupId>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-openide-text</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-openide-util-ui</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-openide-util-lookup</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-netbeans-modules-java-source-base</artifactId>
+      <version>${netbeans.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.netbeans.api</groupId>
+      <artifactId>org-openide-awt</artifactId>
+      <version>${netbeans.version}</version>
     </dependency>
 
   </dependencies>
