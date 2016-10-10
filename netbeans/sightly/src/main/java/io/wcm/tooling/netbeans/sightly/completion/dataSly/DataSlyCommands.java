@@ -48,27 +48,31 @@ public enum DataSlyCommands {
   /**
    * Resource
    */
-  DATA_SLY_RESOURCE("data-sly-resource", null),
+  DATA_SLY_RESOURCE("data-sly-resource", "dataSlyResource_documentation"),
+  /**
+   * Repeat
+   */
+  DATA_SLY_REPEAT("data-sly-repeat", "dataSlyRepeat_documentation"),
   /**
    * Test
    */
-  DATA_SLY_TEST("data-sly-test", null),
+  DATA_SLY_TEST("data-sly-test", "dataSlyTest_documentation"),
   /**
    * Text
    */
-  DATA_SLY_TEXT("data-sly-text", null),
+  DATA_SLY_TEXT("data-sly-text", "dataSlyText_documentation"),
   /**
    * Template
    */
-  DATA_SLY_TEMPLATE("data-sly-template", null, true),
+  DATA_SLY_TEMPLATE("data-sly-template", "dataSlyTemplate_documentation", true),
   /**
    * Use
    */
-  DATA_SLY_USE("data-sly-use", null, true),
+  DATA_SLY_USE("data-sly-use", "dataSlyUse_documentation", true),
   /**
    * Unwrap
    */
-  DATA_SLY_UNWRAP("data-sly-unwrap", null);
+  DATA_SLY_UNWRAP("data-sly-unwrap", "dataSlyUnwrap_documentation");
 
   private final String command;
   private final String documentation;

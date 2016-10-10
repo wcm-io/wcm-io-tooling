@@ -43,9 +43,9 @@ public class DataSlyCompletionProviderTest extends BaseTest {
   @Test
   public void testGetCompletionItems() {
     String command = "data-";
-    assertEquals("Number of completion-items for \"" + command + "\"", 11, instance.getCompletionItems(null, command, 0, 0).size());
+    assertEquals("Number of completion-items for \"" + command + "\"", 12, instance.getCompletionItems(null, command, 0, 0).size());
     command = "data-sly-";
-    assertEquals("Number of completion-items for \"" + command + "\"", 11, instance.getCompletionItems(null, command, 0, 0).size());
+    assertEquals("Number of completion-items for \"" + command + "\"", 12, instance.getCompletionItems(null, command, 0, 0).size());
     command = "data-sly-li";
     assertEquals("Number of completion-items for \"" + command + "\"", 1, instance.getCompletionItems(null, command, 0, 0).size());
     command = "data-sly-t";
