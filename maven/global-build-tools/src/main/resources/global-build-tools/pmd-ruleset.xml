@@ -32,7 +32,7 @@
   <!-- Exclude test classes -->
   <exclude-pattern>.*/src/test/.*</exclude-pattern>
 
-  <rule ref="rulesets/java/basic.xml">
+  <rule ref="rulesets/java/empty.xml">
     <exclude name="EmptyCatchBlock"/>  <!-- false positives with empty blocks with comments as well -->
     <exclude name="EmptyIfStmt"/>
   </rule>
@@ -78,7 +78,6 @@
     <exclude name="UseConcurrentHashMap"/>  <!-- triggers on cases where concurrency is not an issue -->
     <exclude name="NullAssignment"/>
     <exclude name="AvoidUsingShortType"/>
-    <exclude name="BooleanInversion"/>
     <exclude name="AvoidPrefixingMethodParameters"/>
   </rule>
   <rule ref="rulesets/java/design.xml">
