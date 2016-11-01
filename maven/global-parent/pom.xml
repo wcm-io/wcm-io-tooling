@@ -112,7 +112,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>6</version>
+        <version>7-SNAPSHOT</version>
       </extension>
 
       <!-- SCP support for deploying sites -->

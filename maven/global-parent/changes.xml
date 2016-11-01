@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update build and report plugins to latest versions.
       </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 7.
+      </action>
     </release>
 
     <release version="11" date="2016-07-18">
