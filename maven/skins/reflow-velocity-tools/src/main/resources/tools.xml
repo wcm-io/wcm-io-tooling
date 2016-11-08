@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Add custom tools to Velocity tools. The tools.xml file is included in the classpath and Velocity finds it. -->
+<tools>
+  <toolbox scope="application">
+    <tool key="config"
+          class="io.wcm.maven.skins.reflow.velocity.SkinConfigTool"/>
+    <tool key="htmlTool"
+          class="io.wcm.maven.skins.reflow.velocity.HtmlTool"/>
+    <tool key="uriTool"
+          class="io.wcm.maven.skins.reflow.velocity.URITool"/>
+  </toolbox>
+</tools>
