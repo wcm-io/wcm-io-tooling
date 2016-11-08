@@ -41,12 +41,12 @@ import org.apache.velocity.tools.config.DefaultKey;
 
 /**
  * An Apache Velocity tool that provides utility methods to work with URIs/URLs and links.
- *
  * @author Andrius Velykis
  * @since 1.0
  */
+//CHECKSTYLE:OFF
 @DefaultKey("uriTool")
-public class URITool {
+public final class URITool {
 
   /**
    * Resolves the link as relative to the base dir URI.
@@ -57,11 +57,10 @@ public class URITool {
    * <p>
    * This is the same method that's used to relativize project links in Maven site.
    * </p>
-   *
    * @param baseDirUri
-   *            URI that will serve as the base to calculate the relative one
+   *          URI that will serve as the base to calculate the relative one
    * @param link
-   *            The link to relativize (make it relative to the base URI if possible)
+   *          The link to relativize (make it relative to the base URI if possible)
    * @return the relative link, if calculated, or the original link if not.
    * @since 1.0
    */
@@ -78,7 +77,8 @@ public class URITool {
       final URIPathDescriptor path = new URIPathDescriptor(baseDirUri, link);
       return path.relativizeLink().toString();
 
-    } catch (IllegalArgumentException e) {
+    }
+    catch (IllegalArgumentException e) {
       return link;
     }
   }

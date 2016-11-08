@@ -83,10 +83,10 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
  * <p>
  * Note
  * </p>
- *
  * @author Andrius Velykis
  * @since 1.0
  */
+//CHECKSTYLE:OFF
 @DefaultKey("config")
 public class SkinConfigTool extends SafeConfig {
 
@@ -103,13 +103,11 @@ public class SkinConfigTool extends SafeConfig {
   private Xpp3Dom pageProperties = new Xpp3Dom("");
   private String namespace = "";
 
-  private String projectId = null;
-  private String fileId = null;
-  //	private String fileShortId = null;
+  private String projectId;
+  private String fileId;
 
   /**
    * {@inheritDoc}
-   *
    * @see SafeConfig#configure(ValueParser)
    */
   @Override
@@ -132,11 +130,11 @@ public class SkinConfigTool extends SafeConfig {
       return;
     }
 
-    ToolContext ctxt = (ToolContext) velocityContext;
+    ToolContext ctxt = (ToolContext)velocityContext;
 
     Object projectObj = ctxt.get("project");
     if (projectObj instanceof MavenProject) {
-      MavenProject project = (MavenProject) projectObj;
+      MavenProject project = (MavenProject)projectObj;
       String artifactId = project.getArtifactId();
       // use artifactId "sluggified" as the projectId
       projectId = HtmlTool.slug(artifactId);
@@ -146,17 +144,13 @@ public class SkinConfigTool extends SafeConfig {
     Object currentFileObj = ctxt.get("currentFileName");
     if (currentFileObj instanceof String) {
 
-      String currentFile = (String) currentFileObj;
+      String currentFile = (String)currentFileObj;
 
       // drop the extension
       int lastDot = currentFile.lastIndexOf(".");
       if (lastDot >= 0) {
         currentFile = currentFile.substring(0, lastDot);
       }
-
-      // get the short ID (in case of nested files)
-      //			String fileName = new File(currentFile).getName();
-      //			fileShortId = HtmlTool.slug(fileName);
 
       // full file ID includes the nested dirs
       // replace nesting "/" with "-"
@@ -169,7 +163,7 @@ public class SkinConfigTool extends SafeConfig {
       return;
     }
 
-    DecorationModel decoration = (DecorationModel) decorationObj;
+    DecorationModel decoration = (DecorationModel)decorationObj;
     Object customObj = decoration.getCustom();
 
     if (!(customObj instanceof Xpp3Dom)) {
@@ -178,7 +172,7 @@ public class SkinConfigTool extends SafeConfig {
 
     // Now that we have the custom node, get the global properties
     // under the skin tag
-    Xpp3Dom customNode = (Xpp3Dom) customObj;
+    Xpp3Dom customNode = (Xpp3Dom)customObj;
     Xpp3Dom skinNode = customNode.getChild(skinKey);
     String namespaceKey = ":" + skinKey;
 
@@ -229,10 +223,9 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * Retrieves the child node. Tests both default name and with namespace.
-   *
    * @param parentNode
    * @param name
-   * @return
+   * @return DOM
    */
   private Xpp3Dom getChild(Xpp3Dom parentNode, String name) {
     Xpp3Dom child = parentNode.getChild(name);
@@ -245,7 +238,6 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * Sets the key under which this tool has been configured.
-   *
    * @since 1.0
    */
   protected void setKey(String key) {
@@ -257,7 +249,6 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * Should return the key under which this tool has been configured. The default is `config`.
-   *
    * @since 1.0
    */
   public String getKey() {
@@ -267,9 +258,8 @@ public class SkinConfigTool extends SafeConfig {
   /**
    * Default accessor for config properties. Instead of using {@code $config.get("myproperty")},
    * one can utilise Velocity fallback onto the default getter and use {@code $config.myproperty}.
-   *
    * @param property
-   *            the property of interest
+   *          the property of interest
    * @return configuration node if found in the following sequence:
    *         <ol>
    *         <li>In page configuration</li>
@@ -293,9 +283,8 @@ public class SkinConfigTool extends SafeConfig {
   /**
    * Retrieves the text value of the given {@code property}, e.g. as in
    * {@code <myprop>value</myprop>}.
-   *
    * @param property
-   *            the property of interest
+   *          the property of interest
    * @return the configuration value if found in page or globally, {@code null} otherwise.
    * @see #get(String)
    * @since 1.0
@@ -314,9 +303,8 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * A convenience method to check if the value of the {@code property} is {@code "true"}.
-   *
    * @param property
-   *            the property of interest
+   *          the property of interest
    * @return {@code true} if the configuration value is set either in page or globally, and is
    *         equal to {@code "true"}.
    * @see #get(String)
@@ -330,9 +318,8 @@ public class SkinConfigTool extends SafeConfig {
    * A convenience method to check if the value of the {@code property} is {@code "false"}. Useful
    * for properties that are enabled by default - checks if the property is set to {@code "false"}
    * explicitly.
-   *
    * @param property
-   *            the property of interest
+   *          the property of interest
    * @return {@code true} if the configuration value is set either in page or globally, and is
    *         equal to {@code "false"}. Note that this will return {@code false} if property is not
    *         set at all.
@@ -345,11 +332,10 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * A convenience method to check if the {@code property} is set to a specific value.
-   *
    * @param property
-   *            the property of interest
+   *          the property of interest
    * @param value
-   *            the property value to check
+   *          the property value to check
    * @return {@code true} if the configuration value is set either in page or globally, and is
    *         equal to {@code value}.
    * @see #get(String)
