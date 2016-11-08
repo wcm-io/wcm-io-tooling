@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update mockito version.
       </action>
+      <action type="update" dev="sseifert" issue="DOXIASITETOOLS-168">
+        Replace reflow-velocity-tools to fix problem with site generation.
+      </action>
     </release>
 
     <release version="1.0.10" date="2015-11-12">
