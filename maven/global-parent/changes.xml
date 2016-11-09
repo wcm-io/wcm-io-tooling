@@ -25,7 +25,7 @@
 
     <release version="12" date="not released">
       <action type="update" dev="sseifert">
-        Update build and report plugins to latest versions.
+        Update build and report plugins to latest versions. Set minimum Maven version to 3.3.9.
       </action>
       <action type="update" dev="sseifert">
         Update to global-build-tools 7.
