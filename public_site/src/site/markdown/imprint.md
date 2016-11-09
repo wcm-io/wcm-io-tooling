@@ -1,6 +1,6 @@
 ## Imprint
 
-Die wcm.io Website wird betrieben von der der pro!vision GmbH.<br/>
+Die wcm.io Website wird betrieben von der pro!vision GmbH.<br/>
 http://www.pro-vision.de
 
 Standort Berlin<br/>
