@@ -37,6 +37,13 @@
   <name>wcm.io Reflow Velocity Tools</name>
   <description>Velocity tools supporting Reflow Maven skin - derived from https://github.com/andriusvelykis/reflow-maven-skin/tree/master/reflow-velocity-tools</description>
 
+  <scm>
+    <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io-tooling</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.velocity</groupId>
