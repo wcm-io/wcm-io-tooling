@@ -23,6 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.1.0" date="not released">
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.1.2.
+      </action>
+      <action type="update" dev="sseifert">
+        Update mockito version.
+      </action>
+      <action type="update" dev="sseifert" issue="DOXIASITETOOLS-168">
+        Replace reflow-velocity-tools to fix problem with site generation.
+      </action>
+    </release>
+
     <release version="1.0.10" date="2015-11-12">
       <action type="update" dev="sseifert">
         Update to aem-global-parent 1.0.16, switch from cobertura to jacoco.

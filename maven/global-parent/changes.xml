@@ -23,6 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="12" date="2016-11-17">
+      <action type="update" dev="sseifert">
+        Update build and report plugins to latest versions.
+      </action>
+      <action type="add" dev="sseifert">
+        Add SonarQube Scanner for Maven.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 7.
+      </action>
+    </release>
+
     <release version="11" date="2016-07-18">
       <action type="update" dev="sseifert">
         Replaced Maven Eclipse plugin with org.apache.maven.plugins:maven-eclipse-plugin with io.wcm.devops.maven.plugins:eclipse-maven-plugin
