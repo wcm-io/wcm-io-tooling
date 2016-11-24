@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.1.4" date="not released">
+      <action type="add" dev="sseifert">
+        Add bnd plugins for Sling Context-Aware Configuration and Sling Models.
+      </action>
+    </release>
+
     <release version="1.1.2" date="2016-11-17">
       <action type="update" dev="sseifert">
         Update global-parent dependency to 12.
