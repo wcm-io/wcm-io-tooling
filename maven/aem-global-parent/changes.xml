@@ -27,6 +27,9 @@
       <action type="add" dev="sseifert">
         Add bnd plugins for Sling Context-Aware Configuration and Sling Models.
       </action>
+      <action type="add" dev="sseifert">
+        Add OSGi annotations for DS and metatype.
+      </action>
     </release>
 
     <release version="1.1.2" date="2016-11-17">

@@ -69,7 +69,21 @@
       <version>6.0.1</version>
       <scope>provided</scope>
     </dependency>
-    
+
+    <!-- OSGi DS and metatype annotations -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>1.3.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.metatype.annotations</artifactId>
+      <version>1.3.0</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- global dependency for static code analysis -->
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
