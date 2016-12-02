@@ -30,6 +30,9 @@
       <action type="add" dev="sseifert">
         Add OSGi annotations for DS and metatype.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 13.
+      </action>
     </release>
 
     <release version="1.1.2" date="2016-11-17">
