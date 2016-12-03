@@ -25,7 +25,7 @@
 
     <release version="8" date="not released">
       <action type="update" dev="sseifert">
-        Update Eclipse code formatting settings.
+        Update Eclipse code formatting and save action settings.
       </action>
     </release>
 
