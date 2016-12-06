@@ -286,7 +286,6 @@
             <slingUrl>${sling.url}/system/console</slingUrl>
             <user>${sling.user}</user>
             <password>${sling.password}</password>
-            <mountByFS>false</mountByFS>
           </configuration>
         </plugin>
 
