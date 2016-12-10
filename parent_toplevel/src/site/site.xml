@@ -124,7 +124,8 @@
     <menu name="Categories" inherit="top">
       <item name="WCM" href="http://wcm.io/wcm/"/>
       <item name="DAM" href="http://wcm.io/dam/"/>
-      <item name="Configuration" href="http://wcm.io/config/"/>
+      <item name="Context-Aware Configuration" href="http://wcm.io/caconfig/"/>
+      <item name="Configuration (deprecated)" href="http://wcm.io/config/"/>
       <item name="Handler" href="http://wcm.io/handler/"/>
       <item name="Sling" href="http://wcm.io/sling/"/>
       <item name="Testing" href="http://wcm.io/testing/"/>
