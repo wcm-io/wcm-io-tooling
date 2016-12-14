@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update plugins to latest versions.
       </action>
+      <action type="update" dev="sseifert">
+        Do not skip integration tests by default.
+      </action>
     </release>
 
     <release version="12" date="2016-11-17">
