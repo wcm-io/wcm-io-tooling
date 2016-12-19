@@ -101,6 +101,12 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String artifact;
 
   /**
+   * Delay further steps after package installation by this amound of seconds
+   */
+  @Parameter(property = "vault.delayAfterInstallSec")
+  private int delayAfterInstallSec;
+
+  /**
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
    */
   @Parameter
@@ -134,7 +140,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
           file = ref.getPackageFile();
         }
         if (file != null) {
-          installFile(file);
+          installFile(file, ref.getDelayAfterInstallSec());
           foundAny = true;
         }
       }
@@ -145,7 +151,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
         file = getPackageFile();
       }
       if (file != null) {
-        installFile(file);
+        installFile(file, delayAfterInstallSec);
         foundAny = true;
       }
     }
@@ -155,9 +161,9 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   }
 
   /**
-   * Deploy file via package manager
+   * Deploy file via package manager.
    */
-  private void installFile(File file) throws MojoExecutionException {
+  private void installFile(File file, int fileDelayAfterInstallSec) throws MojoExecutionException {
     try (CloseableHttpClient httpClient = getHttpClient()) {
 
       // if bundles are still stopping/starting, wait for completion
@@ -201,6 +207,9 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
           // execute post
           executePackageManagerMethodHtml(httpClient, post, 0);
+
+          // delay further processing after install (if activated)
+          delay(fileDelayAfterInstallSec);
         }
         else {
           getLog().info("Package uploaded successfully (without installing).");
@@ -217,6 +226,18 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     }
     catch (IOException ex) {
       throw new MojoExecutionException("Install operation failed.", ex);
+    }
+  }
+
+  private void delay(int seconds) {
+    if (seconds > 0) {
+      getLog().info("Wait for " + seconds + " seconds after package install...");
+      try {
+        Thread.sleep(seconds * 1000);
+      }
+      catch (InterruptedException ex) {
+        // ignore
+      }
     }
   }
 
