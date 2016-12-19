@@ -34,6 +34,9 @@
         Update global-parent dependency to 13.
       </action>
       <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin 1.3.0.
+      </action>
+      <action type="update" dev="sseifert">
         Update dependencies.
       </action>
     </release>
