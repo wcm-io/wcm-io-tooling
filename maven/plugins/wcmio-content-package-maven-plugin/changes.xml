@@ -31,7 +31,7 @@
         Check for bundle status both before and after deployment of each package (if a bundle status URL is configured).
       </action>
       <action type="update" dev="sseifert">
-        Set default connection timout (20sec) and socket timeout (60sec) for http client.
+        Make HTTP connection timout and socket timeout configurable, and set default values.
       </action>
     </release>
 

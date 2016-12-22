@@ -68,9 +68,6 @@ import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
  */
 abstract class AbstractContentPackageMojo extends AbstractMojo {
 
-  private static final int CONNECTION_TIMEOUT_SEC = 20;
-  private static final int SOCKET_TIMEOUT_SEC = 60;
-
   /**
    * Prefix or error message from CRX HTTP interfaces when uploading a package that already exists.
    */
@@ -145,6 +142,18 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.relaxedSSLCheck", defaultValue = "false")
   private boolean relaxedSSLCheck;
 
+  /**
+   * HTTP connection timeout (in seconds).
+   */
+  @Parameter(property = "vault.httpConnectTimeoutSec", defaultValue = "10")
+  private int httpConnectTimeoutSec;
+
+  /**
+   * HTTP socket timeout (in seconds).
+   */
+  @Parameter(property = "vault.httpSocketTimeoutSec", defaultValue = "60")
+  private int httpSocketTimeout;
+
   protected final File getPackageFile() {
     return this.packageFile;
   }
@@ -189,8 +198,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
       // timeout settings
       httpClientBuilder.setDefaultRequestConfig(RequestConfig.custom()
-          .setConnectTimeout(CONNECTION_TIMEOUT_SEC * (int)DateUtils.MILLIS_PER_SECOND)
-          .setSocketTimeout(SOCKET_TIMEOUT_SEC * (int)DateUtils.MILLIS_PER_SECOND)
+          .setConnectTimeout(httpConnectTimeoutSec * (int)DateUtils.MILLIS_PER_SECOND)
+          .setSocketTimeout(httpSocketTimeout * (int)DateUtils.MILLIS_PER_SECOND)
           .build());
 
       if (this.relaxedSSLCheck) {
