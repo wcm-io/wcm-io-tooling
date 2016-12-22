@@ -39,6 +39,7 @@ import org.apache.http.auth.AuthState;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -66,6 +67,9 @@ import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
  * Common functionality for all mojos.
  */
 abstract class AbstractContentPackageMojo extends AbstractMojo {
+
+  private static final int CONNECTION_TIMEOUT_SEC = 20;
+  private static final int SOCKET_TIMEOUT_SEC = 60;
 
   /**
    * Prefix or error message from CRX HTTP interfaces when uploading a package that already exists.
@@ -182,6 +186,12 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
               authState.update(new BasicScheme(), credentials);
             }
           });
+
+      // timeout settings
+      httpClientBuilder.setDefaultRequestConfig(RequestConfig.custom()
+          .setConnectTimeout(CONNECTION_TIMEOUT_SEC * (int)DateUtils.MILLIS_PER_SECOND)
+          .setSocketTimeout(SOCKET_TIMEOUT_SEC * (int)DateUtils.MILLIS_PER_SECOND)
+          .build());
 
       if (this.relaxedSSLCheck) {
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
