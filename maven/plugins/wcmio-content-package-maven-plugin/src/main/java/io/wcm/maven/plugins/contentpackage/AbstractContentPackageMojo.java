@@ -34,6 +34,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.AuthState;
 import org.apache.http.auth.Credentials;
@@ -42,6 +43,7 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
@@ -194,6 +196,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
               AuthState authState = (AuthState)context.getAttribute(HttpClientContext.TARGET_AUTH_STATE);
               authState.update(new BasicScheme(), credentials);
             }
+          })
+          .setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
+            @Override
+            public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+              // keep reusing connections to a minimum - may conflict when instance is restarting and responds in unexpected manner
+              return 1;
+            }
           });
 
       // timeout settings
@@ -201,6 +210,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
           .setConnectTimeout(httpConnectTimeoutSec * (int)DateUtils.MILLIS_PER_SECOND)
           .setSocketTimeout(httpSocketTimeout * (int)DateUtils.MILLIS_PER_SECOND)
           .build());
+
 
       if (this.relaxedSSLCheck) {
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
