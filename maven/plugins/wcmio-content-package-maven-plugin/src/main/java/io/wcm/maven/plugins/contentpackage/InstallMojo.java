@@ -166,7 +166,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private void installFile(File file, int fileDelayAfterInstallSec) throws MojoExecutionException {
     try (CloseableHttpClient httpClient = getHttpClient()) {
 
-      // if bundles are still stopping/starting, wait for completion
+      // before install: if bundles are still stopping/starting, wait for completion
       waitForBundlesActivation(httpClient);
 
       if (this.install) {
@@ -222,6 +222,9 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       else {
         throw new MojoExecutionException("Package upload failed: " + msg);
       }
+
+      // after install: if bundles are still stopping/starting, wait for completion
+      waitForBundlesActivation(httpClient);
 
     }
     catch (IOException ex) {

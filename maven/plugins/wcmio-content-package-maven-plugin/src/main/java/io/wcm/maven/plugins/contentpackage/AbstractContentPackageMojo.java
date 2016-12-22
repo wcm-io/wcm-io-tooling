@@ -279,7 +279,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     final int WAIT_INTERVAL_SEC = 3;
     final long CHECK_RETRY_COUNT = bundleStatusWaitLimit / WAIT_INTERVAL_SEC;
 
-    getLog().info("Check bundle activation states...");
+    getLog().info("Check bundle activation status...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
       BundleStatusCall call = new BundleStatusCall(httpClient, bundleStatusURL, getLog());
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);

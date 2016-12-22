@@ -27,6 +27,9 @@
       <action type="add" dev="sseifert">
         Add 'delayAfterInstallSec' parameter to package install.
       </action>
+      <action type="update" dev="sseifert">
+        Check for bundle status both before and after deployment of each package (if a bundle status URL is configured).
+      </action>
     </release>
 
     <release version="1.2.2" date="2016-08-31">
