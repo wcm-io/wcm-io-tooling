@@ -101,6 +101,14 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String artifact;
 
   /**
+   * The names of the content package files to install on the target system, separated by ",".
+   * This has lower precedence than the 'packageFiles' parameter, but higher precedence than other options to specify
+   * files.
+   */
+  @Parameter(property = "vault.fileList")
+  private String packageFileList;
+
+  /**
    * Delay further steps after package installation by this amound of seconds
    */
   @Parameter(property = "vault.delayAfterInstallSec")
@@ -114,6 +122,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
+   * This has higher precedence than all other options to specify files.
    */
   @Parameter
   private PackageFile[] packageFiles;
@@ -149,6 +158,14 @@ public final class InstallMojo extends AbstractContentPackageMojo {
           installFile(file, ref.getDelayAfterInstallSec());
           foundAny = true;
         }
+      }
+    }
+    else if (StringUtils.isNotBlank(packageFileList)) {
+      String[] fileNames = StringUtils.split(packageFileList, ",");
+      for (String fileName : fileNames) {
+        File file = new File(fileName);
+        installFile(file, delayAfterInstallSec);
+        foundAny = true;
       }
     }
     else {
@@ -228,6 +245,9 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
           // delay further processing after install (if activated)
           delay(fileDelayAfterInstallSec);
+
+          // after install: if bundles are still stopping/starting, wait for completion
+          waitForBundlesActivation(httpClient);
         }
         else {
           getLog().info("Package uploaded successfully (without installing).");
@@ -240,9 +260,6 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       else {
         throw new MojoExecutionException("Package upload failed: " + msg);
       }
-
-      // after install: if bundles are still stopping/starting, wait for completion
-      waitForBundlesActivation(httpClient);
 
     }
     catch (IOException ex) {
