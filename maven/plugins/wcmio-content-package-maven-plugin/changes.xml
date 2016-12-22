@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Make HTTP connection timout and socket timeout configurable, set default timeout values and disable keep-alive.
       </action>
+      <action type="update" dev="sseifert">
+        Update to HTTP Client 4.5.
+      </action>
     </release>
 
     <release version="1.2.2" date="2016-08-31">
