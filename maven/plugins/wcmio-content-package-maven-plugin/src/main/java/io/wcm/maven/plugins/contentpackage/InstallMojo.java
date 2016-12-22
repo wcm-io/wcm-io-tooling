@@ -107,6 +107,12 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private int delayAfterInstallSec;
 
   /**
+   * Fail build when no file was found for installing.
+   */
+  @Parameter(property = "vault.failOnNoFile", defaultValue = "true")
+  private boolean failOnNoFile;
+
+  /**
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
    */
   @Parameter
@@ -149,6 +155,9 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       File file = helper.getArtifactFile(artifactId, groupId, version, type, classifier, artifact);
       if (file == null) {
         file = getPackageFile();
+        if (file != null && !file.exists() && !failOnNoFile) {
+          file = null;
+        }
       }
       if (file != null) {
         installFile(file, delayAfterInstallSec);
@@ -156,7 +165,12 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       }
     }
     if (!foundAny) {
-      throw new MojoExecutionException("No file found for installing.");
+      if (failOnNoFile) {
+        throw new MojoExecutionException("No file found for installing.");
+      }
+      else {
+        getLog().warn("No file found for installing.");
+      }
     }
   }
 
@@ -164,6 +178,10 @@ public final class InstallMojo extends AbstractContentPackageMojo {
    * Deploy file via package manager.
    */
   private void installFile(File file, int fileDelayAfterInstallSec) throws MojoExecutionException {
+    if (!file.exists()) {
+      throw new MojoExecutionException("File does not exist: " + file.getAbsolutePath());
+    }
+
     try (CloseableHttpClient httpClient = getHttpClient()) {
 
       // before install: if bundles are still stopping/starting, wait for completion
