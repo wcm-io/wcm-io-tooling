@@ -23,6 +23,21 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.3.0" date="2017-01-02">
+      <action type="add" dev="sseifert">
+        Add 'packageFileList' (vault.fileList), 'delayAfterInstallSec' (vault.delayAfterInstallSec) and 'failOnNoFile' (vault.failOnNoFile) parameters to install goal.
+      </action>
+      <action type="update" dev="sseifert">
+        Check for bundle status both before and after deployment of each package (if a bundle status URL is configured).
+      </action>
+      <action type="update" dev="sseifert">
+        Make HTTP connection timout and socket timeout configurable, set default timeout values and disable keep-alive.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to HTTP Client 4.5.
+      </action>
+    </release>
+
     <release version="1.2.2" date="2016-08-31">
       <action type="update" dev="sseifert">
         Allow plugin execution without maven project context.

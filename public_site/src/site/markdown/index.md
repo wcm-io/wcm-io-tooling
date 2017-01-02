@@ -24,7 +24,8 @@ Overview of modules by category:
 
 * [WCM](wcm/)
 * [DAM](dam/)
-* [Configuration](config/)
+* [Context-Aware Configuration](caconfig/)
+* [Configuration (deprecated)](config/)
 * [Handler](handler/)
 * [Sling](sling/)
 * [Testing](testing/)

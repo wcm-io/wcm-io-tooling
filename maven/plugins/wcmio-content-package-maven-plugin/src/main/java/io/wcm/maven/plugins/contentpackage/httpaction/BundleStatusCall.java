@@ -69,7 +69,7 @@ public class BundleStatusCall implements HttpCall<BundleStatus> {
       return toBundleStatus(jsonResponse);
     }
     catch (IOException ex) {
-      throw new MojoExecutionException("Can't determine bundles state via URL: " + bundleStatusURL, ex);
+      throw new MojoExecutionException("Can't determine bundle state via URL: " + bundleStatusURL, ex);
     }
   }
 

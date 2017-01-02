@@ -61,6 +61,11 @@ public final class PackageFile {
    */
   private String artifact;
 
+  /**
+   * Delay further steps after package installation by this amound of seconds
+   */
+  private int delayAfterInstallSec;
+
   File getPackageFile() {
     return this.packageFile;
   }
@@ -87,6 +92,10 @@ public final class PackageFile {
 
   public String getClassifier() {
     return classifier;
+  }
+
+  public int getDelayAfterInstallSec() {
+    return this.delayAfterInstallSec;
   }
 
 }

@@ -34,13 +34,16 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.AuthState;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
@@ -141,6 +144,18 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.relaxedSSLCheck", defaultValue = "false")
   private boolean relaxedSSLCheck;
 
+  /**
+   * HTTP connection timeout (in seconds).
+   */
+  @Parameter(property = "vault.httpConnectTimeoutSec", defaultValue = "10")
+  private int httpConnectTimeoutSec;
+
+  /**
+   * HTTP socket timeout (in seconds).
+   */
+  @Parameter(property = "vault.httpSocketTimeoutSec", defaultValue = "60")
+  private int httpSocketTimeout;
+
   protected final File getPackageFile() {
     return this.packageFile;
   }
@@ -181,7 +196,21 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
               AuthState authState = (AuthState)context.getAttribute(HttpClientContext.TARGET_AUTH_STATE);
               authState.update(new BasicScheme(), credentials);
             }
+          })
+          .setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
+            @Override
+            public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+              // keep reusing connections to a minimum - may conflict when instance is restarting and responds in unexpected manner
+              return 1;
+            }
           });
+
+      // timeout settings
+      httpClientBuilder.setDefaultRequestConfig(RequestConfig.custom()
+          .setConnectTimeout(httpConnectTimeoutSec * (int)DateUtils.MILLIS_PER_SECOND)
+          .setSocketTimeout(httpSocketTimeout * (int)DateUtils.MILLIS_PER_SECOND)
+          .build());
+
 
       if (this.relaxedSSLCheck) {
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
@@ -279,7 +308,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     final int WAIT_INTERVAL_SEC = 3;
     final long CHECK_RETRY_COUNT = bundleStatusWaitLimit / WAIT_INTERVAL_SEC;
 
-    getLog().info("Check bundle activation states...");
+    getLog().info("Check bundle activation status...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
       BundleStatusCall call = new BundleStatusCall(httpClient, bundleStatusURL, getLog());
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);

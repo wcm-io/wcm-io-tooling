@@ -101,7 +101,28 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String artifact;
 
   /**
+   * The names of the content package files to install on the target system, separated by ",".
+   * This has lower precedence than the 'packageFiles' parameter, but higher precedence than other options to specify
+   * files.
+   */
+  @Parameter(property = "vault.fileList")
+  private String packageFileList;
+
+  /**
+   * Delay further steps after package installation by this amound of seconds
+   */
+  @Parameter(property = "vault.delayAfterInstallSec")
+  private int delayAfterInstallSec;
+
+  /**
+   * Fail build when no file was found for installing.
+   */
+  @Parameter(property = "vault.failOnNoFile", defaultValue = "true")
+  private boolean failOnNoFile;
+
+  /**
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
+   * This has higher precedence than all other options to specify files.
    */
   @Parameter
   private PackageFile[] packageFiles;
@@ -134,33 +155,53 @@ public final class InstallMojo extends AbstractContentPackageMojo {
           file = ref.getPackageFile();
         }
         if (file != null) {
-          installFile(file);
+          installFile(file, ref.getDelayAfterInstallSec());
           foundAny = true;
         }
+      }
+    }
+    else if (StringUtils.isNotBlank(packageFileList)) {
+      String[] fileNames = StringUtils.split(packageFileList, ",");
+      for (String fileName : fileNames) {
+        File file = new File(fileName);
+        installFile(file, delayAfterInstallSec);
+        foundAny = true;
       }
     }
     else {
       File file = helper.getArtifactFile(artifactId, groupId, version, type, classifier, artifact);
       if (file == null) {
         file = getPackageFile();
+        if (file != null && !file.exists() && !failOnNoFile) {
+          file = null;
+        }
       }
       if (file != null) {
-        installFile(file);
+        installFile(file, delayAfterInstallSec);
         foundAny = true;
       }
     }
     if (!foundAny) {
-      throw new MojoExecutionException("No file found for installing.");
+      if (failOnNoFile) {
+        throw new MojoExecutionException("No file found for installing.");
+      }
+      else {
+        getLog().warn("No file found for installing.");
+      }
     }
   }
 
   /**
-   * Deploy file via package manager
+   * Deploy file via package manager.
    */
-  private void installFile(File file) throws MojoExecutionException {
+  private void installFile(File file, int fileDelayAfterInstallSec) throws MojoExecutionException {
+    if (!file.exists()) {
+      throw new MojoExecutionException("File does not exist: " + file.getAbsolutePath());
+    }
+
     try (CloseableHttpClient httpClient = getHttpClient()) {
 
-      // if bundles are still stopping/starting, wait for completion
+      // before install: if bundles are still stopping/starting, wait for completion
       waitForBundlesActivation(httpClient);
 
       if (this.install) {
@@ -201,6 +242,12 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
           // execute post
           executePackageManagerMethodHtml(httpClient, post, 0);
+
+          // delay further processing after install (if activated)
+          delay(fileDelayAfterInstallSec);
+
+          // after install: if bundles are still stopping/starting, wait for completion
+          waitForBundlesActivation(httpClient);
         }
         else {
           getLog().info("Package uploaded successfully (without installing).");
@@ -217,6 +264,18 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     }
     catch (IOException ex) {
       throw new MojoExecutionException("Install operation failed.", ex);
+    }
+  }
+
+  private void delay(int seconds) {
+    if (seconds > 0) {
+      getLog().info("Wait for " + seconds + " seconds after package install...");
+      try {
+        Thread.sleep(seconds * 1000);
+      }
+      catch (InterruptedException ex) {
+        // ignore
+      }
     }
   }
 
