@@ -13,10 +13,10 @@ pro!vision GmbH<br/>
 Löwengasse 27 A, 60385 Frankfurt am Main, Germany<br/>
 Tel. +49 (69) 8700328-0
 
-Standort Wolfsburg<br/>
+Standort Braunschweig<br/>
 pro!vision GmbH<br/>
-Schlosserstr. 6a, 38440 Wolfsburg, Germany<br/>
-Tel. +49 (5361) 834937-0
+Hagenmarkt 8, 38100 Braunschweig, Germany<br/>
+Tel. +49 (531) 2243453-0
 
 Verantwortlich für den Inhalt:<br/>
 Geschäftsführer: Karim Khan, Stefan Seifert<br/>
