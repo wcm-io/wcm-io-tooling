@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.1.6" date="not released">
+      <action type="update" dev="sseifert">
+        Update to nodejs-maven-plugin 2.0.4.
+      </action>
+    </release>
+
     <release version="1.1.4" date="2017-01-02">
       <action type="add" dev="sseifert">
         Add bnd plugins for Sling Context-Aware Configuration and Sling Models.
