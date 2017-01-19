@@ -190,10 +190,10 @@ public class NodeInstallationInformation {
 
   private static String getWindowsNpmVersion(String npmVersion) {
     // NPM 2.x is no longer published and nodejs.org/dist - use latest 1.x version and update to 2.x via NPM
-    if (StringUtils.startsWith(npmVersion, "2.")) {
-      return LATEST_WINDOWS_NPM_VERSION;
+    if (StringUtils.startsWith(npmVersion, "1.")) {
+      return npmVersion;
     }
-    return npmVersion;
+    return LATEST_WINDOWS_NPM_VERSION;
   }
 
   public File getNpmArchive() {
