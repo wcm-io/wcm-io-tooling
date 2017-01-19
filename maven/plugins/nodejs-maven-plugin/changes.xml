@@ -23,9 +23,9 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="2.0.4" date="2017-01-19">
+    <release version="2.0.4" date="not released">
       <action type="fix" dev="amuthmann" issue="WTOOL-20">
-        Make compatible with npm > 2.x on Windows
+        Make compatible with npm > 2.x on Windows.
       </action>
     </release>
 
