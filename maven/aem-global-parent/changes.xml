@@ -43,6 +43,9 @@
         Update to wcmio-content-package-maven-plugin 1.3.0.
       </action>
       <action type="update" dev="sseifert">
+        Maven Sling Plugin: Do not set mountByFS to false explicitly - false is already the default value.
+      </action>
+      <action type="update" dev="sseifert">
         Update dependencies.
       </action>
     </release>
