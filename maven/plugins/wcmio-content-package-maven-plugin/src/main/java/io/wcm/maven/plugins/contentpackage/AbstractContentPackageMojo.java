@@ -112,13 +112,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   /**
    * Number of times to retry upload and install via CRX HTTP interface if it fails.
    */
-  @Parameter(property = "vault.retryCount", defaultValue = "0")
+  @Parameter(property = "vault.retryCount", defaultValue = "24")
   private int retryCount;
 
   /**
    * Number of seconds between retry attempts.
    */
-  @Parameter(property = "vault.retryDelay", defaultValue = "0")
+  @Parameter(property = "vault.retryDelay", defaultValue = "5")
   private int retryDelay;
 
   /**
