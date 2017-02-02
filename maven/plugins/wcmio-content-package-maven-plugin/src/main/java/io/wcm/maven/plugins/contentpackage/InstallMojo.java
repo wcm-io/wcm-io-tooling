@@ -98,9 +98,13 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String artifact;
 
   /**
+   * <p>
    * The names of the content package files to install on the target system, separated by ",".
+   * </p>
+   * <p>
    * This has lower precedence than the 'packageFiles' parameter, but higher precedence than other options to specify
    * files.
+   * </p>
    */
   @Parameter(property = "vault.fileList")
   private String packageFileList;
@@ -118,9 +122,13 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private boolean failOnNoFile;
 
   /**
+   * <p>
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
    * This has higher precedence than all other options to specify files.
+   * </p>
+   * <p>
    * You can set the following properties for each package item:
+   * </p>
    * <ul>
    * <li><code>packageFile</code>: Content package file.</li>
    * <li><code>groupId</code>: The groupId of the artifact to install.</li>

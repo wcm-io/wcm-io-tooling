@@ -46,10 +46,14 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   private File packageFile;
 
   /**
+   * <p>
    * The URL of the HTTP service API of the CRX package manager.
+   * </p>
+   * <p>
    * See <a href=
    * "http://dev.day.com/docs/en/crx/current/how_to/package_manager.html#Managing%20Packages%20on%20the%20Command%20Line"
    * >CRX HTTP service Interface</a> for details on this interface.
+   * </p>
    */
   @Parameter(property = "vault.serviceURL", required = true, defaultValue = "http://localhost:4502/crx/packmgr/service")
   private String serviceURL;
@@ -85,12 +89,18 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   private int retryDelay;
 
   /**
+   * <p>
    * Bundle status JSON URL. If an URL is configured the activation status of all bundles in the system is checked
    * before it is tried to upload and install a new package and after each upload.
+   * </p>
+   * <p>
    * If not all packages are installed the upload is delayed up to 10 minutes, every 5 seconds the
    * activation status is checked anew.
+   * </P>
+   * <p>
    * If the URL is not set it is derived from serviceURL.
    * Expected is an URL like: http://localhost:4502/system/console/bundles/.json
+   * </p>
    */
   @Parameter(property = "vault.bundleStatusURL", required = false)
   private String bundleStatusURL;
