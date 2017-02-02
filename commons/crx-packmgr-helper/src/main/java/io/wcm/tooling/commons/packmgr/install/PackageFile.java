@@ -26,7 +26,7 @@ import java.io.File;
  */
 public final class PackageFile {
 
-  private File packageFile;
+  private File file;
   private int delayAfterInstallSec;
   private boolean install = true;
   private boolean force;
@@ -36,12 +36,12 @@ public final class PackageFile {
    * Content package file.
    * @return File
    */
-  public File getPackageFile() {
-    return this.packageFile;
+  public File getFile() {
+    return this.file;
   }
 
-  public void setPackageFile(File packageFile) {
-    this.packageFile = packageFile;
+  public void setFile(File file) {
+    this.file = file;
   }
 
   /**

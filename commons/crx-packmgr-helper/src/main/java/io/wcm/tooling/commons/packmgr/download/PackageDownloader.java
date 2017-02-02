@@ -19,26 +19,66 @@
  */
 package io.wcm.tooling.commons.packmgr.download;
 
+import static io.wcm.tooling.commons.packmgr.PackageManagerHelper.CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
+import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
+import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
+
 /**
  * Downloads a single AEM content package.
  */
 public final class PackageDownloader {
 
+  private final PackageManagerProperties props;
+  private final PackageManagerHelper pkgmgr;
+  private final Logger log;
+
   /**
-   * Download content package from CRX instance
+   * @param props Package manager configuration properties.
+   * @param log Logger
    */
-  /*
-  private File downloadFile(File file, String ouputFilePath) {
-    try (CloseableHttpClient httpClient = getHttpClient()) {
-      getLog().info("Download " + file.getName() + " from " + getCrxPackageManagerUrl());
+  public PackageDownloader(PackageManagerProperties props, Logger log) {
+    this.props = props;
+    this.pkgmgr = new PackageManagerHelper(props, log);
+    this.log = log;
+  }
+
+  /**
+   * Download content package from CRX instance.
+   * @param file Local version of package that should be downloaded.
+   * @param ouputFilePath Path to download package from AEM instance to.
+   * @return Downloaded file
+   */
+  public File downloadFile(File file, String ouputFilePath) {
+    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+      log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());
 
       // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
-      HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
+      HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
       MultipartEntityBuilder entity = MultipartEntityBuilder.create()
           .addBinaryBody("package", file)
           .addTextBody("force", "true");
       post.setEntity(entity.build());
-      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post);
+      JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, post);
       boolean success = jsonResponse.optBoolean("success", false);
       String msg = jsonResponse.optString("msg", null);
       String path = jsonResponse.optString("path", null);
@@ -52,14 +92,14 @@ public final class PackageDownloader {
         throw new PackageManagerException("Package path detection failed: " + msg);
       }
 
-      getLog().info("Package path is: " + path + " - now rebuilding package...");
+      log.info("Package path is: " + path + " - now rebuilding package...");
 
       // 2nd: build package
-      HttpPost buildMethod = new HttpPost(getCrxPackageManagerUrl() + "/console.html" + path + "?cmd=build");
-      executePackageManagerMethodHtml(httpClient, buildMethod, 0);
+      HttpPost buildMethod = new HttpPost(props.getPackageManagerUrl() + "/console.html" + path + "?cmd=build");
+      pkgmgr.executePackageManagerMethodHtml(httpClient, buildMethod, 0);
 
       // 3rd: download package
-      String crxUrl = StringUtils.removeEnd(getCrxPackageManagerUrl(), "/crx/packmgr/service");
+      String crxUrl = StringUtils.removeEnd(props.getPackageManagerUrl(), "/crx/packmgr/service");
       HttpGet downloadMethod = new HttpGet(crxUrl + path);
 
       // execute download
@@ -78,12 +118,12 @@ public final class PackageDownloader {
 
           // write response file
           FileOutputStream fos = new FileOutputStream(outputFileObject);
-          IOUtil.copy(responseStream, fos);
+          IOUtils.copy(responseStream, fos);
           fos.flush();
           responseStream.close();
           fos.close();
 
-          getLog().info("Package downloaded to " + outputFileObject.getAbsolutePath());
+          log.info("Package downloaded to " + outputFileObject.getAbsolutePath());
 
           return outputFileObject;
         }
@@ -111,6 +151,5 @@ public final class PackageDownloader {
       throw new PackageManagerException("Download operation failed.", ex);
     }
   }
-  */
 
 }

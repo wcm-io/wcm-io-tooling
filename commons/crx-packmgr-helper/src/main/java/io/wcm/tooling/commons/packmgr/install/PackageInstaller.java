@@ -19,77 +19,121 @@
  */
 package io.wcm.tooling.commons.packmgr.install;
 
+import static io.wcm.tooling.commons.packmgr.PackageManagerHelper.CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Collection;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.json.JSONObject;
+
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
+import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
+import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
+
 /**
  * Installs a list of AEM content packages via Package Manager.
  */
 public final class PackageInstaller {
 
+  private final PackageManagerProperties props;
+  private final PackageManagerHelper pkgmgr;
+  private final Logger log;
+
+  /**
+   * @param props Package manager configuration properties.
+   * @param log Logger
+   */
+  public PackageInstaller(PackageManagerProperties props, Logger log) {
+    this.props = props;
+    this.pkgmgr = new PackageManagerHelper(props, log);
+    this.log = log;
+  }
+
+  /**
+   * Deploy files via package manager.
+   * @param packageFiles AEM content packages
+   */
+  public void installFiles(Collection<PackageFile> packageFiles) {
+    for (PackageFile packageFile : packageFiles) {
+      installFile(packageFile);
+    }
+  }
+
   /**
    * Deploy file via package manager.
+   * @param packageFile AEM content package
    */
-  /*
-  private void installFile(File file, int fileDelayAfterInstallSec) {
+  public void installFile(PackageFile packageFile) {
+    File file = packageFile.getFile();
     if (!file.exists()) {
       throw new PackageManagerException("File does not exist: " + file.getAbsolutePath());
     }
 
-    try (CloseableHttpClient httpClient = getHttpClient()) {
+    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
 
       // before install: if bundles are still stopping/starting, wait for completion
-      waitForBundlesActivation(httpClient);
+      pkgmgr.waitForBundlesActivation(httpClient);
 
-      if (this.install) {
-        getLog().info("Upload and install " + file.getName() + " to " + getCrxPackageManagerUrl());
+      if (packageFile.isInstall()) {
+        log.info("Upload and install " + file.getName() + " to " + props.getPackageManagerUrl());
       }
       else {
-        getLog().info("Upload " + file.getName() + " to " + getCrxPackageManagerUrl());
+        log.info("Upload " + file.getName() + " to " + props.getPackageManagerUrl());
       }
 
       // prepare post method
-      HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
+      HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
       MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
           .addBinaryBody("package", file);
-      if (this.force) {
+      if (packageFile.isForce()) {
         entityBuilder.addTextBody("force", "true");
       }
       post.setEntity(entityBuilder.build());
 
       // execute post
-      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post);
+      JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, post);
       boolean success = jsonResponse.optBoolean("success", false);
       String msg = jsonResponse.optString("msg", null);
       String path = jsonResponse.optString("path", null);
 
       if (success) {
 
-        if (this.install) {
-          getLog().info("Package uploaded, now installing...");
+        if (packageFile.isInstall()) {
+          log.info("Package uploaded, now installing...");
 
           try {
-            post = new HttpPost(getCrxPackageManagerUrl() + "/console.html"
+            post = new HttpPost(props.getPackageManagerUrl() + "/console.html"
                 + new URIBuilder().setPath(path).build().getRawPath()
-                + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
+                + "?cmd=install" + (packageFile.isRecursive() ? "&recursive=true" : ""));
           }
           catch (URISyntaxException ex) {
             throw new PackageManagerException("Invalid path: " + path, ex);
           }
 
           // execute post
-          executePackageManagerMethodHtml(httpClient, post, 0);
+          pkgmgr.executePackageManagerMethodHtml(httpClient, post, 0);
 
           // delay further processing after install (if activated)
-          delay(fileDelayAfterInstallSec);
+          delay(packageFile.getDelayAfterInstallSec());
 
           // after install: if bundles are still stopping/starting, wait for completion
-          waitForBundlesActivation(httpClient);
+          pkgmgr.waitForBundlesActivation(httpClient);
         }
         else {
-          getLog().info("Package uploaded successfully (without installing).");
+          log.info("Package uploaded successfully (without installing).");
         }
 
       }
-      else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !this.force) {
-        getLog().info("Package skipped because it was already uploaded.");
+      else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !packageFile.isForce()) {
+        log.info("Package skipped because it was already uploaded.");
       }
       else {
         throw new PackageManagerException("Package upload failed: " + msg);
@@ -103,7 +147,7 @@ public final class PackageInstaller {
 
   private void delay(int seconds) {
     if (seconds > 0) {
-      getLog().info("Wait for " + seconds + " seconds after package install...");
+      log.info("Wait for " + seconds + " seconds after package install...");
       try {
         Thread.sleep(seconds * 1000);
       }
@@ -112,6 +156,5 @@ public final class PackageInstaller {
       }
     }
   }
-  */
 
 }
