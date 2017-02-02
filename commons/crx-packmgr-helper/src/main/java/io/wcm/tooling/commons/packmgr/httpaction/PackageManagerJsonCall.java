@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.httpaction;
+package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
 
@@ -26,33 +26,34 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
 /**
  * Call to package manager JSON interface.
  */
-public class PackageManagerJsonCall implements HttpCall<JSONObject> {
+public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
 
   private final CloseableHttpClient httpClient;
   private final HttpRequestBase method;
-  private final Log log;
+  private final Logger log;
 
   /**
    * @param httpClient HTTP client
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpRequestBase method, Log log) {
+  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
     this.method = method;
     this.log = log;
   }
 
   @Override
-  public JSONObject execute() throws MojoExecutionException {
+  public JSONObject execute() {
     if (log.isDebugEnabled()) {
       log.debug("Call URL: " + method.getURI());
     }
@@ -69,7 +70,7 @@ public class PackageManagerJsonCall implements HttpCall<JSONObject> {
             jsonResponse = new JSONObject(responseString);
           }
           catch (JSONException ex) {
-            throw new MojoExecutionException("Error parsing JSON response.\n" + responseString, ex);
+            throw new PackageManagerException("Error parsing JSON response.\n" + responseString, ex);
           }
         }
         if (jsonResponse == null) {
@@ -80,7 +81,7 @@ public class PackageManagerJsonCall implements HttpCall<JSONObject> {
 
       }
       else {
-        throw new MojoExecutionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+        throw new PackageManagerException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
             + " " + response.getStatusLine().getReasonPhrase() + "\n"
             + responseString);
       }
@@ -88,7 +89,7 @@ public class PackageManagerJsonCall implements HttpCall<JSONObject> {
       return jsonResponse;
     }
     catch (IOException ex) {
-      throw new MojoExecutionException("Http method failed.", ex);
+      throw new PackageManagerException("Http method failed.", ex);
     }
   }
 

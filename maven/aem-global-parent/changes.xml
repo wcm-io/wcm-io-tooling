@@ -31,7 +31,7 @@
         Update to maven-sling-plugin 2.1.10.
       </action>
       <action type="update" dev="sseifert">
-        Update to wcmio-content-package-maven-plugin 1.3.2.
+        Update to wcmio-content-package-maven-plugin 1.4.0.
       </action>
     </release>
 

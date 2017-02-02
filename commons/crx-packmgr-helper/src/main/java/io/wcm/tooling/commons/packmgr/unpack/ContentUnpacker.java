@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.unpacker;
+package io.wcm.tooling.commons.packmgr.unpack;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,8 +35,6 @@ import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -46,28 +44,27 @@ import org.jdom2.output.Format;
 import org.jdom2.output.LineSeparator;
 import org.jdom2.output.XMLOutputter;
 
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
+
 /**
  * Manages unpacking ZIP file content applying exclude patterns.
  */
-public class ContentUnpacker {
+public final class ContentUnpacker {
 
   private final Pattern[] excludeFiles;
   private final Pattern[] excludeNodes;
   private final Pattern[] excludeProperties;
 
   /**
-   * @param excludeFiles Exclude files
-   * @param excludeNodes Exclude nodes
-   * @param excludeProperties Exclude properties
-   * @throws MojoFailureException Mojo failure exception
+   * @param properties Configuration properties
    */
-  public ContentUnpacker(String[] excludeFiles, String[] excludeNodes, String[] excludeProperties) throws MojoFailureException {
-    this.excludeFiles = toPatternArray(excludeFiles);
-    this.excludeNodes = toPatternArray(excludeNodes);
-    this.excludeProperties = toPatternArray(excludeProperties);
+  public ContentUnpacker(ContentUnpackerProperties properties) {
+    this.excludeFiles = toPatternArray(properties.getExcludeFiles());
+    this.excludeNodes = toPatternArray(properties.getExcludeNodes());
+    this.excludeProperties = toPatternArray(properties.getExcludeProperties());
   }
 
-  private static Pattern[] toPatternArray(String[] patternStrings) throws MojoFailureException {
+  private static Pattern[] toPatternArray(String[] patternStrings) {
     if (patternStrings == null) {
       return new Pattern[0];
     }
@@ -77,7 +74,7 @@ public class ContentUnpacker {
         patterns[i] = Pattern.compile(patternStrings[i]);
       }
       catch (PatternSyntaxException ex) {
-        throw new MojoFailureException("Invalid regexp pattern: " + patternStrings[i], ex);
+        throw new PackageManagerException("Invalid regexp pattern: " + patternStrings[i], ex);
       }
     }
     return patterns;
@@ -103,9 +100,8 @@ public class ContentUnpacker {
    * Unpacks file
    * @param file File
    * @param outputDirectory Output directory
-   * @throws MojoExecutionException Mojo execution exception
    */
-  public void unpack(File file, File outputDirectory) throws MojoExecutionException {
+  public void unpack(File file, File outputDirectory) {
     ZipFile zipFile = null;
     try {
       zipFile = new ZipFile(file);
@@ -118,15 +114,14 @@ public class ContentUnpacker {
       }
     }
     catch (IOException ex) {
-      throw new MojoExecutionException("Error reading content package " + file.getAbsolutePath(), ex);
+      throw new PackageManagerException("Error reading content package " + file.getAbsolutePath(), ex);
     }
     finally {
       IOUtils.closeQuietly(zipFile);
     }
   }
 
-  private void unpackEntry(ZipFile zipFile, ZipArchiveEntry entry, File outputDirectory)
-      throws IOException, MojoExecutionException {
+  private void unpackEntry(ZipFile zipFile, ZipArchiveEntry entry, File outputDirectory) throws IOException {
     if (entry.isDirectory()) {
       File directory = FileUtils.getFile(outputDirectory, entry.getName());
       directory.mkdirs();
@@ -149,7 +144,7 @@ public class ContentUnpacker {
             writeXmlWithExcludes(entryStream, fos);
           }
           catch (JDOMException ex) {
-            throw new MojoExecutionException("Unable to parse XML file: " + entry.getName(), ex);
+            throw new PackageManagerException("Unable to parse XML file: " + entry.getName(), ex);
           }
         }
         else {

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.unpacker;
+package io.wcm.tooling.commons.packmgr.unpack;
 
 import java.io.IOException;
 import java.io.Writer;

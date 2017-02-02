@@ -3,7 +3,7 @@
   #%L
   wcm.io
   %%
-  Copyright (C) 2014 wcm.io
+  Copyright (C) 2017 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,24 +18,23 @@
   limitations under the License.
   #L%
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.wcm.maven</groupId>
-    <artifactId>io.wcm.maven.parent</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
-    <relativePath>../../parent/pom.xml</relativePath>
+    <groupId>io.wcm.tooling.commons</groupId>
+    <artifactId>io.wcm.tooling.commons.parent</artifactId>
+    <version>1.0.3-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
-  <groupId>io.wcm.maven.plugins</groupId>
-  <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.3.1-SNAPSHOT</version>
-  <packaging>maven-plugin</packaging>
+  <groupId>io.wcm.tooling.commons</groupId>
+  <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-  <name>Content Package Maven Plugin</name>
-  <description>Install and download content packages via CRX package manager.</description>
+  <name>CRX Package Manager Helper</name>
+  <description>Java Library for uploading and downloading AEM content packages via CRX Package Manager.</description>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
@@ -45,28 +44,10 @@
   </scm>
 
   <properties>
-    <site.url.module.prefix>tooling/maven/plugins/wcmio-content-package-maven-plugin</site.url.module.prefix>
-    <maven.version>3.0.5</maven.version>
+    <site.url.module.prefix>tooling/commons/crx-packmgr-helper</site.url.module.prefix>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>${maven.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-core</artifactId>
-      <version>${maven.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.plugin-tools</groupId>
-      <artifactId>maven-plugin-annotations</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -102,20 +83,10 @@
       <artifactId>jdom2</artifactId>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>io.wcm.tooling.commons</groupId>
-      <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.apache.maven.plugin-tools</groupId>
-        <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.2</version>
-      </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
@@ -141,66 +112,8 @@
         <artifactId>jdom2</artifactId>
         <version>2.0.6</version>
       </dependency>
-      <dependency>
-        <groupId>io.wcm.tooling.commons</groupId>
-        <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <goalPrefix>wcmio-content-package</goalPrefix>
-          <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-        </configuration>
-        <executions>
-          <execution>
-            <id>mojo-descriptor</id>
-            <goals>
-              <goal>descriptor</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>generated-helpmojo</id>
-            <goals>
-              <goal>helpmojo</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <requirements>
-            <maven>${maven.version}</maven>
-            <others>
-              <property>
-                <name>CRX</name>
-                <value>2.3</value>
-              </property>
-            </others>
-          </requirements>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </reporting>
 
   <distributionManagement>
     <site>

@@ -27,7 +27,7 @@ import java.io.File;
 public final class PackageFile {
 
   /**
-   * The name of the content package file to install on the target system.
+   * Content package file.
    */
   private File packageFile;
 
@@ -62,9 +62,25 @@ public final class PackageFile {
   private String artifact;
 
   /**
-   * Delay further steps after package installation by this amound of seconds
+   * Whether to install (unpack) the uploaded package automatically or not.
    */
-  private int delayAfterInstallSec;
+  private Boolean install;
+
+  /**
+   * Force upload and install of content package. If set to false a package is not uploaded or installed
+   * if it was already uploaded before.
+   */
+  private Boolean force;
+
+  /**
+   * If set to true nested packages get installed as well.
+   */
+  private Boolean recursive;
+
+  /**
+   * Delay further steps after package installation by this amount of seconds
+   */
+  private Integer delayAfterInstallSec;
 
   File getPackageFile() {
     return this.packageFile;
@@ -86,15 +102,27 @@ public final class PackageFile {
     return this.version;
   }
 
+  String getClassifier() {
+    return classifier;
+  }
+
   String getArtifact() {
     return this.artifact;
   }
 
-  public String getClassifier() {
-    return classifier;
+  Boolean getInstall() {
+    return this.install;
   }
 
-  public int getDelayAfterInstallSec() {
+  Boolean getForce() {
+    return this.force;
+  }
+
+  Boolean getRecursive() {
+    return this.recursive;
+  }
+
+  Integer getDelayAfterInstallSec() {
     return this.delayAfterInstallSec;
   }
 

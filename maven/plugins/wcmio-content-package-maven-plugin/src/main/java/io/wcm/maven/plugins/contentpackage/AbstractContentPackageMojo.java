@@ -20,50 +20,13 @@
 package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.http.HttpException;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.AuthState;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.conn.ConnectionKeepAliveStrategy;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.json.JSONObject;
 
-import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatus;
-import io.wcm.maven.plugins.contentpackage.httpaction.BundleStatusCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.HttpCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerHtmlMessageCall;
-import io.wcm.maven.plugins.contentpackage.httpaction.PackageManagerJsonCall;
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 
 /**
  * Common functionality for all mojos.
@@ -160,7 +123,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return this.packageFile;
   }
 
-  protected final String getCrxPackageManagerUrl() {
+  private String getCrxPackageManagerUrl() {
     String serviceUrl = this.serviceURL;
     // convert "legacy interface URL" with service.jsp to new CRX interface (since CRX 2.1)
     serviceUrl = StringUtils.replace(serviceUrl, "/crx/packmgr/service.jsp", "/crx/packmgr/service");
@@ -173,158 +136,74 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return this.skip;
   }
 
-  /**
-   * Set up http client with credentials
-   * @return Http client
-   * @throws MojoExecutionException Mojo execution exception
-   */
-  protected final CloseableHttpClient getHttpClient() throws MojoExecutionException {
-    try {
-      URI crxUri = new URI(getCrxPackageManagerUrl());
+  protected PackageManagerProperties getPackageManagerProperties() {
+    PackageManagerProperties props = new PackageManagerProperties();
 
-      final AuthScope authScope = new AuthScope(crxUri.getHost(), crxUri.getPort());
-      final Credentials credentials = new UsernamePasswordCredentials(this.userId, this.password);
-      final CredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(authScope, credentials);
+    props.setPackageManagerUrl(getCrxPackageManagerUrl());
+    props.setUserId(this.userId);
+    props.setPassword(this.password);
+    props.setRetryCount(this.retryCount);
+    props.setRetryDelaySec(this.retryDelay);
+    props.setBundleStatusUrl(this.bundleStatusURL);
+    props.setBundleStatusWaitLimitSec(this.bundleStatusWaitLimit);
+    props.setRelaxedSSLCheck(this.relaxedSSLCheck);
+    props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
+    props.setHttpSocketTimeoutSec(this.httpSocketTimeout);
 
-      HttpClientBuilder httpClientBuilder = HttpClients.custom()
-          .setDefaultCredentialsProvider(credsProvider)
-          .addInterceptorFirst(new HttpRequestInterceptor() {
-            @Override
-            public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
-              // enable preemptive authentication
-              AuthState authState = (AuthState)context.getAttribute(HttpClientContext.TARGET_AUTH_STATE);
-              authState.update(new BasicScheme(), credentials);
-            }
-          })
-          .setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
-            @Override
-            public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
-              // keep reusing connections to a minimum - may conflict when instance is restarting and responds in unexpected manner
-              return 1;
-            }
-          });
-
-      // timeout settings
-      httpClientBuilder.setDefaultRequestConfig(RequestConfig.custom()
-          .setConnectTimeout(httpConnectTimeoutSec * (int)DateUtils.MILLIS_PER_SECOND)
-          .setSocketTimeout(httpSocketTimeout * (int)DateUtils.MILLIS_PER_SECOND)
-          .build());
-
-
-      if (this.relaxedSSLCheck) {
-        SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
-        httpClientBuilder.setSSLSocketFactory(sslsf);
-      }
-
-      return httpClientBuilder.build();
-    }
-    catch (URISyntaxException ex) {
-      throw new MojoExecutionException("Invalid url: " + getCrxPackageManagerUrl(), ex);
-    }
-    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex) {
-      throw new MojoExecutionException("Could not set relaxedSSLCheck", ex);
-    }
+    return props;
   }
 
-  /**
-   * Execute HTTP call with automatic retry as configured for the MOJO.
-   * @param call HTTP call
-   * @param runCount Number of runs this call was already executed
-   * @throws MojoExecutionException Mojo execution exception
-   */
-  private <T> T executeHttpCallWithRetry(HttpCall<T> call, int runCount) throws MojoExecutionException {
-    try {
-      return call.execute();
-    }
-    catch (MojoExecutionException ex) {
-      // retry again if configured so...
-      if (runCount < this.retryCount) {
-        getLog().info("ERROR: " + ex.getMessage());
-        getLog().debug("HTTP call failed.", ex);
-        getLog().info("---------------");
-
-        String msg = "HTTP call failed, try again (" + (runCount + 1) + "/" + this.retryCount + ")";
-        if (this.retryDelay > 0) {
-          msg += " after " + this.retryDelay + " second(s)";
-        }
-        msg += "...";
-        getLog().info(msg);
-        if (this.retryDelay > 0) {
-          try {
-            Thread.sleep(this.retryDelay * DateUtils.MILLIS_PER_SECOND);
-          }
-          catch (InterruptedException ex1) {
-            // ignore
-          }
-        }
-        return executeHttpCallWithRetry(call, runCount + 1);
+  protected Logger getLoggerWrapper() {
+    return new Logger() {
+      @Override
+      public void warn(CharSequence message, Throwable t) {
+        getLog().warn(message, t);
       }
-      else {
-        throw ex;
+      @Override
+      public void warn(CharSequence message) {
+        getLog().warn(message);
       }
-    }
-  }
-
-  /**
-   * Execute CRX HTTP Package manager method and parse/output xml response.
-   * @param httpClient Http client
-   * @param method Get or Post method
-   * @return JSON object
-   * @throws MojoExecutionException Mojo execution exception
-   */
-  protected final JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method)
-      throws MojoExecutionException {
-    PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, method, getLog());
-    return executeHttpCallWithRetry(call, 0);
-  }
-
-  /**
-   * Execute CRX HTTP Package manager method and parse/output xml response.
-   * @param httpClient Http client
-   * @param method Get or Post method
-   * @param runCount Execution run count
-   * @throws MojoExecutionException Mojo execution exception
-   */
-  protected final void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method,
-      int runCount) throws MojoExecutionException {
-    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, getLog());
-    String message = executeHttpCallWithRetry(call, 0);
-    getLog().info(message);
-  }
-
-  /**
-   * Wait up to 10 min for bundles to become active.
-   * @param httpClient Http client
-   * @throws MojoExecutionException Mojo execution exception
-   */
-  protected void waitForBundlesActivation(CloseableHttpClient httpClient) throws MojoExecutionException {
-    if (StringUtils.isBlank(bundleStatusURL)) {
-      getLog().debug("Skipping check for bundle activation state because no bundleStatusURL is defined.");
-      return;
-    }
-
-    final int WAIT_INTERVAL_SEC = 3;
-    final long CHECK_RETRY_COUNT = bundleStatusWaitLimit / WAIT_INTERVAL_SEC;
-
-    getLog().info("Check bundle activation status...");
-    for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
-      BundleStatusCall call = new BundleStatusCall(httpClient, bundleStatusURL, getLog());
-      BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
-      if (bundleStatus.isAllBundlesRunning()) {
-        return;
+      @Override
+      public boolean isWarnEnabled() {
+        return getLog().isWarnEnabled();
       }
-      getLog().info(bundleStatus.getStatusLine());
-      getLog().info("Bundles are currently starting/stopping - wait " + WAIT_INTERVAL_SEC + " seconds "
-          + "(max. " + bundleStatusWaitLimit + " seconds) ...");
-      try {
-        Thread.sleep(WAIT_INTERVAL_SEC * DateUtils.MILLIS_PER_SECOND);
+      @Override
+      public boolean isInfoEnabled() {
+        return getLog().isInfoEnabled();
       }
-      catch (InterruptedException e) {
-        // ignore
+      @Override
+      public boolean isErrorEnabled() {
+        return getLog().isErrorEnabled();
       }
-    }
+      @Override
+      public boolean isDebugEnabled() {
+        return getLog().isDebugEnabled();
+      }
+      @Override
+      public void info(CharSequence message, Throwable t) {
+        getLog().info(message, t);
+      }
+      @Override
+      public void info(CharSequence message) {
+        getLog().info(message);
+      }
+      @Override
+      public void error(CharSequence message, Throwable t) {
+        getLog().error(message, t);
+      }
+      @Override
+      public void error(CharSequence message) {
+        getLog().error(message);
+      }
+      @Override
+      public void debug(CharSequence message, Throwable t) {
+        getLog().debug(message, t);
+      }
+      @Override
+      public void debug(CharSequence message) {
+        getLog().debug(message);
+      }
+    };
   }
 
 }
