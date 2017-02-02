@@ -109,7 +109,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String packageFileList;
 
   /**
-   * Delay further steps after package installation by this amound of seconds
+   * Delay further steps after package installation by this amount of seconds
    */
   @Parameter(property = "vault.delayAfterInstallSec")
   private int delayAfterInstallSec;

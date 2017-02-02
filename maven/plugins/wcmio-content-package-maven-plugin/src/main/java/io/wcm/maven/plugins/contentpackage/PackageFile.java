@@ -27,7 +27,7 @@ import java.io.File;
 public final class PackageFile {
 
   /**
-   * The name of the content package file to install on the target system.
+   * Content package file.
    */
   private File packageFile;
 
@@ -62,9 +62,15 @@ public final class PackageFile {
   private String artifact;
 
   /**
-   * Delay further steps after package installation by this amound of seconds
+   * Delay further steps after package installation by this amount of seconds
    */
   private int delayAfterInstallSec;
+
+  /**
+   * Force upload and install of content package. If set to false a package is not uploaded or installed
+   * if it was already uploaded before.
+   */
+  private boolean force;
 
   File getPackageFile() {
     return this.packageFile;
@@ -96,6 +102,10 @@ public final class PackageFile {
 
   public int getDelayAfterInstallSec() {
     return this.delayAfterInstallSec;
+  }
+
+  public boolean isForce() {
+    return this.force;
   }
 
 }
