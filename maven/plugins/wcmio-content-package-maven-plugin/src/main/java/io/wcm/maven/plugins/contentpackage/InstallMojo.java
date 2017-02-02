@@ -120,6 +120,23 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   /**
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
    * This has higher precedence than all other options to specify files.
+   * You can set the following properties for each package item:
+   * <ul>
+   * <li><code>packageFile</code>: Content package file.</li>
+   * <li><code>groupId</code>: The groupId of the artifact to install.</li>
+   * <li><code>artifactId</code>: The artifactId of the artifact to install.</li>
+   * <li><code>type</code>: The packaging of the artifact to install. (default: zip)</li>
+   * <li><code>version</code>: The version of the artifact to install.</li>
+   * <li><code>classifier</code>: The classifier of the artifact to install.</li>
+   * <li><code>artifact</code>: A string of the form
+   * <code>groupId:artifactId[:packaging][:classifier]:version</code>.</li>
+   * <li><code>install</code>: Whether to install (unpack) the uploaded package automatically or not.</li>
+   * <li><code>force</code>: Force upload and install of content package. If set to false a package is not uploaded or
+   * installed if it was already uploaded before.</li>
+   * <li><code>recursive</code>: If set to true nested packages get installed as well.</li>
+   * <li><code>delayAfterInstallSec</code>: Delay further steps after package installation by this amount of
+   * seconds.</li>
+   * </ul>
    */
   @Parameter
   private PackageFile[] packageFiles;

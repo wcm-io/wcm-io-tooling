@@ -78,7 +78,7 @@ public final class PackageFile {
   private Boolean recursive;
 
   /**
-   * Delay further steps after package installation by this amount of seconds
+   * Delay further steps after package installation by this amount of seconds.
    */
   private Integer delayAfterInstallSec;
 
