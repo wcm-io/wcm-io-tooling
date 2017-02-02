@@ -31,6 +31,9 @@
         Set default parameters for install/download goals: retryCount=24, retryDelay=5.
       </action>
       <action type="update" dev="sseifert">
+        Derive bundleStatusURL parameter from serviceURL if not set.
+      </action>
+      <action type="update" dev="sseifert">
         Package manager interaction logic is moved to separate artifact io.wcm.tooling.commons.crx-packmgr-helper.
       </action>
     </release>

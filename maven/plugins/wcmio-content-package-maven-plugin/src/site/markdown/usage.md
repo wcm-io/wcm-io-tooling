@@ -114,10 +114,9 @@ You can execute the `install` and `download` goals also directly from the comman
 Example for directly installing a package without a pom:
 
 ```
-mvn io.wcm.maven.plugins:wcmio-content-package-maven-plugin:1.3.0:install \
-    -Dvault.file=./pv-aem-cms-rootfolders.zip \
-    -Dvault.serviceURL=http://localhost:4502/crx/packmgr/service \
-    -Dvault.bundleStatusURL=http://localhost:4502/system/console/bundles/.json
+mvn io.wcm.maven.plugins:wcmio-content-package-maven-plugin:1.4.0:install \
+    -Dvault.file=mypackage.zip \
+    -Dvault.serviceURL=http://localhost:4502/crx/packmgr/service
 ```
 
 The full list of available parameters (user property names) can be found in the [plugin documentation][plugindocs].

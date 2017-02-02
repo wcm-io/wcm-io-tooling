@@ -89,6 +89,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * before it is tried to upload and install a new package and after each upload.
    * If not all packages are installed the upload is delayed up to 10 minutes, every 5 seconds the
    * activation status is checked anew.
+   * If the URL is not set it is derived from serviceURL.
    * Expected is an URL like: http://localhost:4502/system/console/bundles/.json
    */
   @Parameter(property = "vault.bundleStatusURL", required = false)
@@ -123,7 +124,28 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return this.packageFile;
   }
 
-  private String getCrxPackageManagerUrl() {
+  protected final boolean isSkip() {
+    return this.skip;
+  }
+
+  protected PackageManagerProperties getPackageManagerProperties() {
+    PackageManagerProperties props = new PackageManagerProperties();
+
+    props.setPackageManagerUrl(buildPackageManagerUrl());
+    props.setUserId(this.userId);
+    props.setPassword(this.password);
+    props.setRetryCount(this.retryCount);
+    props.setRetryDelaySec(this.retryDelay);
+    props.setBundleStatusUrl(buildBundleStatusUrl());
+    props.setBundleStatusWaitLimitSec(this.bundleStatusWaitLimit);
+    props.setRelaxedSSLCheck(this.relaxedSSLCheck);
+    props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
+    props.setHttpSocketTimeoutSec(this.httpSocketTimeout);
+
+    return props;
+  }
+
+  private String buildPackageManagerUrl() {
     String serviceUrl = this.serviceURL;
     // convert "legacy interface URL" with service.jsp to new CRX interface (since CRX 2.1)
     serviceUrl = StringUtils.replace(serviceUrl, "/crx/packmgr/service.jsp", "/crx/packmgr/service");
@@ -132,25 +154,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return serviceUrl;
   }
 
-  protected final boolean isSkip() {
-    return this.skip;
-  }
-
-  protected PackageManagerProperties getPackageManagerProperties() {
-    PackageManagerProperties props = new PackageManagerProperties();
-
-    props.setPackageManagerUrl(getCrxPackageManagerUrl());
-    props.setUserId(this.userId);
-    props.setPassword(this.password);
-    props.setRetryCount(this.retryCount);
-    props.setRetryDelaySec(this.retryDelay);
-    props.setBundleStatusUrl(this.bundleStatusURL);
-    props.setBundleStatusWaitLimitSec(this.bundleStatusWaitLimit);
-    props.setRelaxedSSLCheck(this.relaxedSSLCheck);
-    props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
-    props.setHttpSocketTimeoutSec(this.httpSocketTimeout);
-
-    return props;
+  private String buildBundleStatusUrl() {
+    if (this.bundleStatusURL != null) {
+      return this.bundleStatusURL;
+    }
+    // if not set use hostname from serviceURL and add default path to bundle status
+    String crxUrl = StringUtils.removeEnd(buildPackageManagerUrl(), "/crx/packmgr/service");
+    return crxUrl + "/system/console/bundles/.json";
   }
 
   protected Logger getLoggerWrapper() {
