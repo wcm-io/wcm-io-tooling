@@ -28,53 +28,53 @@ public interface Logger {
    * Logs a message with debug log level.
    * @param message log this message
    */
-  void debug(Object message);
+  void debug(CharSequence message);
 
   /**
    * Logs an error with debug log level.
    * @param message log this message
    * @param t log this cause
    */
-  void debug(Object message, Throwable t);
+  void debug(CharSequence message, Throwable t);
 
   /**
    * Logs a message with info log level.
    * @param message log this message
    */
-  void info(Object message);
+  void info(CharSequence message);
 
   /**
    * Logs an error with info log level.
    * @param message log this message
    * @param t log this cause
    */
-  void info(Object message, Throwable t);
+  void info(CharSequence message, Throwable t);
 
   /**
    * Logs a message with warn log level.
    * @param message log this message
    */
-  void warn(Object message);
+  void warn(CharSequence message);
 
   /**
    * Logs an error with warn log level.
    * @param message log this message
    * @param t log this cause
    */
-  void warn(Object message, Throwable t);
+  void warn(CharSequence message, Throwable t);
 
   /**
    * Logs a message with error log level.
    * @param message log this message
    */
-  void error(Object message);
+  void error(CharSequence message);
 
   /**
    * Logs an error with error log level.
    * @param message log this message
    * @param t log this cause
    */
-  void error(Object message, Throwable t);
+  void error(CharSequence message, Throwable t);
 
   /**
    * Is debug logging currently enabled?

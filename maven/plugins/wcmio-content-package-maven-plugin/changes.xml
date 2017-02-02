@@ -23,9 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.3.2" date="not released">
+    <release version="1.4.0" date="not released">
+      <action type="add" dev="sseifert">
+        Allow to set properties install, force, recursive for each packageFiles item individually.
+      </action>
       <action type="update" dev="sseifert">
         Set default parameters for install/download goals: retryCount=24, retryDelay=5.
+      </action>
+      <action type="update" dev="sseifert">
+        Package manager interaction logic is moved to separate artifact io.wcm.tooling.commons.crx-packmgr-helper.
       </action>
     </release>
 
