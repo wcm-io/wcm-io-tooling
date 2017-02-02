@@ -158,10 +158,6 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   @Parameter(property = "project.remoteArtifactRepositories", required = true, readonly = true)
   private java.util.List<ArtifactRepository> remoteRepositories;
 
-  /**
-   * Generates the ZIP.
-   * @throws MojoFailureException Mojo failure exception
-   */
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (isSkip()) {
@@ -212,7 +208,8 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     }
   }
 
-  io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(PackageFile ref, ArtifactHelper helper) throws MojoFailureException, MojoExecutionException {
+  private io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(PackageFile ref, ArtifactHelper helper)
+      throws MojoFailureException, MojoExecutionException {
     io.wcm.tooling.commons.packmgr.install.PackageFile output = new io.wcm.tooling.commons.packmgr.install.PackageFile();
 
     File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getClassifier(), ref.getArtifact());
@@ -249,7 +246,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     return output;
   }
 
-  io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(File file) {
+  private io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(File file) {
     io.wcm.tooling.commons.packmgr.install.PackageFile output = new io.wcm.tooling.commons.packmgr.install.PackageFile();
 
     output.setFile(file);
