@@ -91,10 +91,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * <p>
    * If not all packages are installed the upload is delayed up to 10 minutes, every 5 seconds the
    * activation status is checked anew.
-   * </P>
+   * </p>
    * <p>
-   * If the URL is not set it is derived from serviceURL.
    * Expected is an URL like: http://localhost:4502/system/console/bundles/.json
+   * </p>
+   * <p>
+   * <p>
+   * If the URL is not set it is derived from serviceURL. Set to "-" to explicitly disable the status check.
    * </p>
    */
   @Parameter(property = "vault.bundleStatusURL", required = false)
@@ -160,6 +163,9 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   }
 
   private String buildBundleStatusUrl() {
+    if (StringUtils.equals(this.bundleStatusURL, "-")) {
+      return null;
+    }
     if (this.bundleStatusURL != null) {
       return this.bundleStatusURL;
     }
