@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.httpaction;
+package io.wcm.tooling.commons.packmgr.httpaction;
 
 /**
  * Wrapper for Status summary from Web Console Bundles Status info JSON.

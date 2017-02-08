@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.unpacker;
+package io.wcm.tooling.commons.packmgr.unpack;
 
 import java.io.File;
 
@@ -46,7 +46,11 @@ public class ContentUnpackerTest {
 
   @Before
   public void setUp() throws Exception {
-    underTest = new ContentUnpacker(EXCLUDE_FILES, EXCLUDE_NODES, EXCLUDE_PROPERTIES);
+    ContentUnpackerProperties props = new ContentUnpackerProperties();
+    props.setExcludeFiles(EXCLUDE_FILES);
+    props.setExcludeNodes(EXCLUDE_NODES);
+    props.setExcludeProperties(EXCLUDE_PROPERTIES);
+    underTest = new ContentUnpacker(props);
   }
 
   @Test

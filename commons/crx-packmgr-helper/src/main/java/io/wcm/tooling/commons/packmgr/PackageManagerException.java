@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2014 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,27 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.httpaction;
-
-import org.apache.maven.plugin.MojoExecutionException;
+package io.wcm.tooling.commons.packmgr;
 
 /**
- * Interface for wrapping a HTTP call execution that can be retried automatically on failure.
- * @param <T> Response type
+ * Exception during package manager handling.
  */
-public interface HttpCall<T> {
+public final class PackageManagerException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
 
   /**
-   * Execute action
-   * @return Response
-   * @throws MojoExecutionException Mojo execution exception
+   * @param message Message
+   * @param cause Cause
    */
-  T execute() throws MojoExecutionException;
+  public PackageManagerException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * @param message Message
+   */
+  public PackageManagerException(String message) {
+    super(message);
+  }
 
 }

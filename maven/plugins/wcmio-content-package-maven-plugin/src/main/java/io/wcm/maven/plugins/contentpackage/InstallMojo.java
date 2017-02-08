@@ -20,14 +20,10 @@
 package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -37,7 +33,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.repository.RepositorySystem;
-import org.json.JSONObject;
+
+import io.wcm.tooling.commons.packmgr.install.PackageInstaller;
 
 /**
  * Install a Content Package on a remote CRX or AEM system.
@@ -101,15 +98,19 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private String artifact;
 
   /**
+   * <p>
    * The names of the content package files to install on the target system, separated by ",".
+   * </p>
+   * <p>
    * This has lower precedence than the 'packageFiles' parameter, but higher precedence than other options to specify
    * files.
+   * </p>
    */
   @Parameter(property = "vault.fileList")
   private String packageFileList;
 
   /**
-   * Delay further steps after package installation by this amound of seconds
+   * Delay further steps after package installation by this amount of seconds
    */
   @Parameter(property = "vault.delayAfterInstallSec")
   private int delayAfterInstallSec;
@@ -121,8 +122,29 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private boolean failOnNoFile;
 
   /**
+   * <p>
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
    * This has higher precedence than all other options to specify files.
+   * </p>
+   * <p>
+   * You can set the following properties for each package item:
+   * </p>
+   * <ul>
+   * <li><code>packageFile</code>: Content package file.</li>
+   * <li><code>groupId</code>: The groupId of the artifact to install.</li>
+   * <li><code>artifactId</code>: The artifactId of the artifact to install.</li>
+   * <li><code>type</code>: The packaging of the artifact to install. (default: zip)</li>
+   * <li><code>version</code>: The version of the artifact to install.</li>
+   * <li><code>classifier</code>: The classifier of the artifact to install.</li>
+   * <li><code>artifact</code>: A string of the form
+   * <code>groupId:artifactId[:packaging][:classifier]:version</code>.</li>
+   * <li><code>install</code>: Whether to install (unpack) the uploaded package automatically or not.</li>
+   * <li><code>force</code>: Force upload and install of content package. If set to false a package is not uploaded or
+   * installed if it was already uploaded before.</li>
+   * <li><code>recursive</code>: If set to true nested packages get installed as well.</li>
+   * <li><code>delayAfterInstallSec</code>: Delay further steps after package installation by this amount of
+   * seconds.</li>
+   * </ul>
    */
   @Parameter
   private PackageFile[] packageFiles;
@@ -136,27 +158,20 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   @Parameter(property = "project.remoteArtifactRepositories", required = true, readonly = true)
   private java.util.List<ArtifactRepository> remoteRepositories;
 
-  /**
-   * Generates the ZIP.
-   * @throws MojoFailureException Mojo failure exception
-   */
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (isSkip()) {
       return;
     }
 
-    boolean foundAny = false;
+    List<io.wcm.tooling.commons.packmgr.install.PackageFile> items = new ArrayList<>();
+
     ArtifactHelper helper = new ArtifactHelper(repository, localRepository, remoteRepositories);
     if (packageFiles != null && packageFiles.length > 0) {
       for (PackageFile ref : packageFiles) {
-        File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getClassifier(), ref.getArtifact());
-        if (file == null) {
-          file = ref.getPackageFile();
-        }
-        if (file != null) {
-          installFile(file, ref.getDelayAfterInstallSec());
-          foundAny = true;
+        io.wcm.tooling.commons.packmgr.install.PackageFile item = toPackageFile(ref, helper);
+        if (item.getFile() != null) {
+          items.add(item);
         }
       }
     }
@@ -164,8 +179,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       String[] fileNames = StringUtils.split(packageFileList, ",");
       for (String fileName : fileNames) {
         File file = new File(fileName);
-        installFile(file, delayAfterInstallSec);
-        foundAny = true;
+        items.add(toPackageFile(file));
       }
     }
     else {
@@ -177,11 +191,10 @@ public final class InstallMojo extends AbstractContentPackageMojo {
         }
       }
       if (file != null) {
-        installFile(file, delayAfterInstallSec);
-        foundAny = true;
+        items.add(toPackageFile(file));
       }
     }
-    if (!foundAny) {
+    if (items.isEmpty()) {
       if (failOnNoFile) {
         throw new MojoExecutionException("No file found for installing.");
       }
@@ -189,94 +202,60 @@ public final class InstallMojo extends AbstractContentPackageMojo {
         getLog().warn("No file found for installing.");
       }
     }
-  }
-
-  /**
-   * Deploy file via package manager.
-   */
-  private void installFile(File file, int fileDelayAfterInstallSec) throws MojoExecutionException {
-    if (!file.exists()) {
-      throw new MojoExecutionException("File does not exist: " + file.getAbsolutePath());
-    }
-
-    try (CloseableHttpClient httpClient = getHttpClient()) {
-
-      // before install: if bundles are still stopping/starting, wait for completion
-      waitForBundlesActivation(httpClient);
-
-      if (this.install) {
-        getLog().info("Upload and install " + file.getName() + " to " + getCrxPackageManagerUrl());
-      }
-      else {
-        getLog().info("Upload " + file.getName() + " to " + getCrxPackageManagerUrl());
-      }
-
-      // prepare post method
-      HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
-      MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
-          .addBinaryBody("package", file);
-      if (this.force) {
-        entityBuilder.addTextBody("force", "true");
-      }
-      post.setEntity(entityBuilder.build());
-
-      // execute post
-      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post);
-      boolean success = jsonResponse.optBoolean("success", false);
-      String msg = jsonResponse.optString("msg", null);
-      String path = jsonResponse.optString("path", null);
-
-      if (success) {
-
-        if (this.install) {
-          getLog().info("Package uploaded, now installing...");
-
-          try {
-            post = new HttpPost(getCrxPackageManagerUrl() + "/console.html"
-                + new URIBuilder().setPath(path).build().getRawPath()
-                + "?cmd=install" + (this.recursive ? "&recursive=true" : ""));
-          }
-          catch (URISyntaxException ex) {
-            throw new MojoExecutionException("Invalid path: " + path, ex);
-          }
-
-          // execute post
-          executePackageManagerMethodHtml(httpClient, post, 0);
-
-          // delay further processing after install (if activated)
-          delay(fileDelayAfterInstallSec);
-
-          // after install: if bundles are still stopping/starting, wait for completion
-          waitForBundlesActivation(httpClient);
-        }
-        else {
-          getLog().info("Package uploaded successfully (without installing).");
-        }
-
-      }
-      else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !this.force) {
-        getLog().info("Package skipped because it was already uploaded.");
-      }
-      else {
-        throw new MojoExecutionException("Package upload failed: " + msg);
-      }
-
-    }
-    catch (IOException ex) {
-      throw new MojoExecutionException("Install operation failed.", ex);
+    else {
+      PackageInstaller installer = new PackageInstaller(getPackageManagerProperties(), getLoggerWrapper());
+      installer.installFiles(items);
     }
   }
 
-  private void delay(int seconds) {
-    if (seconds > 0) {
-      getLog().info("Wait for " + seconds + " seconds after package install...");
-      try {
-        Thread.sleep(seconds * 1000);
-      }
-      catch (InterruptedException ex) {
-        // ignore
-      }
+  private io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(PackageFile ref, ArtifactHelper helper)
+      throws MojoFailureException, MojoExecutionException {
+    io.wcm.tooling.commons.packmgr.install.PackageFile output = new io.wcm.tooling.commons.packmgr.install.PackageFile();
+
+    File file = helper.getArtifactFile(ref.getArtifactId(), ref.getGroupId(), ref.getVersion(), ref.getType(), ref.getClassifier(), ref.getArtifact());
+    if (file == null) {
+      file = ref.getPackageFile();
     }
+    output.setFile(file);
+
+    if (ref.getInstall() != null) {
+      output.setInstall(ref.getInstall());
+    }
+    else {
+      output.setInstall(this.install);
+    }
+    if (ref.getForce() != null) {
+      output.setForce(ref.getForce());
+    }
+    else {
+      output.setForce(this.force);
+    }
+    if (ref.getRecursive() != null) {
+      output.setRecursive(ref.getRecursive());
+    }
+    else {
+      output.setRecursive(this.recursive);
+    }
+    if (ref.getDelayAfterInstallSec() != null) {
+      output.setDelayAfterInstallSec(ref.getDelayAfterInstallSec());
+    }
+    else {
+      output.setDelayAfterInstallSec(this.delayAfterInstallSec);
+    }
+
+    return output;
+  }
+
+  private io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(File file) {
+    io.wcm.tooling.commons.packmgr.install.PackageFile output = new io.wcm.tooling.commons.packmgr.install.PackageFile();
+
+    output.setFile(file);
+    output.setInstall(this.install);
+    output.setForce(this.force);
+    output.setRecursive(this.recursive);
+    output.setDelayAfterInstallSec(this.delayAfterInstallSec);
+
+    return output;
   }
 
 }

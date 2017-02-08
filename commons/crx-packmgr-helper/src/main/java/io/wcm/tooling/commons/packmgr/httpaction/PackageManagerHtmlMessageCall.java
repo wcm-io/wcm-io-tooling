@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.httpaction;
+package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -28,31 +28,32 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
+
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
 /**
  * Call that parses a packager manager HTML response and returns the contained message as plain text.
  */
-public class PackageManagerHtmlMessageCall implements HttpCall<String> {
+public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
 
   private final CloseableHttpClient httpClient;
   private final HttpRequestBase method;
-  private final Log log;
+  private final Logger log;
 
   /**
    * @param httpClient HTTP client
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerHtmlMessageCall(CloseableHttpClient httpClient, HttpRequestBase method, Log log) {
+  public PackageManagerHtmlMessageCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
     this.method = method;
     this.log = log;
   }
 
   @Override
-  public String execute() throws MojoExecutionException {
+  public String execute() {
     if (log.isDebugEnabled()) {
       log.debug("Call URL: " + method.getURI());
     }
@@ -80,14 +81,14 @@ public class PackageManagerHtmlMessageCall implements HttpCall<String> {
         return responseString;
       }
       else {
-        throw new MojoExecutionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+        throw new PackageManagerException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
             + " " + response.getStatusLine().getReasonPhrase() + "\n"
             + responseString);
       }
 
     }
     catch (IOException ex) {
-      throw new MojoExecutionException("Http method failed.", ex);
+      throw new PackageManagerException("Http method failed.", ex);
     }
   }
 

@@ -20,30 +20,18 @@
 package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
-import org.codehaus.plexus.util.IOUtil;
-import org.json.JSONObject;
 
-import io.wcm.maven.plugins.contentpackage.unpacker.ContentUnpacker;
+import io.wcm.tooling.commons.packmgr.download.PackageDownloader;
+import io.wcm.tooling.commons.packmgr.unpack.ContentUnpacker;
+import io.wcm.tooling.commons.packmgr.unpack.ContentUnpackerProperties;
 
 /**
  * Builds and downloads a content package defined on a remote CRX or AEM system.
@@ -109,106 +97,25 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       return;
     }
 
-    File outputFileObject = downloadFile(getPackageFile(), this.outputFile);
+    PackageDownloader downloader = new PackageDownloader(getPackageManagerProperties(), getLoggerWrapper());
+
+    File outputFileObject = downloader.downloadFile(getPackageFile(), this.outputFile);
     if (this.unpack) {
       unpackFile(outputFileObject);
     }
   }
 
   /**
-   * Download content package from CRX instance
-   */
-  private File downloadFile(File file, String ouputFilePath) throws MojoExecutionException {
-    try (CloseableHttpClient httpClient = getHttpClient()) {
-      getLog().info("Download " + file.getName() + " from " + getCrxPackageManagerUrl());
-
-      // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
-      HttpPost post = new HttpPost(getCrxPackageManagerUrl() + "/.json?cmd=upload");
-      MultipartEntityBuilder entity = MultipartEntityBuilder.create()
-          .addBinaryBody("package", file)
-          .addTextBody("force", "true");
-      post.setEntity(entity.build());
-      JSONObject jsonResponse = executePackageManagerMethodJson(httpClient, post);
-      boolean success = jsonResponse.optBoolean("success", false);
-      String msg = jsonResponse.optString("msg", null);
-      String path = jsonResponse.optString("path", null);
-
-      // package already exists - get path from error message and continue
-      if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(path)) {
-        path = StringUtils.substringAfter(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX);
-        success = true;
-      }
-      if (!success) {
-        throw new MojoExecutionException("Package path detection failed: " + msg);
-      }
-
-      getLog().info("Package path is: " + path + " - now rebuilding package...");
-
-      // 2nd: build package
-      HttpPost buildMethod = new HttpPost(getCrxPackageManagerUrl() + "/console.html" + path + "?cmd=build");
-      executePackageManagerMethodHtml(httpClient, buildMethod, 0);
-
-      // 3rd: download package
-      String crxUrl = StringUtils.removeEnd(getCrxPackageManagerUrl(), "/crx/packmgr/service");
-      HttpGet downloadMethod = new HttpGet(crxUrl + path);
-
-      // execute download
-      CloseableHttpResponse response = httpClient.execute(downloadMethod);
-      try {
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-          // get response stream
-          InputStream responseStream = response.getEntity().getContent();
-
-          // delete existing file
-          File outputFileObject = new File(ouputFilePath);
-          if (outputFileObject.exists()) {
-            outputFileObject.delete();
-          }
-
-          // write response file
-          FileOutputStream fos = new FileOutputStream(outputFileObject);
-          IOUtil.copy(responseStream, fos);
-          fos.flush();
-          responseStream.close();
-          fos.close();
-
-          getLog().info("Package downloaded to " + outputFileObject.getAbsolutePath());
-
-          return outputFileObject;
-        }
-        else {
-          throw new MojoExecutionException("Package download failed:\n"
-              + EntityUtils.toString(response.getEntity()));
-        }
-      }
-      finally {
-        if (response != null) {
-          EntityUtils.consumeQuietly(response.getEntity());
-          try {
-            response.close();
-          }
-          catch (IOException ex) {
-            // ignore
-          }
-        }
-      }
-    }
-    catch (FileNotFoundException ex) {
-      throw new MojoExecutionException("File not found: " + file.getAbsolutePath(), ex);
-    }
-    catch (IOException ex) {
-      throw new MojoExecutionException("Download operation failed.", ex);
-    }
-  }
-
-  /**
    * Unpack content package
    */
-  private void unpackFile(File file) throws MojoExecutionException, MojoFailureException {
+  private void unpackFile(File file) throws MojoExecutionException {
 
     // initialize unpacker to validate patterns
-    ContentUnpacker unpacker = new ContentUnpacker(this.excludeFiles, this.excludeNodes, this.excludeProperties);
+    ContentUnpackerProperties props = new ContentUnpackerProperties();
+    props.setExcludeFiles(this.excludeFiles);
+    props.setExcludeNodes(this.excludeNodes);
+    props.setExcludeProperties(this.excludeProperties);
+    ContentUnpacker unpacker = new ContentUnpacker(props);
 
     // validate output directory
     if (this.unpackDirectory == null) {

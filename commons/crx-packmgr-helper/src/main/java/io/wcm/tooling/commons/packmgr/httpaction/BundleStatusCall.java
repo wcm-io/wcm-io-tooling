@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage.httpaction;
+package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
 
@@ -26,33 +26,34 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.logging.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
 /**
  * Get bundle status from web console.
  */
-public class BundleStatusCall implements HttpCall<BundleStatus> {
+public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
   private final CloseableHttpClient httpClient;
   private final String bundleStatusURL;
-  private final Log log;
+  private final Logger log;
 
   /**
    * @param httpClient HTTP client
    * @param bundleStatusURL Bundle status URL
    * @param log Logger
    */
-  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL, Log log) {
+  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL, Logger log) {
     this.httpClient = httpClient;
     this.bundleStatusURL = bundleStatusURL;
     this.log = log;
   }
 
   @Override
-  public BundleStatus execute() throws MojoExecutionException {
+  public BundleStatus execute() {
     if (log.isDebugEnabled()) {
       log.debug("Call URL: " + bundleStatusURL);
     }
@@ -62,14 +63,14 @@ public class BundleStatusCall implements HttpCall<BundleStatus> {
 
       String responseString = EntityUtils.toString(response.getEntity());
       if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-        throw new MojoExecutionException("Failure:\n" + responseString);
+        throw new PackageManagerException("Failure:\n" + responseString);
       }
 
       JSONObject jsonResponse = new JSONObject(responseString);
       return toBundleStatus(jsonResponse);
     }
     catch (IOException ex) {
-      throw new MojoExecutionException("Can't determine bundle state via URL: " + bundleStatusURL, ex);
+      throw new PackageManagerException("Can't determine bundle state via URL: " + bundleStatusURL, ex);
     }
   }
 
