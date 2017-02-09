@@ -78,6 +78,7 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Make sure same version as in io.wcm.tooling.commons.crx-packmgr-helper is used, not that from the aem-dependencies -->
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
