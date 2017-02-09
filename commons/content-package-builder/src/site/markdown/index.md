@@ -1,4 +1,4 @@
-## AEM Content Package Builder
+## Content Package Builder
 
 Java Library for building AEM Content Packages with content pages and binary files.
 

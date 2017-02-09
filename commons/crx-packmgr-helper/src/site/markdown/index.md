@@ -15,5 +15,6 @@ Java Library for uploading and downloading AEM content packages via CRX Package 
 This library manages the "resilient" handling of uploading and downloading packages to/from AEM via HTTP API of the CRX Package Manager.
 
 It is used by these Maven plugins:
+
 * [wcm.io Content Package Maven Plugin](http://wcm.io/tooling/maven/plugins/wcmio-content-package-maven-plugin/)
 * [wcm.io DevOps CONGA AEM Maven Plugin](http://devops.wcm.io/conga/plugins/aem/conga-aem-maven-plugin/plugin-info.html)
