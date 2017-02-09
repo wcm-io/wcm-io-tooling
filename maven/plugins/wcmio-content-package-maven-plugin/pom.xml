@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.4.1-SNAPSHOT</version>
+  <version>1.4.2</version>
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
@@ -75,6 +75,17 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Make sure same version as in io.wcm.tooling.commons.crx-packmgr-helper is used, not that from the aem-dependencies -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.12</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
