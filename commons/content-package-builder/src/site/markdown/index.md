@@ -1,4 +1,4 @@
-## wcm.io AEM Content Package Builder
+## AEM Content Package Builder
 
 Java Library for building AEM Content Packages with content pages and binary files.
 
