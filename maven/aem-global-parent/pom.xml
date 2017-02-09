@@ -315,7 +315,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.4.0</version>
+          <version>1.4.2</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
