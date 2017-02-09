@@ -25,13 +25,7 @@
 
     <release version="1.1.6" date="not released">
       <action type="update" dev="sseifert">
-        Update to nodejs-maven-plugin 2.0.4.
-      </action>
-      <action type="update" dev="sseifert">
-        Update to maven-sling-plugin 2.1.10.
-      </action>
-      <action type="update" dev="sseifert">
-        Update to wcmio-content-package-maven-plugin 1.4.2.
+        Update to latest plugins.
       </action>
       <action type="update" dev="sseifert">
         Add CONGA maven plugins: conga-maven-plugin, conga-aem-maven-plugin.
