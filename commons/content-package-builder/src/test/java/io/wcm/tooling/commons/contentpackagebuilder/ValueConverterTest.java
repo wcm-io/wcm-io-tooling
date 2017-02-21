@@ -66,8 +66,8 @@ public class ValueConverterTest {
     assertEquals("[myString1,myString2]", underTest.toString("prop", new String[] {
         "myString1", "myString2"
     }));
-    assertEquals("[myString1\\,[]\\\\äöüß€,myString2,myString3 [ ] { } \\\\ \\,,[myString5],{myString6}]", underTest.toString("prop", new String[] {
-        "myString1,[]\\äöüß€", "myString2", "myString3 [ ] { } \\ ,", "[myString5]", "{myString6}"
+    assertEquals("[myString1\\,[]\\\\äöüß€,myString2,myString3 [ ] { } \\\\ \\,,,[myString5],{myString6}]", underTest.toString("prop", new String[] {
+        "myString1,[]\\äöüß€", "myString2", "myString3 [ ] { } \\ ,", "", "[myString5]", "{myString6}"
     }));
   }
 
