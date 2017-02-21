@@ -54,16 +54,11 @@ public class ValueConverterTest {
   @Test
   public void testString() {
     assertEquals("myString", underTest.toString("prop", "myString"));
-  }
-
-  @Test
-  public void testStringStartingWithBrackets() {
+    assertEquals("myString [ ] { } \\\\ ,", underTest.toString("prop", "myString [ ] { } \\ ,"));
     assertEquals("\\{myString}", underTest.toString("prop", "{myString}"));
-  }
-
-  @Test
-  public void testStringWithBracketsInside() {
     assertEquals("aaa{myString}", underTest.toString("prop", "aaa{myString}"));
+    assertEquals("\\[myString]", underTest.toString("prop", "[myString]"));
+    assertEquals("aaa[myString]", underTest.toString("prop", "aaa[myString]"));
   }
 
   @Test
@@ -71,12 +66,8 @@ public class ValueConverterTest {
     assertEquals("[myString1,myString2]", underTest.toString("prop", new String[] {
         "myString1", "myString2"
     }));
-  }
-
-  @Test
-  public void testStringArraySpecialChars() {
-    assertEquals("[myString1\\,[]\\\\äöüß€,myString2]", underTest.toString("prop", new String[] {
-        "myString1,[]\\äöüß€", "myString2"
+    assertEquals("[myString1\\,[]\\\\äöüß€,myString2,myString3 [ ] { } \\\\ \\,,[myString5],{myString6}]", underTest.toString("prop", new String[] {
+        "myString1,[]\\äöüß€", "myString2", "myString3 [ ] { } \\ ,", "[myString5]", "{myString6}"
     }));
   }
 

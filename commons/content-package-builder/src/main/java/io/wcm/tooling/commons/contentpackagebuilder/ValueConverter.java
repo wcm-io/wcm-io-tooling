@@ -60,7 +60,7 @@ final class ValueConverter {
       return arrayToString(propertyName, (Object[])value);
     }
     else {
-      return getTypePrefix(propertyName, value) + singleObjectToString(value);
+      return getTypePrefix(propertyName, value) + singleObjectToString(value, false);
     }
   }
 
@@ -76,8 +76,8 @@ final class ValueConverter {
         if (i > 0) {
           arrayString.append(",");
         }
-        String convertedArrayValue = singleObjectToString(values[i]);
-        arrayString.append(escapeSpecialCharsInArray(convertedArrayValue));
+        String convertedArrayValue = singleObjectToString(values[i], true);
+        arrayString.append(convertedArrayValue);
       }
       arrayString.append("]");
       String stringValue = arrayString.toString();
@@ -85,16 +85,12 @@ final class ValueConverter {
     }
   }
 
-  private String escapeSpecialCharsInArray(String value) {
-    return StringUtils.replace(StringUtils.replace(value, "\\", "\\\\"), ",", "\\,");
-  }
-
-  private String singleObjectToString(Object value) {
+  private String singleObjectToString(final Object value, final boolean inArray) {
     if (value == null) {
       return "";
     }
     if (value instanceof String) {
-      return escapeStringValue((String)value);
+      return escapeStringValue((String)value, inArray);
     }
     if (value instanceof Boolean) {
       return ((Boolean)value).toString();
@@ -119,11 +115,15 @@ final class ValueConverter {
     throw new IllegalArgumentException("Type not supported: " + value.getClass().getName());
   }
 
-  private String escapeStringValue(String value) {
-    if (StringUtils.startsWith(value, "{")) {
-      return "\\" + value;
+  private String escapeStringValue(final String value, final boolean inArray) {
+    String escapedValue = StringUtils.replace(value, "\\", "\\\\");
+    if (inArray) {
+      escapedValue = StringUtils.replace(escapedValue, ",", "\\,");
     }
-    return value;
+    else if (StringUtils.startsWith(escapedValue, "{") || StringUtils.startsWith(escapedValue, "[")) {
+      escapedValue = "\\" + escapedValue;
+    }
+    return escapedValue;
   }
 
   private String getTypePrefix(String propertyName, Object value) {
