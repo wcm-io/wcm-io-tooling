@@ -583,6 +583,7 @@
             <useReleaseProfile>false</useReleaseProfile>
             <releaseProfiles>release</releaseProfiles>
             <goals>deploy</goals>
+            <pushChanges>false</pushChanges>
           </configuration>
           <!-- fix for http://jira.codehaus.org/browse/MRELEASE-812, still occuring with 2.5 -->
           <dependencies>
