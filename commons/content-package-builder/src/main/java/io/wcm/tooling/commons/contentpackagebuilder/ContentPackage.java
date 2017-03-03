@@ -22,11 +22,10 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
 import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
 import static org.apache.jackrabbit.vault.util.Constants.FILTER_XML;
-import static org.apache.jackrabbit.vault.util.Constants.META_INF;
+import static org.apache.jackrabbit.vault.util.Constants.META_DIR;
 import static org.apache.jackrabbit.vault.util.Constants.PROPERTIES_XML;
 import static org.apache.jackrabbit.vault.util.Constants.ROOT_DIR;
 import static org.apache.jackrabbit.vault.util.Constants.SETTINGS_XML;
-import static org.apache.jackrabbit.vault.util.Constants.VAULT_DIR;
 
 import java.io.Closeable;
 import java.io.File;
@@ -228,11 +227,10 @@ public final class ContentPackage implements Closeable {
    */
   private void buildPackageMetadata() throws IOException {
     metadata.validate();
-    String metaDir = META_INF + "/" + VAULT_DIR + "/";
-    buildTemplatedMetadataFile(metaDir + CONFIG_XML);
-    buildPropertiesFile(metaDir + PROPERTIES_XML);
-    buildTemplatedMetadataFile(metaDir + SETTINGS_XML);
-    writeXmlDocument(metaDir + FILTER_XML, xmlContentBuilder.buildFilter(metadata.getFilters()));
+    buildTemplatedMetadataFile(META_DIR + "/" + CONFIG_XML);
+    buildPropertiesFile(META_DIR + "/" + PROPERTIES_XML);
+    buildTemplatedMetadataFile(META_DIR + "/" + SETTINGS_XML);
+    writeXmlDocument(META_DIR + "/" + FILTER_XML, xmlContentBuilder.buildFilter(metadata.getFilters()));
   }
 
   /**
