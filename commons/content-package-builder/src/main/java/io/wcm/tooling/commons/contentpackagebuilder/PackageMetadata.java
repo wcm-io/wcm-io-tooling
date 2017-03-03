@@ -19,6 +19,14 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_AC_HANDLING;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_CREATED;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_CREATED_BY;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_DESCRIPTION;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_GROUP;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_NAME;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_VERSION;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -124,14 +132,14 @@ final class PackageMetadata {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(created);
     return ImmutableMap.<String,Object>builder()
-        .put("group", StringUtils.defaultString(group))
-        .put("name", StringUtils.defaultString(name))
-        .put("description", StringUtils.defaultString(description))
+        .put(NAME_GROUP, StringUtils.defaultString(group))
+        .put(NAME_NAME, StringUtils.defaultString(name))
+        .put(NAME_DESCRIPTION, StringUtils.defaultString(description))
+        .put(NAME_CREATED, ISO8601.format(calendar))
+        .put(NAME_CREATED_BY, StringUtils.defaultString(createdBy))
+        .put(NAME_VERSION, StringUtils.defaultString(version))
+        .put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "")
         .put("path", "/etc/packages/" + group + "/" + name + ".zip")
-        .put("created", ISO8601.format(calendar))
-        .put("createdBy", StringUtils.defaultString(createdBy))
-        .put("version", StringUtils.defaultString(version))
-        .put("acHandling", acHandling != null ? acHandling.getMode() : "")
         .build();
   }
 
