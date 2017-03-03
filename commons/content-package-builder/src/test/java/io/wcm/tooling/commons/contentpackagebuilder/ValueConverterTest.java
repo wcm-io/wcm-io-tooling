@@ -23,7 +23,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -162,6 +164,18 @@ public class ValueConverterTest {
     assertEquals("{Name}[rep:write,crx:replicate,jcr:read]", underTest.toString("rep:privileges", new String[] {
         "rep:write", "crx:replicate", "jcr:read"
     }));
+  }
+
+  @Test
+  public void testUUID() {
+    UUID uuid = UUID.randomUUID();
+    assertEquals("{Reference}" + uuid.toString(), underTest.toString("prop", uuid));
+  }
+
+  @Test
+  public void testURI() throws Exception {
+    URI uri = new URI("http://localhost");
+    assertEquals("{URI}" + uri.toString(), underTest.toString("prop", uri));
   }
 
 }

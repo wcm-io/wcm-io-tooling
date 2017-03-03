@@ -24,8 +24,8 @@
   <body>
 
     <release version="1.2.0" date="not released">
-      <action type="fix" dev="sseifert">
-        Fix escaping rules for string values starting with "[" or with "\" inside a string array.
+      <action type="update" dev="sseifert">
+        Switch to Jackrabbit Vault implementation for escaping property values and paths.
       </action>
       <action type="add" dev="amuthmann" issue="WTOOL-28">
         Add "oak" XML namespace to the list of default namespaces.
