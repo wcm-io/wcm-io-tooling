@@ -111,7 +111,7 @@ final class ValueConverter {
       return new MockValue(Double.toString(((Number)value).doubleValue()), PropertyType.DECIMAL);
     }
     if (value instanceof BigDecimal) {
-      return new MockValue(Double.toString(((BigDecimal)value).doubleValue()), PropertyType.DECIMAL);
+      return new MockValue(((BigDecimal)value).toString(), PropertyType.DECIMAL);
     }
     if (value instanceof Date) {
       Calendar calendar = Calendar.getInstance();

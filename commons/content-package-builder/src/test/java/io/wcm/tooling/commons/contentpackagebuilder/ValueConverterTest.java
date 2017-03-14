@@ -139,13 +139,13 @@ public class ValueConverterTest {
 
   @Test
   public void testBigDecimal() {
-    assertEquals("{Decimal}2.345", underTest.toString("prop", new BigDecimal(2.345d)));
+    assertEquals("{Decimal}2.345", underTest.toString("prop", new BigDecimal("2.345")));
   }
 
   @Test
   public void testBigDecimalArray() {
     assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new BigDecimal[] {
-        new BigDecimal(1.234d), new BigDecimal(2.345d)
+        new BigDecimal("1.234"), new BigDecimal("2.345")
     }));
   }
 
