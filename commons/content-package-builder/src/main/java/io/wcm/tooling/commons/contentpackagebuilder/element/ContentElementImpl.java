@@ -29,48 +29,48 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class ContentElementImpl implements ContentElement {
 
-    private final String name;
-    private final Map<String, Object> properties;
-    private final Map<String, ContentElement> children = new LinkedHashMap<>();
+  private final String name;
+  private final Map<String, Object> properties;
+  private final Map<String, ContentElement> children = new LinkedHashMap<>();
 
   /**
    * @param name Element name
    * @param properties Properties
    */
-    public ContentElementImpl(String name, Map<String, Object> properties) {
-        this.name = name;
-        this.properties = properties;
-    }
+  public ContentElementImpl(String name, Map<String, Object> properties) {
+    this.name = name;
+    this.properties = properties;
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public Map<String, Object> getProperties() {
-        return properties;
-    }
+  @Override
+  public Map<String, Object> getProperties() {
+    return properties;
+  }
 
-    @Override
-    public Map<String, ContentElement> getChildren() {
-        return children;
-    }
+  @Override
+  public Map<String, ContentElement> getChildren() {
+    return children;
+  }
 
-    @Override
-    public ContentElement getChild(String path) {
-        String childName = StringUtils.substringBefore(path, "/");
-        ContentElement child = children.get(childName);
-        if (child == null) {
-          return null;
-        }
-        String remainingPath = StringUtils.substringAfter(path, "/");
-        if (StringUtils.isEmpty(remainingPath)) {
-          return child;
-        }
-        else {
-          return child.getChild(remainingPath);
-        }
+  @Override
+  public ContentElement getChild(String path) {
+    String childName = StringUtils.substringBefore(path, "/");
+    ContentElement child = children.get(childName);
+    if (child == null) {
+      return null;
     }
+    String remainingPath = StringUtils.substringAfter(path, "/");
+    if (StringUtils.isEmpty(remainingPath)) {
+      return child;
+    }
+    else {
+      return child.getChild(remainingPath);
+    }
+  }
 
 }

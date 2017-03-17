@@ -26,28 +26,28 @@ import java.util.Map;
  */
 public interface ContentElement {
 
-    /**
-     * @return Resource name. The root resource has no name (null).
-     */
-    String getName();
+  /**
+   * @return Resource name. The root resource has no name (null).
+   */
+  String getName();
 
-    /**
-     * Properties of this resource.
-     * @return Properties (keys, values)
-     */
-    Map<String, Object> getProperties();
+  /**
+   * Properties of this resource.
+   * @return Properties (keys, values)
+   */
+  Map<String, Object> getProperties();
 
-    /**
-     * Get children of current resource. The Map preserves the ordering of children.
-     * @return Children (child names, child objects)
-     */
-    Map<String, ContentElement> getChildren();
+  /**
+   * Get children of current resource. The Map preserves the ordering of children.
+   * @return Children (child names, child objects)
+   */
+  Map<String, ContentElement> getChildren();
 
-    /**
-     * Get child or descendant
-     * @param path Relative path to address child or one of it's descendants (use "/" as hierarchy separator).
-     * @return Child or null if no child found with this path
-     */
-    ContentElement getChild(String path);
+  /**
+   * Get child or descendant
+   * @param path Relative path to address child or one of it's descendants (use "/" as hierarchy separator).
+   * @return Child or null if no child found with this path
+   */
+  ContentElement getChild(String path);
 
 }
