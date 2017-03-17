@@ -57,6 +57,8 @@ import org.w3c.dom.Document;
 
 import com.google.common.base.Charsets;
 
+import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
+
 /**
  * Represents an AEM content package.
  * Content like structured JCR data and binary files can be added.
@@ -100,6 +102,18 @@ public final class ContentPackage implements Closeable {
   /**
    * Adds a page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
    * @param path Full content path of page.
+   * @param content Hierarchy of content elements.
+   * @throws IOException
+   */
+  public void addPage(String path, ContentElement content) throws IOException {
+    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
+    Document doc = xmlContentBuilder.buildPage(content);
+    writeXmlDocument(fullPath, doc);
+  }
+
+  /**
+   * Adds a page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
+   * @param path Full content path of page.
    * @param content Map with page properties. If the map contains nested maps this builds a tree of JCR nodes.
    *          The key of the nested map in its parent map is the node name,
    *          the nested map contain the properties of the child node.
@@ -108,6 +122,18 @@ public final class ContentPackage implements Closeable {
   public void addPage(String path, Map<String, Object> content) throws IOException {
     String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
     Document doc = xmlContentBuilder.buildPage(content);
+    writeXmlDocument(fullPath, doc);
+  }
+
+  /**
+   * Add some JCR content structure directly to the package.
+   * @param path Full content path of content root node.
+   * @param content Hierarchy of content elements.
+   * @throws IOException
+   */
+  public void addContent(String path, ContentElement content) throws IOException {
+    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
+    Document doc = xmlContentBuilder.buildContent(content);
     writeXmlDocument(fullPath, doc);
   }
 

@@ -30,6 +30,9 @@
       <action type="add" dev="amuthmann" issue="WTOOL-28">
         Add "oak" XML namespace to the list of default namespaces.
       </action>
+      <action type="add" dev="sseifert">
+        Support building content with hierarchies of 'ContentElement' objects which separate properties from children.
+      </action>
     </release>
 
     <release version="1.1.4" date="2016-04-29">
