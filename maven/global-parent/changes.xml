@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         maven-release-plugin: Set 'pushChanges' to false.
       </action>
+      <action type="update" dev="sseifert">
+        Skip unit tests and integration tests when property 'maven.test.skip' is set to true.
+      </action>
     </release>
 
     <release version="13" date="2017-01-02">

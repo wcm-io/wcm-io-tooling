@@ -67,8 +67,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- Default skip settings for unit tests and integration tests -->
-    <unittests.skip>false</unittests.skip>
-    <integrationtests.skip>false</integrationtests.skip>
+    <maven.test.skip>false</maven.test.skip>
+    <unittests.skip>${maven.test.skip}</unittests.skip>
+    <integrationtests.skip>${maven.test.skip}</integrationtests.skip>
 
     <!-- compiler settings (can be overridden by inheriting poms) -->
     <build.compiler.source>1.7</build.compiler.source>
