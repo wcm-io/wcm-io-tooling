@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Skip unit tests and integration tests when property 'maven.test.skip' is set to true.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
     </release>
 
     <release version="13" date="2017-01-02">
