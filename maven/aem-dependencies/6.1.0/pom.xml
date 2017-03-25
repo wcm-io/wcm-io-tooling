@@ -336,7 +336,8 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.jcr.resource</artifactId>
-        <version>2.5.0</version>
+        <!-- AEM 6.1 ships with 2.5.0, but this has some severe problems e.g. with paths belows root node -->
+        <version>2.5.2</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
