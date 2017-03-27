@@ -133,32 +133,31 @@
       </dependency>
 
       <!-- Import AEM dependencies -->
+      <!-- Minimum supported version is AEM 6.1 - but we stick with AEM 6.0 deps to avoid problems with unit tests,
+           and because 6.1 unobuscated API not available on public adobe repo. But we update to OSGi 6 available in 6.1. -->
       <dependency>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-        <version>6.1.0.0001-SNAPSHOT</version>
+        <version>6.0.0.0001</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.core</artifactId>
+        <version>6.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.cmpn</artifactId>
+        <version>6.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.3.2</version>
+      </dependency>
       
-      <!-- Although we are depending on AEM 6.1 as minimum version we still compile against AEM 6.0 APIs 
-           because the AEM 6.1 unobfuscated ones are not avaiable in public AEM repo -->
-      <dependency>
-        <groupId>com.adobe.aem</groupId>
-        <artifactId>aem-api</artifactId>
-        <version>6.0.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>com.day.cq.wcm</groupId>
-        <artifactId>cq-wcm-taglib</artifactId>
-        <version>5.7.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.sling</groupId>
-        <artifactId>org.apache.sling.scripting.jsp.taglib</artifactId>
-        <version>2.2.4</version>
-      </dependency>
-
       <!-- Testing -->
       <dependency>
         <groupId>org.apache.sling</groupId>
