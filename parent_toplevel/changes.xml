@@ -36,6 +36,9 @@
       <action type="update" dev="sseifert">
         Add JSR-305 annotations as default provided dependency.
       </action>
+      <action type="update" dev="trichter">
+        Add argLine passthrough to enable jacoco execution
+      </action>
     </release>
 
     <release version="1.1.0" date="2017-01-02">

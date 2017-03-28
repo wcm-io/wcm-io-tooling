@@ -94,6 +94,8 @@
     <site.deploy.id>ssh-wcm.io</site.deploy.id>
     <site.deploy.url>scp://wcmio@wcm.io:222/var/www/wcm.io/www/</site.deploy.url>
 
+    <!-- set default empty argLine when not executing jacoco -->
+    <argLine/>
   </properties>
 
   <!-- default dependencies for all projects -->
@@ -307,7 +309,7 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
             <!-- Travis build workaround, see https://github.com/travis-ci/travis-ci/issues/3396 -->
-            <argLine>-Xmx1024m -XX:MaxPermSize=512M</argLine>
+            <argLine>-Xmx1024m -XX:MaxPermSize=512M ${argLine}</argLine>
           </configuration>
         </plugin>
 
