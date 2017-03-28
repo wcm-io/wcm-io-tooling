@@ -33,9 +33,6 @@
       <action type="update" dev="sseifert">
         maven-release-plugin: Enable OddEvenVersionPolicy.
       </action>
-      <action type="update" dev="sseifert">
-        Add JSR-305 annotations as default provided dependency.
-      </action>
       <action type="update" dev="trichter">
         Add argLine passthrough to enable jacoco execution
       </action>
