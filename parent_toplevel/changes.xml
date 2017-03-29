@@ -28,6 +28,9 @@
         Switch to AEM 6.1 and Java 8 as minimum versions.
       </action>
       <action type="update" dev="sseifert">
+        Update to Sling Models API and Impl 1.2.2 as minimum version.
+      </action>
+      <action type="update" dev="sseifert">
         Update Sling Hamcrest and Mockito.
       </action>
       <action type="update" dev="sseifert">
