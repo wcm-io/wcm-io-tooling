@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update plugins to latest versions.
       </action>
+      <action type="update" dev="sseifert">
+        maven-surefire-plugin: Do not set testFailureIgnore.
+      </action>
     </release>
 
     <release version="13" date="2017-01-02">

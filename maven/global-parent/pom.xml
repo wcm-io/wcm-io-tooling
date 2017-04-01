@@ -177,7 +177,6 @@
         <inherited>true</inherited>
         <configuration>
           <skip>${unittests.skip}</skip>
-          <testFailureIgnore>false</testFailureIgnore>
           <includes>
             <include>**/*Test.java</include>
           </includes>
@@ -897,7 +896,6 @@
             <inherited>true</inherited>
             <configuration>
               <skip>false</skip>
-              <testFailureIgnore>true</testFailureIgnore>
             </configuration>
           </plugin>
 
