@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.1.7-SNAPSHOT</version>
+    <version>1.1.8</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
@@ -95,7 +95,7 @@
     <site.deploy.url>scp://wcmio@wcm.io:222/var/www/wcm.io/www/</site.deploy.url>
 
     <!-- set default empty argLine when not executing jacoco -->
-    <argLine/>
+    <argLine />
   </properties>
 
   <!-- default dependencies for all projects -->
