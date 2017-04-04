@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2015 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
  * #L%
  */
 /**
- * AEM Content Package Builder
+ * Content representation.
  */
-@org.osgi.annotation.versioning.Version("1.2.0")
-package io.wcm.tooling.commons.contentpackagebuilder;
+@org.osgi.annotation.versioning.Version("1.0.0")
+package io.wcm.tooling.commons.contentpackagebuilder.element;

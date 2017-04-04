@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.7-SNAPSHOT</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
@@ -85,8 +85,8 @@
     <sling.password>admin</sling.password>
 
     <!-- compiler settings -->
-    <build.compiler.source>1.7</build.compiler.source>
-    <build.compiler.target>1.7</build.compiler.target>
+    <build.compiler.source>1.8</build.compiler.source>
+    <build.compiler.target>1.8</build.compiler.target>
 
     <!-- site settings -->
     <site.url.module.prefix>tooling/parent_toplevel</site.url.module.prefix>
@@ -94,11 +94,13 @@
     <site.deploy.id>ssh-wcm.io</site.deploy.id>
     <site.deploy.url>scp://wcmio@wcm.io:222/var/www/wcm.io/www/</site.deploy.url>
 
+    <!-- set default empty argLine when not executing jacoco -->
+    <argLine/>
   </properties>
 
   <!-- default dependencies for all projects -->
   <dependencies>
-
+  
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.testing.hamcrest</artifactId>
@@ -124,15 +126,17 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.models.api</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.2</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.models.impl</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.2</version>
       </dependency>
 
       <!-- Import AEM dependencies -->
+      <!-- Minimum supported version is AEM 6.1 - but we stick with AEM 6.0 deps to avoid problems with unit tests,
+           and because 6.1 unobuscated API not available on public adobe repo. But we update to OSGi 6 available in 6.1. -->
       <dependency>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.aem-dependencies</artifactId>
@@ -140,7 +144,22 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.core</artifactId>
+        <version>6.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.cmpn</artifactId>
+        <version>6.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.3.2</version>
+      </dependency>
+      
       <!-- Testing -->
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -155,7 +174,8 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>2.3.7</version>
+        <!-- Stick with mockito 2.3 - problems observed with version 2.4-2.7 with aem-mock, handler tests -->
+        <version>2.3.11</version>
       </dependency>
 
     </dependencies>
@@ -282,8 +302,23 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
             <!-- Travis build workaround, see https://github.com/travis-ci/travis-ci/issues/3396 -->
-            <argLine>-Xmx1024m -XX:MaxPermSize=512M</argLine>
+            <argLine>-Xmx1024m -XX:MaxPermSize=512M @{argLine}</argLine>
           </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <projectVersionPolicyId>OddEvenVersionPolicy</projectVersionPolicyId>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.release</groupId>
+              <artifactId>maven-release-oddeven-policy</artifactId>
+              <version>2.5.3</version>
+            </dependency>
+          </dependencies>
         </plugin>
 
       </plugins>

@@ -19,6 +19,14 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
+import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
+import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
+import static org.apache.jackrabbit.vault.util.Constants.FILTER_XML;
+import static org.apache.jackrabbit.vault.util.Constants.META_DIR;
+import static org.apache.jackrabbit.vault.util.Constants.PROPERTIES_XML;
+import static org.apache.jackrabbit.vault.util.Constants.ROOT_DIR;
+import static org.apache.jackrabbit.vault.util.Constants.SETTINGS_XML;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,8 +36,6 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -44,9 +50,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.vault.fs.config.MetaInf;
+import org.apache.jackrabbit.vault.packaging.PackageProperties;
+import org.apache.jackrabbit.vault.util.PlatformNameFormat;
 import org.w3c.dom.Document;
 
 import com.google.common.base.Charsets;
+
+import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
 
 /**
  * Represents an AEM content package.
@@ -62,8 +73,7 @@ public final class ContentPackage implements Closeable {
   private final XmlContentBuilder xmlContentBuilder;
 
   private static final String CONTENT_TYPE_CHARSET_EXTENSION = ";charset=";
-
-  private static final Pattern NAMESPACE_PATH_PART = Pattern.compile("^([^/\\:]+)\\:([^/]+)$");
+  private static final String DOT_DIR_FOLDER = ".dir";
 
   /**
    * @param os Output stream
@@ -92,14 +102,38 @@ public final class ContentPackage implements Closeable {
   /**
    * Adds a page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
    * @param path Full content path of page.
+   * @param content Hierarchy of content elements.
+   * @throws IOException
+   */
+  public void addPage(String path, ContentElement content) throws IOException {
+    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
+    Document doc = xmlContentBuilder.buildPage(content);
+    writeXmlDocument(fullPath, doc);
+  }
+
+  /**
+   * Adds a page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
+   * @param path Full content path of page.
    * @param content Map with page properties. If the map contains nested maps this builds a tree of JCR nodes.
    *          The key of the nested map in its parent map is the node name,
    *          the nested map contain the properties of the child node.
    * @throws IOException
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
-    String fullPath = buildJcrPathForZip(path) + "/.content.xml";
+    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
     Document doc = xmlContentBuilder.buildPage(content);
+    writeXmlDocument(fullPath, doc);
+  }
+
+  /**
+   * Add some JCR content structure directly to the package.
+   * @param path Full content path of content root node.
+   * @param content Hierarchy of content elements.
+   * @throws IOException
+   */
+  public void addContent(String path, ContentElement content) throws IOException {
+    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
+    Document doc = xmlContentBuilder.buildContent(content);
     writeXmlDocument(fullPath, doc);
   }
 
@@ -112,7 +146,7 @@ public final class ContentPackage implements Closeable {
    * @throws IOException
    */
   public void addContent(String path, Map<String, Object> content) throws IOException {
-    String fullPath = buildJcrPathForZip(path) + "/.content.xml";
+    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
     Document doc = xmlContentBuilder.buildContent(content);
     writeXmlDocument(fullPath, doc);
   }
@@ -142,7 +176,7 @@ public final class ContentPackage implements Closeable {
       String mimeType = StringUtils.substringBefore(contentType, CONTENT_TYPE_CHARSET_EXTENSION);
       String encoding = StringUtils.substringAfter(contentType, CONTENT_TYPE_CHARSET_EXTENSION);
 
-      String fullPathMetadata = fullPath + ".dir/.content.xml";
+      String fullPathMetadata = fullPath + DOT_DIR_FOLDER + "/" + DOT_CONTENT_XML;
       Document doc = xmlContentBuilder.buildNtFile(mimeType, encoding);
       writeXmlDocument(fullPathMetadata, doc);
     }
@@ -155,19 +189,7 @@ public final class ContentPackage implements Closeable {
    * @return Safe path
    */
   private String buildJcrPathForZip(String path) {
-    String[] pathParts = StringUtils.split(path, "/");
-    for (int i = 0; i < pathParts.length; i++) {
-      Matcher matcher = NAMESPACE_PATH_PART.matcher(pathParts[i]);
-      if (matcher.matches()) {
-        pathParts[i] = "_" + matcher.group(1) + "_" + matcher.group(2);
-      }
-    }
-    if (pathParts.length == 0) {
-      return "jcr_root";
-    }
-    else {
-      return "jcr_root/" + StringUtils.join(pathParts, "/");
-    }
+    return ROOT_DIR + PlatformNameFormat.getPlatformPath(StringUtils.defaultString(path));
   }
 
   /**
@@ -231,10 +253,10 @@ public final class ContentPackage implements Closeable {
    */
   private void buildPackageMetadata() throws IOException {
     metadata.validate();
-    buildTemplatedMetadataFile("META-INF/vault/config.xml");
-    buildPropertiesFile("META-INF/vault/properties.xml");
-    buildTemplatedMetadataFile("META-INF/vault/settings.xml");
-    writeXmlDocument("META-INF/vault/filter.xml", xmlContentBuilder.buildFilter(metadata.getFilters()));
+    buildTemplatedMetadataFile(META_DIR + "/" + CONFIG_XML);
+    buildPropertiesFile(META_DIR + "/" + PROPERTIES_XML);
+    buildTemplatedMetadataFile(META_DIR + "/" + SETTINGS_XML);
+    writeXmlDocument(META_DIR + "/" + FILTER_XML, xmlContentBuilder.buildFilter(metadata.getFilters()));
   }
 
   /**
@@ -266,8 +288,8 @@ public final class ContentPackage implements Closeable {
    */
   private void buildPropertiesFile(String path) throws IOException {
     Properties properties = new Properties();
-    properties.put("packageFormatVersion", "2");
-    properties.put("requiresRoot", "false");
+    properties.put(MetaInf.PACKAGE_FORMAT_VERSION, Integer.toString(MetaInf.FORMAT_VERSION_2));
+    properties.put(PackageProperties.NAME_REQUIRES_ROOT, Boolean.toString(false));
 
     for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
       String value = ObjectUtils.toString(entry.getValue());

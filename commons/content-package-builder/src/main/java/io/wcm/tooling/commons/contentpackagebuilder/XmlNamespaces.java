@@ -19,9 +19,8 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 /**
  * XML namespaces supported by default.
@@ -59,6 +58,11 @@ public final class XmlNamespaces {
   public static final String NS_SLING = "http://sling.apache.org/jcr/sling/1.0";
 
   /**
+   * OAK namespace
+   */
+  public static final String NS_OAK = "http://jackrabbit.apache.org/oak/ns/1.0";
+
+  /**
    * XML Namespaces support by default for JCR content XML.
    */
   public static final Map<String, String> DEFAULT_NAMESPACES = ImmutableMap.<String, String>builder()
@@ -68,6 +72,7 @@ public final class XmlNamespaces {
       .put("cq", NS_CQ)
       .put("crx", NS_CRX)
       .put("sling", NS_SLING)
+      .put("oak", NS_OAK)
       .build();
 
   private XmlNamespaces() {

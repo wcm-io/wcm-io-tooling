@@ -33,6 +33,8 @@ import org.apache.jackrabbit.util.ISO9075;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
+
 /**
  * Builds CMS content packages.
  */
@@ -64,6 +66,21 @@ final class XmlContentBuilder {
 
   /**
    * Build XML for cq:Page.
+   * @param content Hierarchy of content elements.
+   * @return cq:Page JCR XML
+   */
+  public Document buildPage(ContentElement content) {
+    Document doc = documentBuilder.newDocument();
+    Element jcrRoot = createJcrRoot(doc, NT_PAGE);
+    Element jcrContent = createJcrContent(doc, jcrRoot, NT_PAGE_CONTENT);
+
+    exportPayload(doc, jcrContent, content);
+
+    return doc;
+  }
+
+  /**
+   * Build XML for cq:Page.
    * @param content Content with page properties and nested nodes
    * @return cq:Page JCR XML
    */
@@ -73,6 +90,22 @@ final class XmlContentBuilder {
     Element jcrContent = createJcrContent(doc, jcrRoot, NT_PAGE_CONTENT);
 
     exportPayload(doc, jcrContent, content);
+
+    return doc;
+  }
+
+  /**
+   * Build XML for any JCR content.
+   * @param content Hierarchy of content elements.
+   * @return JCR XML
+   */
+  public Document buildContent(ContentElement content) {
+    Document doc = documentBuilder.newDocument();
+
+    String primaryType = StringUtils.defaultString((String)content.getProperties().get(PN_PRIMARY_TYPE), NT_UNSTRUCTURED);
+    Element jcrRoot = createJcrRoot(doc, primaryType);
+
+    exportPayload(doc, jcrRoot, content);
 
     return doc;
   }
@@ -156,6 +189,28 @@ final class XmlContentBuilder {
     setAttributeNamespaceAware(jcrContent, PN_PRIMARY_TYPE, primaryType);
     jcrRoot.appendChild(jcrContent);
     return jcrContent;
+  }
+
+  private void exportPayload(Document doc, Element element, ContentElement content) {
+    for (Map.Entry<String, Object> entry : content.getProperties().entrySet()) {
+      Object value = entry.getValue();
+      if (value == null) {
+        continue;
+      }
+      if (!hasAttributeNamespaceAware(element, entry.getKey())) {
+        String stringValue = valueConverter.toString(entry.getKey(), value);
+        setAttributeNamespaceAware(element, entry.getKey(), stringValue);
+      }
+    }
+    for (Map.Entry<String, ContentElement> entry : content.getChildren().entrySet()) {
+      ContentElement child = entry.getValue();
+      Element subElement = doc.createElement(ISO9075.encode(entry.getKey()));
+      if (!hasAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE) && !child.getProperties().containsKey(PN_PRIMARY_TYPE)) {
+        setAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE, NT_UNSTRUCTURED);
+      }
+      element.appendChild(subElement);
+      exportPayload(doc, subElement, child);
+    }
   }
 
   @SuppressWarnings("unchecked")

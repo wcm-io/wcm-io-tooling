@@ -23,7 +23,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -54,16 +56,11 @@ public class ValueConverterTest {
   @Test
   public void testString() {
     assertEquals("myString", underTest.toString("prop", "myString"));
-  }
-
-  @Test
-  public void testStringStartingWithBrackets() {
+    assertEquals("myString [ ] { } \\\\ ,", underTest.toString("prop", "myString [ ] { } \\ ,"));
     assertEquals("\\{myString}", underTest.toString("prop", "{myString}"));
-  }
-
-  @Test
-  public void testStringWithBracketsInside() {
     assertEquals("aaa{myString}", underTest.toString("prop", "aaa{myString}"));
+    assertEquals("\\[myString]", underTest.toString("prop", "[myString]"));
+    assertEquals("aaa[myString]", underTest.toString("prop", "aaa[myString]"));
   }
 
   @Test
@@ -71,12 +68,8 @@ public class ValueConverterTest {
     assertEquals("[myString1,myString2]", underTest.toString("prop", new String[] {
         "myString1", "myString2"
     }));
-  }
-
-  @Test
-  public void testStringArraySpecialChars() {
-    assertEquals("[myString1\\,[]\\\\äöüß€,myString2]", underTest.toString("prop", new String[] {
-        "myString1,[]\\äöüß€", "myString2"
+    assertEquals("[myString1\\,[]\\\\äöüß€,myString2,myString3 [ ] { } \\\\ \\,,,[myString5],{myString6}]", underTest.toString("prop", new String[] {
+        "myString1,[]\\äöüß€", "myString2", "myString3 [ ] { } \\ ,", "", "[myString5]", "{myString6}"
     }));
   }
 
@@ -146,13 +139,13 @@ public class ValueConverterTest {
 
   @Test
   public void testBigDecimal() {
-    assertEquals("{Decimal}2.345", underTest.toString("prop", new BigDecimal(2.345d)));
+    assertEquals("{Decimal}2.345", underTest.toString("prop", new BigDecimal("2.345")));
   }
 
   @Test
   public void testBigDecimalArray() {
     assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new BigDecimal[] {
-        new BigDecimal(1.234d), new BigDecimal(2.345d)
+        new BigDecimal("1.234"), new BigDecimal("2.345")
     }));
   }
 
@@ -171,6 +164,18 @@ public class ValueConverterTest {
     assertEquals("{Name}[rep:write,crx:replicate,jcr:read]", underTest.toString("rep:privileges", new String[] {
         "rep:write", "crx:replicate", "jcr:read"
     }));
+  }
+
+  @Test
+  public void testUUID() {
+    UUID uuid = UUID.randomUUID();
+    assertEquals("{Reference}" + uuid.toString(), underTest.toString("prop", uuid));
+  }
+
+  @Test
+  public void testURI() throws Exception {
+    URI uri = new URI("http://localhost");
+    assertEquals("{URI}" + uri.toString(), underTest.toString("prop", uri));
   }
 
 }

@@ -32,6 +32,9 @@ import org.w3c.dom.Document;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
+import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElementImpl;
+
 public class XmlContentBuilderTest {
 
   private XmlContentBuilder underTest;
@@ -117,6 +120,33 @@ public class XmlContentBuilderTest {
         "node2", ImmutableMap.<String, Object>of("var4", "v4",
             "node21", ImmutableMap.<String, Object>of("var5", "v5"))
         ));
+
+    assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", doc);
+    assertXpathEvaluatesTo("{Long}55", "/jcr:root/@var2", doc);
+
+    assertXpathEvaluatesTo("myNodeType", "/jcr:root/node1/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v3", "/jcr:root/node1/@var3", doc);
+
+    assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/node2/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v4", "/jcr:root/node2/@var4", doc);
+
+    assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/node2/node21/@jcr:primaryType", doc);
+    assertXpathEvaluatesTo("v5", "/jcr:root/node2/node21/@var5", doc);
+  }
+
+  @Test
+  public void testContentElementHierarchy() throws Exception {
+    ContentElement root = new ContentElementImpl(null, ImmutableMap.<String, Object>of(
+        "var1", "v1",
+        "var2", 55));
+    ContentElement node1 = new ContentElementImpl("node1", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var3", "v3"));
+    ContentElement node2 = new ContentElementImpl("node1", ImmutableMap.<String, Object>of("var4", "v4"));
+    ContentElement node21 = new ContentElementImpl("node1", ImmutableMap.<String, Object>of("var5", "v5"));
+    root.getChildren().put("node1", node1);
+    root.getChildren().put("node2", node2);
+    node2.getChildren().put("node21", node21);
+    Document doc = underTest.buildContent(root);
 
     assertXpathEvaluatesTo("nt:unstructured", "/jcr:root/@jcr:primaryType", doc);
     assertXpathEvaluatesTo("v1", "/jcr:root/@var1", doc);

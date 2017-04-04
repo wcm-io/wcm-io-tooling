@@ -42,6 +42,8 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElementImpl;
+
 public class ContentPackageBuilderTest {
 
   private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
@@ -107,6 +109,24 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
+  public void testAddPagesContentElement() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add two content pages
+      contentPackage.addPage("/content/page1", new ContentElementImpl(null, ImmutableMap.<String, Object>of("var1", "v1")));
+      contentPackage.addPage("/content/ns:page2", new ContentElementImpl(null, ImmutableMap.<String, Object>of("var2", "v2")));
+    }
+
+    // validate resulting XML
+    Document page1Xml = getXmlFromZip("jcr_root/content/page1/.content.xml");
+    assertXpathEvaluatesTo("v1", "/jcr:root/jcr:content/@var1", page1Xml);
+
+    Document page2Xml = getXmlFromZip("jcr_root/content/_ns_page2/.content.xml");
+    assertXpathEvaluatesTo("v2", "/jcr:root/jcr:content/@var2", page2Xml);
+  }
+
+  @Test
   public void testAddPages() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
@@ -141,6 +161,24 @@ public class ContentPackageBuilderTest {
     assertXpathEvaluatesTo("2", "count(/workspaceFilter/filter)", filterXml);
     assertXpathEvaluatesTo("/path1", "/workspaceFilter/filter[1]/@root", filterXml);
     assertXpathEvaluatesTo("/path2", "/workspaceFilter/filter[2]/@root", filterXml);
+  }
+
+  @Test
+  public void testAddContentContentElement() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add some content
+      contentPackage.addContent("/content/node1", new ContentElementImpl(null, ImmutableMap.<String, Object>of("var1", "v1")));
+      contentPackage.addContent("/content/node2", new ContentElementImpl(null, ImmutableMap.<String, Object>of("var2", "v2")));
+    }
+
+    // validate resulting XML
+    Document page1Xml = getXmlFromZip("jcr_root/content/node1/.content.xml");
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", page1Xml);
+
+    Document page2Xml = getXmlFromZip("jcr_root/content/node2/.content.xml");
+    assertXpathEvaluatesTo("v2", "/jcr:root/@var2", page2Xml);
   }
 
   @Test
