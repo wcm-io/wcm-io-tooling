@@ -95,7 +95,7 @@
     <site.deploy.url>scp://wcmio@wcm.io:222/var/www/wcm.io/www/</site.deploy.url>
 
     <!-- set default empty argLine when not executing jacoco -->
-    <argLine/>
+    <argLine />
   </properties>
 
   <!-- default dependencies for all projects -->
