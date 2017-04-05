@@ -55,6 +55,7 @@ import org.apache.jackrabbit.vault.packaging.PackageProperties;
 import org.apache.jackrabbit.vault.util.PlatformNameFormat;
 import org.w3c.dom.Document;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 
 import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
@@ -184,12 +185,17 @@ public final class ContentPackage implements Closeable {
 
   /**
    * If path parts contain namespace definitions they need to be escaped for the ZIP file.
-   * Example: oak:index -> _oak_index
+   * Example: oak:index -> jcr_root/_oak_index
    * @param path Path
    * @return Safe path
    */
-  private String buildJcrPathForZip(String path) {
-    return ROOT_DIR + PlatformNameFormat.getPlatformPath(StringUtils.defaultString(path));
+  @VisibleForTesting
+  static String buildJcrPathForZip(final String path) {
+    String normalizedPath = StringUtils.defaultString(path);
+    if (!normalizedPath.startsWith("/")) {
+      normalizedPath = "/" + normalizedPath;
+    }
+    return ROOT_DIR + PlatformNameFormat.getPlatformPath(normalizedPath);
   }
 
   /**
