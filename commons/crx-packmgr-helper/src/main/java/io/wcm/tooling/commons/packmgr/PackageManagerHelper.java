@@ -28,6 +28,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLContext;
 
+import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlCall;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
@@ -184,6 +185,19 @@ public final class PackageManagerHelper {
   public JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method) {
     PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, method, log);
     return executeHttpCallWithRetry(call, 0);
+  }
+
+  /**
+   * Execute CRX HTTP Package manager method and parse/output xml response.
+   * @param httpClient Http client
+   * @param method Get or Post method
+   * @return Response from HTML server
+   */
+  public String executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method) {
+    PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, method, log);
+    String message = executeHttpCallWithRetry(call, 0);
+//    log.info(message);
+    return message;
   }
 
   /**
