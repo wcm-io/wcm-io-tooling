@@ -27,6 +27,10 @@
       <action type="add" dev="sseifert" issue="WTOOL-30">
         Set package versions.
       </action>
+      <action type="add" dev="schaefera" issue="WTOOL-29">
+        Added support for the package installation through
+        Composum.
+      </action>
     </release>
 
     <release version="1.0.0" date="2017-02-08">
