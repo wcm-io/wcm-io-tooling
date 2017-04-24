@@ -21,12 +21,16 @@ package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
 
+import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
+
+import static io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory.COMPOSUM_URL;
+import static io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory.CRX_URL;
 
 /**
  * Common functionality for all mojos.
@@ -155,11 +159,23 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
 
   private String buildPackageManagerUrl() {
     String serviceUrl = this.serviceURL;
-    // convert "legacy interface URL" with service.jsp to new CRX interface (since CRX 2.1)
-    serviceUrl = StringUtils.replace(serviceUrl, "/crx/packmgr/service.jsp", "/crx/packmgr/service");
-    // remove /.json suffix if present
-    serviceUrl = StringUtils.removeEnd(serviceUrl, "/.json");
+    switch(VendorInstallerFactory.identify(serviceUrl)) {
+      case crx:
+        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl, getLoggerWrapper()) +
+            CRX_URL;
+        break;
+      case composum:
+        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl, getLoggerWrapper()) +
+            COMPOSUM_URL;
+        break;
+    }
     return serviceUrl;
+//AS Question: can the service url be more than /crx/packgr/service(.jsp)(/json) ?
+//    // convert "legacy interface URL" with service.jsp to new CRX interface (since CRX 2.1)
+//    serviceUrl = StringUtils.replace(serviceUrl, "/crx/packmgr/service.jsp", "/crx/packmgr/service");
+//    // remove /.json suffix if present
+//    serviceUrl = StringUtils.removeEnd(serviceUrl, "/.json");
+//    return serviceUrl;
   }
 
   private String buildBundleStatusUrl() {
@@ -170,8 +186,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       return this.bundleStatusURL;
     }
     // if not set use hostname from serviceURL and add default path to bundle status
-    String crxUrl = StringUtils.removeEnd(buildPackageManagerUrl(), "/crx/packmgr/service");
-    return crxUrl + "/system/console/bundles/.json";
+    String baseUrl = VendorInstallerFactory.getBaseUrl(buildPackageManagerUrl(), getLoggerWrapper());
+    return baseUrl + "/system/console/bundles/.json";
   }
 
   protected Logger getLoggerWrapper() {
