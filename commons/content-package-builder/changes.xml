@@ -27,6 +27,9 @@
       <action type="fix" dev="rschweikert">
         Support relative and absolute paths for "addFile" method.
       </action>
+      <action type="fix" dev="rschweikert">
+        XML Transformer: Make setting "cosmetic" XML transformer output properties more resilient for different implementations.
+      </action>
     </release>
 
     <release version="1.2.0" date="2017-04-04">

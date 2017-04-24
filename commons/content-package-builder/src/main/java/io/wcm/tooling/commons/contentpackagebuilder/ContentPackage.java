@@ -87,15 +87,22 @@ public final class ContentPackage implements Closeable {
     this.transformerFactory = TransformerFactory.newInstance();
     try {
       this.transformerFactory.setAttribute("indent-number", 2);
-    } catch (IllegalArgumentException e) {
-        // Implementation does not support configuration property. Ignore.
+    }
+    catch (IllegalArgumentException ex) {
+      // Implementation does not support configuration property. Ignore.
     }
     try {
       this.transformer = transformerFactory.newTransformer();
       try {
         this.transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      }
+      catch (IllegalArgumentException ex) {
+        // Implementation does not support output property. Ignore.
+      }
+      try {
         this.transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-      } catch (IllegalArgumentException e) {
+      }
+      catch (IllegalArgumentException ex) {
         // Implementation does not support output property. Ignore.
       }
     }
