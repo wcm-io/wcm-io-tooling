@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 import static io.wcm.tooling.commons.packmgr.PackageManagerHelper.CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX;
 
 /**
- * Created by schaefa on 4/19/17.
+ * Package Installer for AEM's CRX Package Manager
  */
 public class CrxPackageInstaller
     implements VendorPackageInstaller
@@ -70,7 +70,6 @@ public class CrxPackageInstaller
                 log.info("Package uploaded successfully (without installing).");
             }
         }
-        //      else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !packageFile.isForce()) {
         else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !packageFile.isForce()) {
             log.info("Package skipped because it was already uploaded.");
         }

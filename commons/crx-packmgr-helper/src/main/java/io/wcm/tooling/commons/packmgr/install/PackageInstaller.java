@@ -82,7 +82,9 @@ public final class PackageInstaller {
       }
 
       VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
-      installer.installPackage(packageFile, pkgmgr, httpClient, log);
+      if(installer != null) {
+        installer.installPackage(packageFile, pkgmgr, httpClient, log);
+      }
     }
     catch (IOException ex) {
       throw new PackageManagerException("Install operation failed.", ex);
