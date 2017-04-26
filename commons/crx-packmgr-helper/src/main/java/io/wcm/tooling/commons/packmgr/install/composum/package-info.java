@@ -20,5 +20,5 @@
 /**
  * Package installer for Composum Package Manager
  */
-@org.osgi.annotation.versioning.Version("1.0.1")
+@org.osgi.annotation.versioning.Version("1.0.0")
 package io.wcm.tooling.commons.packmgr.install.composum;

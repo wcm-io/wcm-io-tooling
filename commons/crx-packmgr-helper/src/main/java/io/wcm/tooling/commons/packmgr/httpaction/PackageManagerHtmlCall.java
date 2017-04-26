@@ -19,17 +19,16 @@
  */
 package io.wcm.tooling.commons.packmgr.httpaction;
 
-import io.wcm.tooling.commons.packmgr.Logger;
-import io.wcm.tooling.commons.packmgr.PackageManagerException;
-import org.apache.commons.lang3.StringUtils;
+import java.io.IOException;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.util.regex.Pattern;
+import io.wcm.tooling.commons.packmgr.Logger;
+import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
 /**
  * Call that parses a packager manager HTML response and returns the contained message as plain text.
@@ -66,16 +65,6 @@ public final class PackageManagerHtmlCall implements HttpCall<String> {
         if (log.isDebugEnabled()) {
           log.debug("CRX Package Manager Response:\n" + responseString);
         }
-
-//        // remove all HTML tags and special conctent
-//        final Pattern HTML_STYLE = Pattern.compile("<style[^<>]*>[^<>]*</style>", Pattern.MULTILINE | Pattern.DOTALL);
-//        final Pattern HTML_JAVASCRIPT = Pattern.compile("<script[^<>]*>[^<>]*</script>", Pattern.MULTILINE | Pattern.DOTALL);
-//        final Pattern HTML_ANYTAG = Pattern.compile("<[^<>]*>");
-//
-//        responseString = HTML_STYLE.matcher(responseString).replaceAll("");
-//        responseString = HTML_JAVASCRIPT.matcher(responseString).replaceAll("");
-//        responseString = HTML_ANYTAG.matcher(responseString).replaceAll("");
-//        responseString = StringUtils.replace(responseString, "&nbsp;", " ");
 
         return responseString;
       }

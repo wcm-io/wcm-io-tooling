@@ -82,24 +82,12 @@ public final class PackageInstaller {
       }
 
       VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
-      if(installer != null) {
+      if (installer != null) {
         installer.installPackage(packageFile, pkgmgr, httpClient, log);
       }
     }
     catch (IOException ex) {
       throw new PackageManagerException("Install operation failed.", ex);
-    }
-  }
-
-  private void delay(int seconds) {
-    if (seconds > 0) {
-      log.info("Wait for " + seconds + " seconds after package install...");
-      try {
-        Thread.sleep(seconds * 1000);
-      }
-      catch (InterruptedException ex) {
-        // ignore
-      }
     }
   }
 

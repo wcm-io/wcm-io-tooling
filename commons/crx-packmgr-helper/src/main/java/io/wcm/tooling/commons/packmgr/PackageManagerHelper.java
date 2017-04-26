@@ -28,7 +28,6 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLContext;
 
-import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlCall;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
@@ -59,6 +58,7 @@ import org.json.JSONObject;
 import io.wcm.tooling.commons.packmgr.httpaction.BundleStatus;
 import io.wcm.tooling.commons.packmgr.httpaction.BundleStatusCall;
 import io.wcm.tooling.commons.packmgr.httpaction.HttpCall;
+import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlMessageCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerJsonCall;
 
