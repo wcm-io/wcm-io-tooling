@@ -19,14 +19,19 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
+import static io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory.COMPOSUM_URL;
+import static io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory.CRX_URL;
+
 import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
+import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 
 /**
  * Common functionality for all mojos.
@@ -136,7 +141,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return this.skip;
   }
 
-  protected PackageManagerProperties getPackageManagerProperties() {
+  protected PackageManagerProperties getPackageManagerProperties() throws MojoExecutionException {
     PackageManagerProperties props = new PackageManagerProperties();
 
     props.setPackageManagerUrl(buildPackageManagerUrl());
@@ -153,16 +158,22 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     return props;
   }
 
-  private String buildPackageManagerUrl() {
+  private String buildPackageManagerUrl() throws MojoExecutionException {
     String serviceUrl = this.serviceURL;
-    // convert "legacy interface URL" with service.jsp to new CRX interface (since CRX 2.1)
-    serviceUrl = StringUtils.replace(serviceUrl, "/crx/packmgr/service.jsp", "/crx/packmgr/service");
-    // remove /.json suffix if present
-    serviceUrl = StringUtils.removeEnd(serviceUrl, "/.json");
+    switch (VendorInstallerFactory.identify(serviceUrl)) {
+      case CRX:
+        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl, getLoggerWrapper()) + CRX_URL;
+        break;
+      case COMPOSUM:
+        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl, getLoggerWrapper()) + COMPOSUM_URL;
+        break;
+      default:
+        throw new MojoExecutionException("Unsupporte service URL: " + serviceUrl);
+    }
     return serviceUrl;
   }
 
-  private String buildBundleStatusUrl() {
+  private String buildBundleStatusUrl() throws MojoExecutionException {
     if (StringUtils.equals(this.bundleStatusURL, "-")) {
       return null;
     }
@@ -170,8 +181,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       return this.bundleStatusURL;
     }
     // if not set use hostname from serviceURL and add default path to bundle status
-    String crxUrl = StringUtils.removeEnd(buildPackageManagerUrl(), "/crx/packmgr/service");
-    return crxUrl + "/system/console/bundles/.json";
+    String baseUrl = VendorInstallerFactory.getBaseUrl(buildPackageManagerUrl(), getLoggerWrapper());
+    return baseUrl + "/system/console/bundles/.json";
   }
 
   protected Logger getLoggerWrapper() {

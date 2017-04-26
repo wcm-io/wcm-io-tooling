@@ -18,7 +18,7 @@
  * #L%
  */
 /**
- * HTTP action
+ * Package installer for CRX Package Manager
  */
-@org.osgi.annotation.versioning.Version("1.1.0")
-package io.wcm.tooling.commons.packmgr.httpaction;
+@org.osgi.annotation.versioning.Version("1.0.0")
+package io.wcm.tooling.commons.packmgr.install.crx;
