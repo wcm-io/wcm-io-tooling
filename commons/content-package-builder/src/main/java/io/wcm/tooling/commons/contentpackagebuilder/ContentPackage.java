@@ -55,6 +55,7 @@ import org.apache.jackrabbit.vault.packaging.PackageProperties;
 import org.apache.jackrabbit.vault.util.PlatformNameFormat;
 import org.w3c.dom.Document;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 
 import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
@@ -84,11 +85,26 @@ public final class ContentPackage implements Closeable {
     this.zip = new ZipOutputStream(os);
 
     this.transformerFactory = TransformerFactory.newInstance();
-    this.transformerFactory.setAttribute("indent-number", 2);
+    try {
+      this.transformerFactory.setAttribute("indent-number", 2);
+    }
+    catch (IllegalArgumentException ex) {
+      // Implementation does not support configuration property. Ignore.
+    }
     try {
       this.transformer = transformerFactory.newTransformer();
-      this.transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      this.transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+      try {
+        this.transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      }
+      catch (IllegalArgumentException ex) {
+        // Implementation does not support output property. Ignore.
+      }
+      try {
+        this.transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+      }
+      catch (IllegalArgumentException ex) {
+        // Implementation does not support output property. Ignore.
+      }
     }
     catch (TransformerException ex) {
       throw new RuntimeException("Failed to set up XML transformer: " + ex.getMessage(), ex);
@@ -184,12 +200,17 @@ public final class ContentPackage implements Closeable {
 
   /**
    * If path parts contain namespace definitions they need to be escaped for the ZIP file.
-   * Example: oak:index -> _oak_index
+   * Example: oak:index -> jcr_root/_oak_index
    * @param path Path
    * @return Safe path
    */
-  private String buildJcrPathForZip(String path) {
-    return ROOT_DIR + PlatformNameFormat.getPlatformPath(StringUtils.defaultString(path));
+  @VisibleForTesting
+  static String buildJcrPathForZip(final String path) {
+    String normalizedPath = StringUtils.defaultString(path);
+    if (!normalizedPath.startsWith("/")) {
+      normalizedPath = "/" + normalizedPath;
+    }
+    return ROOT_DIR + PlatformNameFormat.getPlatformPath(normalizedPath);
   }
 
   /**

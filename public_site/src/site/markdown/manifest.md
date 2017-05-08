@@ -2,6 +2,12 @@
 
 This is our manifest for all modules developed in this project.
 
+### Semantic Versioning
+
+* All wcm.io modules are released following the [semantic versioning](https://www.osgi.org/wp-content/uploads/SemanticVersioning.pdf) rules.
+* This applies to both package versions and bundle versions.
+* We use the same even-odd Versioning strategy as the Apache Sling project (releases always use a even version number for the third digit).
+
 ### Support multi tenancy and configuration
 
 * No configuration is just "global", but can be applied on any configuration level
@@ -17,12 +23,6 @@ This is our manifest for all modules developed in this project.
 * Good API design leveraging best practices e.g. How To Design A Good API and Why it Matters (Joshua Bloch), Effective Java 2nd Edition (Joshua Bloch), Clean Code (Robert Martin)
 * Export only APIs and SPIs in OSGi, not the implementation
 * Enforce separation of concerns
-
-### Dependency Injection
-
-* Use dependency injection for loosely coupled classes
-* Dependency injection relies on the adaptTo concept (and optionally Sling Models)
-* Dependency injection has to be "scope-sensitive" and has to respect multi tenancy and configuration - depending on context different instances may be injected as dependency
 
 ### Internationalization
 
