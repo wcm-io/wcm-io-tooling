@@ -20,8 +20,6 @@
 package io.wcm.maven.plugins.contentpackage.pack;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.util.ArrayList;

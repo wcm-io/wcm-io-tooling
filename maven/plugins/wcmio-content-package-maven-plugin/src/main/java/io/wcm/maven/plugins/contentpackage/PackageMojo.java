@@ -34,6 +34,7 @@ import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.*;
@@ -60,7 +61,7 @@ import static org.apache.jackrabbit.vault.util.Constants.*;
   defaultPhase = LifecyclePhase.PACKAGE,
   requiresDependencyResolution = ResolutionScope.COMPILE
 )
-public final class PackageMojo extends AbstractContentPackageMojo {
+public final class PackageMojo extends AbstractMojo {
 
   public static final String ETC_PACKAGES = "/etc/packages";
 
@@ -310,10 +311,6 @@ public final class PackageMojo extends AbstractContentPackageMojo {
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    if (isSkip()) {
-      return;
-    }
-
     try {
       final File finalFile = new File(outputDirectory, finalName + PACKAGE_EXT);
       final File vaultFolder = new File(workDirectory, META_DIR);
