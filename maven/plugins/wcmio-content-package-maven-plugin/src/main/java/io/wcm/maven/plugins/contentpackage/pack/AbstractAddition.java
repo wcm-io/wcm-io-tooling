@@ -25,7 +25,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  * Common Properties for Embedded Bundles and Nested Packages
  */
-public class AbstractAddition {
+abstract class AbstractAddition {
 
   /**
    * The Group Id of the Addition
@@ -82,4 +82,5 @@ public class AbstractAddition {
   public boolean isExcludeTransitive() {
     return excludeTransitive;
   }
+
 }

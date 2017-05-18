@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package io.wcm.maven.plugins.contentpackage;
+package io.wcm.maven.plugins.contentpackage.pack;
 
 import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
 import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
@@ -66,11 +66,6 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
-import io.wcm.maven.plugins.contentpackage.pack.Dependency;
-import io.wcm.maven.plugins.contentpackage.pack.EmbeddedBundle;
-import io.wcm.maven.plugins.contentpackage.pack.JcrContentPackageArchiver;
-import io.wcm.maven.plugins.contentpackage.pack.NestedPackage;
-
 /**
  * Creates a JCR Content Package with embedded Bundles and Packages.
  * This goal requires that all content is placed under the <b>Work
@@ -82,26 +77,26 @@ import io.wcm.maven.plugins.contentpackage.pack.NestedPackage;
     requiresDependencyResolution = ResolutionScope.COMPILE)
 public final class PackageMojo extends AbstractMojo {
 
-  public static final String ETC_PACKAGES = "/etc/packages";
+  private static final String ETC_PACKAGES = "/etc/packages";
 
   private static final String JCR_ROOT = "jcr_root/";
   private static final String PACKAGE_TYPE = "zip";
   private static final String PACKAGE_EXT = "." + PACKAGE_TYPE;
   private static final String DEFINITION_FOLDER = "definition";
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
-      "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-  public static final String PROPERTY_GROUP = "group";
-  public static final String PROPERTY_NAME = "name";
-  public static final String PROPERTY_VERSION = "version";
-  public static final String PROPERTY_GROUP_ID = "groupId";
-  public static final String PROPERTY_ARTIFACT_ID = "artifactId";
-  public static final String PROPERTY_DEPENDENCIES = "dependencies";
-  public static final String PROPERTY_CREATED_BY = "createdBy";
-  public static final String PROPERTY_CREATED = "created";
-  public static final String PROPERTY_REQUIRES_ROOT = "requiresRoot";
-  public static final String PROPERTY_ALLOW_INDEX_DEFINITIONS = "allowIndexDefinitions";
-  public static final String PROPERTY_PATH = "path";
-  public static final String PROPERTY_AC_HANDLING = "acHandling";
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+  private static final String PROPERTY_GROUP = "group";
+  private static final String PROPERTY_NAME = "name";
+  private static final String PROPERTY_VERSION = "version";
+  private static final String PROPERTY_GROUP_ID = "groupId";
+  private static final String PROPERTY_ARTIFACT_ID = "artifactId";
+  private static final String PROPERTY_DEPENDENCIES = "dependencies";
+  private static final String PROPERTY_CREATED_BY = "createdBy";
+  private static final String PROPERTY_CREATED = "created";
+  private static final String PROPERTY_REQUIRES_ROOT = "requiresRoot";
+  private static final String PROPERTY_ALLOW_INDEX_DEFINITIONS = "allowIndexDefinitions";
+  private static final String PROPERTY_PATH = "path";
+  private static final String PROPERTY_AC_HANDLING = "acHandling";
 
   @Component
   private ArtifactHandlerManager artifactHandlerManager;
@@ -239,7 +234,6 @@ public final class PackageMojo extends AbstractMojo {
   /**
    * Defines whether to fail the build when an embedded artifact is not
    * found in the project's dependencies
-   * @since 0.0.12
    */
   @Parameter(
       property = "vault.failOnMissingEmbed",
@@ -319,23 +313,34 @@ public final class PackageMojo extends AbstractMojo {
 
   /**
    * Defines the path under which the embedded bundles are placed. defaults to '/apps/bundles/install'
-   * @since 0.0.6
    */
   @Parameter(property = "vault.embeddedTarget")
   private String embeddedTarget;
 
+  /**
+   * @param embeddedBundle Embedded bundle
+   */
   public void addEmbedded(final EmbeddedBundle embeddedBundle) {
     embeddeds.add(embeddedBundle);
   }
 
+  /**
+   * @param dependency Dependency
+   */
   public void addDependency(final Dependency dependency) {
     dependencies.add(dependency);
   }
 
+  /**
+   * @param nestedPackage Nested package
+   */
   public void addPackage(final NestedPackage nestedPackage) {
     subPackages.add(nestedPackage);
   }
 
+  /**
+   * @param embeddedTarget Embedded target
+   */
   public void setEmbeddedTarget(final String embeddedTarget) {
     if (embeddedTarget.endsWith("/")) {
       this.embeddedTarget = embeddedTarget;
@@ -638,4 +643,5 @@ public final class PackageMojo extends AbstractMojo {
     }
     return answer;
   }
+
 }

@@ -36,20 +36,20 @@ import org.apache.maven.project.MavenProject;
  *
  * <pre>
  * &lt;embedded&gt;
- *      &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
- *      &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
- *      &lt;scope&gt;compile&lt;/scope&gt;
- *     &lt;type&gt;jar&lt;/type&gt;
- *     &lt;classifier&gt;sources&lt;/classifier&gt;
- *      &lt;filter&gt;true&lt;/filter&gt;
- *      &lt;target&gt;/libs/sling/install&lt;/target&gt;
+ *   &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
+ *   &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
+ *   &lt;scope&gt;compile&lt;/scope&gt;
+ *   &lt;type&gt;jar&lt;/type&gt;
+ *   &lt;classifier&gt;sources&lt;/classifier&gt;
+ *   &lt;filter&gt;true&lt;/filter&gt;
+ *   &lt;target&gt;/libs/sling/install&lt;/target&gt;
  * &lt;/embedded&gt;
  * </pre>
  */
-public class EmbeddedBundle extends AbstractAddition {
+public final class EmbeddedBundle extends AbstractAddition {
 
   /**
-   * JCR Location where the Bundle will be installed in
+   * JCR Location where the Bundle will be installed in.
    */
   @Parameter
   private String target;
@@ -60,14 +60,23 @@ public class EmbeddedBundle extends AbstractAddition {
   @Parameter
   private String destFileName;
 
+  /**
+   * @return Name to use for the bundle in the destination
+   */
   public String getDestFileName() {
     return destFileName;
   }
 
+  /**
+   * @param destFileName Name to use for the bundle in the destination
+   */
   public void setDestFileName(String destFileName) {
     this.destFileName = destFileName;
   }
 
+  /**
+   * @param target JCR Location where the Bundle will be installed in
+   */
   public void setTarget(String target) {
     // need trailing slash
     if (StringUtils.endsWith(target, "/")) {
@@ -78,11 +87,14 @@ public class EmbeddedBundle extends AbstractAddition {
     }
   }
 
+  /**
+   * @return JCR Location where the Bundle will be installed in
+   */
   public String getTarget() {
     return target;
   }
 
-  public List<Artifact> getMatchingArtifacts(final MavenProject project) {
+  List<Artifact> getMatchingArtifacts(final MavenProject project) {
     // get artifacts depending on whether we exclude transitives or not
     final Set<Artifact> dependencies;
     if (excludeTransitive) {

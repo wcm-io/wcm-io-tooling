@@ -35,20 +35,18 @@ import org.apache.maven.project.MavenProject;
  *
  * <pre>
  * &lt;embedded&gt;
- *      &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
- *      &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
- *      &lt;scope&gt;compile&lt;/scope&gt;
- *     &lt;type&gt;jar&lt;/type&gt;
- *     &lt;classifier&gt;sources&lt;/classifier&gt;
- *      &lt;filter&gt;true&lt;/filter&gt;
+ *   &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
+ *   &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
+ *   &lt;scope&gt;compile&lt;/scope&gt;
+ *   &lt;type&gt;jar&lt;/type&gt;
+ *   &lt;classifier&gt;sources&lt;/classifier&gt;
+ *   &lt;filter&gt;true&lt;/filter&gt;
  * &lt;/embedded&gt;
  * </pre>
- *
- * @since 0.8
  */
-public class NestedPackage extends AbstractAddition {
+public final class NestedPackage extends AbstractAddition {
 
-  public List<Artifact> getMatchingArtifacts(final MavenProject project) {
+  List<Artifact> getMatchingArtifacts(final MavenProject project) {
     // Get the dependencies with or without transitives
     final Set<Artifact> dependencies;
     if (excludeTransitive) {

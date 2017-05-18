@@ -21,11 +21,10 @@ package io.wcm.maven.plugins.contentpackage.pack;
 
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 
-public class JcrContentPackageArchiver extends JarArchiver {
+class JcrContentPackageArchiver extends JarArchiver {
 
-  public JcrContentPackageArchiver() {
-    super();
-    archiveType = "content-package";
+  JcrContentPackageArchiver() {
+    this.archiveType = "content-package";
   }
 
 }

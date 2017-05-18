@@ -28,7 +28,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * A dependency of the package which is added to the properties.xml
  * file
  */
-public class Dependency {
+public final class Dependency {
 
   /**
    * The group of the package dependency
@@ -36,40 +36,63 @@ public class Dependency {
   @Parameter(
       required = true)
   private String group;
+
   /**
    * The name of the package dependency
    */
   @Parameter(
       required = true)
   private String name;
+
   /**
    * The version range
    */
   @Parameter
   private VersionRange versionRange;
 
+  /**
+   * @return The group of the package dependency
+   */
   public String getGroup() {
     return group;
   }
 
+  /**
+   * @param value The group of the package dependency
+   * @return this
+   */
   public Dependency setGroup(String value) {
     this.group = value;
     return this;
   }
 
+  /**
+   * @return The name of the package dependency
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * @param value The name of the package dependency
+   * @return this
+   */
   public Dependency setName(String value) {
     this.name = value;
     return this;
   }
 
+  /**
+   * @return The version range
+   */
   public VersionRange getVersion() {
     return versionRange;
   }
 
+  /**
+   * @param value The version range
+   * @return this
+   */
   public Dependency setVersion(String value) {
     this.versionRange = VersionRange.fromString(value);
     return this;
@@ -84,12 +107,12 @@ public class Dependency {
         '}';
   }
 
-  public String toVaultPropertyDependency() {
+  private String toVaultPropertyDependency() {
     return group + ":" + name +
         (versionRange != null ? ":" + versionRange.toString() : "");
   }
 
-  public static String toString(List<Dependency> dependencies) {
+  static String toString(List<Dependency> dependencies) {
     boolean first = true;
     StringBuilder b = new StringBuilder();
     for (Dependency dependency : dependencies) {
@@ -103,4 +126,5 @@ public class Dependency {
     }
     return b.toString();
   }
+
 }
