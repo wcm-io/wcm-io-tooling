@@ -115,15 +115,16 @@ public final class PackageMojo extends AbstractMojo {
   @Parameter
   private MavenArchiveConfiguration archive;
 
-  /**
-   * The directory containing the content to be packaged up into the content
-   * package. For now any content here is disregarded. Please copy the content
-   * into the workDirectory.
-   */
-  @Parameter(
-      defaultValue = "${project.build.outputDirectory}",
-      required = true)
-  private File builtContentDirectory;
+  // TODO: builtContentDirectory not support yet
+  ///**
+  // * The directory containing the content to be packaged up into the content
+  // * package. For now any content here is disregarded. Please copy the content
+  // * into the workDirectory.
+  // */
+  //@Parameter(
+  //    defaultValue = "${project.build.outputDirectory}",
+  //    required = true)
+  //private File builtContentDirectory;
 
   /**
    * The name of the generated package ZIP file without the ".zip" file
@@ -606,8 +607,7 @@ public final class PackageMojo extends AbstractMojo {
       InputStream ios = getClass().getResourceAsStream("/vault-file-templates/" + fileName);
       if (ios != null) {
         FileOutputStream fos = new FileOutputStream(new File(vaultFolder, fileName));
-        IOUtils.copy(
-            ios, fos);
+        IOUtils.copy(ios, fos);
         IOUtils.closeQuietly(ios);
         IOUtils.closeQuietly(fos);
       }

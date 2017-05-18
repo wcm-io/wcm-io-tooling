@@ -32,7 +32,6 @@ import org.apache.maven.project.MavenProject;
  * The <code>EmbeddedBundle</code> class represents an embedded bundle dependency
  * from the project descriptor. An embedded bundle is declared as child <code>&lt;embedded&gt;</code>
  * in the parent <code>&lt;embeddeds&gt;</code> like this:
- * <p>
  *
  * <pre>
  * &lt;embedded&gt;

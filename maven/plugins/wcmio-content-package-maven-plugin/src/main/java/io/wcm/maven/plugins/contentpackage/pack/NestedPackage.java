@@ -31,7 +31,6 @@ import org.apache.maven.project.MavenProject;
  * from the project descriptor. Such an nested package is declared in
  * <code>&lt;subPackage&gt;</code> elements inside the list style
  * <code>&lt;subPackages&gt;</code> element as follows:
- * <p>
  *
  * <pre>
  * &lt;embedded&gt;
