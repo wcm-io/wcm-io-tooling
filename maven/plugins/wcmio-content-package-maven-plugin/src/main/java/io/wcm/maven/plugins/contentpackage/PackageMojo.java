@@ -19,10 +19,30 @@
  */
 package io.wcm.maven.plugins.contentpackage;
 
-import io.wcm.maven.plugins.contentpackage.pack.Dependency;
-import io.wcm.maven.plugins.contentpackage.pack.EmbeddedBundle;
-import io.wcm.maven.plugins.contentpackage.pack.JcrContentPackageArchiver;
-import io.wcm.maven.plugins.contentpackage.pack.NestedPackage;
+import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
+import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
+import static org.apache.jackrabbit.vault.util.Constants.FILTER_XML;
+import static org.apache.jackrabbit.vault.util.Constants.META_DIR;
+import static org.apache.jackrabbit.vault.util.Constants.PROPERTIES_XML;
+import static org.apache.jackrabbit.vault.util.Constants.SETTINGS_XML;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
 import org.apache.jackrabbit.vault.fs.config.ConfigurationException;
@@ -37,30 +57,28 @@ import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.*;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
-import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import static org.apache.jackrabbit.vault.util.Constants.*;
+import io.wcm.maven.plugins.contentpackage.pack.Dependency;
+import io.wcm.maven.plugins.contentpackage.pack.EmbeddedBundle;
+import io.wcm.maven.plugins.contentpackage.pack.JcrContentPackageArchiver;
+import io.wcm.maven.plugins.contentpackage.pack.NestedPackage;
 
 /**
  * Creates a JCR Content Package with embedded Bundles and Packages.
- *
  * This goal requires that all content is placed under the <b>Work
  * Directory</b> instead of the build output directory.
  */
 @Mojo(
-  name = "package",
-  defaultPhase = LifecyclePhase.PACKAGE,
-  requiresDependencyResolution = ResolutionScope.COMPILE
-)
+    name = "package",
+    defaultPhase = LifecyclePhase.PACKAGE,
+    requiresDependencyResolution = ResolutionScope.COMPILE)
 public final class PackageMojo extends AbstractMojo {
 
   public static final String ETC_PACKAGES = "/etc/packages";
@@ -70,7 +88,7 @@ public final class PackageMojo extends AbstractMojo {
   private static final String PACKAGE_EXT = "." + PACKAGE_TYPE;
   private static final String DEFINITION_FOLDER = "definition";
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
-    "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+      "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
   public static final String PROPERTY_GROUP = "group";
   public static final String PROPERTY_NAME = "name";
   public static final String PROPERTY_VERSION = "version";
@@ -107,8 +125,8 @@ public final class PackageMojo extends AbstractMojo {
    * into the workDirectory.
    */
   @Parameter(
-    defaultValue = "${project.build.outputDirectory}",
-    required = true)
+      defaultValue = "${project.build.outputDirectory}",
+      required = true)
   private File builtContentDirectory;
 
   /**
@@ -116,17 +134,17 @@ public final class PackageMojo extends AbstractMojo {
    * extension.
    */
   @Parameter(
-    property = "vault.finalName",
-    defaultValue = "${project.build.finalName}",
-    required = true)
+      property = "vault.finalName",
+      defaultValue = "${project.build.finalName}",
+      required = true)
   private String finalName;
 
   /**
    * Directory in which the built content package will be output.
    */
   @Parameter(
-    defaultValue="${project.build.directory}",
-    required = true)
+      defaultValue = "${project.build.directory}",
+      required = true)
   private File outputDirectory;
 
   /**
@@ -134,45 +152,42 @@ public final class PackageMojo extends AbstractMojo {
    * package.
    */
   @Parameter(
-    defaultValue = "${project.build.directory}/vault-work",
-    required = true)
+      defaultValue = "${project.build.directory}/vault-work",
+      required = true)
   private File workDirectory;
 
-//TODO: Prefix not support yet
-//  /**
-//   * Adds a path prefix to all resources useful for shallower source trees.
-//   */
-//  @Parameter(property = "vault.prefix")
-//  private String prefix;
+  //TODO: Prefix not support yet
+  //  /**
+  //   * Adds a path prefix to all resources useful for shallower source trees.
+  //   */
+  //  @Parameter(property = "vault.prefix")
+  //  private String prefix;
 
   /**
    * The group of the package (location where the package is installed)
    */
   @Parameter(
-    property = "vault.group",
-    defaultValue = "${project.groupId}",
-    required = true
-  )
+      property = "vault.group",
+      defaultValue = "${project.groupId}",
+      required = true)
   private String group;
 
   /**
    * The name of the deployed package on the target server
    */
   @Parameter(
-    property = "vault.name",
-    defaultValue = "${project.artifactId}",
-    required = true
-  )
+      property = "vault.name",
+      defaultValue = "${project.artifactId}",
+      required = true)
   private String name;
 
   /**
    * The version of the artifact to install.
    */
   @Parameter(
-    property = "vault.version",
-    defaultValue = "${project.version}",
-    required = true
-  )
+      property = "vault.version",
+      defaultValue = "${project.version}",
+      required = true)
   private String version;
 
   /**
@@ -180,21 +195,20 @@ public final class PackageMojo extends AbstractMojo {
    * <code>requiresRoot</code> property of the properties.xml file.
    */
   @Parameter(
-    property = "vault.requiresRoot",
-    defaultValue="false",
-    required = true)
+      property = "vault.requiresRoot",
+      defaultValue = "false",
+      required = true)
   private boolean requiresRoot;
 
   /**
    * Defines whether the package is allowed to contain index definitions. This will become the
    * <code>allowIndexDefinitions</code> property of the properties.xml file.
-   *
    * As of now there is no check if any files contain index definitions if this is set to false
    */
   @Parameter(
-    property = "vault.allowIndexDefinitions",
-    defaultValue="false",
-    required = true)
+      property = "vault.allowIndexDefinitions",
+      defaultValue = "false",
+      required = true)
   private boolean allowIndexDefinitions;
 
   /**
@@ -203,9 +217,9 @@ public final class PackageMojo extends AbstractMojo {
    * the packaging will fail.
    */
   @Parameter(
-    property = "vault.acHandling",
-    defaultValue="IGNORE",
-    required = false)
+      property = "vault.acHandling",
+      defaultValue = "IGNORE",
+      required = false)
   private AccessControlHandling acHandling;
 
   /**
@@ -227,10 +241,9 @@ public final class PackageMojo extends AbstractMojo {
    * @since 0.0.12
    */
   @Parameter(
-    property = "vault.failOnMissingEmbed",
-    defaultValue = "false",
-    required = true
-  )
+      property = "vault.failOnMissingEmbed",
+      defaultValue = "false",
+      required = true)
   private boolean failOnMissingEmbed;
 
   /**
@@ -250,18 +263,54 @@ public final class PackageMojo extends AbstractMojo {
    * These properties cannot overwrite the following predefined properties:
    * <p>
    * <table>
-   * <tr><td>group</td><td>Use <i>group</i> parameter to set</td></tr>
-   * <tr><td>name</td><td>Use <i>name</i> parameter to set</td></tr>
-   * <tr><td>version</td><td>Use <i>version</i> parameter to set</td></tr>
-   * <tr><td>groupId</td><td><i>groupId</i> of the Maven project descriptor</td></tr>
-   * <tr><td>artifactId</td><td><i>artifactId</i> of the Maven project descriptor</td></tr>
-   * <tr><td>dependencies</td><td>Use <i>dependencies</i> parameter to set</td></tr>
-   * <tr><td>createdBy</td><td>The value of the <i>user.name</i> system property</td></tr>
-   * <tr><td>created</td><td>The current system time</td></tr>
-   * <tr><td>requiresRoot</td><td>Use <i>requiresRoot</i> parameter to set</td></tr>
-   * <tr><td>allowIndexDefinitions</td><td>Use <i>allowIndexDefinitions</i> parameter to set</td></tr>
-   * <tr><td>packagePath</td><td>Automatically generated from the group and package name</td></tr>
-   * <tr><td>acHandling</td><td>Use <i>acHandling</i> parameter to set it</td></tr>
+   * <tr>
+   * <td>group</td>
+   * <td>Use <i>group</i> parameter to set</td>
+   * </tr>
+   * <tr>
+   * <td>name</td>
+   * <td>Use <i>name</i> parameter to set</td>
+   * </tr>
+   * <tr>
+   * <td>version</td>
+   * <td>Use <i>version</i> parameter to set</td>
+   * </tr>
+   * <tr>
+   * <td>groupId</td>
+   * <td><i>groupId</i> of the Maven project descriptor</td>
+   * </tr>
+   * <tr>
+   * <td>artifactId</td>
+   * <td><i>artifactId</i> of the Maven project descriptor</td>
+   * </tr>
+   * <tr>
+   * <td>dependencies</td>
+   * <td>Use <i>dependencies</i> parameter to set</td>
+   * </tr>
+   * <tr>
+   * <td>createdBy</td>
+   * <td>The value of the <i>user.name</i> system property</td>
+   * </tr>
+   * <tr>
+   * <td>created</td>
+   * <td>The current system time</td>
+   * </tr>
+   * <tr>
+   * <td>requiresRoot</td>
+   * <td>Use <i>requiresRoot</i> parameter to set</td>
+   * </tr>
+   * <tr>
+   * <td>allowIndexDefinitions</td>
+   * <td>Use <i>allowIndexDefinitions</i> parameter to set</td>
+   * </tr>
+   * <tr>
+   * <td>packagePath</td>
+   * <td>Automatically generated from the group and package name</td>
+   * </tr>
+   * <tr>
+   * <td>acHandling</td>
+   * <td>Use <i>acHandling</i> parameter to set it</td>
+   * </tr>
    * </table>
    */
   @Parameter
@@ -289,7 +338,8 @@ public final class PackageMojo extends AbstractMojo {
   public void setEmbeddedTarget(final String embeddedTarget) {
     if (embeddedTarget.endsWith("/")) {
       this.embeddedTarget = embeddedTarget;
-    } else {
+    }
+    else {
       this.embeddedTarget = embeddedTarget + "/";
     }
   }
@@ -323,7 +373,8 @@ public final class PackageMojo extends AbstractMojo {
       DefaultWorkspaceFilter filter = null;
       if (filterSource != null && filterSource.exists() && !filterSource.isDirectory()) {
         filter = loadFilter(filterSource);
-      } else {
+      }
+      else {
         filter = loadFilterInFolder(vaultFolder);
       }
 
@@ -356,21 +407,23 @@ public final class PackageMojo extends AbstractMojo {
       final Artifact projectArtifact = project.getArtifact();
       projectArtifact.setFile(finalFile);
       projectArtifact.setArtifactHandler(artifactHandlerManager.getArtifactHandler(PACKAGE_TYPE));
-    } catch(Exception e) {
+    }
+    catch (Exception e) {
       getLog().warn("Packaging Failed", e);
       throw new MojoExecutionException(e.toString(), e);
     }
   }
 
   private void obtainEmbeddedBundles(List<EmbeddedBundle> embeddedBundleList, Map<String, File> resultList, DefaultWorkspaceFilter filter)
-    throws IOException, MojoFailureException
-  {
+      throws IOException, MojoFailureException {
     for (EmbeddedBundle embeddedBundle : embeddedBundleList) {
       final List<Artifact> artifacts = embeddedBundle.getMatchingArtifacts(project);
       if (artifacts.isEmpty()) {
         if (failOnMissingEmbed) {
-          throw new MojoFailureException("Embedded artifact: '" + embeddedBundle + "' but no dependency artifact found. Add the missing dependency or adjust the embedded definition.");
-        } else {
+          throw new MojoFailureException(
+              "Embedded artifact: '" + embeddedBundle + "' but no dependency artifact found. Add the missing dependency or adjust the embedded definition.");
+        }
+        else {
           getLog().warn("No matching artifacts found for '" + embeddedBundle + "'");
           continue;
         }
@@ -385,8 +438,7 @@ public final class PackageMojo extends AbstractMojo {
         if (embeddedTargetPath == null) {
           embeddedTargetPath = "/apps/bundles/install/";
           getLog().info(
-            "No target path set for '" + embeddedBundle + "'. Using default '" + embeddedTargetPath + "'"
-          );
+              "No target path set for '" + embeddedBundle + "'. Using default '" + embeddedTargetPath + "'");
         }
       }
       embeddedTargetPath = resolvePath(embeddedTargetPath);
@@ -437,17 +489,17 @@ public final class PackageMojo extends AbstractMojo {
           }
           in = zipFile.getInputStream(zipEntry);
           properties.loadFromXML(in);
-        } finally {
+        }
+        finally {
           IOUtils.closeQuietly(in);
           if (zipFile != null) {
             zipFile.close();
           }
         }
         PackageId pid = new PackageId(
-          properties.getProperty("group"),
-          properties.getProperty("name"),
-          properties.getProperty("version")
-        );
+            properties.getProperty("group"),
+            properties.getProperty("name"),
+            properties.getProperty("version"));
         final String targetNodePathName = pid.getInstallationPath() + ".zip";
         final String targetPathName = "jcr_root" + targetNodePathName;
 
@@ -466,8 +518,7 @@ public final class PackageMojo extends AbstractMojo {
    * @throws IOException
    */
   private void writePropertiesFile(File vaultFolder)
-    throws IOException
-  {
+      throws IOException {
     final Properties vaultProperties = new Properties();
 
     String description = project.getDescription();
@@ -518,7 +569,8 @@ public final class PackageMojo extends AbstractMojo {
     try {
       fos = new FileOutputStream(new File(vaultFolder, PROPERTIES_XML));
       vaultProperties.storeToXML(fos, project.getName());
-    } finally {
+    }
+    finally {
       fos.close();
     }
   }
@@ -526,7 +578,7 @@ public final class PackageMojo extends AbstractMojo {
   private String resolvePath(final String path) {
     String answer = path;
     if (!answer.startsWith("/")) {
-      answer = "/"  + path;
+      answer = "/" + path;
       getLog().info("Relative path resolved to " + answer);
     }
 
@@ -536,13 +588,13 @@ public final class PackageMojo extends AbstractMojo {
   private File getFileFromFolder(File folder, final String fileName) {
     File answer = null;
     File[] files = folder.listFiles(
-      new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-          return name.equals(fileName);
-        }
-      }
-    );
+        new FilenameFilter() {
+
+          @Override
+          public boolean accept(File dir, String name) {
+            return name.equals(fileName);
+          }
+        });
     if (files.length > 0) {
       answer = files[0];
     }
@@ -552,11 +604,10 @@ public final class PackageMojo extends AbstractMojo {
   private void checkAndCopy(File vaultFolder, String fileName) throws IOException {
     if (getFileFromFolder(vaultFolder, fileName) == null) {
       InputStream ios = getClass().getResourceAsStream("/vault-file-templates/" + fileName);
-      if(ios != null) {
+      if (ios != null) {
         FileOutputStream fos = new FileOutputStream(new File(vaultFolder, fileName));
         IOUtils.copy(
-          ios, fos
-        );
+            ios, fos);
         IOUtils.closeQuietly(ios);
         IOUtils.closeQuietly(fos);
       }
@@ -564,18 +615,13 @@ public final class PackageMojo extends AbstractMojo {
   }
 
   private DefaultWorkspaceFilter loadFilterInFolder(File vaultFolder)
-    throws IOException, ConfigurationException
-  {
+      throws IOException, ConfigurationException {
     return loadFilter(
-      vaultFolder != null && vaultFolder.exists() && vaultFolder.isDirectory() ?
-        new File(vaultFolder, FILTER_XML) :
-        null
-    );
+        vaultFolder != null && vaultFolder.exists() && vaultFolder.isDirectory() ? new File(vaultFolder, FILTER_XML) : null);
   }
 
   private DefaultWorkspaceFilter loadFilter(File filterFile)
-    throws IOException, ConfigurationException
-  {
+      throws IOException, ConfigurationException {
     DefaultWorkspaceFilter answer = null;
     InputStream in = null;
     try {
@@ -586,12 +632,13 @@ public final class PackageMojo extends AbstractMojo {
         answer = new DefaultWorkspaceFilter();
         answer.load(in);
       }
-    } finally {
-      if(in != null) {
+    }
+    finally {
+      if (in != null) {
         IOUtils.closeQuietly(in);
       }
     }
-    if(answer == null) {
+    if (answer == null) {
       answer = new DefaultWorkspaceFilter();
     }
     return answer;

@@ -19,34 +19,34 @@
  */
 package io.wcm.maven.plugins.contentpackage.pack;
 
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 /**
  * The <code>EmbeddedBundle</code> class represents an embedded bundle dependency
  * from the project descriptor. An embedded bundle is declared as child <code>&lt;embedded&gt;</code>
  * in the parent <code>&lt;embeddeds&gt;</code> like this:
  * <p>
+ *
  * <pre>
  * &lt;embedded&gt;
- * 	   &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
- * 	   &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
- * 	   &lt;scope&gt;compile&lt;/scope&gt;
+ *      &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
+ *      &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
+ *      &lt;scope&gt;compile&lt;/scope&gt;
  *     &lt;type&gt;jar&lt;/type&gt;
  *     &lt;classifier&gt;sources&lt;/classifier&gt;
- * 	   &lt;filter&gt;true&lt;/filter&gt;
- * 	   &lt;target&gt;/libs/sling/install&lt;/target&gt;
+ *      &lt;filter&gt;true&lt;/filter&gt;
+ *      &lt;target&gt;/libs/sling/install&lt;/target&gt;
  * &lt;/embedded&gt;
  * </pre>
  */
 public class EmbeddedBundle
-  extends AbstractAddition
-{
+    extends AbstractAddition {
 
   /**
    * JCR Location where the Bundle will be installed in
@@ -87,7 +87,8 @@ public class EmbeddedBundle
     if (excludeTransitive) {
       // only direct dependencies, transitives excluded
       dependencies = project.getDependencyArtifacts();
-    } else {
+    }
+    else {
       // all dependencies, transitives included
       dependencies = project.getArtifacts();
     }
@@ -95,10 +96,10 @@ public class EmbeddedBundle
     final List<Artifact> matches = new ArrayList<Artifact>();
     for (Artifact artifact : dependencies) {
       if (groupId.contains(artifact.getGroupId())
-        && artifactId.contains(artifact.getArtifactId())
-        && (scope == null || scope.include(artifact))
-        && (type == null || type.equals(artifact.getType()))
-        && (classifier == null || classifier.equals(artifact.getClassifier()))) {
+          && artifactId.contains(artifact.getArtifactId())
+          && (scope == null || scope.include(artifact))
+          && (type == null || type.equals(artifact.getType()))
+          && (classifier == null || classifier.equals(artifact.getClassifier()))) {
         matches.add(artifact);
       }
     }
@@ -108,15 +109,15 @@ public class EmbeddedBundle
   @Override
   public String toString() {
     return "EmbeddedBundle{" +
-      "groupId='" + groupId + '\'' +
-      ", artifactId='" + artifactId + '\'' +
-      ", scope=" + scope +
-      ", type='" + type + '\'' +
-      ", classifier='" + classifier + '\'' +
-      ", generateFilter=" + generateFilter +
-      ", target='" + target + '\'' +
-      ", destFileName='" + destFileName + '\'' +
-      ", excludeTransitive=" + excludeTransitive +
-      '}';
+        "groupId='" + groupId + '\'' +
+        ", artifactId='" + artifactId + '\'' +
+        ", scope=" + scope +
+        ", type='" + type + '\'' +
+        ", classifier='" + classifier + '\'' +
+        ", generateFilter=" + generateFilter +
+        ", target='" + target + '\'' +
+        ", destFileName='" + destFileName + '\'' +
+        ", excludeTransitive=" + excludeTransitive +
+        '}';
   }
 }

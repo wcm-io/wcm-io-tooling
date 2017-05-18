@@ -19,12 +19,12 @@
  */
 package io.wcm.maven.plugins.contentpackage.pack;
 
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.project.MavenProject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.project.MavenProject;
 
 /**
  * The <code>NestedPackage</code> class represents an nested Package dependency
@@ -32,22 +32,22 @@ import java.util.Set;
  * <code>&lt;subPackage&gt;</code> elements inside the list style
  * <code>&lt;subPackages&gt;</code> element as follows:
  * <p>
+ *
  * <pre>
  * &lt;embedded&gt;
- * 	   &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
- * 	   &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
- * 	   &lt;scope&gt;compile&lt;/scope&gt;
+ *      &lt;groupId&gt;artifact.groupId&lt;/groupId&gt;
+ *      &lt;artifactId&gt;artifact.artifactId&lt;/artifactId&gt;
+ *      &lt;scope&gt;compile&lt;/scope&gt;
  *     &lt;type&gt;jar&lt;/type&gt;
  *     &lt;classifier&gt;sources&lt;/classifier&gt;
- * 	   &lt;filter&gt;true&lt;/filter&gt;
+ *      &lt;filter&gt;true&lt;/filter&gt;
  * &lt;/embedded&gt;
  * </pre>
  *
  * @since 0.8
  */
 public class NestedPackage
-  extends AbstractAddition
-{
+    extends AbstractAddition {
 
   public List<Artifact> getMatchingArtifacts(final MavenProject project) {
     // Get the dependencies with or without transitives
@@ -55,7 +55,8 @@ public class NestedPackage
     if (excludeTransitive) {
       // only direct dependencies, transitives excluded
       dependencies = project.getDependencyArtifacts();
-    } else {
+    }
+    else {
       // all dependencies, transitives included
       dependencies = project.getArtifacts();
     }
@@ -63,11 +64,10 @@ public class NestedPackage
     final List<Artifact> matches = new ArrayList<Artifact>();
     for (Artifact dependency : dependencies) {
       if (groupId.contains(dependency.getGroupId())
-        && artifactId.contains(dependency.getArtifactId())
-        && (scope == null || scope.include(dependency))
-        && (type == null || type.equals(dependency.getType()))
-        && (classifier == null || classifier.equals(dependency.getClassifier())))
-      {
+          && artifactId.contains(dependency.getArtifactId())
+          && (scope == null || scope.include(dependency))
+          && (type == null || type.equals(dependency.getType()))
+          && (classifier == null || classifier.equals(dependency.getClassifier()))) {
         matches.add(dependency);
       }
     }
@@ -77,13 +77,13 @@ public class NestedPackage
   @Override
   public String toString() {
     return "NestedPackage{" +
-      "groupId='" + groupId + '\'' +
-      ", artifactId='" + artifactId + '\'' +
-      ", scope=" + scope +
-      ", type='" + type + '\'' +
-      ", classifier='" + classifier + '\'' +
-      ", generateFilter=" + generateFilter +
-      ", excludeTransitive=" + excludeTransitive +
-      '}';
+        "groupId='" + groupId + '\'' +
+        ", artifactId='" + artifactId + '\'' +
+        ", scope=" + scope +
+        ", type='" + type + '\'' +
+        ", classifier='" + classifier + '\'' +
+        ", generateFilter=" + generateFilter +
+        ", excludeTransitive=" + excludeTransitive +
+        '}';
   }
 }
