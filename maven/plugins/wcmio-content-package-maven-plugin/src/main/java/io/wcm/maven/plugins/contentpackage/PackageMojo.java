@@ -26,6 +26,7 @@ import static org.apache.jackrabbit.vault.util.Constants.META_DIR;
 import static org.apache.jackrabbit.vault.util.Constants.PROPERTIES_XML;
 import static org.apache.jackrabbit.vault.util.Constants.SETTINGS_XML;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -408,14 +409,13 @@ public final class PackageMojo extends AbstractMojo {
       projectArtifact.setFile(finalFile);
       projectArtifact.setArtifactHandler(artifactHandlerManager.getArtifactHandler(PACKAGE_TYPE));
     }
-    catch (Exception e) {
-      getLog().warn("Packaging Failed", e);
-      throw new MojoExecutionException(e.toString(), e);
+    /*CHECKSTYLE:OFF*/catch (Exception ex) { /*CHECKSTYLE:ON*/
+      throw new MojoExecutionException(ex.getMessage(), ex);
     }
   }
 
   private void obtainEmbeddedBundles(List<EmbeddedBundle> embeddedBundleList, Map<String, File> resultList, DefaultWorkspaceFilter filter)
-      throws IOException, MojoFailureException {
+      throws MojoFailureException {
     for (EmbeddedBundle embeddedBundle : embeddedBundleList) {
       final List<Artifact> artifacts = embeddedBundle.getMatchingArtifacts(project);
       if (artifacts.isEmpty()) {
@@ -479,7 +479,7 @@ public final class PackageMojo extends AbstractMojo {
         // load properties
         ZipFile zipFile = null;
         InputStream in = null;
-        Properties properties = new Properties();
+        Properties props = new Properties();
         try {
           zipFile = new ZipFile(source, ZipFile.OPEN_READ);
           ZipEntry zipEntry = zipFile.getEntry("META-INF/vault/properties.xml");
@@ -488,7 +488,7 @@ public final class PackageMojo extends AbstractMojo {
             throw new IOException("properties.xml missing in nested package: " + source.getName());
           }
           in = zipFile.getInputStream(zipEntry);
-          properties.loadFromXML(in);
+          props.loadFromXML(in);
         }
         finally {
           IOUtils.closeQuietly(in);
@@ -497,9 +497,9 @@ public final class PackageMojo extends AbstractMojo {
           }
         }
         PackageId pid = new PackageId(
-            properties.getProperty("group"),
-            properties.getProperty("name"),
-            properties.getProperty("version"));
+            props.getProperty("group"),
+            props.getProperty("name"),
+            props.getProperty("version"));
         final String targetNodePathName = pid.getInstallationPath() + ".zip";
         final String targetPathName = "jcr_root" + targetNodePathName;
 
@@ -565,13 +565,9 @@ public final class PackageMojo extends AbstractMojo {
     vaultProperties.put(PROPERTY_PATH, ETC_PACKAGES + "/" + group + "/" + name + PACKAGE_EXT);
     vaultProperties.put(PROPERTY_AC_HANDLING, acHandling.toString());
 
-    FileOutputStream fos = null;
-    try {
-      fos = new FileOutputStream(new File(vaultFolder, PROPERTIES_XML));
-      vaultProperties.storeToXML(fos, project.getName());
-    }
-    finally {
-      fos.close();
+    try (FileOutputStream fos = new FileOutputStream(new File(vaultFolder, PROPERTIES_XML));
+        BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+      vaultProperties.storeToXML(bos, project.getName());
     }
   }
 
@@ -589,10 +585,9 @@ public final class PackageMojo extends AbstractMojo {
     File answer = null;
     File[] files = folder.listFiles(
         new FilenameFilter() {
-
           @Override
-          public boolean accept(File dir, String name) {
-            return name.equals(fileName);
+          public boolean accept(File dir, String itemName) {
+            return itemName.equals(fileName);
           }
         });
     if (files.length > 0) {

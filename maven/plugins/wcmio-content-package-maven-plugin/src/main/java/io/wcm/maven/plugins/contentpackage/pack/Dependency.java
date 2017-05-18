@@ -52,8 +52,8 @@ public class Dependency {
     return group;
   }
 
-  public Dependency setGroup(String group) {
-    this.group = group;
+  public Dependency setGroup(String value) {
+    this.group = value;
     return this;
   }
 
@@ -61,8 +61,8 @@ public class Dependency {
     return name;
   }
 
-  public Dependency setName(String name) {
-    this.name = name;
+  public Dependency setName(String value) {
+    this.name = value;
     return this;
   }
 
@@ -70,8 +70,8 @@ public class Dependency {
     return versionRange;
   }
 
-  public Dependency setVersion(String version) {
-    this.versionRange = VersionRange.fromString(version);
+  public Dependency setVersion(String value) {
+    this.versionRange = VersionRange.fromString(value);
     return this;
   }
 

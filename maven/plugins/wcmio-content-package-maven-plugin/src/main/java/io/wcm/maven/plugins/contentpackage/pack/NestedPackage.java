@@ -46,8 +46,7 @@ import org.apache.maven.project.MavenProject;
  *
  * @since 0.8
  */
-public class NestedPackage
-    extends AbstractAddition {
+public class NestedPackage extends AbstractAddition {
 
   public List<Artifact> getMatchingArtifacts(final MavenProject project) {
     // Get the dependencies with or without transitives
@@ -86,4 +85,5 @@ public class NestedPackage
         ", excludeTransitive=" + excludeTransitive +
         '}';
   }
+
 }

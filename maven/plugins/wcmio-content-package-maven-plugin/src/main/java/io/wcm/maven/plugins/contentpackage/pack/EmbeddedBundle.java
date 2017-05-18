@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
@@ -45,8 +46,7 @@ import org.apache.maven.project.MavenProject;
  * &lt;/embedded&gt;
  * </pre>
  */
-public class EmbeddedBundle
-    extends AbstractAddition {
+public class EmbeddedBundle extends AbstractAddition {
 
   /**
    * JCR Location where the Bundle will be installed in
@@ -70,11 +70,12 @@ public class EmbeddedBundle
 
   public void setTarget(String target) {
     // need trailing slash
-    if (!target.endsWith("/")) {
-      target += "/";
+    if (StringUtils.endsWith(target, "/")) {
+      this.target = target;
     }
-
-    this.target = target;
+    else {
+      this.target = target + "/";
+    }
   }
 
   public String getTarget() {
@@ -120,4 +121,5 @@ public class EmbeddedBundle
         ", excludeTransitive=" + excludeTransitive +
         '}';
   }
+
 }
