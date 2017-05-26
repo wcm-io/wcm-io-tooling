@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2014 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,16 +115,15 @@ public final class PackageMojo extends AbstractMojo {
   @Parameter
   private MavenArchiveConfiguration archive;
 
-  // TODO: builtContentDirectory not support yet
-  ///**
-  // * The directory containing the content to be packaged up into the content
-  // * package. For now any content here is disregarded. Please copy the content
-  // * into the workDirectory.
-  // */
-  //@Parameter(
-  //    defaultValue = "${project.build.outputDirectory}",
-  //    required = true)
-  //private File builtContentDirectory;
+  /**
+   * The directory containing the content to be packaged up into the content
+   * package. For now any content here is disregarded. Please copy the content
+   * into the workDirectory.
+   */
+  @Parameter(
+      defaultValue = "${project.build.outputDirectory}",
+      required = true)
+  private File builtContentDirectory;
 
   /**
    * The name of the generated package ZIP file without the ".zip" file
@@ -221,10 +220,16 @@ public final class PackageMojo extends AbstractMojo {
 
   /**
    * Optional file that specifies the source of the workspace filter. The filters specified in the configuration
-   * and injected via emebedds or subpackages are merged into it.
+   * and injected via embeddeds or subpackages are merged into it.
    */
   @Parameter
   private File filterSource;
+
+  /**
+   * Defines the content of the filter.xml file
+   */
+  @Parameter
+  private final Filters filters = new Filters();
 
   /**
    * list of embedded bundles
@@ -377,12 +382,19 @@ public final class PackageMojo extends AbstractMojo {
 
       JcrContentPackageArchiver jcrContentPackageArchiver = new JcrContentPackageArchiver();
       Map<String, File> additionalFiles = new HashMap<>();
+
+      // get filter definition from file system
       DefaultWorkspaceFilter filter = null;
       if (filterSource != null && filterSource.exists() && !filterSource.isDirectory()) {
         filter = loadFilter(filterSource);
       }
       else {
         filter = loadFilterInFolder(vaultFolder);
+      }
+
+      // merge with filters applied via plugin properties
+      if (this.filters != null) {
+        this.filters.merge(filter);
       }
 
       obtainEmbeddedBundles(embeddeds, additionalFiles, filter);
@@ -398,6 +410,11 @@ public final class PackageMojo extends AbstractMojo {
       checkAndCopy(vaultFolder, SETTINGS_XML);
       checkAndCopy(vaultDefinitionFolder, DOT_CONTENT_XML);
       jcrContentPackageArchiver.addDirectory(workDirectory);
+
+      // add content from builtContentDirectory
+      if (builtContentDirectory.exists()) {
+        jcrContentPackageArchiver.addDirectory(builtContentDirectory, FileUtils.normalize(JCR_ROOT));
+      }
 
       // ensure that empty directories are included
       jcrContentPackageArchiver.setIncludeEmptyDirs(true);
