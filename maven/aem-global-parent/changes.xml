@@ -34,6 +34,9 @@
       <action type="update" dev="sseifert">
         Set failOnMissingEmbed for content-package-maven-plugin and wcmio-content-package-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA and CONGA AEM plugin versions.
+      </action>
     </release>
 
     <release version="1.1.8" date="2017-04-04">
