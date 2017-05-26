@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
   wcm.io
   %%
-  Copyright (C) 2016 wcm.io
+  Copyright (C) 2017 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -27,7 +28,6 @@
         <lifecycles>
           <lifecycle>
             <id>default</id>
-            <!-- START SNIPPET: bundle-lifecycle -->
             <phases>
               <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
               <compile>org.apache.maven.plugins:maven-compiler-plugin:compile</compile>
@@ -38,7 +38,6 @@
               <install>org.apache.maven.plugins:maven-install-plugin:install</install>
               <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
             </phases>
-            <!-- END SNIPPET: bundle-lifecycle -->
           </lifecycle>
         </lifecycles>
       </configuration>
