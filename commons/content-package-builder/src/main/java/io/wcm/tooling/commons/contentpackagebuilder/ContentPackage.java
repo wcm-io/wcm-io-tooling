@@ -23,6 +23,7 @@ import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
 import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
 import static org.apache.jackrabbit.vault.util.Constants.FILTER_XML;
 import static org.apache.jackrabbit.vault.util.Constants.META_DIR;
+import static org.apache.jackrabbit.vault.util.Constants.PACKAGE_DEFINITION_XML;
 import static org.apache.jackrabbit.vault.util.Constants.PROPERTIES_XML;
 import static org.apache.jackrabbit.vault.util.Constants.ROOT_DIR;
 import static org.apache.jackrabbit.vault.util.Constants.SETTINGS_XML;
@@ -277,6 +278,7 @@ public final class ContentPackage implements Closeable {
     buildTemplatedMetadataFile(META_DIR + "/" + CONFIG_XML);
     buildPropertiesFile(META_DIR + "/" + PROPERTIES_XML);
     buildTemplatedMetadataFile(META_DIR + "/" + SETTINGS_XML);
+    buildTemplatedMetadataFile(META_DIR + "/" + PACKAGE_DEFINITION_XML);
     writeXmlDocument(META_DIR + "/" + FILTER_XML, xmlContentBuilder.buildFilter(metadata.getFilters()));
 
     // package thumbnail

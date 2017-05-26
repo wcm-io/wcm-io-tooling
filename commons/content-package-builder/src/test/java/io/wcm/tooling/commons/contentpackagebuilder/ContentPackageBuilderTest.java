@@ -112,6 +112,9 @@ public class ContentPackageBuilderTest {
     Document settingsXml = getXmlFromZip("META-INF/vault/settings.xml");
     assertXpathEvaluatesTo("1.0", "/vault/@version", settingsXml);
 
+    Document definitionXml = getXmlFromZip("META-INF/vault/definition/.content.xml");
+    assertEquals("vlt:PackageDefinition", definitionXml.getDocumentElement().getAttribute("jcr:primaryType"));
+
     byte[] thumbnailImage = getDataFromZip("META-INF/vault/definition/thumbnail.png");
     assertNotNull(thumbnailImage);
   }
