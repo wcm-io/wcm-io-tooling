@@ -22,3 +22,8 @@ The settings in this AEM global parent POM cover:
   [conga-maven-plugin](http://devops.wcm.io/conga/),
   [conga-aem-maven-plugin](http://devops.wcm.io/conga/plugins/aem/)
 * Define default exclusions for m2e lifecycle
+
+
+### Migration guides
+
+* [Migrate from wcm.io Maven aem-global-parent 1.1.x to 1.2.x](https://wcm-io.atlassian.net/wiki/x/7dELAw)
