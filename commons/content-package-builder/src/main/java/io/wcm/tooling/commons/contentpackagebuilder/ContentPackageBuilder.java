@@ -22,8 +22,11 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+
+import org.apache.commons.io.IOUtils;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -142,11 +145,22 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set thumbnail PNG image.
+   * @param is Input stream with Thumbnail PNG image binary data
+   * @return this
+   * @throws IOException I/O exception
+   */
+  public ContentPackageBuilder thumbnailImage(InputStream is) throws IOException {
+    metadata.setThumbnailImage(IOUtils.toByteArray(is));
+    return this;
+  }
+
+  /**
    * Build {@link ContentPackage} to which additional content (Pages or binary files) can be added.
    * Please make sure you call the {@link ContentPackage#close()} method when all content was added.
    * @param outputStream Output stream
    * @return Content package
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public ContentPackage build(OutputStream outputStream) throws IOException {
     return new ContentPackage(metadata, outputStream);
@@ -157,7 +171,7 @@ public final class ContentPackageBuilder {
    * Please make sure you call the {@link ContentPackage#close()} method when all content was added.
    * @param file Output file
    * @return Content package
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION", justification = "stream is closed when ContentPackage is closes.")
   public ContentPackage build(File file) throws IOException {
