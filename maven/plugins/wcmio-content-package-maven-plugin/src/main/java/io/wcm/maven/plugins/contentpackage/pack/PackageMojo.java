@@ -221,10 +221,16 @@ public final class PackageMojo extends AbstractMojo {
 
   /**
    * Optional file that specifies the source of the workspace filter. The filters specified in the configuration
-   * and injected via emebedds or subpackages are merged into it.
+   * and injected via embeddeds or subpackages are merged into it.
    */
   @Parameter
   private File filterSource;
+
+  /**
+   * Defines the content of the filter.xml file
+   */
+  @Parameter
+  private final Filters filters = new Filters();
 
   /**
    * list of embedded bundles
@@ -377,12 +383,19 @@ public final class PackageMojo extends AbstractMojo {
 
       JcrContentPackageArchiver jcrContentPackageArchiver = new JcrContentPackageArchiver();
       Map<String, File> additionalFiles = new HashMap<>();
+
+      // get filter definition from file system
       DefaultWorkspaceFilter filter = null;
       if (filterSource != null && filterSource.exists() && !filterSource.isDirectory()) {
         filter = loadFilter(filterSource);
       }
       else {
         filter = loadFilterInFolder(vaultFolder);
+      }
+
+      // merge with filters applied via plugin properties
+      if (this.filters != null) {
+        this.filters.merge(filter);
       }
 
       obtainEmbeddedBundles(embeddeds, additionalFiles, filter);
