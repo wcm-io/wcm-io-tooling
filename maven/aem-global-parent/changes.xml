@@ -29,6 +29,7 @@
       </action>
       <action type="update" dev="sseifert">
         Do not register extension of content-package-maven-plugin by default, to let projects decide between wcmio-content-package-maven-plugin and content-package-maven-plugin.
+        See https://wcm-io.atlassian.net/wiki/x/7dELAw for a migration guideline.
       </action>
       <action type="update" dev="sseifert">
         Set failOnMissingEmbed for content-package-maven-plugin and wcmio-content-package-maven-plugin.
