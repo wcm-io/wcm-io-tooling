@@ -23,7 +23,7 @@ It supports:
 * Uploading and installing content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
 * Downloading and extracting content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
 
-The wcm.io Content Package Maven plugin aims for compatibility in goal and property names and behavior for the Adobe plugin, so for a lot of use cases it can be used as drop-in replacement. However some goals and features are missing. See [this wiki page](https://wcm-io.atlassian.net/wiki/x/-HkIAw) for a comparison.
+The wcm.io Content Package Maven plugin aims for compatibility in goal and property names and behavior with the Adobe plugin, so for a lot of use cases it can be used as drop-in replacement. However some goals and features are missing. See [this wiki page](https://wcm-io.atlassian.net/wiki/x/-HkIAw) for a comparison.
 
 
 #### `package` goal
