@@ -81,6 +81,7 @@ public final class PackageMojo extends AbstractMojo {
   private static final String PACKAGE_TYPE = "zip";
   private static final String PACKAGE_EXT = "." + PACKAGE_TYPE;
   private static final String DEFINITION_FOLDER = "definition";
+  private static final String THUMBNAIL_FILE = "thumbnail.png";
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
   private static final String PROPERTY_GROUP = "group";
@@ -220,7 +221,7 @@ public final class PackageMojo extends AbstractMojo {
    * Optional file that specifies the source of the workspace filter. The filters specified in the configuration
    * and injected via embeddeds or subpackages are merged into it.
    */
-  @Parameter
+  @Parameter(defaultValue = "src/main/package-definition/" + FILTER_XML)
   private File filterSource;
 
   /**
@@ -228,6 +229,12 @@ public final class PackageMojo extends AbstractMojo {
    */
   @Parameter
   private final Filters filters = new Filters();
+
+  /**
+   * Optional reference to PNG image that should be used as thumbnail for the content package.
+   */
+  @Parameter(defaultValue = "src/main/package-definition/" + THUMBNAIL_FILE)
+  private File thumbnailImage;
 
   /**
    * list of embedded bundles
@@ -398,7 +405,7 @@ public final class PackageMojo extends AbstractMojo {
       obtainEmbeddedBundles(embeddeds, additionalFiles, filter);
       obtainNestedPackages(subPackages, additionalFiles, filter);
 
-      File filterFile = new File(vaultFolder, "filter.xml");
+      File filterFile = new File(vaultFolder, FILTER_XML);
       // Reset the Filter to make sure the output is adjusted to any changes
       filter.resetSource();
       FileUtils.fileWrite(filterFile.getAbsolutePath(), filter.getSourceAsString());
@@ -407,6 +414,9 @@ public final class PackageMojo extends AbstractMojo {
       checkAndCopy(vaultFolder, CONFIG_XML);
       checkAndCopy(vaultFolder, SETTINGS_XML);
       checkAndCopy(vaultDefinitionFolder, DOT_CONTENT_XML);
+      if (thumbnailImage != null && thumbnailImage.exists()) {
+        FileUtils.copyFile(thumbnailImage, new File(vaultDefinitionFolder, THUMBNAIL_FILE));
+      }
       jcrContentPackageArchiver.addDirectory(workDirectory);
 
       // add content from builtContentDirectory
