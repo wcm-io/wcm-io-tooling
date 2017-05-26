@@ -115,16 +115,15 @@ public final class PackageMojo extends AbstractMojo {
   @Parameter
   private MavenArchiveConfiguration archive;
 
-  // TODO: builtContentDirectory not support yet
-  ///**
-  // * The directory containing the content to be packaged up into the content
-  // * package. For now any content here is disregarded. Please copy the content
-  // * into the workDirectory.
-  // */
-  //@Parameter(
-  //    defaultValue = "${project.build.outputDirectory}",
-  //    required = true)
-  //private File builtContentDirectory;
+  /**
+   * The directory containing the content to be packaged up into the content
+   * package. For now any content here is disregarded. Please copy the content
+   * into the workDirectory.
+   */
+  @Parameter(
+      defaultValue = "${project.build.outputDirectory}",
+      required = true)
+  private File builtContentDirectory;
 
   /**
    * The name of the generated package ZIP file without the ".zip" file
@@ -411,6 +410,11 @@ public final class PackageMojo extends AbstractMojo {
       checkAndCopy(vaultFolder, SETTINGS_XML);
       checkAndCopy(vaultDefinitionFolder, DOT_CONTENT_XML);
       jcrContentPackageArchiver.addDirectory(workDirectory);
+
+      // add content from builtContentDirectory
+      if (builtContentDirectory.exists()) {
+        jcrContentPackageArchiver.addDirectory(builtContentDirectory, FileUtils.normalize(JCR_ROOT));
+      }
 
       // ensure that empty directories are included
       jcrContentPackageArchiver.setIncludeEmptyDirs(true);
