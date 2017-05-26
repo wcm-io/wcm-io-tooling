@@ -35,7 +35,7 @@
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
-  <description>Install and download content packages via CRX package manager.</description>
+  <description>Build, upload and download content packages.</description>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>

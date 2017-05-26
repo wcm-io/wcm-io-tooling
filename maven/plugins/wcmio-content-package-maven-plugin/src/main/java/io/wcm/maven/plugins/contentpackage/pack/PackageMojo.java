@@ -68,8 +68,6 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Creates a JCR Content Package with embedded Bundles and Packages.
- * This goal requires that all content is placed under the <b>Work
- * Directory</b> instead of the build output directory.
  */
 @Mojo(
     name = "package",
@@ -152,7 +150,7 @@ public final class PackageMojo extends AbstractMojo {
       required = true)
   private File workDirectory;
 
-  //TODO: Prefix not support yet
+  //TODO: Prefix not supported yet
   //  /**
   //   * Adds a path prefix to all resources useful for shallower source trees.
   //   */
