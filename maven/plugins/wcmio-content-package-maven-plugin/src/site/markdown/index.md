@@ -1,7 +1,7 @@
 About Content Package Maven Plugin
 ==================================
 
-Install and download content packages via CRX package manager.
+Build, upload and download content packages.
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/wcmio-content-package-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/wcmio-content-package-maven-plugin)
 
@@ -13,20 +13,27 @@ Install and download content packages via CRX package manager.
 * [Changelog][changelog]
 
 
-### Comparison to Adobe Content Package Maven Plugin
+### Overview
 
-Adobe has published it's own [Content Package Maven Plugin][adobe-content-package-maven-plugin]. It supports
-more goals and has more features than the `wcmio-content-package-maven-plugin`.
+This Maven Plugin is an alternative to the [Content Package Maven Plugin][adobe-content-package-maven-plugin] from Adobe.
 
-But there are some features missing, and this is where `wcmio-content-package-maven-plugin` steps in.
-To make it easy switching between both plugins most properties have the same names and default values.
-Both plugins can co-exist nicely. As a rule of thumb it is recommended to use the Adobe plugin only for the
-"content-package" packaging type, and the wcm.io plugin for the upload and download goals.
+It supports:
+
+* Building content packages
+* Uploading and installing content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
+* Downloading and extracting content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
+
+The wcm.io Content Package Maven plugin aims for compatibility in goal and property names and behavior with the Adobe plugin, so for a lot of use cases it can be used as drop-in replacement. However some goals and features are missing. See [this wiki page](https://wcm-io.atlassian.net/wiki/x/-HkIAw) for a comparison.
+
+
+#### `package` goal
+
+The behavior of the `package` goal is nearly identical to that of the Adobe plugin.
 
 
 #### `install` goal
 
-Additional features of the `install` goal:
+Additional features of the `install` goal compared to the Adobe plugin:
 
 * `force` property - if set to false a package is not uploaded or installed if it was already
 uploaded before.
@@ -51,7 +58,7 @@ with the path to this package - this path is used to build the package and downl
 package filter options from the local POM are used as well. This strategy is targeted only on
 `content-package` Maven projects, not for downloading arbitrary packages.
 
-Additional the `download` goal supports:
+Additional the `download` goal supports compared to the Adobe plugin:
 
 * Unpacking the content package after download.
 * Exclude files, nodes and properties from the unpacked content via pattern lists.
@@ -60,4 +67,5 @@ Additional the `download` goal supports:
 [usage]: usage.html
 [plugindocs]: plugin-info.html
 [changelog]: changes-report.html
-[adobe-content-package-maven-plugin]: http://repo.adobe.com/nexus/content/repositories/releases/com/day/jcr/vault/content-package-maven-plugin/
+[adobe-content-package-maven-plugin]: https://docs.adobe.com/docs/en/aem/6-3/develop/dev-tools/vlt-mavenplugin.html
+[composum]: https://github.com/ist-dresden/composum

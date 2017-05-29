@@ -23,6 +23,7 @@ import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
 import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
 import static org.apache.jackrabbit.vault.util.Constants.FILTER_XML;
 import static org.apache.jackrabbit.vault.util.Constants.META_DIR;
+import static org.apache.jackrabbit.vault.util.Constants.PACKAGE_DEFINITION_XML;
 import static org.apache.jackrabbit.vault.util.Constants.PROPERTIES_XML;
 import static org.apache.jackrabbit.vault.util.Constants.ROOT_DIR;
 import static org.apache.jackrabbit.vault.util.Constants.SETTINGS_XML;
@@ -119,7 +120,7 @@ public final class ContentPackage implements Closeable {
    * Adds a page with given content. The "cq:Page/cq:PageContent envelope" is added automatically.
    * @param path Full content path of page.
    * @param content Hierarchy of content elements.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addPage(String path, ContentElement content) throws IOException {
     String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
@@ -133,7 +134,7 @@ public final class ContentPackage implements Closeable {
    * @param content Map with page properties. If the map contains nested maps this builds a tree of JCR nodes.
    *          The key of the nested map in its parent map is the node name,
    *          the nested map contain the properties of the child node.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addPage(String path, Map<String, Object> content) throws IOException {
     String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
@@ -145,7 +146,7 @@ public final class ContentPackage implements Closeable {
    * Add some JCR content structure directly to the package.
    * @param path Full content path of content root node.
    * @param content Hierarchy of content elements.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addContent(String path, ContentElement content) throws IOException {
     String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
@@ -159,7 +160,7 @@ public final class ContentPackage implements Closeable {
    * @param content Map with node properties. If the map contains nested maps this builds a tree of JCR nodes.
    *          The key of the nested map in its parent map is the node name,
    *          the nested map contain the properties of the child node.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addContent(String path, Map<String, Object> content) throws IOException {
     String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
@@ -171,7 +172,7 @@ public final class ContentPackage implements Closeable {
    * Adds a binary file.
    * @param path Full content path and file name of file
    * @param inputStream Input stream with binary dta
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addFile(String path, InputStream inputStream) throws IOException {
     addFile(path, inputStream, null);
@@ -182,7 +183,7 @@ public final class ContentPackage implements Closeable {
    * @param path Full content path and file name of file
    * @param inputStream Input stream with binary data
    * @param contentType Mime type, optionally with ";charset=XYZ" extension
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addFile(String path, InputStream inputStream, String contentType) throws IOException {
     String fullPath = buildJcrPathForZip(path);
@@ -217,7 +218,7 @@ public final class ContentPackage implements Closeable {
    * Adds a binary file.
    * @param path Full content path and file name of file
    * @param file File with binary data
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addFile(String path, File file) throws IOException {
     addFile(path, file, null);
@@ -228,7 +229,7 @@ public final class ContentPackage implements Closeable {
    * @param path Full content path and file name of file
    * @param file File with binary data
    * @param contentType Mime type, optionally with ";charset=XYZ" extension
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   public void addFile(String path, File file, String contentType) throws IOException {
     try (InputStream is = new FileInputStream(file)) {
@@ -238,7 +239,7 @@ public final class ContentPackage implements Closeable {
 
   /**
    * Close the underlying ZIP stream of the package.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   @Override
   public void close() throws IOException {
@@ -270,20 +271,33 @@ public final class ContentPackage implements Closeable {
 
   /**
    * Build all package metadata files based on templates.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   private void buildPackageMetadata() throws IOException {
     metadata.validate();
     buildTemplatedMetadataFile(META_DIR + "/" + CONFIG_XML);
     buildPropertiesFile(META_DIR + "/" + PROPERTIES_XML);
     buildTemplatedMetadataFile(META_DIR + "/" + SETTINGS_XML);
+    buildTemplatedMetadataFile(META_DIR + "/" + PACKAGE_DEFINITION_XML);
     writeXmlDocument(META_DIR + "/" + FILTER_XML, xmlContentBuilder.buildFilter(metadata.getFilters()));
+
+    // package thumbnail
+    byte[] thumbnailImage = metadata.getThumbnailImage();
+    if (thumbnailImage != null) {
+      zip.putNextEntry(new ZipEntry(META_DIR + "/definition/thumbnail.png"));
+      try {
+        zip.write(thumbnailImage);
+      }
+      finally {
+        zip.closeEntry();
+      }
+    }
   }
 
   /**
    * Read template file from classpath, replace variables and store it in the zip stream.
    * @param path Path
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   private void buildTemplatedMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
@@ -305,7 +319,7 @@ public final class ContentPackage implements Closeable {
   /**
    * Build java Properties XML file.
    * @param path Path
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   private void buildPropertiesFile(String path) throws IOException {
     Properties properties = new Properties();
@@ -331,8 +345,8 @@ public final class ContentPackage implements Closeable {
   /**
    * Writes an XML document as binary file entry to the ZIP output stream.
    * @param path Content path
-   * @param doc XML conent
-   * @throws IOException
+   * @param doc XML content
+   * @throws IOException I/O exception
    */
   private void writeXmlDocument(String path, Document doc) throws IOException {
     zip.putNextEntry(new ZipEntry(path));
@@ -353,7 +367,7 @@ public final class ContentPackage implements Closeable {
    * Writes an binary file entry to the ZIP output stream.
    * @param path Content path
    * @param is Input stream with binary data
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   private void writeBinaryFile(String path, InputStream is) throws IOException {
     zip.putNextEntry(new ZipEntry(path));

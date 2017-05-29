@@ -23,6 +23,7 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -80,6 +81,10 @@ public class ContentPackageBuilderTest {
     underTest.rootPath("/content/mypath");
     underTest.acHandling(AcHandling.OVERWRITE);
 
+    try (InputStream is = getClass().getResourceAsStream("/thumbnail.png")) {
+      underTest.thumbnailImage(is);
+    }
+
     try (ContentPackage contentPackage = underTest.build(testFile)) {
       // just build empty content package to test meta data
       assertEquals("/content/mypath", contentPackage.getRootPath());
@@ -106,6 +111,12 @@ public class ContentPackageBuilderTest {
 
     Document settingsXml = getXmlFromZip("META-INF/vault/settings.xml");
     assertXpathEvaluatesTo("1.0", "/vault/@version", settingsXml);
+
+    Document definitionXml = getXmlFromZip("META-INF/vault/definition/.content.xml");
+    assertEquals("vlt:PackageDefinition", definitionXml.getDocumentElement().getAttribute("jcr:primaryType"));
+
+    byte[] thumbnailImage = getDataFromZip("META-INF/vault/definition/thumbnail.png");
+    assertNotNull(thumbnailImage);
   }
 
   @Test

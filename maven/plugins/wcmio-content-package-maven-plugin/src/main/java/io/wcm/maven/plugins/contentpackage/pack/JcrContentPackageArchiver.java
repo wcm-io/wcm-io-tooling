@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2015 wcm.io
+ * Copyright (C) 2017 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,14 @@
  * limitations under the License.
  * #L%
  */
-/**
- * AEM Content Package Builder
- */
-@org.osgi.annotation.versioning.Version("1.3.0")
-package io.wcm.tooling.commons.contentpackagebuilder;
+package io.wcm.maven.plugins.contentpackage.pack;
+
+import org.codehaus.plexus.archiver.jar.JarArchiver;
+
+class JcrContentPackageArchiver extends JarArchiver {
+
+  JcrContentPackageArchiver() {
+    this.archiveType = "content-package";
+  }
+
+}

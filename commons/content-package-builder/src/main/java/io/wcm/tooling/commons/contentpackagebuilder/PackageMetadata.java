@@ -54,6 +54,7 @@ final class PackageMetadata {
   private AcHandling acHandling;
   private List<PackageFilter> filters = new ArrayList<>();
   private Map<String, String> xmlNamespaces = new HashMap<>();
+  private byte[] thumbnailImage;
 
   /**
    * Default constructor
@@ -108,6 +109,20 @@ final class PackageMetadata {
    */
   public Map<String, String> getXmlNamespaces() {
     return ImmutableMap.copyOf(this.xmlNamespaces);
+  }
+
+  /**
+   * @param thumbnailImage Thumbnail PNG image binary data
+   */
+  public void setThumbnailImage(byte[] thumbnailImage) {
+    this.thumbnailImage = thumbnailImage;
+  }
+
+  /**
+   * @return Thumbnail PNG image binary data
+   */
+  public byte[] getThumbnailImage() {
+    return this.thumbnailImage;
   }
 
   /**

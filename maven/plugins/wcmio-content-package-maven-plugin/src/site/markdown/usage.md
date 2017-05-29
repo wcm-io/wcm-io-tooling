@@ -3,6 +3,20 @@ Content Package Maven Plugin Usage
 
 Examples for using the plugin.
 
+### Building content packages
+
+Required steps:
+
+* Create a separate maven project for the content package and set the packaging type to `content-package`.
+* Define the package filters either via the `filters` plugin property or a predefined filter.xml references via `filterSource` property.
+* Set `name` and `group` properties for the content package
+* Make sure the content of the jcr_root folder for the package is copied to the `target/classes` folder, or you specify an alternative `builtContentDirectory`.
+
+Examples from the wcm.io Sample application:
+
+* [Content package with sample content](https://github.com/wcm-io/wcm-io-samples/tree/develop/sample-content)
+* [Content package for application deployment](https://github.com/wcm-io/wcm-io-samples/tree/develop/complete)
+
 
 ### Install single content package from filesystem
 

@@ -27,6 +27,12 @@
       <action type="add" dev="schaefera" issue="WTOOL-29">
         Add support for the package installation through Composum.
       </action>
+      <action type="add" dev="schaefera" issue="WTOOL-31">
+        Add support for packaging AEM packages with a good deal of compatibility to the Adobe Content Package Maven plugin.
+      </action>
+      <action type="add" dev="sseifert">
+        Package goal: Add thumbnailImage property.
+      </action>
     </release>
 
     <release version="1.4.2" date="2017-02-09">
