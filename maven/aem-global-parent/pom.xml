@@ -288,6 +288,7 @@
             <slingUrl>${sling.url}/system/console</slingUrl>
             <user>${sling.user}</user>
             <password>${sling.password}</password>
+            <minimumFsResourceVersion>2.1.3-SNAPSHOT</minimumFsResourceVersion>
           </configuration>
         </plugin>
 
