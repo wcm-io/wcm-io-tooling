@@ -23,7 +23,13 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.2.0" date="not released">
+    <release version="1.2.2" date="not released">
+      <action type="update" dev="sseifert">
+        Update to latest plugins.
+      </action>
+    </release>
+
+    <release version="1.2.0" date="2017-05-29">
       <action type="update" dev="sseifert">
         Update to wcmio-content-package-maven-plugin 1.4.0.
       </action>

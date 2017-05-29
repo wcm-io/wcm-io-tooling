@@ -282,7 +282,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
-          <version>2.2.2</version>
+          <version>2.2.3-SNAPSHOT</version>
           <!-- Default configuration for deploying bundles into running CQ instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
@@ -380,14 +380,14 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.4.0</version>
+              <version>1.4.1-SNAPSHOT</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.4.0</version>
+          <version>1.4.1-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
