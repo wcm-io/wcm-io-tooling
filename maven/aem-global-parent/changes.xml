@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update File Resource System Provider for Maven Sling Plugin.
       </action>
+      <action type="update" dev="sseifert">
+        wcm.io Content Package Maven Plugin: Exclude property dam:extracted, dam:sha1 and dc:modified on package download.
+      </action>
     </release>
 
     <release version="1.2.2" date="2017-06-02">

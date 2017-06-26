@@ -364,6 +364,9 @@
               <exclude>cq\:lastReplicated</exclude>
               <exclude>cq\:lastReplicatedBy</exclude>
               <exclude>cq\:lastReplicationAction</exclude>
+              <exclude>dam\:extracted</exclude>
+              <exclude>dam\:sha1</exclude>
+              <exclude>dc\:modified</exclude>
             </excludeProperties>
             <failOnMissingEmbed>true</failOnMissingEmbed>
           </configuration>
