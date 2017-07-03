@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.5.2" date="not released">
+      <action type="update" dev="sseifert" issue="WTOOL-34">
+        Update to CRX Package Manager Helper 1.1.2.
+      </action>
+    </release>
+
     <release version="1.5.0" date="2017-05-29">
       <action type="add" dev="schaefera" issue="WTOOL-29">
         Add support for the package installation through Composum.

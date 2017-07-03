@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -40,8 +41,7 @@ import io.wcm.tooling.commons.packmgr.install.VendorPackageInstaller;
 /**
  * Package Installer for AEM's CRX Package Manager
  */
-public class CrxPackageInstaller
-    implements VendorPackageInstaller {
+public class CrxPackageInstaller implements VendorPackageInstaller {
 
   private String url;
 
@@ -55,6 +55,11 @@ public class CrxPackageInstaller
   @Override
   public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient, Logger log)
       throws IOException, PackageManagerException {
+
+    // do a help GET call before upload to ensure package manager is running
+    HttpGet get = new HttpGet(url + ".jsp?cmd=help");
+    pkgmgr.executePackageManagerMethodStatus(httpClient, get);
+
     // prepare post method
     HttpPost post = new HttpPost(url + "/.json?cmd=upload");
     MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
