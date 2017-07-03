@@ -89,6 +89,7 @@ public final class VendorInstallerFactory {
    * Returns the Base Url of a given URL with
    * based on its Vendors from the URL
    * @param url Service URL
+   * @param logger Logger
    * @return Base URL if service vendor was found otherwise the given URL
    */
   public static String getBaseUrl(String url, Logger logger) {
