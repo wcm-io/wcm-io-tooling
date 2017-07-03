@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         wcm.io Content Package Maven Plugin: Exclude property dam:extracted, dam:sha1 and dc:modified on package download.
       </action>
+      <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin 1.5.2.
+      </action>
     </release>
 
     <release version="1.2.2" date="2017-06-02">
