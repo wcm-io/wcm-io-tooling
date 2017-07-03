@@ -196,7 +196,6 @@ public final class PackageManagerHelper {
   public String executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method) {
     PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, method, log);
     String message = executeHttpCallWithRetry(call, 0);
-//    log.info(message);
     return message;
   }
 
