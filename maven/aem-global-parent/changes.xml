@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update to wcmio-content-package-maven-plugin 1.5.2.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin version.
+      </action>
     </release>
 
     <release version="1.2.2" date="2017-06-02">
