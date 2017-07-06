@@ -49,11 +49,15 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private boolean install;
 
   /**
-   * Force upload and install of content package. If set to false a package is not uploaded or installed
-   * if it was already uploaded before.
+   * Force upload and install of content package. If set to:
+   * <ul>
+   * <li><code>true</code>: Package is always installed, even if it was already uploaded before.</li>
+   * <li><code>false</code>: Package is only installed if it was not already uploade before.</li>
+   * <li>nothing (null): Force is applied to packages with the string "-SNAPSHOT" in it's filename.</li>
+   * </ul>
    */
-  @Parameter(property = "vault.force", defaultValue = "true")
-  private boolean force;
+  @Parameter(property = "vault.force")
+  private Boolean force;
 
   /**
    * If set to true nested packages get installed as well.

@@ -21,6 +21,8 @@ package io.wcm.tooling.commons.packmgr.install;
 
 import java.io.File;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * References a content package file for uploading.
  */
@@ -29,7 +31,7 @@ public final class PackageFile {
   private File file;
   private int delayAfterInstallSec;
   private boolean install = true;
-  private boolean force;
+  private Boolean force;
   private boolean recursive = true;
 
   /**
@@ -75,9 +77,18 @@ public final class PackageFile {
    * @return Force
    */
   public boolean isForce() {
+    // if no force parameter was set auto-detect best-matching force mode from file name
+    if (this.force == null) {
+      return StringUtils.contains(file.getName(), "-SNAPSHOT");
+    }
     return this.force;
   }
 
+  public void setForce(Boolean force) {
+    this.force = force;
+  }
+
+  // keep signature for backwards compatibility
   public void setForce(boolean force) {
     this.force = force;
   }

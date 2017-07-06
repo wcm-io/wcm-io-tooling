@@ -24,8 +24,11 @@
   <body>
 
     <release version="1.5.2" date="not released">
+      <action type="update" dev="sseifert">
+        Auto-detect "force" mode for installing package when not set explicitly: If package file name contains "-SNAPSHOT" apply force mode, otherwise not.
+      </action>
       <action type="update" dev="sseifert" issue="WTOOL-34">
-        Update to CRX Package Manager Helper 1.1.2.
+        CrxPackageInstaller: Execute GET request on packager manager API before uploading package, to avoid storing it in repository at wrong path when package manager servlet is not running.
       </action>
     </release>
 
