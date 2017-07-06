@@ -53,7 +53,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
    * <ul>
    * <li><code>true</code>: Package is always installed, even if it was already uploaded before.</li>
    * <li><code>false</code>: Package is only installed if it was not already uploade before.</li>
-   * <li>nothing (null): Force is applied to packages with the string "-SNAPSHOT" in it's filename.</li>
+   * <li>nothing (default): Force is applied to packages with the string "-SNAPSHOT" in it's filename.</li>
    * </ul>
    */
   @Parameter(property = "vault.force")
