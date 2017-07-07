@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Add build-helper-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
     </release>
 
     <release version="14" date="2017-04-04">
