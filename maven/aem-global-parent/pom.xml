@@ -114,6 +114,7 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
+        <filtering>false</filtering>
         <excludes>
           <!-- those resources are processed by the i18n-maven-plugin -->
           <exclude>i18n/**</exclude>
