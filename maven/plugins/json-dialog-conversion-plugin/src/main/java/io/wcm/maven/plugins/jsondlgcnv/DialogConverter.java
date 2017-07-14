@@ -200,9 +200,9 @@ class DialogConverter {
         Map.Entry<String, Object> property = propertyIterator.next();
         // add mapping to collection
         if (PROPERTY_MAP_CHILDREN.equals(property.getKey())) {
-          mappings.put((String)property.getValue(), node);
+          mappings.put(cleanup((String)property.getValue()), node);
           // remove property, as we don't want it to be part of the result
-          node.remove(property.getKey());
+          node.remove(cleanup(property.getKey()));
           continue;
         }
         // add single node to final nodes
@@ -211,15 +211,15 @@ class DialogConverter {
             // TODO: required?
             //finalNodes.add(node);
           }
-          node.remove(property.getKey());
+          node.remove(cleanup(property.getKey()));
           continue;
         }
         // set value from original tree in case this is a mapped property
         boolean mappedProperty = mapProperty(root, node, property.getKey(), (String)property.getValue());
 
         if (mappedProperty && rewritePropertiesNode != null) {
-          if (rewritePropertiesNode.has(property.getKey())) {
-            rewriteProperty(node, property.getKey(), rewritePropertiesNode.getJSONArray(property.getKey()));
+          if (rewritePropertiesNode.has(cleanup(property.getKey()))) {
+            rewriteProperty(node, cleanup(property.getKey()), rewritePropertiesNode.getJSONArray(cleanup(property.getKey())));
           }
         }
       }
@@ -232,17 +232,18 @@ class DialogConverter {
 
     // copy children from original tree to replacement tree according to the mappings found
     for (Map.Entry<String, JSONObject> mapping : mappings.entrySet()) {
-      if (!root.has(mapping.getKey())) {
+      String key = cleanup(mapping.getKey());
+      if (!root.has(cleanup(key))) {
         // the node specified in the mapping does not exist in the original tree
         continue;
       }
-      JSONObject source = root.getJSONObject(mapping.getKey());
+      JSONObject source = root.getJSONObject(cleanup(key));
       JSONObject destination = mapping.getValue();
       Iterator<Map.Entry<String,JSONObject>> iterator = getChildren(source).entrySet().iterator();
       // copy over the source's children to the destination
       while (iterator.hasNext()) {
         Map.Entry<String,JSONObject> child = iterator.next();
-        destination.put(child.getKey(), child.getValue());
+        destination.put(cleanup(child.getKey()), child.getValue());
       }
     }
 
@@ -277,15 +278,15 @@ class DialogConverter {
         String path = matcher.group(2);
         // unwrap quoted property paths
         path = StringUtils.removeStart(StringUtils.stripEnd(path, "\'"), "\'");
-        if (root.has(path)) {
+        if (root.has(cleanup(path))) {
           // replace property by mapped value in the original tree
-          Object originalValue = root.get(path);
-          node.put(key, originalValue);
+          Object originalValue = root.get(cleanup(path));
+          node.put(cleanup(key), originalValue);
 
           // negate boolean properties if negation character has been set
           String negate = matcher.group(1);
           if ("!".equals(negate) && (originalValue instanceof Boolean)) {
-            node.put(key, !((Boolean)originalValue));
+            node.put(cleanup(key), !((Boolean)originalValue));
           }
 
           // the mapping was successful
@@ -295,7 +296,7 @@ class DialogConverter {
         else {
           String defaultValue = matcher.group(4);
           if (defaultValue != null) {
-            node.put(key, defaultValue);
+            node.put(cleanup(key), defaultValue);
             deleteProperty = false;
             break;
           }
@@ -319,15 +320,15 @@ class DialogConverter {
    * @throws JSONException
    */
   private void rewriteProperty(JSONObject node, String key, JSONArray rewriteProperty) throws JSONException {
-    if (node.get(key) instanceof String) {
+    if (node.get(cleanup(key)) instanceof String) {
       if (rewriteProperty.length() == 2) {
         if (rewriteProperty.get(0) instanceof String && rewriteProperty.get(1) instanceof String) {
           String pattern = rewriteProperty.getString(0);
           String replacement = rewriteProperty.getString(1);
 
           Pattern compiledPattern = Pattern.compile(pattern);
-          Matcher matcher = compiledPattern.matcher(node.getString(key));
-          node.put(key, matcher.replaceAll(replacement));
+          Matcher matcher = compiledPattern.matcher(node.getString(cleanup(key)));
+          node.put(cleanup(key), matcher.replaceAll(replacement));
         }
       }
     }
@@ -376,7 +377,7 @@ class DialogConverter {
     JSONObject item = new JSONObject();
 
     for (Map.Entry<String, Object> entry : resource.getValueMap().entrySet()) {
-      item.put(entry.getKey(), entry.getValue());
+      item.put(cleanup(entry.getKey()), entry.getValue());
     }
 
     Iterator<Resource> children = resource.listChildren();
@@ -422,6 +423,10 @@ class DialogConverter {
       }
     }
     return children;
+  }
+
+  private String cleanup(String name) {
+    return StringUtils.removeStart(name, "./");
   }
 
 
