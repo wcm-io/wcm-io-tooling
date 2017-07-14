@@ -20,14 +20,12 @@
 package io.wcm.maven.plugins.jsondlgcnv;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 
-import org.apache.commons.compress.archivers.ArchiveException;
-import org.apache.commons.compress.archivers.ArchiveInputStream;
-import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
@@ -92,6 +90,14 @@ public class ConversionMojo extends AbstractMojo {
 
       File dialogConversionContent = getDialogConversionContentDir();
 
+      SlingMockWrapper wrapper = new SlingMockWrapper(dialogConversionContent, source);
+      wrapper.execute(context -> {
+        getLog().info("rules resource: " + context.resourceResolver().getResource(rules));
+        getLog().info("source resource: " + context.resourceResolver().getResource("/source"));
+      });
+
+      getLog().info("executed...");
+
       // TODO: implement
     }
     catch (IOException ex) {
@@ -115,28 +121,24 @@ public class ConversionMojo extends AbstractMojo {
     File file = getArtifactFile("com.adobe.cq", "cq-dialog-conversion-content", "zip", dialogConversionToolVersion);
 
     // unzip file to target dir
-    InputStream is = new FileInputStream(file);
-    ArchiveInputStream ais;
-    try {
-      ais = new ArchiveStreamFactory().createArchiveInputStream("zip", is);
-    }
-    catch (ArchiveException ex) {
-      throw new MojoExecutionException(ex.getMessage(), ex);
-    }
-    ZipArchiveEntry entry = null;
-    while ((entry = (ZipArchiveEntry)ais.getNextEntry()) != null) {
-      File outFile = new File(targetDir, entry.getName());
-      if (!outFile.exists()) {
-        outFile.mkdirs();
-        continue;
+    try (ZipFile zipFile = new ZipFile(file)) {
+      Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
+      while (entries.hasMoreElements()) {
+        ZipArchiveEntry entry = entries.nextElement();
+        File outFile = new File(targetDir, entry.getName());
+        if (entry.isDirectory()) {
+          if (!outFile.exists()) {
+            outFile.mkdirs();
+          }
+          continue;
+        }
+        if (outFile.exists()) {
+          continue;
+        }
+        try (InputStream entryStream = zipFile.getInputStream(entry)) {
+          FileUtils.copyInputStreamToFile(entryStream, outFile);
+        }
       }
-      if (outFile.isDirectory()) {
-        continue;
-      }
-      if (outFile.exists()) {
-        continue;
-      }
-      FileUtils.copyInputStreamToFile(ais, outFile);
     }
 
     return targetDir;
