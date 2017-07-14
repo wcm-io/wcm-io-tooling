@@ -27,7 +27,6 @@ import java.util.Enumeration;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest;
@@ -92,13 +91,9 @@ public class ConversionMojo extends AbstractMojo {
 
       SlingMockWrapper wrapper = new SlingMockWrapper(dialogConversionContent, source);
       wrapper.execute(context -> {
-        getLog().info("rules resource: " + context.resourceResolver().getResource(rules));
-        getLog().info("source resource: " + context.resourceResolver().getResource("/source"));
+        DialogConverter converter = new DialogConverter(context, rules, getLog());
+        converter.convert();
       });
-
-      getLog().info("executed...");
-
-      // TODO: implement
     }
     catch (IOException ex) {
       throw new MojoExecutionException(ex.getMessage(), ex);
@@ -160,13 +155,5 @@ public class ConversionMojo extends AbstractMojo {
       throw new MojoExecutionException("Unable to download artifact: " + artifactObject.toString());
     }
   }
-
-  private boolean artifactEquals(Artifact dependency, String groupId, String artifactId, String packaging, String classifier) {
-    return StringUtils.equals(dependency.getGroupId(), groupId)
-        && StringUtils.equals(dependency.getArtifactId(), artifactId)
-        && StringUtils.equals(dependency.getClassifier(), classifier)
-        && StringUtils.equals(dependency.getType(), packaging);
-  }
-
 
 }
