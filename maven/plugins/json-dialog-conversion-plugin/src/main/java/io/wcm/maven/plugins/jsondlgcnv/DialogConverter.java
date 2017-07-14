@@ -42,6 +42,10 @@ import org.apache.sling.commons.json.JSONObject;
 import org.apache.sling.fsprovider.internal.mapper.ContentFile;
 import org.apache.sling.testing.mock.sling.junit.SlingContext;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
 class DialogConverter {
 
   // pattern that matches the regex for mapped properties: ${<path>}
@@ -67,6 +71,8 @@ class DialogConverter {
   private static final String RENDER_CONDITION_CORAL3_RESOURCE_TYPE_PREFIX = "granite/ui/components/coral/foundation/renderconditions";
   private static final String DATA_PREFIX = "data-";
 
+  private static final String[] PREFERRED_PROPERTY_ORDER = { "jcr:primaryType", "sling:resourceType", "name", "fieldLabel", "fieldDescription", "jcr:title" };
+
   private final Rules rules;
   private final Resource sourceRoot;
   private final Log log;
@@ -77,23 +83,34 @@ class DialogConverter {
     this.log = log;
   }
 
+  /**
+   * Convert and format all JSON files with dialog definitions.
+   */
   public void convert() {
-    convertDialogs(sourceRoot);
+    convertDialogs(sourceRoot, true);
   }
 
-  private void convertDialogs(Resource resource) {
-    if (StringUtils.equals(resource.getName(), "cq:dialog")) {
-      convertDialogResource(resource);
+  /**
+   * Format (but not convert) all JSON files with dialog definitions.
+   */
+  public void format() {
+    convertDialogs(sourceRoot, false);
+  }
+
+  private void convertDialogs(Resource resource, boolean convert) {
+    if (StringUtils.equals(resource.getName(), "cq:dialog")
+        || StringUtils.equals(resource.getName(), "cq:design_dialog")) {
+      convertDialogResource(resource, convert);
     }
     else {
       Iterator<Resource> children = resource.listChildren();
       while (children.hasNext()) {
-        convertDialogs(children.next());
+        convertDialogs(children.next(), convert);
       }
     }
   }
 
-  private void convertDialogResource(Resource resource) {
+  private void convertDialogResource(Resource resource, boolean convert) {
     Rule rule = rules.getRule(resource);
     if (rule != null) {
       log.info("Convert " + resource.getPath() + " with rule '" + rule.getName() + "'.");
@@ -102,8 +119,16 @@ class DialogConverter {
       try {
         JSONObject jsonContent = new JSONObject(FileUtils.readFileToString(contentFile.getFile()));
         JsonElement wrapper = getJsonElement(jsonContent, contentFile.getSubPath());
-        applyRule(wrapper, rule);
-        FileUtils.write(contentFile.getFile(), jsonContent.toString(2));
+
+        if (convert) {
+          applyRule(wrapper, rule);
+        }
+
+        // format json string with gson pretty print
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonObject gsonJson = gson.fromJson(jsonContent.toString(), JsonObject.class);
+
+        FileUtils.write(contentFile.getFile(), gson.toJson(gsonJson));
       }
       catch (JSONException | IOException ex) {
         throw new RuntimeException(ex);
@@ -111,7 +136,7 @@ class DialogConverter {
     }
     Iterator<Resource> children = resource.listChildren();
     while (children.hasNext()) {
-      convertDialogResource(children.next());
+      convertDialogResource(children.next(), convert);
     }
   }
 
@@ -473,15 +498,18 @@ class DialogConverter {
     for (String key : children.keySet()) {
       item.remove(key);
     }
-    for (String key : new String[] { "sling:resourceType", "name", "fieldLabel", "fieldDescription", "jcr:title" }) {
+    // put props from preferred property order first
+    for (String key : PREFERRED_PROPERTY_ORDER) {
       if (props.containsKey(key)) {
         item.put(key, props.get(key));
         props.remove(key);
       }
     }
+    // put all other props in alphabetical order
     for (Map.Entry<String, Object> entry : props.entrySet()) {
       item.put(entry.getKey(), entry.getValue());
     }
+    // put all children
     for (Map.Entry<String, JSONObject> entry : children.entrySet()) {
       item.put(entry.getKey(), entry.getValue());
     }

@@ -67,6 +67,12 @@ public class ConversionMojo extends AbstractMojo {
   private String rules;
 
   /**
+   * If set to true, the affected JSON files are only reformatted, but not transformed.
+   */
+  @Parameter(defaultValue = "false", property = "convert.formatOnly")
+  private boolean formatOnly;
+
+  /**
    * Version of artifact com.adobe.cq:cq-dialog-conversion-content:zip
    */
   @Parameter(defaultValue = "2.0.1-SNAPSHOT")
@@ -92,7 +98,12 @@ public class ConversionMojo extends AbstractMojo {
       SlingMockWrapper wrapper = new SlingMockWrapper(dialogConversionContent, source);
       wrapper.execute(context -> {
         DialogConverter converter = new DialogConverter(context, rules, getLog());
-        converter.convert();
+        if (formatOnly) {
+          converter.format();
+        }
+        else {
+          converter.convert();
+        }
       });
     }
     catch (IOException ex) {
