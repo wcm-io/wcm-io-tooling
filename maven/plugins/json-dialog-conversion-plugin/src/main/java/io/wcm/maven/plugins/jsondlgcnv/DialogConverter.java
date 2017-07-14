@@ -19,11 +19,16 @@
  */
 package io.wcm.maven.plugins.jsondlgcnv;
 
+import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.commons.json.JSONException;
+import org.apache.sling.commons.json.JSONObject;
+import org.apache.sling.fsprovider.internal.mapper.ContentFile;
 import org.apache.sling.testing.mock.sling.junit.SlingContext;
 
 class DialogConverter {
@@ -58,10 +63,38 @@ class DialogConverter {
     Rule rule = rules.getRule(resource);
     if (rule != null) {
       log.info("Convert " + resource.getPath() + " with rule '" + rule.getName() + "'.");
+
+      ContentFile contentFile = resource.adaptTo(ContentFile.class);
+      try {
+        JSONObject jsonContent = new JSONObject(FileUtils.readFileToString(contentFile.getFile()));
+        JSONObject element = getDialogObject(jsonContent, contentFile.getSubPath());
+
+        // TODO apply rule
+
+        FileUtils.write(contentFile.getFile(), jsonContent.toString(2));
+      }
+      catch (JSONException | IOException ex) {
+        throw new RuntimeException(ex);
+      }
     }
     Iterator<Resource> children = resource.listChildren();
     while (children.hasNext()) {
       convertDialogResource(children.next());
+    }
+  }
+
+  private JSONObject getDialogObject(JSONObject json, String path) throws JSONException {
+    if (StringUtils.isEmpty(path)) {
+      return json;
+    }
+    if (StringUtils.contains(path, "/")) {
+      String name = StringUtils.substringBefore(path, "/");
+      String remainder = StringUtils.substringAfter(path, "/");
+      JSONObject child = json.getJSONObject(name);
+      return getDialogObject(child, remainder);
+    }
+    else {
+      return json.getJSONObject(path);
     }
   }
 

@@ -38,6 +38,10 @@ class Rule {
     return rule.getName();
   }
 
+  public Resource getReplacement() {
+    return rule.getChild("replacement");
+  }
+
   public boolean matches(Resource resource) {
     Resource patterns = rule.getChild("patterns");
     if (patterns == null) {
