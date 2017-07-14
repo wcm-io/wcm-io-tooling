@@ -19,6 +19,7 @@ The [Adobe AEM Dialog Conversion Tool](https://github.com/Adobe-Marketing-Cloud/
 This Maven plugin is a wrapper around the conversion tool an applies the conversion directly to the local Maven bundle project.
 
 From the rules included in [Adobe AEM Dialog Conversion Tool](https://github.com/Adobe-Marketing-Cloud/) only the "Node-based rewrite rules" are applied. Via configuration it is possible to choose between:
+
 * `/libs/cq/dialogconversion/rules/coral2` (default): Migration Coral UI 2 to Coral UI 3
 * `/libs/cq/dialogconversion/rules/classic`: Migrate Dialogs from Classic UI
 
