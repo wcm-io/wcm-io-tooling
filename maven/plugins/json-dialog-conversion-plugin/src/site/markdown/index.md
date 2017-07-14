@@ -1,8 +1,18 @@
-JSON Dialog Converter Plugin
-----------------------------
+About JSON Dialog Converter Plugin
+=======================
 
 Converts AEM Dialog Definitions in JSON Format with Rules from [Adobe AEM Dialog Conversion tool](https://github.com/Adobe-Marketing-Cloud/aem-dialog-conversion).
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/json-dialog-conversion-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/json-dialog-conversion-plugin)
+
+
+### Documentation
+
+* [Plugin Documentation][plugindocs]
+* [Changelog][changelog]
+
+
+### Overview
 
 Execute on a maven project with
 
@@ -19,3 +29,7 @@ If you want to get an exact diff of the conversion in your SCM without all the r
 ```
 mvn io.wcm.maven.plugins:json-dialog-conversion-plugin:convert -Dconvert.formatOnly=true
 ```
+
+
+[plugindocs]: plugin-info.html
+[changelog]: changes-report.html
