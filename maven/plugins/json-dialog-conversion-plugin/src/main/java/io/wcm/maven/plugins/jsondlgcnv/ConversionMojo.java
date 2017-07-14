@@ -51,7 +51,7 @@ public class ConversionMojo extends AbstractMojo {
   /**
    * Source path containing Sling-Initial-Content JSON files.
    */
-  @Parameter(defaultValue = "${project.basedir}/src/main/webapp/app-root")
+  @Parameter(defaultValue = "${project.basedir}/src/main/webapp/app-root", property = "convert.source")
   private File source;
 
   /**
@@ -63,7 +63,7 @@ public class ConversionMojo extends AbstractMojo {
   /**
    * Ruleset for transformation
    */
-  @Parameter(defaultValue = "/libs/cq/dialogconversion/rules/coral2")
+  @Parameter(defaultValue = "/libs/cq/dialogconversion/rules/coral2", property = "convert.rules")
   private String rules;
 
   /**

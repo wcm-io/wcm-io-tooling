@@ -26,12 +26,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 
-class Rule {
+class Rule implements Comparable<Rule> {
 
   private final Resource rule;
+  private final int ranking;
 
   Rule(Resource rule) {
     this.rule = rule;
+    this.ranking = rule.getValueMap().get("cq:rewriteRanking", 0);
   }
 
   public String getName() {
@@ -83,6 +85,30 @@ class Rule {
       }
     }
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return rule.getPath().hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof Rule) {
+      return StringUtils.equals(rule.getPath(), ((Rule)obj).rule.getPath());
+    }
+    return false;
+  }
+
+  @Override
+  public int compareTo(Rule o) {
+    String sortKey = getSortKey(this);
+    String otherSortKey = getSortKey(o);
+    return sortKey.compareTo(otherSortKey);
+  }
+
+  private static String getSortKey(Rule rule) {
+    return String.format("%09d", rule.ranking) + "_" + rule.getName();
   }
 
   @Override

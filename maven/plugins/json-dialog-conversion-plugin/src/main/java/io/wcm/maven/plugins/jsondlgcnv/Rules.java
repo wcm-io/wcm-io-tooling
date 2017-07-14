@@ -19,15 +19,15 @@
  */
 package io.wcm.maven.plugins.jsondlgcnv;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.sling.api.resource.Resource;
 
 class Rules {
 
-  private final List<Rule> rules = new ArrayList<>();
+  private final Set<Rule> rules = new TreeSet<>();
 
   Rules(Resource rulesRoot) {
     Iterator<Resource> ruleResouces = rulesRoot.listChildren();
