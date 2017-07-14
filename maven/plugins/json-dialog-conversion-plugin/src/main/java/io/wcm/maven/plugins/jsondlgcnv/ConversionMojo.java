@@ -75,7 +75,7 @@ public class ConversionMojo extends AbstractMojo {
   /**
    * Version of artifact com.adobe.cq:cq-dialog-conversion-content:zip
    */
-  @Parameter(defaultValue = "2.0.0")
+  @Parameter(defaultValue = "2.0.0", property = "convert.toolVersion")
   private String dialogConversionToolVersion;
 
   @Parameter(property = "project", required = true, readonly = true)
