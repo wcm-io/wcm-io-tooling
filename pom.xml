@@ -55,6 +55,7 @@
     <module>maven/plugins/i18n-maven-plugin</module>
     <module>maven/plugins/nodejs-maven-plugin</module>
     <module>maven/plugins/wcmio-content-package-maven-plugin</module>
+    <module>maven/plugins/json-dialog-conversion-plugin</module>
     <module>maven/skins/reflow-velocity-tools</module>
     <module>maven/skins/reflow-maven-skin</module>
     <module>netbeans/sightly</module>
