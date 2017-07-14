@@ -111,7 +111,7 @@ class DialogConverter {
   private void convertDialogResource(Resource resource, boolean convert) {
     Rule rule = rules.getRule(resource);
     if (rule != null) {
-      log.info("Convert " + resource.getPath() + " with rule '" + rule.getName() + "'.");
+      log.info("Convert " + StringUtils.removeStart(resource.getPath(), "/source/") + " with rule '" + rule.getName() + "'.");
 
       ContentFile contentFile = resource.adaptTo(ContentFile.class);
       try {
