@@ -377,6 +377,9 @@ class DialogConverter {
     JSONObject item = new JSONObject();
 
     for (Map.Entry<String, Object> entry : resource.getValueMap().entrySet()) {
+      if (StringUtils.equals(cleanup(entry.getKey()), "jcr:primaryType")) {
+        continue;
+      }
       item.put(cleanup(entry.getKey()), entry.getValue());
     }
 
@@ -392,15 +395,15 @@ class DialogConverter {
 
   private List<JSONObject> collectTree(JSONObject item) throws JSONException {
     List<JSONObject> items = new ArrayList<>();
+    items.add(item);
     for (JSONObject child : getChildren(item).values()) {
-      items.add(child);
       items.addAll(collectTree(child));
     }
     return items;
   }
 
   private Map<String, Object> getProperties(JSONObject item) throws JSONException {
-    Map<String, Object> props = new HashMap<>();
+    Map<String, Object> props = new LinkedHashMap<>();
     JSONArray names = item.names();
     for (int i = 0; i < names.length(); i++) {
       String name = names.getString(i);
