@@ -71,8 +71,6 @@ class DialogConverter {
   private static final String RENDER_CONDITION_CORAL3_RESOURCE_TYPE_PREFIX = "granite/ui/components/coral/foundation/renderconditions";
   private static final String DATA_PREFIX = "data-";
 
-  private static final String[] PREFERRED_PROPERTY_ORDER = { "jcr:primaryType", "sling:resourceType", "name", "fieldLabel", "fieldDescription", "jcr:title" };
-
   private final Rules rules;
   private final Resource sourceRoot;
   private final Log log;
@@ -256,7 +254,7 @@ class DialogConverter {
       }
 
       // reorder children and properties
-      reorderChildrenProperties(node);
+      reorderChildrenProperties(node, root);
     }
 
     // copy children from original tree to replacement tree according to the mappings found
@@ -489,7 +487,7 @@ class DialogConverter {
     return StringUtils.removeStart(name, "./");
   }
 
-  private void reorderChildrenProperties(JSONObject item) throws JSONException {
+  private void reorderChildrenProperties(JSONObject item, JSONObject orginal) throws JSONException {
     Map<String, Object> props = new TreeMap<String, Object>(getProperties(item));
     Map<String, JSONObject> children = getChildren(item);
     for (String key : props.keySet()) {
@@ -498,11 +496,15 @@ class DialogConverter {
     for (String key : children.keySet()) {
       item.remove(key);
     }
-    // put props from preferred property order first
-    for (String key : PREFERRED_PROPERTY_ORDER) {
+    // put all properties and items that where already present in original node back in same order
+    for (String key : getProperties(orginal).keySet()) {
       if (props.containsKey(key)) {
         item.put(key, props.get(key));
         props.remove(key);
+      }
+      if (children.containsKey(key)) {
+        item.put(key, children.get(key));
+        children.remove(key);
       }
     }
     // put all other props in alphabetical order
