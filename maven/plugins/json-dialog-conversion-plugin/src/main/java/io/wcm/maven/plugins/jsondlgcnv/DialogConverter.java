@@ -21,11 +21,11 @@ package io.wcm.maven.plugins.jsondlgcnv;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,18 +143,17 @@ class DialogConverter {
       wrapper.parent.remove(wrapper.key);
       return;
     }
-    JSONObject root = wrapper.element;
+    JSONObject root = cloneJson(wrapper.element);
 
     // true if the replacement tree is final and all its nodes are excluded from
     // further processing by the algorithm
     boolean treeIsFinal = replacementProps.get(PROPERTY_IS_FINAL, false);
 
-    // remove original tree (it's still in the wrapper object)
-    wrapper.parent.remove(wrapper.key);
-
     // copy replacement to original tree under original name
     Resource replacementNext = replacement.listChildren().next();
-    JSONObject copy = copyToJson(wrapper.parent, wrapper.key, replacementNext);
+    JSONObject copy = wrapper.element;
+    clearJson(copy);
+    copyToJson(copy, replacementNext);
 
     // common attribute mapping
     if (replacementProps.containsKey(PROPERTY_COMMON_ATTRS)) {
@@ -183,7 +182,7 @@ class DialogConverter {
     }
 
     // collect mappings: (node in original tree) -> (node in replacement tree)
-    Map<String, JSONObject> mappings = new HashMap<>();
+    Map<String, JSONObject> mappings = new LinkedHashMap<>();
     // traverse nodes of newly copied replacement tree
     Iterator<JSONObject> nodeIterator = collectTree(copy).iterator();
     while (nodeIterator.hasNext()) {
@@ -373,24 +372,48 @@ class DialogConverter {
     }
   }
 
-  private JSONObject copyToJson(JSONObject parent, String key, Resource resource) throws JSONException {
-    JSONObject item = new JSONObject();
+  private JSONObject cloneJson(JSONObject item) throws JSONException {
+    JSONObject newItem = new JSONObject();
 
+    Set<Map.Entry<String, Object>> props = getProperties(item).entrySet();
+    for (Map.Entry<String, Object> prop : props) {
+      newItem.put(prop.getKey(), prop.getValue());
+    }
+
+    Set<Map.Entry<String, JSONObject>> children = getChildren(item).entrySet();
+    for (Map.Entry<String, JSONObject> child : children) {
+      newItem.put(child.getKey(), cloneJson(child.getValue()));
+    }
+
+    return newItem;
+  }
+
+  private void clearJson(JSONObject item) throws JSONException {
+    Set<Map.Entry<String, Object>> props = getProperties(item).entrySet();
+    Set<Map.Entry<String, JSONObject>> children = getChildren(item).entrySet();
+    for (Map.Entry<String, Object> prop : props) {
+      item.remove(prop.getKey());
+    }
+    for (Map.Entry<String, JSONObject> child : children) {
+      item.remove(child.getKey());
+    }
+  }
+
+  private void copyToJson(JSONObject dest, Resource resource) throws JSONException {
     for (Map.Entry<String, Object> entry : resource.getValueMap().entrySet()) {
       if (StringUtils.equals(cleanup(entry.getKey()), "jcr:primaryType")) {
         continue;
       }
-      item.put(cleanup(entry.getKey()), entry.getValue());
+      dest.put(cleanup(entry.getKey()), entry.getValue());
     }
 
     Iterator<Resource> children = resource.listChildren();
     while (children.hasNext()) {
       Resource child = children.next();
-      copyToJson(item, child.getName(), child);
+      JSONObject childObject = new JSONObject();
+      copyToJson(childObject, child);
+      dest.put(child.getName(), childObject);
     }
-
-    parent.put(key, item);
-    return item;
   }
 
   private List<JSONObject> collectTree(JSONObject item) throws JSONException {
