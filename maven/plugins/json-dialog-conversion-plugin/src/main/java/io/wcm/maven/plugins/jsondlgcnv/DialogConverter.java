@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -188,7 +189,8 @@ class DialogConverter {
     while (nodeIterator.hasNext()) {
       JSONObject node = nodeIterator.next();
       // iterate over all properties
-      Iterator<Map.Entry<String, Object>> propertyIterator = getProperties(node).entrySet().iterator();
+      Map<String, Object> replacementProperties = getProperties(node);
+      Iterator<Map.Entry<String, Object>> propertyIterator = replacementProperties.entrySet().iterator();
       JSONObject rewritePropertiesNode = null;
 
       if (node.has(NN_CQ_REWRITE_PROPERTIES)) {
@@ -227,6 +229,9 @@ class DialogConverter {
       if (rewritePropertiesNode != null) {
         node.remove(NN_CQ_REWRITE_PROPERTIES);
       }
+
+      // reorder children and properties
+      reorderChildrenProperties(node);
     }
 
     // copy children from original tree to replacement tree according to the mappings found
@@ -428,11 +433,13 @@ class DialogConverter {
   private Map<String, Object> getProperties(JSONObject item) throws JSONException {
     Map<String, Object> props = new LinkedHashMap<>();
     JSONArray names = item.names();
-    for (int i = 0; i < names.length(); i++) {
-      String name = names.getString(i);
-      Object value = item.get(name);
-      if (!(value instanceof JSONObject)) {
-        props.put(name, value);
+    if (names != null) {
+      for (int i = 0; i < names.length(); i++) {
+        String name = names.getString(i);
+        Object value = item.get(name);
+        if (!(value instanceof JSONObject)) {
+          props.put(name, value);
+        }
       }
     }
     return props;
@@ -441,11 +448,13 @@ class DialogConverter {
   private Map<String, JSONObject> getChildren(JSONObject item) throws JSONException {
     Map<String, JSONObject> children = new LinkedHashMap<>();
     JSONArray names = item.names();
-    for (int i = 0; i < names.length(); i++) {
-      String name = names.getString(i);
-      Object value = item.get(name);
-      if (value instanceof JSONObject) {
-        children.put(name, (JSONObject)value);
+    if (names != null) {
+      for (int i = 0; i < names.length(); i++) {
+        String name = names.getString(i);
+        Object value = item.get(name);
+        if (value instanceof JSONObject) {
+          children.put(name, (JSONObject)value);
+        }
       }
     }
     return children;
@@ -453,6 +462,29 @@ class DialogConverter {
 
   private String cleanup(String name) {
     return StringUtils.removeStart(name, "./");
+  }
+
+  private void reorderChildrenProperties(JSONObject item) throws JSONException {
+    Map<String, Object> props = new TreeMap<String, Object>(getProperties(item));
+    Map<String, JSONObject> children = getChildren(item);
+    for (String key : props.keySet()) {
+      item.remove(key);
+    }
+    for (String key : children.keySet()) {
+      item.remove(key);
+    }
+    for (String key : new String[] { "sling:resourceType", "name", "fieldLabel", "fieldDescription", "jcr:title" }) {
+      if (props.containsKey(key)) {
+        item.put(key, props.get(key));
+        props.remove(key);
+      }
+    }
+    for (Map.Entry<String, Object> entry : props.entrySet()) {
+      item.put(entry.getKey(), entry.getValue());
+    }
+    for (Map.Entry<String, JSONObject> entry : children.entrySet()) {
+      item.put(entry.getKey(), entry.getValue());
+    }
   }
 
 
