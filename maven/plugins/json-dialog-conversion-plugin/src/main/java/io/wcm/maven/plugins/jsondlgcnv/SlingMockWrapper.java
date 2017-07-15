@@ -31,6 +31,10 @@ import org.apache.sling.testing.mock.sling.ResourceResolverType;
 import org.apache.sling.testing.mock.sling.junit.SlingContext;
 import org.junit.runners.model.Statement;
 
+/**
+ * Uses sling-mock an fsresource to mount the JSON filesystem from the application
+ * and the FileVault rules from dialog converter in-memory for easier access via Resource API.
+ */
 class SlingMockWrapper {
 
   private final File dialogConversionContentDir;

@@ -42,7 +42,7 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.repository.RepositorySystem;
 
 /**
- * Converts dialog definitions
+ * Converts dialog definitions in JSON format using the cq-dialog-conversion tool.
  */
 @Mojo(name = "convert", requiresProject = true, threadSafe = true,
     requiresDependencyResolution = ResolutionScope.COMPILE)

@@ -46,6 +46,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+//CHECKSTYLE:OFF
+/**
+ * This converter logic is heavily based on
+ * <a href=
+ * "https://github.com/Adobe-Marketing-Cloud/aem-dialog-conversion/blob/master/bundles/cq-dialog-conversion/src/main/java/com/adobe/cq/dialogconversion/impl/rules/NodeBasedRewriteRule.java">NodeBasedRewriteRule</a>
+ * and uses exactly the same logic - but operations on local JSON files as output.
+ */
+//CHECKSTYLE:ON
 class DialogConverter {
 
   // pattern that matches the regex for mapped properties: ${<path>}
@@ -502,16 +510,19 @@ class DialogConverter {
         item.put(key, props.get(key));
         props.remove(key);
       }
-      if (children.containsKey(key)) {
-        item.put(key, children.get(key));
-        children.remove(key);
-      }
     }
     // put all other props in alphabetical order
     for (Map.Entry<String, Object> entry : props.entrySet()) {
       item.put(entry.getKey(), entry.getValue());
     }
-    // put all children
+    // put all children that where already present in original node back in same order
+    for (String key : getProperties(orginal).keySet()) {
+      if (children.containsKey(key)) {
+        item.put(key, children.get(key));
+        children.remove(key);
+      }
+    }
+    // put all other children in alphabetical order
     for (Map.Entry<String, JSONObject> entry : children.entrySet()) {
       item.put(entry.getKey(), entry.getValue());
     }

@@ -25,6 +25,9 @@ import java.util.TreeSet;
 
 import org.apache.sling.api.resource.Resource;
 
+/**
+ * Access to all node-based rules.
+ */
 class Rules {
 
   private final Set<Rule> rules = new TreeSet<>();
@@ -36,6 +39,11 @@ class Rules {
     }
   }
 
+  /**
+   * Get rule matching for the given GraniteUI resource.
+   * @param resource GraniteUIR resource
+   * @return matching rule or null
+   */
   public Rule getRule(Resource resource) {
     for (Rule rule : rules) {
       if (rule.matches(resource)) {

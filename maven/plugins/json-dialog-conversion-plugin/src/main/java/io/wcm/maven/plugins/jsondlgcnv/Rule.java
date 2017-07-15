@@ -26,6 +26,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ValueMap;
 
+/**
+ * Represents an node-based rule.
+ */
 class Rule implements Comparable<Rule> {
 
   private final Resource rule;
