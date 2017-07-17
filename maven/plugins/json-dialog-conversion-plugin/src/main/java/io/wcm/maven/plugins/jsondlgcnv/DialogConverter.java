@@ -93,30 +93,25 @@ class DialogConverter {
    * Convert and format all JSON files with dialog definitions.
    */
   public void convert() {
-    convertDialogs(sourceRoot, true);
+    traverse(sourceRoot, true);
   }
 
   /**
    * Format (but not convert) all JSON files with dialog definitions.
    */
   public void format() {
-    convertDialogs(sourceRoot, false);
+    traverse(sourceRoot, false);
   }
 
-  private void convertDialogs(Resource resource, boolean convert) {
-    if (StringUtils.equals(resource.getName(), "cq:dialog")
-        || StringUtils.equals(resource.getName(), "cq:design_dialog")) {
-      convertDialogResource(resource, convert);
-    }
-    else {
-      Iterator<Resource> children = resource.listChildren();
-      while (children.hasNext()) {
-        convertDialogs(children.next(), convert);
-      }
+  private void traverse(Resource resource, boolean convert) {
+    checkRuleMatch(resource, convert);
+    Iterator<Resource> children = resource.listChildren();
+    while (children.hasNext()) {
+      traverse(children.next(), convert);
     }
   }
 
-  private void convertDialogResource(Resource resource, boolean convert) {
+  private void checkRuleMatch(Resource resource, boolean convert) {
     Rule rule = rules.getRule(resource);
     if (rule != null) {
       log.info("Convert " + StringUtils.removeStart(resource.getPath(), "/source/") + " with rule '" + rule.getName() + "'.");
@@ -139,10 +134,6 @@ class DialogConverter {
       catch (JSONException | IOException ex) {
         throw new RuntimeException(ex);
       }
-    }
-    Iterator<Resource> children = resource.listChildren();
-    while (children.hasNext()) {
-      convertDialogResource(children.next(), convert);
     }
   }
 
