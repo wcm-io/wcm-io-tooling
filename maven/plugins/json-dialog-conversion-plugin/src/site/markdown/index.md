@@ -1,5 +1,5 @@
-About JSON Dialog Converter Plugin
-=======================
+About JSON Dialog Converter Maven Plugin
+========================================
 
 Converts AEM Dialog Definitions in JSON Format with Rules from [Adobe AEM Dialog Conversion Tool](https://github.com/Adobe-Marketing-Cloud/aem-dialog-conversion).
 
