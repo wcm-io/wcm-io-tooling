@@ -61,6 +61,7 @@ import io.wcm.tooling.commons.packmgr.httpaction.HttpCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlMessageCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerJsonCall;
+import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerStatusCall;
 
 /**
  * Common functionality for all mojos.
@@ -196,7 +197,6 @@ public final class PackageManagerHelper {
   public String executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method) {
     PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, method, log);
     String message = executeHttpCallWithRetry(call, 0);
-//    log.info(message);
     return message;
   }
 
@@ -210,6 +210,17 @@ public final class PackageManagerHelper {
     PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, log);
     String message = executeHttpCallWithRetry(call, 0);
     log.info(message);
+  }
+
+  /**
+   * Execute CRX HTTP Package manager method and checks response status. If the response status is not 200 the call
+   * fails (after retrying).
+   * @param httpClient Http client
+   * @param method Get or Post method
+   */
+  public void executePackageManagerMethodStatus(CloseableHttpClient httpClient, HttpRequestBase method) {
+    PackageManagerStatusCall call = new PackageManagerStatusCall(httpClient, method, log);
+    executeHttpCallWithRetry(call, 0);
   }
 
   /**

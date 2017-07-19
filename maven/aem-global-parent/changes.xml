@@ -23,6 +23,24 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.4" date="not released">
+      <action type="update" dev="sseifert">
+        Update File Resource System Provider for Maven Sling Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        wcm.io Content Package Maven Plugin: Exclude property dam:extracted, dam:sha1 and dc:modified on package download.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin 1.5.2.
+      </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin version.
+      </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 15.
+      </action>
+    </release>
+
     <release version="1.2.2" date="2017-06-02">
       <action type="update" dev="sseifert">
         Update Maven Sling Plugin and CONGA AEM plugin.

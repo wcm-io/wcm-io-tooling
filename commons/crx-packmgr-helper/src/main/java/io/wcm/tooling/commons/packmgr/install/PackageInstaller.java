@@ -75,7 +75,7 @@ public final class PackageInstaller {
       pkgmgr.waitForBundlesActivation(httpClient);
 
       if (packageFile.isInstall()) {
-        log.info("Upload and install " + file.getName() + " to " + props.getPackageManagerUrl());
+        log.info("Upload and install " + (packageFile.isForce() ? "(force) " : "") + file.getName() + " to " + props.getPackageManagerUrl());
       }
       else {
         log.info("Upload " + file.getName() + " to " + props.getPackageManagerUrl());
