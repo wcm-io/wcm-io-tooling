@@ -23,7 +23,7 @@ From the rules included in [Adobe AEM Dialog Conversion Tool][aem-dialog-convers
 * `/libs/cq/dialogconversion/rules/coral2` (default): Migration Coral UI 2 to Coral UI 3
 * `/libs/cq/dialogconversion/rules/classic`: Migrate Dialogs from Classic UI
 
-This plugin is primary target for the `coral2` ruleset, the `classic` ruleset was never tested.
+This plugin is primary targeted for the `coral2` ruleset, the `classic` ruleset was never tested. From the rule implementation of the [Adobe AEM Dialog Conversion Tool][aem-dialog-conversion] only the "node-based" rewrite rules are applied; the special "CQ Dialog", "Include" and "Multifield" rewrite rules are not used (but thy are primary relevant for the Classic UI conversion).
 
 
 ### Usage
