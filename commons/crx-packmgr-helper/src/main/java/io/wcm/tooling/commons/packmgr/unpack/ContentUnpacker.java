@@ -166,6 +166,7 @@ public final class ContentUnpacker {
     applyXmlExcludes(doc.getRootElement(), "");
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
+        .setIndent("    ")
         .setLineSeparator(LineSeparator.UNIX));
     outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor());
     outputter.output(doc, outputStream);

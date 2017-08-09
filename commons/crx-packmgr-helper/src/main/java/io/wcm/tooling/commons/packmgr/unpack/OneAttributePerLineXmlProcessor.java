@@ -76,8 +76,10 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
 
       // Print out attributes
       if (element.hasAttributes()) {
+        boolean printMultiLine = element.getAttributes().size() > 1
+            || nstack.addedForward().iterator().hasNext();
         for (final Attribute attribute : element.getAttributes()) {
-          printAttribute(out, fstack, attribute);
+          printAttribute(out, fstack, attribute, printMultiLine);
         }
       }
 
@@ -154,16 +156,19 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
 
   }
 
-  @Override
-  protected void printAttribute(Writer out, FormatStack fstack, Attribute attribute) throws IOException {
+  private void printAttribute(Writer out, FormatStack fstack, Attribute attribute, boolean printMultiLine) throws IOException {
     if (!attribute.isSpecified() && fstack.isSpecifiedAttributesOnly()) {
       return;
     }
 
-    write(out, StringUtils.defaultString(fstack.getLineSeparator()));
-    write(out, StringUtils.defaultString(fstack.getLevelIndent()));
-    write(out, StringUtils.defaultString(fstack.getIndent()));
-    write(out, StringUtils.defaultString(fstack.getIndent()));
+    if (printMultiLine) {
+      write(out, StringUtils.defaultString(fstack.getLineSeparator()));
+      write(out, StringUtils.defaultString(fstack.getLevelIndent()));
+      write(out, StringUtils.defaultString(fstack.getIndent()));
+    }
+    else {
+      write(out, " ");
+    }
 
     write(out, attribute.getQualifiedName());
     write(out, "=");
