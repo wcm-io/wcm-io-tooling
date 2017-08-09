@@ -89,7 +89,7 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
           write(out, ">");
         }
         else {
-          write(out, " />");
+          write(out, "/>");
         }
         // nothing more to do.
         return;
@@ -121,7 +121,7 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
             write(out, ">");
           }
           else {
-            write(out, " />");
+            write(out, "/>");
           }
           // nothing more to do.
           return;
