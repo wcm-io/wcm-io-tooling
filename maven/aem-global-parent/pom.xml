@@ -368,6 +368,11 @@
               <exclude>dam\:sha1</exclude>
               <exclude>dc\:modified</exclude>
             </excludeProperties>
+            <excludeMixins>
+              <exclude>mix\:versionable</exclude>
+              <exclude>mix\:referenceable</exclude>
+              <exclude>cq\:Taggable</exclude>
+            </excludeMixins>
             <failOnMissingEmbed>true</failOnMissingEmbed>
           </configuration>
         </plugin>

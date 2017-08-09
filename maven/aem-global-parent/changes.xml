@@ -25,7 +25,7 @@
 
     <release version="1.2.6" date="not released">
       <action type="update" dev="sseifert">
-        Update to wcmio-content-package-maven-plugin 1.5.4.
+        Update to wcmio-content-package-maven-plugin 1.5.4, and define default list of mixins to exclude.
       </action>
       <action type="update" dev="sseifert">
         Update to latest plugins.
