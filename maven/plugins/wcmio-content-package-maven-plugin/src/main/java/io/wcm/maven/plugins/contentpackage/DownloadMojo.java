@@ -89,6 +89,13 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
   private String[] excludeProperties;
 
   /**
+   * List of regular patterns matching mixin names inside a <code>.content.xml</code> file. All mixins matching
+   * theses patterns are removed from the <code>.content.xml</code> when unpacking the content package.
+   */
+  @Parameter
+  private String[] excludeMixins;
+
+  /**
    * Downloads the files
    */
   @Override
@@ -115,6 +122,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
     props.setExcludeFiles(this.excludeFiles);
     props.setExcludeNodes(this.excludeNodes);
     props.setExcludeProperties(this.excludeProperties);
+    props.setExcludeMixins(this.excludeMixins);
     ContentUnpacker unpacker = new ContentUnpacker(props);
 
     // validate output directory
