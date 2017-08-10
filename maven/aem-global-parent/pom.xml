@@ -359,6 +359,7 @@
               <exclude>jcr\:lastModified</exclude>
               <exclude>jcr\:lastModifiedBy</exclude>
               <exclude>jcr\:uuid</exclude>
+              <exclude>jcr\:isCheckedOut</exclude>
               <exclude>cq\:lastModified</exclude>
               <exclude>cq\:lastModifiedBy</exclude>
               <exclude>cq\:lastReplicated</exclude>
@@ -366,6 +367,9 @@
               <exclude>cq\:lastReplicationAction</exclude>
               <exclude>dam\:extracted</exclude>
               <exclude>dam\:sha1</exclude>
+              <exclude>dam\:Comments</exclude>
+              <exclude>dam\:assetState</exclude>
+              <exclude>dam\:relativePath</exclude>
               <exclude>dc\:modified</exclude>
             </excludeProperties>
             <excludeMixins>

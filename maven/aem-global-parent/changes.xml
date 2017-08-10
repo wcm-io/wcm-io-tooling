@@ -28,6 +28,9 @@
         Update to wcmio-content-package-maven-plugin 1.5.4, and define default list of mixins to exclude.
       </action>
       <action type="update" dev="sseifert">
+        wcm.io Content Package Maven Plugin: Exclude further properties and mixins by default.
+      </action>
+      <action type="update" dev="sseifert">
         Update to latest plugins.
       </action>
     </release>
