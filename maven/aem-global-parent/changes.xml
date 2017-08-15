@@ -31,6 +31,9 @@
         wcm.io Content Package Maven Plugin: Exclude further properties and mixins by default.
       </action>
       <action type="update" dev="sseifert">
+        Update CONGA version.
+      </action>
+      <action type="update" dev="sseifert">
         Update to latest plugins.
       </action>
     </release>
