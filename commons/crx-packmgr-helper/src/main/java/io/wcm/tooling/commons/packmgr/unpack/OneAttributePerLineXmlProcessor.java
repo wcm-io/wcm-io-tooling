@@ -21,7 +21,9 @@ package io.wcm.tooling.commons.packmgr.unpack;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jdom2.Attribute;
@@ -38,6 +40,12 @@ import org.jdom2.util.NamespaceStack;
  * XML output processor that renders one attribute per line for easier diff-ing on content changes.
  */
 class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
+
+  private final Set<String> namespacePrefixes;
+
+  OneAttributePerLineXmlProcessor(Set<String> namespacePrefixes) {
+    this.namespacePrefixes = namespacePrefixes;
+  }
 
   /**
    * This will handle printing of an {@link Element}.
@@ -69,8 +77,22 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
 
       write(out, element.getQualifiedName());
 
-      // Print the element's namespace, if appropriate
+      // Print the element's namespace, if appropriate - try to keep order from given namespacePrefixes set
+      List<Namespace> definedNamespaces = new ArrayList<>();
       for (final Namespace ns : nstack.addedForward()) {
+        definedNamespaces.add(ns);
+      }
+      for (String prefix : namespacePrefixes) {
+        for (int i = 0; i < definedNamespaces.size(); i++) {
+          Namespace ns = definedNamespaces.get(i);
+          if (StringUtils.equals(prefix, ns.getPrefix())) {
+            printNamespace(out, fstack, ns);
+            definedNamespaces.remove(i);
+            break;
+          }
+        }
+      }
+      for (Namespace ns : definedNamespaces) {
         printNamespace(out, fstack, ns);
       }
 
