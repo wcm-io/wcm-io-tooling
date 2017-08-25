@@ -31,6 +31,8 @@
 
   <!-- Exclude test classes -->
   <exclude-pattern>.*/src/test/.*</exclude-pattern>
+  <!-- Exclude target folder that may contain generated sources -->
+  <exclude-pattern>.*/target/.*</exclude-pattern>
 
   <rule ref="rulesets/java/empty.xml">
     <exclude name="EmptyCatchBlock"/>  <!-- false positives with empty blocks with comments as well -->
