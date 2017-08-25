@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +76,7 @@ import io.wcm.tooling.commons.packmgr.PackageManagerException;
 public final class ContentUnpacker {
 
   private static final String MIXINS_PROPERTY = "jcr:mixinTypes";
+  private static final String PRIMARYTYPE_PROPERTY = "jcr:primaryType";
 
   private static final SAXParserFactory SAX_PARSER_FACTORY;
   static {
@@ -232,17 +234,19 @@ public final class ContentUnpacker {
     SAXBuilder saxBuilder = new SAXBuilder();
     Document doc = saxBuilder.build(inputStream);
 
-    applyXmlExcludes(doc.getRootElement(), "");
+    Set<String> namespacePrefixesActuallyUsed = new HashSet<>();
+    applyXmlExcludes(doc.getRootElement(), "", namespacePrefixesActuallyUsed);
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
         .setIndent("    ")
         .setLineSeparator(LineSeparator.UNIX));
-    outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor(namespacePrefixes));
+    outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor(namespacePrefixes, namespacePrefixesActuallyUsed));
     outputter.output(doc, outputStream);
     outputStream.flush();
   }
 
-  private void applyXmlExcludes(Element element, String parentPath) {
+  private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed) {
+    collectNamespacePrefix(namespacePrefixesActuallyUsed, element.getNamespacePrefix());
     String path = parentPath + "/" + element.getName();
     if (exclude(path, this.excludeNodes)) {
       element.detach();
@@ -250,11 +254,16 @@ public final class ContentUnpacker {
     }
     List<Attribute> attributes = new ArrayList<>(element.getAttributes());
     for (Attribute attribute : attributes) {
+      collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
       if (exclude(attribute.getQualifiedName(), this.excludeProperties)) {
         attribute.detach();
       }
+      else if (StringUtils.equals(attribute.getQualifiedName(), PRIMARYTYPE_PROPERTY)) {
+        String namespacePrefix = StringUtils.substringBefore(attribute.getValue(), ":");
+        collectNamespacePrefix(namespacePrefixesActuallyUsed, namespacePrefix);
+      }
       else if (StringUtils.equals(attribute.getQualifiedName(), MIXINS_PROPERTY)) {
-        String filteredValue = filterMixinsPropertyValue(attribute.getValue());
+        String filteredValue = filterMixinsPropertyValue(attribute.getValue(), namespacePrefixesActuallyUsed);
         if (StringUtils.isBlank(filteredValue)) {
           attribute.detach();
         }
@@ -262,14 +271,17 @@ public final class ContentUnpacker {
           attribute.setValue(filteredValue);
         }
       }
+      else if (StringUtils.startsWith(attribute.getValue(), "{Name}")) {
+        collectNamespacePrefixNameArray(namespacePrefixesActuallyUsed, attribute.getName(), attribute.getValue());
+      }
     }
     List<Element> children = new ArrayList<>(element.getChildren());
     for (Element child : children) {
-      applyXmlExcludes(child, path);
+      applyXmlExcludes(child, path, namespacePrefixesActuallyUsed);
     }
   }
 
-  private String filterMixinsPropertyValue(String value) {
+  private String filterMixinsPropertyValue(String value, Set<String> namespacePrefixesActuallyUsed) {
     if (this.excludeMixins.length == 0 || StringUtils.isBlank(value)) {
       return value;
     }
@@ -279,6 +291,8 @@ public final class ContentUnpacker {
     for (int i = 0; i < prop.values.length; i++) {
       String mixin = prop.values[i];
       if (!exclude(mixin, this.excludeMixins)) {
+        String namespacePrefix = StringUtils.substringBefore(mixin, ":");
+        collectNamespacePrefix(namespacePrefixesActuallyUsed, namespacePrefix);
         mixins.add(new MockValue(mixin, PropertyType.STRING));
       }
     }
@@ -295,6 +309,20 @@ public final class ContentUnpacker {
     }
   }
 
+  private void collectNamespacePrefix(Set<String> prefixes, String prefix) {
+    if (StringUtils.isNotBlank(prefix)) {
+      prefixes.add(prefix);
+    }
+  }
+
+  private void collectNamespacePrefixNameArray(Set<String> prefixes, String name, String value) {
+    DocViewProperty prop = DocViewProperty.parse(name, value);
+    for (int i = 0; i < prop.values.length; i++) {
+      String item = prop.values[i];
+      String namespacePrefix = StringUtils.substringBefore(item, ":");
+      collectNamespacePrefix(prefixes, namespacePrefix);
+    }
+  }
 
   /**
    * Mock implementations of JCR property and value to be handed over to {@link DocViewProperty#format(Property)}

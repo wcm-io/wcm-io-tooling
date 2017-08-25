@@ -42,9 +42,11 @@ import org.jdom2.util.NamespaceStack;
 class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
 
   private final Set<String> namespacePrefixes;
+  private final Set<String> namespacePrefixesActuallyUsed;
 
-  OneAttributePerLineXmlProcessor(Set<String> namespacePrefixes) {
+  OneAttributePerLineXmlProcessor(Set<String> namespacePrefixes, Set<String> namespacePrefixesActuallyUsed) {
     this.namespacePrefixes = namespacePrefixes;
+    this.namespacePrefixesActuallyUsed = namespacePrefixesActuallyUsed;
   }
 
   /**
@@ -86,14 +88,18 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
         for (int i = 0; i < definedNamespaces.size(); i++) {
           Namespace ns = definedNamespaces.get(i);
           if (StringUtils.equals(prefix, ns.getPrefix())) {
-            printNamespace(out, fstack, ns);
+            if (namespacePrefixesActuallyUsed.contains(ns.getPrefix())) {
+              printNamespace(out, fstack, ns);
+            }
             definedNamespaces.remove(i);
             break;
           }
         }
       }
       for (Namespace ns : definedNamespaces) {
-        printNamespace(out, fstack, ns);
+        if (namespacePrefixesActuallyUsed.contains(ns.getPrefix())) {
+          printNamespace(out, fstack, ns);
+        }
       }
 
       // Print out attributes
