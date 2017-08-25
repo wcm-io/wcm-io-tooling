@@ -471,6 +471,7 @@
             <encoding>UTF-8</encoding>
             <enableRulesSummary>false</enableRulesSummary>
             <linkXRef>true</linkXRef>
+            <excludes>**/target/**</excludes>
           </configuration>
         </plugin>
 
