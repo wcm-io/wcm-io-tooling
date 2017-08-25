@@ -210,6 +210,16 @@ public final class PackageMojo extends AbstractMojo {
    * Defines the AC Handling (see vault properties.xml file). It must be
    * a String representation of the AccessControlHandling enum otherwise
    * the packaging will fail.
+   * <p>
+   * Possible values
+   * </p>
+   * <ul>
+   * <li><code>ignore</code> (default)</li>
+   * <li><code>overwrite</code></li>
+   * <li><code>merge</code></li>
+   * <li><code>merge_preserve</code></li>
+   * <li><code>clear</code></li>
+   * </ul>
    */
   @Parameter(
       property = "vault.acHandling",
