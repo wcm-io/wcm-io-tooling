@@ -376,6 +376,7 @@
               <exclude>mix\:versionable</exclude>
               <exclude>mix\:referenceable</exclude>
               <exclude>cq\:Taggable</exclude>
+              <exclude>cq\:ReplicationStatus</exclude>
             </excludeMixins>
             <failOnMissingEmbed>true</failOnMissingEmbed>
           </configuration>
