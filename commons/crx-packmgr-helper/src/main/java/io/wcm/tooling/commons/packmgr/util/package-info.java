@@ -18,7 +18,7 @@
  * #L%
  */
 /**
- * CRX Package Manager Helper
+ * Package installer for CRX Package Manager
  */
-@org.osgi.annotation.versioning.Version("1.3.0")
-package io.wcm.tooling.commons.packmgr;
+@org.osgi.annotation.versioning.Version("1.0.0")
+package io.wcm.tooling.commons.packmgr.util;

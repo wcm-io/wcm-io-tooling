@@ -27,6 +27,9 @@
       <action type="add" dev="sseifert" issue="WTOOL-37">
         Unpack downloaded AEM package: Add possibility to exclude mixins by list of exclude patterns.
       </action>
+      <action type="update" dev="sseifert">
+        Check package list before uploading an AEM content package in non-force mode.
+      </action>
       <action type="fix" dev="sseifert" issue="WTOOL-36">
         Unpack downloaded AEM package: do not add space in front of '/>' when rewriting XML files.
       </action>

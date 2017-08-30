@@ -23,6 +23,7 @@ import static io.wcm.tooling.commons.packmgr.PackageManagerHelper.CRX_PACKAGE_EX
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
@@ -30,6 +31,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.jackrabbit.vault.packaging.PackageProperties;
+import org.jdom2.Document;
+import org.jdom2.filter.Filters;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.Logger;
@@ -37,6 +43,7 @@ import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.install.PackageFile;
 import io.wcm.tooling.commons.packmgr.install.VendorPackageInstaller;
+import io.wcm.tooling.commons.packmgr.util.ContentPackageProperties;
 
 /**
  * Package Installer for AEM's CRX Package Manager
@@ -56,9 +63,18 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
   public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient, Logger log)
       throws IOException, PackageManagerException {
 
-    // do a help GET call before upload to ensure package manager is running
-    HttpGet get = new HttpGet(url + ".jsp?cmd=help");
-    pkgmgr.executePackageManagerMethodStatus(httpClient, get);
+    if (packageFile.isForce()) {
+      // in force mode, just check that package manager is available and then start uploading
+      ensurePackageManagerAvailability(pkgmgr, httpClient);
+    }
+    else {
+      // otherwise check if package is already installed first, and skip further processing if it is
+      // this implicitly also checks the availability of the package manager
+      if (isPackageInstalled(packageFile, pkgmgr, httpClient)) {
+        log.info("Package skipped because it was already uploaded.");
+        return;
+      }
+    }
 
     // prepare post method
     HttpPost post = new HttpPost(url + "/.json?cmd=upload");
@@ -118,6 +134,37 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         // ignore
       }
     }
+  }
+
+  private void ensurePackageManagerAvailability(PackageManagerHelper pkgmgr, CloseableHttpClient httpClient) {
+    // do a help GET call before upload to ensure package manager is running
+    HttpGet get = new HttpGet(url + ".jsp?cmd=help");
+    pkgmgr.executePackageManagerMethodStatus(httpClient, get);
+  }
+
+  private boolean isPackageInstalled(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient) throws IOException {
+    // list packages in AEM instances and check for exact match
+    HttpGet get = new HttpGet(url + ".jsp?cmd=ls");
+    Document doc = pkgmgr.executePackageManagerMethodXml(httpClient, get);
+    return isPackageInstalled(doc, packageFile);
+  }
+
+  static boolean isPackageInstalled(Document listResponse, PackageFile packageFile) throws IOException {
+    // get properties from package file
+    Map<String, Object> props = ContentPackageProperties.get(packageFile.getFile());
+    String group = (String)props.get(PackageProperties.NAME_GROUP);
+    String name = (String)props.get(PackageProperties.NAME_NAME);
+    String version = (String)props.get(PackageProperties.NAME_VERSION);
+    if (StringUtils.isBlank(group) || StringUtils.isBlank(name) || StringUtils.isBlank(version)) {
+      return false;
+    }
+
+    // check if package is contained in package list XML
+    XPathExpression xpath = XPathFactory.instance().compile("/crx/response/data/packages/package"
+        + "[group=$group and name=$name and version=$version]",
+        Filters.element(),
+        props);
+    return xpath.evaluateFirst(listResponse) != null;
   }
 
 }

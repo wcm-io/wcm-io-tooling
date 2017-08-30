@@ -20,73 +20,67 @@
 package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
 /**
- * Call to package manager HTTP JSON interface.
+ * Call to package manager HTTP XML interface.
  */
-public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
+public final class PackageManagerXmlCall implements HttpCall<Document> {
 
   private final CloseableHttpClient httpClient;
   private final HttpRequestBase method;
   private final Logger log;
+
+  private static final SAXBuilder SAX_BUILDER = new SAXBuilder();
 
   /**
    * @param httpClient HTTP client
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
+  public PackageManagerXmlCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
     this.method = method;
     this.log = log;
   }
 
   @Override
-  public JSONObject execute() {
+  public Document execute() {
     if (log.isDebugEnabled()) {
       log.debug("Call URL: " + method.getURI());
     }
 
     try (CloseableHttpResponse response = httpClient.execute(method)) {
-      JSONObject jsonResponse = null;
+      Document xmlResponse = null;
 
-      String responseString = EntityUtils.toString(response.getEntity());
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
         // get response JSON
-        if (responseString != null) {
-          try {
-            jsonResponse = new JSONObject(responseString);
-          }
-          catch (JSONException ex) {
-            throw new PackageManagerException("Error parsing JSON response.\n" + responseString, ex);
-          }
+        try (InputStream is = response.getEntity().getContent()) {
+          xmlResponse = SAX_BUILDER.build(is);
         }
-        if (jsonResponse == null) {
-          jsonResponse = new JSONObject();
-          jsonResponse.put("success", false);
-          jsonResponse.put("msg", "Invalid response (null).");
+        catch (JDOMException ex) {
+          throw new PackageManagerException("Error parsing XML response.", ex);
         }
 
       }
       else {
         throw new PackageManagerException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
-            + " " + response.getStatusLine().getReasonPhrase() + "\n"
-            + responseString);
+            + " " + response.getStatusLine().getReasonPhrase());
       }
 
-      return jsonResponse;
+      return xmlResponse;
     }
     catch (IOException ex) {
       throw new PackageManagerException("Http method failed.", ex);
