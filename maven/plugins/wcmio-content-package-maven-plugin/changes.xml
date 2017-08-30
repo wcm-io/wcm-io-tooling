@@ -36,6 +36,9 @@
       <action type="fix" dev="sseifert" issue="WTOOL-38">
         Unpack downloaded AEM package: Keep order of xmlns attributes.
       </action>
+      <action type="fix" dev="sseifert">
+        Unpack downloaded AEM package: Never exclude jcr:uuid properties for rep:User and rep:Group primary types.
+      </action>
       <action type="update" dev="sseifert">
         package goal: Allow upper and lowercase acHandling values.
       </action>

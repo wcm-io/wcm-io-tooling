@@ -56,6 +56,7 @@ import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.vault.util.DocViewProperty;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
@@ -246,17 +247,27 @@ public final class ContentUnpacker {
   }
 
   private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed) {
-    collectNamespacePrefix(namespacePrefixesActuallyUsed, element.getNamespacePrefix());
-    String path = parentPath + "/" + element.getName();
+    String path = parentPath + "/" + element.getQualifiedName();
     if (exclude(path, this.excludeNodes)) {
       element.detach();
       return;
     }
+    collectNamespacePrefix(namespacePrefixesActuallyUsed, element.getNamespacePrefix());
+
+    String jcrPrimaryType = element.getAttributeValue("primaryType", element.getNamespace("jcr"));
+    boolean isRepositoryUserGroup = StringUtils.equals(jcrPrimaryType, "rep:User") || StringUtils.equals(jcrPrimaryType, "rep:Group");
+
     List<Attribute> attributes = new ArrayList<>(element.getAttributes());
     for (Attribute attribute : attributes) {
-      collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
+      boolean excluded = false;
       if (exclude(attribute.getQualifiedName(), this.excludeProperties)) {
-        attribute.detach();
+        if (isRepositoryUserGroup && StringUtils.equals(attribute.getQualifiedName(), JcrConstants.JCR_UUID)) {
+          // keep jcr:uuid property for groups and users, otherwise they cannot be imported again
+        }
+        else {
+          attribute.detach();
+          excluded = true;
+        }
       }
       else if (StringUtils.equals(attribute.getQualifiedName(), PRIMARYTYPE_PROPERTY)) {
         String namespacePrefix = StringUtils.substringBefore(attribute.getValue(), ":");
@@ -272,7 +283,10 @@ public final class ContentUnpacker {
         }
       }
       else if (StringUtils.startsWith(attribute.getValue(), "{Name}")) {
-        collectNamespacePrefixNameArray(namespacePrefixesActuallyUsed, attribute.getName(), attribute.getValue());
+        collectNamespacePrefixNameArray(namespacePrefixesActuallyUsed, attribute.getQualifiedName(), attribute.getValue());
+      }
+      if (!excluded) {
+        collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
       }
     }
     List<Element> children = new ArrayList<>(element.getChildren());
