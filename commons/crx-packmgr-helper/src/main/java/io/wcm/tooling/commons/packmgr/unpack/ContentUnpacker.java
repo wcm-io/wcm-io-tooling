@@ -62,6 +62,7 @@ import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.LineSeparator;
@@ -78,6 +79,7 @@ public final class ContentUnpacker {
 
   private static final String MIXINS_PROPERTY = "jcr:mixinTypes";
   private static final String PRIMARYTYPE_PROPERTY = "jcr:primaryType";
+  private static final Namespace JCR_NAMESPACE = Namespace.getNamespace("jcr", "http://www.jcp.org/jcr/1.0");
 
   private static final SAXParserFactory SAX_PARSER_FACTORY;
   static {
@@ -254,7 +256,7 @@ public final class ContentUnpacker {
     }
     collectNamespacePrefix(namespacePrefixesActuallyUsed, element.getNamespacePrefix());
 
-    String jcrPrimaryType = element.getAttributeValue("primaryType", element.getNamespace("jcr"));
+    String jcrPrimaryType = element.getAttributeValue("primaryType", JCR_NAMESPACE);
     boolean isRepositoryUserGroup = StringUtils.equals(jcrPrimaryType, "rep:User") || StringUtils.equals(jcrPrimaryType, "rep:Group");
 
     List<Attribute> attributes = new ArrayList<>(element.getAttributes());
