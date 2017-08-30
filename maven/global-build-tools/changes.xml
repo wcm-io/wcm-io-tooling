@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="10" date="not released">
+      <action type="update" dev="mrozati">
+        PMD: Exclude target folders.
+      </action>
+    </release>
+
     <release version="9" date="2017-04-04">
       <action type="update" dev="sseifert">
         Checkstyle: Do not exclude IllegalCatch/Throwable.
