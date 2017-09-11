@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update to global-build-tools 10.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
     </release>
 
     <release version="15" date="2017-07-19">

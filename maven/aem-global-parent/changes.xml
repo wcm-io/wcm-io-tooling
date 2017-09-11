@@ -34,10 +34,10 @@
         Update CONGA version.
       </action>
       <action type="update" dev="sseifert">
-        Update to latest plugins.
+        Update global-parent dependency to 16.
       </action>
       <action type="update" dev="sseifert">
-        Update global-parent dependency to 16.
+        Update to latest plugins.
       </action>
     </release>
 
