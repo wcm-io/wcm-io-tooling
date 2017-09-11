@@ -51,7 +51,7 @@ mvn clean install
 ```
 
 
-### Acknowledgements
+### Acknowledgments
 
 wcm.io was initially contributed and is sponsered by [pro!vision GmbH][pro-vision]
 
