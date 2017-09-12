@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="10" date="not released">
+    <release version="10" date="2017-09-12">
       <action type="update" dev="mrozati">
         PMD: Exclude target folders.
       </action>
