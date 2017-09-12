@@ -53,6 +53,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.jdom2.Document;
 import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.httpaction.BundleStatus;
@@ -62,6 +63,7 @@ import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlMessageCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerJsonCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerStatusCall;
+import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerXmlCall;
 
 /**
  * Common functionality for all mojos.
@@ -178,7 +180,7 @@ public final class PackageManagerHelper {
   }
 
   /**
-   * Execute CRX HTTP Package manager method and parse/output xml response.
+   * Execute CRX HTTP Package manager method and parse JSON response.
    * @param httpClient Http client
    * @param method Get or Post method
    * @return JSON object
@@ -189,7 +191,18 @@ public final class PackageManagerHelper {
   }
 
   /**
-   * Execute CRX HTTP Package manager method and parse/output xml response.
+   * Execute CRX HTTP Package manager method and parse XML response.
+   * @param httpClient Http client
+   * @param method Get or Post method
+   * @return XML document
+   */
+  public Document executePackageManagerMethodXml(CloseableHttpClient httpClient, HttpRequestBase method) {
+    PackageManagerXmlCall call = new PackageManagerXmlCall(httpClient, method, log);
+    return executeHttpCallWithRetry(call, 0);
+  }
+
+  /**
+   * Execute CRX HTTP Package manager method and get HTML response.
    * @param httpClient Http client
    * @param method Get or Post method
    * @return Response from HTML server
@@ -201,7 +214,7 @@ public final class PackageManagerHelper {
   }
 
   /**
-   * Execute CRX HTTP Package manager method and parse/output xml response.
+   * Execute CRX HTTP Package manager method and output HTML response.
    * @param httpClient Http client
    * @param method Get or Post method
    * @param runCount Execution run count

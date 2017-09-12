@@ -23,6 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="16" date="not released">
+      <action type="update" dev="mrozati">
+        Checkstyle plugin: exclude target folders.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 10.
+      </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
+    </release>
+
     <release version="15" date="2017-07-19">
       <action type="update" dev="sseifert">
         Add build-helper-maven-plugin.

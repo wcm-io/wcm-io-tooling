@@ -27,6 +27,7 @@ public final class ContentUnpackerProperties {
   private String[] excludeFiles;
   private String[] excludeNodes;
   private String[] excludeProperties;
+  private String[] excludeMixins;
 
   /**
    * Exclude files
@@ -54,7 +55,7 @@ public final class ContentUnpackerProperties {
 
   /**
    * Exclude properties
-   * @return Name properties
+   * @return Name patterns
    */
   public String[] getExcludeProperties() {
     return this.excludeProperties;
@@ -62,6 +63,18 @@ public final class ContentUnpackerProperties {
 
   public void setExcludeProperties(String[] excludeProperties) {
     this.excludeProperties = excludeProperties;
+  }
+
+  /**
+   * Exclude mixins
+   * @return Name patterns
+   */
+  public String[] getExcludeMixins() {
+    return this.excludeMixins;
+  }
+
+  public void setExcludeMixins(String[] excludeMixins) {
+    this.excludeMixins = excludeMixins;
   }
 
 }

@@ -45,10 +45,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
 import org.apache.jackrabbit.vault.fs.config.ConfigurationException;
 import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
-import org.apache.jackrabbit.vault.fs.io.AccessControlHandling;
 import org.apache.jackrabbit.vault.packaging.PackageId;
 import org.apache.maven.archiver.ManifestConfiguration;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
@@ -210,12 +210,27 @@ public final class PackageMojo extends AbstractMojo {
    * Defines the AC Handling (see vault properties.xml file). It must be
    * a String representation of the AccessControlHandling enum otherwise
    * the packaging will fail.
+   * <p>
+   * Possible values
+   * </p>
+   * <ul>
+   * <li><code>ignore</code>: Ignores the packaged access control and leaves the target unchanged.</li>
+   * <li><code>overwrite</code>: Applies the access control provided with the package to the target. this also removes
+   * existing access control.</li>
+   * <li><code>merge</code>: Merge access control provided with the package with the one in the content by replacing the
+   * access control entries of corresponding principals (i.e. package first). It never alters access control entries of
+   * principals not present in the package.</li>
+   * <li><code>merge_preserve</code>: Merge access control in the content with the one provided with the package by
+   * adding the access control entries of principals not present in the content (i.e. content first). It never alters
+   * access control entries already existing in the content.</li>
+   * <li><code>clear</code>: Clears all access control on the target system.</li>
+   * </ul>
    */
   @Parameter(
       property = "vault.acHandling",
-      defaultValue = "IGNORE",
+      defaultValue = "ignore",
       required = false)
-  private AccessControlHandling acHandling;
+  private String acHandling;
 
   /**
    * Optional file that specifies the source of the workspace filter. The filters specified in the configuration
@@ -594,7 +609,7 @@ public final class PackageMojo extends AbstractMojo {
     vaultProperties.put(PROPERTY_REQUIRES_ROOT, String.valueOf(requiresRoot));
     vaultProperties.put(PROPERTY_ALLOW_INDEX_DEFINITIONS, String.valueOf(allowIndexDefinitions));
     vaultProperties.put(PROPERTY_PATH, ETC_PACKAGES + "/" + group + "/" + name + PACKAGE_EXT);
-    vaultProperties.put(PROPERTY_AC_HANDLING, acHandling.toString());
+    vaultProperties.put(PROPERTY_AC_HANDLING, StringUtils.lowerCase(acHandling));
 
     try (FileOutputStream fos = new FileOutputStream(new File(vaultFolder, PROPERTIES_XML));
         BufferedOutputStream bos = new BufferedOutputStream(fos)) {

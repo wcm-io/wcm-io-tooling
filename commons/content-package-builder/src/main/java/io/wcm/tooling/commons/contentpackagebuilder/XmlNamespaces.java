@@ -19,8 +19,9 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import com.google.common.collect.ImmutableMap;
 import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * XML namespaces supported by default.
@@ -58,6 +59,11 @@ public final class XmlNamespaces {
   public static final String NS_SLING = "http://sling.apache.org/jcr/sling/1.0";
 
   /**
+   * Sling Event namespace
+   */
+  public static final String NS_SLING_EVENT = "http://sling.apache.org/jcr/event/1.0";
+
+  /**
    * OAK namespace
    */
   public static final String NS_OAK = "http://jackrabbit.apache.org/oak/ns/1.0";
@@ -72,6 +78,7 @@ public final class XmlNamespaces {
       .put("cq", NS_CQ)
       .put("crx", NS_CRX)
       .put("sling", NS_SLING)
+      .put("slingevent", NS_SLING_EVENT)
       .put("oak", NS_OAK)
       .build();
 

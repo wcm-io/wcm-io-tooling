@@ -24,25 +24,51 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import javax.jcr.Binary;
+import javax.jcr.Item;
+import javax.jcr.ItemVisitor;
+import javax.jcr.Node;
+import javax.jcr.Property;
+import javax.jcr.PropertyType;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.Value;
+import javax.jcr.ValueFormatException;
+import javax.jcr.nodetype.NodeType;
+import javax.jcr.nodetype.PropertyDefinition;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jackrabbit.JcrConstants;
+import org.apache.jackrabbit.vault.util.DocViewProperty;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.LineSeparator;
 import org.jdom2.output.XMLOutputter;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
@@ -51,9 +77,20 @@ import io.wcm.tooling.commons.packmgr.PackageManagerException;
  */
 public final class ContentUnpacker {
 
+  private static final String MIXINS_PROPERTY = "jcr:mixinTypes";
+  private static final String PRIMARYTYPE_PROPERTY = "jcr:primaryType";
+  private static final Namespace JCR_NAMESPACE = Namespace.getNamespace("jcr", "http://www.jcp.org/jcr/1.0");
+
+  private static final SAXParserFactory SAX_PARSER_FACTORY;
+  static {
+    SAX_PARSER_FACTORY = SAXParserFactory.newInstance();
+    SAX_PARSER_FACTORY.setNamespaceAware(true);
+  }
+
   private final Pattern[] excludeFiles;
   private final Pattern[] excludeNodes;
   private final Pattern[] excludeProperties;
+  private final Pattern[] excludeMixins;
 
   /**
    * @param properties Configuration properties
@@ -62,6 +99,7 @@ public final class ContentUnpacker {
     this.excludeFiles = toPatternArray(properties.getExcludeFiles());
     this.excludeNodes = toPatternArray(properties.getExcludeNodes());
     this.excludeProperties = toPatternArray(properties.getExcludeProperties());
+    this.excludeMixins = toPatternArray(properties.getExcludeMixins());
   }
 
   private static Pattern[] toPatternArray(String[] patternStrings) {
@@ -130,6 +168,11 @@ public final class ContentUnpacker {
       InputStream entryStream = null;
       FileOutputStream fos = null;
       try {
+        Set<String> namespacePrefixes = null;
+        if (applyXmlExcludes(entry.getName())) {
+          namespacePrefixes = getNamespacePrefixes(zipFile, entry);
+        }
+
         entryStream = zipFile.getInputStream(entry);
         File outputFile = FileUtils.getFile(outputDirectory, entry.getName());
         if (outputFile.exists()) {
@@ -141,7 +184,7 @@ public final class ContentUnpacker {
         if (applyXmlExcludes(entry.getName())) {
           // write file with XML filtering
           try {
-            writeXmlWithExcludes(entryStream, fos);
+            writeXmlWithExcludes(entryStream, fos, namespacePrefixes);
           }
           catch (JDOMException ex) {
             throw new PackageManagerException("Unable to parse XML file: " + entry.getName(), ex);
@@ -159,35 +202,502 @@ public final class ContentUnpacker {
     }
   }
 
-  private void writeXmlWithExcludes(InputStream inputStream, OutputStream outputStream)
+  /**
+   * Parses XML file with namespace-aware SAX parser to get defined namespaces prefixes in order of appearance
+   * (to keep the same order when outputting the XML file again).
+   * @param zipFile ZIP file
+   * @param entry ZIP entry
+   * @return Ordered set with namespace prefixes in correct order
+   * @throws IOException
+   */
+  private Set<String> getNamespacePrefixes(ZipFile zipFile, ZipArchiveEntry entry) throws IOException {
+    try (InputStream entryStream = zipFile.getInputStream(entry)) {
+      SAXParser parser = SAX_PARSER_FACTORY.newSAXParser();
+      final Set<String> prefixes = new LinkedHashSet<>();
+
+      DefaultHandler handler = new DefaultHandler() {
+        @Override
+        public void startPrefixMapping(String prefix, String uri) throws SAXException {
+          if (StringUtils.isNotBlank(prefix)) {
+            prefixes.add(prefix);
+          }
+        }
+      };
+      parser.parse(entryStream, handler);
+
+      return prefixes;
+    }
+    catch (IOException | SAXException | ParserConfigurationException ex) {
+      throw new IOException("Error parsing " + entry.getName(), ex);
+    }
+  }
+
+  private void writeXmlWithExcludes(InputStream inputStream, OutputStream outputStream, Set<String> namespacePrefixes)
       throws IOException, JDOMException {
     SAXBuilder saxBuilder = new SAXBuilder();
     Document doc = saxBuilder.build(inputStream);
-    applyXmlExcludes(doc.getRootElement(), "");
+
+    Set<String> namespacePrefixesActuallyUsed = new HashSet<>();
+    applyXmlExcludes(doc.getRootElement(), "", namespacePrefixesActuallyUsed);
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
+        .setIndent("    ")
         .setLineSeparator(LineSeparator.UNIX));
-    outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor());
+    outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor(namespacePrefixes, namespacePrefixesActuallyUsed));
     outputter.output(doc, outputStream);
     outputStream.flush();
   }
 
-  private void applyXmlExcludes(Element element, String parentPath) {
-    String path = parentPath + "/" + element.getName();
+  private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed) {
+    String path = parentPath + "/" + element.getQualifiedName();
     if (exclude(path, this.excludeNodes)) {
       element.detach();
       return;
     }
+    collectNamespacePrefix(namespacePrefixesActuallyUsed, element.getNamespacePrefix());
+
+    String jcrPrimaryType = element.getAttributeValue("primaryType", JCR_NAMESPACE);
+    boolean isRepositoryUserGroup = StringUtils.equals(jcrPrimaryType, "rep:User") || StringUtils.equals(jcrPrimaryType, "rep:Group");
+
     List<Attribute> attributes = new ArrayList<>(element.getAttributes());
     for (Attribute attribute : attributes) {
+      boolean excluded = false;
       if (exclude(attribute.getQualifiedName(), this.excludeProperties)) {
-        attribute.detach();
+        if (isRepositoryUserGroup && StringUtils.equals(attribute.getQualifiedName(), JcrConstants.JCR_UUID)) {
+          // keep jcr:uuid property for groups and users, otherwise they cannot be imported again
+        }
+        else {
+          attribute.detach();
+          excluded = true;
+        }
+      }
+      else if (StringUtils.equals(attribute.getQualifiedName(), PRIMARYTYPE_PROPERTY)) {
+        String namespacePrefix = StringUtils.substringBefore(attribute.getValue(), ":");
+        collectNamespacePrefix(namespacePrefixesActuallyUsed, namespacePrefix);
+      }
+      else if (StringUtils.equals(attribute.getQualifiedName(), MIXINS_PROPERTY)) {
+        String filteredValue = filterMixinsPropertyValue(attribute.getValue(), namespacePrefixesActuallyUsed);
+        if (StringUtils.isBlank(filteredValue)) {
+          attribute.detach();
+        }
+        else {
+          attribute.setValue(filteredValue);
+        }
+      }
+      else if (StringUtils.startsWith(attribute.getValue(), "{Name}")) {
+        collectNamespacePrefixNameArray(namespacePrefixesActuallyUsed, attribute.getQualifiedName(), attribute.getValue());
+      }
+      if (!excluded) {
+        collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
       }
     }
     List<Element> children = new ArrayList<>(element.getChildren());
     for (Element child : children) {
-      applyXmlExcludes(child, path);
+      applyXmlExcludes(child, path, namespacePrefixesActuallyUsed);
     }
+  }
+
+  private String filterMixinsPropertyValue(String value, Set<String> namespacePrefixesActuallyUsed) {
+    if (this.excludeMixins.length == 0 || StringUtils.isBlank(value)) {
+      return value;
+    }
+
+    DocViewProperty prop = DocViewProperty.parse(MIXINS_PROPERTY, value);
+    List<Value> mixins = new ArrayList<>();
+    for (int i = 0; i < prop.values.length; i++) {
+      String mixin = prop.values[i];
+      if (!exclude(mixin, this.excludeMixins)) {
+        String namespacePrefix = StringUtils.substringBefore(mixin, ":");
+        collectNamespacePrefix(namespacePrefixesActuallyUsed, namespacePrefix);
+        mixins.add(new MockValue(mixin, PropertyType.STRING));
+      }
+    }
+
+    if (mixins.isEmpty()) {
+      return null;
+    }
+
+    try {
+      return DocViewProperty.format(new MockProperty(MIXINS_PROPERTY, true, mixins.toArray(new Value[mixins.size()])));
+    }
+    catch (RepositoryException ex) {
+      throw new RuntimeException("Unable to format value for " + MIXINS_PROPERTY, ex);
+    }
+  }
+
+  private void collectNamespacePrefix(Set<String> prefixes, String prefix) {
+    if (StringUtils.isNotBlank(prefix)) {
+      prefixes.add(prefix);
+    }
+  }
+
+  private void collectNamespacePrefixNameArray(Set<String> prefixes, String name, String value) {
+    DocViewProperty prop = DocViewProperty.parse(name, value);
+    for (int i = 0; i < prop.values.length; i++) {
+      String item = prop.values[i];
+      String namespacePrefix = StringUtils.substringBefore(item, ":");
+      collectNamespacePrefix(prefixes, namespacePrefix);
+    }
+  }
+
+  /**
+   * Mock implementations of JCR property and value to be handed over to {@link DocViewProperty#format(Property)}
+   * method.
+   */
+  private static class MockProperty implements Property, PropertyDefinition {
+
+    private final String name;
+    private final boolean multiple;
+    private final Value[] values;
+
+    MockProperty(String name, boolean multiple, Value[] values) {
+      this.name = name;
+      this.multiple = multiple;
+      this.values = values;
+    }
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public int getType() {
+      if (values.length > 0) {
+        return values[0].getType();
+      }
+      return PropertyType.UNDEFINED;
+    }
+
+    @Override
+    public boolean isMultiple() {
+      return multiple;
+    }
+
+    @Override
+    public Value getValue() throws ValueFormatException {
+      if (multiple) {
+        throw new ValueFormatException("Property is multiple.");
+      }
+      return values[0];
+    }
+
+    @Override
+    public Value[] getValues() throws ValueFormatException {
+      if (!multiple) {
+        throw new ValueFormatException("Property is not multiple.");
+      }
+      return values;
+    }
+
+    @Override
+    public PropertyDefinition getDefinition() {
+      return this;
+    }
+
+
+    // -- unsupported methods --
+
+    @Override
+    public String getPath() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Item getAncestor(int depth) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Node getParent() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getDepth() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Session getSession() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isNode() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isNew() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isModified() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isSame(Item otherItem) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void accept(ItemVisitor visitor) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void save() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void refresh(boolean keepChanges) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(Value value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(Value[] value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(String value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(String[] value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(InputStream value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(Binary value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(long value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(double value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(BigDecimal value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(Calendar value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(boolean value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValue(Node value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getString() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public InputStream getStream() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Binary getBinary() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getLong() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public double getDouble() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public BigDecimal getDecimal() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Calendar getDate() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean getBoolean() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Node getNode() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Property getProperty() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getLength() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long[] getLengths() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public NodeType getDeclaringNodeType() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isAutoCreated() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isMandatory() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getOnParentVersion() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isProtected() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getRequiredType() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String[] getValueConstraints() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Value[] getDefaultValues() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String[] getAvailableQueryOperators() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isFullTextSearchable() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isQueryOrderable() {
+      throw new UnsupportedOperationException();
+    }
+
+  }
+
+  private static class MockValue implements Value {
+
+    private final String value;
+    private final int type;
+
+    MockValue(String value, int type) {
+      this.value = value;
+      this.type = type;
+    }
+
+    @Override
+    public String getString() throws ValueFormatException, IllegalStateException, RepositoryException {
+      return value;
+    }
+
+    @Override
+    public int getType() {
+      return type;
+    }
+
+
+    // -- unsupported methods --
+
+    @Override
+    public InputStream getStream() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Binary getBinary() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getLong() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public double getDouble() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public BigDecimal getDecimal() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Calendar getDate() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean getBoolean() {
+      throw new UnsupportedOperationException();
+    }
+
   }
 
 }
