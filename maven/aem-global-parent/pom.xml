@@ -282,7 +282,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
-          <version>2.3.0</version>
+          <version>2.3.1-SNAPSHOT</version>
           <!-- Default configuration for deploying bundles into running CQ instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
@@ -387,7 +387,7 @@
           <artifactId>cq-maven-plugin</artifactId>
           <version>1.0.4</version>
           <configuration>
-            <slingPluginVersion>2.1.0</slingPluginVersion>
+            <slingPluginVersion>2.3.1-SNAPSHOT</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
             <slingConsoleUser>${sling.user}</slingConsoleUser>
             <slingConsolePassword>${sling.password}</slingConsolePassword>
