@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.2.6</version>
+    <version>1.2.7-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -181,6 +181,16 @@
   </dependencyManagement>
 
   <build>
+    <extensions>
+
+      <!-- Add wcm.io file header to code templates -->
+      <extension>
+        <groupId>io.wcm.maven</groupId>
+        <artifactId>io.wcm.maven.global-build-tools-mixin</artifactId>
+        <version>1-SNAPSHOT</version>
+      </extension>
+
+    </extensions>
     <plugins>
 
       <!-- license check -->
