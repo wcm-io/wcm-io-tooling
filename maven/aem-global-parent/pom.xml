@@ -327,7 +327,8 @@
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <version>0.5.24</version>
+          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation features that are not documented and may fail the build -->
+          <version>0.5.1</version>
           <configuration>
             <failOnError>true</failOnError>
             <failOnMissingEmbed>true</failOnMissingEmbed>
