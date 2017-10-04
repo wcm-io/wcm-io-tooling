@@ -10,7 +10,7 @@
       textarea, input {
         width: 90%;
       }
-      input[type=submit], input[type=reset], #aemversion {
+      button, #aemversion {
         width: 120px;
       }
       label {
@@ -24,9 +24,9 @@
       }
     </style>
 
-    <script>
+    <script type="text/javascript">
 
-      window.document.onload = function() {
+      window.onload = function() {
         window.aemversion.value = readCookie("aem-binary-artifact-name-generator-version") || window.aemversion.value;
         window.mavenRepositoryId.value = readCookie("aem-binary-artifact-name-generator-repository-id") || window.mavenRepositoryId.value;
         window.mavenRepositoryUrl.value = readCookie("aem-binary-artifact-name-generator-repository-url") || window.mavenRepositoryUrl.value;
@@ -65,6 +65,14 @@
           window.output.style.display = "none";
         }
 
+      }
+
+      function reset() {
+        window.filename.value = "";
+        window.description.value = "";
+        window.filetype.value = "";
+
+        generateOutput();
       }
 
       function parseFilename(filename, aemversion, filetype) {
@@ -206,52 +214,52 @@
 
     <div id="input">
       <h2>Input</h2>
-      <form onsubmit="return false;" onreset="window.setTimeout(generateOutput, 1)">
-        <p>
-          <label for="filename">AEM Binary File Name (Quickstart, Hotfix, Service Pack, Dispatcher, etc. - e.g. <code>cq-6.2.0-hotfix-12785-7.0.zip</code>)</label>
-          <input id="filename" type="text" required>
-        </p>
 
-        <p>
-          <label for="description">Description (e.g. copied from Package Share)</label>
-          <input id="description" type="text">
-        </p>
+      <p>
+        <label for="filename">AEM Binary File Name (Quickstart, Hotfix, Service Pack, Dispatcher, etc. - e.g. <code>cq-6.2.0-hotfix-12785-7.0.zip</code>)</label>
+        <input id="filename" type="text" required>
+      </p>
 
-        <p>
-          <label for="aemversion">AEM Major Version String (63, 62, 61 etc.)</label>
-          <input id="aemversion" type="text" value="63" required>
-        </p>
+      <p>
+        <label for="description">Description (e.g. copied from Package Share)</label>
+        <input id="description" type="text">
+      </p>
 
-        <p>
-          <label for="filetype">Type</label>
-          <select id="filetype">
-            <option value="">(auto-detect)</option>
-            <option>quickstart</option>
-            <option>servicepack</option>
-            <option>cumulativefixpack</option>
-            <option>cumulativeoakfixpack</option>
-            <option>hotfix</option>
-            <option>featurepack</option>
-            <option>overlay</option>
-            <option>dispatcher</option>
-          </select>
-        </p>
+      <p>
+        <label for="aemversion">AEM Major Version String (63, 62, 61 etc.)</label>
+        <input id="aemversion" type="text" value="63" required>
+      </p>
 
-        <p>
-          <label for="mavenRepositoryId">Maven Artifact Repository ID (to look up authentication in your local Maven settings.xml)</label>
-          <input id="mavenRepositoryId" type="text" required value="adobe-binary">
-        </p>
+      <p>
+        <label for="filetype">Type</label>
+        <select id="filetype">
+          <option value="">(auto-detect)</option>
+          <option>quickstart</option>
+          <option>servicepack</option>
+          <option>cumulativefixpack</option>
+          <option>cumulativeoakfixpack</option>
+          <option>hotfix</option>
+          <option>featurepack</option>
+          <option>overlay</option>
+          <option>dispatcher</option>
+        </select>
+      </p>
 
-        <p>
-          <label for="mavenRepositoryUrl">Maven Artifact Repository URL</label>
-          <input id="mavenRepositoryUrl" type="text" required value="https://your-maven-repository/adobe-binary">
-        </p>
+      <p>
+        <label for="mavenRepositoryId">Maven Artifact Repository ID (to look up authentication in your local Maven settings.xml)</label>
+        <input id="mavenRepositoryId" type="text" required value="adobe-binary">
+      </p>
 
-        <p>
-          <input type="submit" value="Generate" onclick="generateOutput()">
-          <input type="reset" value="Reset">
-        </p>
-      </form>
+      <p>
+        <label for="mavenRepositoryUrl">Maven Artifact Repository URL</label>
+        <input id="mavenRepositoryUrl" type="text" required value="https://your-maven-repository/adobe-binary">
+      </p>
+
+      <p>
+        <button onclick="generateOutput()">Generate</button>
+        <button onclick="reset()">Reset</button>
+      </p>
+
     </div>
 
     <div id="output">
