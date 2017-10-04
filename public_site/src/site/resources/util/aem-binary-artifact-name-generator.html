@@ -174,7 +174,7 @@
           + (coords.artifactId ? " \\\n    -DartifactId=" + coords.artifactId : "")
           + (coords.classifier ? " \\\n    -Dclassifier=" + coords.classifier : "")
           + (coords.version ? " \\\n    -Dversion=" + coords.version : "")
-          + (coords.type ? " \\\n    -Dtype=" + coords.type : "")
+          + (coords.type ? " \\\n    -Dpackaging=" + coords.type : "")
           + " \\\n    -DgeneratePom=true"
           + (description ? " \\\n    -DgeneratePom.description=\"" + description + "\"" : "");
       }
