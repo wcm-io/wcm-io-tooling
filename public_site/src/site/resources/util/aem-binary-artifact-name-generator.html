@@ -52,8 +52,7 @@
         if (coords) {
           window.mavenCoords.value = getMavenCoords(coords);
           window.congaCoords.value = getCongaCoords(coords);
-          window.deployFileCmd.value = getDeployFileCmd(filename, description, coords,
-              mavenRepositoryId, mavenRepositoryUrl);
+          window.deployFileCmd.value = getDeployFileCmd(filename, description, coords, mavenRepositoryId, mavenRepositoryUrl);
 
           window.output.style.display = "block";
 
@@ -86,7 +85,7 @@
 
         var packageServicePackRegex = /-service-pack-/i;
         var packageFeaturePackRegex = /-feature-pack-/i;
-        var packageCFPRegex = /-cfp-/i;
+        var packageCFPRegex = /-cfp(\d+)?-/i;
         var packageHotfixRegex = /-hotfix-/i;
 
         var coords = {};
