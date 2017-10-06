@@ -25,6 +25,9 @@
 
     <release version="17" date="not released">
       <action type="update" dev="sseifert">
+        maven-release-plugin: Set 'localCheckout' to true.
+      </action>
+      <action type="update" dev="sseifert">
         Update to global-build-tools 11.
       </action>
     </release>
