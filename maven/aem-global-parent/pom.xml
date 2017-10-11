@@ -424,14 +424,14 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.4.6</version>
+              <version>1.4.7-SNAPSHOT</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.4.6</version>
+          <version>1.4.7-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
