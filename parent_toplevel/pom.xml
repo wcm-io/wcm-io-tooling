@@ -187,7 +187,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools-mixin</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>1</version>
       </extension>
 
     </extensions>
