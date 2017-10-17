@@ -60,7 +60,7 @@
     <sling.password>admin</sling.password>
     
     <!-- versions -->
-    <sling.maven-sling-plugin.version>2.3.3-SNAPSHOT</sling.maven-sling-plugin.version>
+    <sling.maven-sling-plugin.version>2.3.4</sling.maven-sling-plugin.version>
 
   </properties>
 
