@@ -23,6 +23,21 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.8" date="not released">
+      <action type="update" dev="sseifert">
+        Update CONGA and CONGA AEM plugin versions.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Adobe content-package-maven-plugin: Stick with version 0.5.1 because 0.5.24 contains new validation features that are not documented and may fail the build
+      </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 17.
+      </action>
+    </release>
+
     <release version="1.2.6" date="2017-09-12">
       <action type="update" dev="sseifert">
         Update to wcmio-content-package-maven-plugin 1.5.4.

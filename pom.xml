@@ -49,6 +49,7 @@
     <module>maven/aem-dependencies/6.3.0</module>
     <module>maven/aem-global-parent</module>
     <module>maven/global-build-tools</module>
+    <module>maven/global-build-tools-mixin</module>
     <module>maven/global-build-tools-test</module>
     <module>maven/global-parent</module>
     <module>maven/plugins/cq-maven-plugin</module>

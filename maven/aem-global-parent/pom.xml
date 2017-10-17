@@ -33,13 +33,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>16</version>
+    <version>17-SNAPSHOT</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.2.6</version>
+  <version>1.2.7-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -58,6 +58,9 @@
     <sling.url>http://localhost:4502</sling.url>
     <sling.user>admin</sling.user>
     <sling.password>admin</sling.password>
+    
+    <!-- versions -->
+    <sling.maven-sling-plugin.version>2.3.4</sling.maven-sling-plugin.version>
 
   </properties>
 
@@ -282,7 +285,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
-          <version>2.3.0</version>
+          <version>${sling.maven-sling-plugin.version}</version>
           <!-- Default configuration for deploying bundles into running CQ instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
@@ -327,7 +330,8 @@
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <version>0.5.24</version>
+          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation features that are not documented and may fail the build -->
+          <version>0.5.1</version>
           <configuration>
             <failOnError>true</failOnError>
             <failOnMissingEmbed>true</failOnMissingEmbed>
@@ -387,7 +391,7 @@
           <artifactId>cq-maven-plugin</artifactId>
           <version>1.0.4</version>
           <configuration>
-            <slingPluginVersion>2.1.0</slingPluginVersion>
+            <slingPluginVersion>${sling.maven-sling-plugin.version}</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
             <slingConsoleUser>${sling.user}</slingConsoleUser>
             <slingConsolePassword>${sling.password}</slingConsolePassword>
@@ -409,7 +413,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.4.0</version>
+          <version>1.4.1-SNAPSHOT</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
@@ -420,14 +424,14 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.4.6</version>
+              <version>1.4.7-SNAPSHOT</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.4.6</version>
+          <version>1.4.7-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -485,46 +489,6 @@
             </configuration>
           </plugin>
         </plugins>
-      </build>
-    </profile>
-
-    <!-- This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
-    <profile>
-      <id>only-eclipse</id>
-      <activation>
-        <property>
-          <name>m2e.version</name>
-        </property>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.eclipse.m2e</groupId>
-              <artifactId>lifecycle-mapping</artifactId>
-              <version>1.0.0</version>
-              <configuration>
-                <lifecycleMappingMetadata>
-                  <pluginExecutions>
-                    <pluginExecution>
-                      <pluginExecutionFilter>
-                        <groupId>org.apache.sling</groupId>
-                        <artifactId>maven-sling-plugin</artifactId>
-                        <versionRange>[2.1.0,)</versionRange>
-                        <goals>
-                          <goal>validate</goal>
-                        </goals>
-                      </pluginExecutionFilter>
-                      <action>
-                        <ignore />
-                      </action>
-                    </pluginExecution>
-                  </pluginExecutions>
-                </lifecycleMappingMetadata>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
       </build>
     </profile>
 

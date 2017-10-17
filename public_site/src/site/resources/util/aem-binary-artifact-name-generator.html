@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AEM Binary Artifact Name Generator</title>
+
+    <style>
+      body, input, textarea {
+        font-family: Arial, Sans-Serif
+      }
+      textarea, input {
+        width: 90%;
+      }
+      button, #aemversion {
+        width: 120px;
+      }
+      label {
+        display: block;
+      }
+      #output textarea {
+        font-family: monospace;
+      }
+      #output {
+        display: none;
+      }
+    </style>
+
+    <script type="text/javascript">
+
+      window.onload = function() {
+        window.aemversion.value = readCookie("aem-binary-artifact-name-generator-version") || window.aemversion.value;
+        window.mavenRepositoryId.value = readCookie("aem-binary-artifact-name-generator-repository-id") || window.mavenRepositoryId.value;
+        window.mavenRepositoryUrl.value = readCookie("aem-binary-artifact-name-generator-repository-url") || window.mavenRepositoryUrl.value;
+      }
+
+      function generateOutput() {
+        var filename = window.filename.value;
+        var description = window.description.value;
+        var aemversion = window.aemversion.value;
+        var filetype = window.filetype.value;
+        if (filetype == "") {
+          filetype = null;
+        }
+        var mavenRepositoryId = window.mavenRepositoryId.value;
+        var mavenRepositoryUrl = window.mavenRepositoryUrl.value;
+
+        createCookie("aem-binary-artifact-name-generator-version", aemversion, 365);
+        createCookie("aem-binary-artifact-name-generator-repository-id", mavenRepositoryId, 365);
+        createCookie("aem-binary-artifact-name-generator-repository-url", mavenRepositoryUrl, 365);
+
+        var coords = parseFilename(filename, aemversion, filetype);
+
+        if (coords) {
+          window.mavenCoords.value = getMavenCoords(coords);
+          window.congaCoords.value = getCongaCoords(coords);
+          window.deployFileCmd.value = getDeployFileCmd(filename, description, coords, mavenRepositoryId, mavenRepositoryUrl);
+
+          window.output.style.display = "block";
+
+          resizeTextArea(window.mavenCoords);
+          resizeTextArea(window.congaCoords);
+          resizeTextArea(window.deployFileCmd);
+        }
+        else {
+          window.output.style.display = "none";
+        }
+
+      }
+
+      function reset() {
+        window.filename.value = "";
+        window.description.value = "";
+        window.filetype.value = "";
+
+        generateOutput();
+      }
+
+      function parseFilename(filename, aemversion, filetype) {
+        if (!filename || filename=="" || !aemversion || aemversion=="") {
+          return null;
+        }
+
+        var quickstartRegex = /^AEM_(.+)_Quickstart.jar$/;
+        var dispatcherRegex = /^dispatcher-(.+)-(.+?)\.([^\.]*|tar.gz)$/g;
+        var genericRegex = /^(.+)-(.+?)\.([^\.]*)$/g;
+
+        var packageServicePackRegex = /-service-pack-/i;
+        var packageFeaturePackRegex = /-feature-pack-/i;
+        var packageCFPRegex = /-cfp(\d+)?-/i;
+        var packageHotfixRegex = /-hotfix-/i;
+
+        var coords = {};
+
+        var quickstartMatch = quickstartRegex.exec(filename);
+        if (quickstartMatch) {
+          filetype = "quickstart";
+          coords.groupId = "adobe.binary.aem." + aemversion + ".quickstart";
+          coords.artifactId = "aem-quickstart";
+          coords.version = quickstartMatch[1];
+        }
+        else {
+          var dispatcherMatch = dispatcherRegex.exec(filename);
+          if (dispatcherMatch) {
+            filetype = "dispatcher";
+            coords.groupId = "adobe.binary.aem.dispatcher";
+            coords.artifactId = "dispatcher";
+            coords.classifier = dispatcherMatch[1];
+            coords.version = dispatcherMatch[2];
+            coords.type = dispatcherMatch[3];
+          }
+          else {
+            var genericMatch = genericRegex.exec(filename);
+            if (genericMatch) {
+              
+              if (!filetype) {
+                // auto-detect filetype
+                if (packageServicePackRegex.exec(filename)) {
+                  filetype = "servicepack";
+                }
+                else if (packageFeaturePackRegex.exec(filename)) {
+                  filetype = "featurepack";
+                }
+                else if (packageCFPRegex.exec(filename)) {
+                  filetype = "cumulativefixpack";
+                }
+                else if (packageHotfixRegex.exec(filename)) {
+                  filetype = "hotfix";
+                }
+                else {
+                  // fallback
+                  filetype = "hotfix";
+                }
+              }
+
+              coords.groupId = "adobe.binary.aem." + aemversion + "." + filetype;
+              coords.artifactId = genericMatch[1];
+              coords.version = genericMatch[2];
+              coords.type = genericMatch[3];
+            }
+          }
+        }
+
+        return coords;
+      }
+
+      function getMavenCoords(coords) {
+        return "<dependency>\n"
+            + (coords.groupId    ? "  <groupId>" + coords.groupId + "</groupId>\n" : "")
+            + (coords.artifactId ? "  <artifactId>" + coords.artifactId + "</artifactId>\n" : "")
+            + (coords.classifier ? "  <classifier>" + coords.classifier + "</classifier>\n" : "")
+            + (coords.version    ? "  <version>" + coords.version + "</version>\n" : "")
+            + (coords.type       ? "  <type>" + coords.type + "</type>\n" : "")
+            + "</dependency>";
+      }
+
+      function getCongaCoords(coords) {
+        return "- url: mvn:"
+            + (coords.groupId ? coords.groupId : "")
+            + "/"
+            + (coords.artifactId ? coords.artifactId : "")
+            + "/"
+            + (coords.version ? coords.version : "")
+            + (coords.type ? "/" + coords.type : "")
+            + (coords.classifier ? "/" + coords.classifier : "")
+            + "\n"
+            + "  dir: packages";
+      }
+
+      function getDeployFileCmd(filename, description, coords, mavenRepositoryId, mavenRepositoryUrl) {
+        return "mvn deploy:deploy-file"
+          + " \\\n    -DrepositoryId=" + mavenRepositoryId
+          + " \\\n    -Durl=" + mavenRepositoryUrl
+          + " \\\n    -Dfile=" + filename
+          + (coords.groupId  ? " \\\n    -DgroupId=" + coords.groupId : "")
+          + (coords.artifactId ? " \\\n    -DartifactId=" + coords.artifactId : "")
+          + (coords.classifier ? " \\\n    -Dclassifier=" + coords.classifier : "")
+          + (coords.version ? " \\\n    -Dversion=" + coords.version : "")
+          + (coords.type ? " \\\n    -Dpackaging=" + coords.type : "")
+          + " \\\n    -DgeneratePom=true"
+          + (description ? " \\\n    -DgeneratePom.description=\"" + description + "\"" : "");
+      }
+
+      function resizeTextArea(textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+      }
+
+      // from https://www.quirksmode.org/js/cookies.html
+      function createCookie(name,value,days) {
+        if (days) {
+          var date = new Date();
+          date.setTime(date.getTime()+(days*24*60*60*1000));
+          var expires = "; expires="+date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name+"="+value+expires+"; path=/";
+      }
+      function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+      }
+
+    </script>
+
+  </head>
+  <body>
+    <h1>AEM Binary Artifact Name Generator</h1>
+
+    <p>Companion tool for the <a href="https://wcm-io.atlassian.net/wiki/x/AYC9Aw">wcm.io Maven Artifact Naming Conventions for AEM Binaries</a></p>
+
+    <div id="input">
+      <h2>Input</h2>
+
+      <p>
+        <label for="filename">AEM Binary File Name (Quickstart, Hotfix, Service Pack, Dispatcher, etc. - e.g. <code>cq-6.2.0-hotfix-12785-7.0.zip</code>)</label>
+        <input id="filename" type="text" required>
+      </p>
+
+      <p>
+        <label for="description">Description (e.g. copied from Package Share)</label>
+        <input id="description" type="text">
+      </p>
+
+      <p>
+        <label for="aemversion">AEM Major Version String (63, 62, 61 etc.)</label>
+        <input id="aemversion" type="text" value="63" required>
+      </p>
+
+      <p>
+        <label for="filetype">Type</label>
+        <select id="filetype">
+          <option value="">(auto-detect)</option>
+          <option>quickstart</option>
+          <option>servicepack</option>
+          <option>cumulativefixpack</option>
+          <option>cumulativeoakfixpack</option>
+          <option>hotfix</option>
+          <option>featurepack</option>
+          <option>overlay</option>
+          <option>dispatcher</option>
+        </select>
+      </p>
+
+      <p>
+        <label for="mavenRepositoryId">Maven Artifact Repository ID (to look up authentication in your local Maven settings.xml)</label>
+        <input id="mavenRepositoryId" type="text" required value="adobe-binary">
+      </p>
+
+      <p>
+        <label for="mavenRepositoryUrl">Maven Artifact Repository URL</label>
+        <input id="mavenRepositoryUrl" type="text" required value="https://your-maven-repository/adobe-binary">
+      </p>
+
+      <p>
+        <button onclick="generateOutput()">Generate</button>
+        <button onclick="reset()">Reset</button>
+      </p>
+
+    </div>
+
+    <div id="output">
+      <h2>Output</h2>
+
+      <h3>Maven Artifact Coordinates</h3>
+      <textarea id="mavenCoords" readonly></textarea>
+
+      <h3>CONGA Artifact Coordinates</h3>
+      <textarea id="congaCoords" readonly></textarea>
+
+      <h3>Deploy File command</h3>
+      <textarea id="deployFileCmd" readonly></textarea>
+    </div>
+
+  </body>
+</html>

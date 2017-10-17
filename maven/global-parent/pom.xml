@@ -113,7 +113,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>10</version>
+        <version>11-SNAPSHOT</version>
       </extension>
 
       <!-- SCP support for deploying sites -->
@@ -584,7 +584,9 @@
             <useReleaseProfile>false</useReleaseProfile>
             <releaseProfiles>release</releaseProfiles>
             <goals>deploy</goals>
+            <!-- Do not push automatically on release:prepare, and allow local git checkout on release:perform -->
             <pushChanges>false</pushChanges>
+            <localCheckout>true</localCheckout>
           </configuration>
           <!-- fix for http://jira.codehaus.org/browse/MRELEASE-812, still occuring with 2.5 -->
           <dependencies>

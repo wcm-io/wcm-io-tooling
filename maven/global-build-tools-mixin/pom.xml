@@ -23,12 +23,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.wcm.maven</groupId>
-  <artifactId>io.wcm.maven.global-build-tools</artifactId>
-  <version>11</version>
+  <artifactId>io.wcm.maven.global-build-tools-mixin</artifactId>
+  <version>1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>io.wcm.maven.global-build-tools</name>
-  <description>Definition of rules for static code analysis tools and IDEs.</description>
+  <name>io.wcm.maven.global-build-tools-mixin</name>
+  <description>Mixin that adds wcm.io default file header to cod templates.</description>
   <url>http://wcm.io</url>
 
   <scm>
@@ -38,7 +38,7 @@
     <tag>HEAD</tag>
   </scm>
 
-  <inceptionYear>2014</inceptionYear>
+  <inceptionYear>2017</inceptionYear>
 
   <organization>
     <name>wcm.io</name>
