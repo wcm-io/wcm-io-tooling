@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update CONGA version.
       </action>
+      <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin 1.6.2.
+      </action>
     </release>
 
     <release version="1.2.8" date="2017-10-17">
@@ -46,7 +49,7 @@
 
     <release version="1.2.6" date="2017-09-12">
       <action type="update" dev="sseifert">
-        Update to wcmio-content-package-maven-plugin 1.5.4.
+        Update to wcmio-content-package-maven-plugin 1.6.0.
       </action>
       <action type="update" dev="sseifert">
         wcm.io Content Package Maven Plugin: Exclude further properties and mixins by default.
