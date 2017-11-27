@@ -27,6 +27,9 @@
       <action type="fix" dev="sseifert" issue="WTOOL-40">
         Unpack downloaded AEM package: Rewrite also FileVault XML files that are not named .content.xml.
       </action>
+      <action type="update" dev="sseifert">
+        Mark 'package' goal as deprecated - Jackrabbit filevault-package-maven-plugin should be used instead, see https://wcm-io.atlassian.net/wiki/x/GYB1BQ
+      </action>
     </release>
 
     <release version="1.6.0" date="2017-09-12">
