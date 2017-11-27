@@ -53,6 +53,10 @@
     <build.compiler.target>1.8</build.compiler.target>
   </properties>
 
+  <prerequisites>
+    <maven>${maven.version}</maven>
+  </prerequisites>
+
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
