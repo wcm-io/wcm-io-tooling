@@ -80,7 +80,7 @@
     <targetJdk>${build.compiler.target}</targetJdk>
 
     <!-- Mininum maven version -->
-    <maven.min-version>3.2.5</maven.min-version>
+    <maven.min-version>3.3.9</maven.min-version>
 
     <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
@@ -89,10 +89,6 @@
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
 
   </properties>
-
-  <prerequisites>
-    <maven>${maven.min-version}</maven>
-  </prerequisites>
 
   <dependencies>
 
