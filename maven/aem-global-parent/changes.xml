@@ -31,6 +31,9 @@
         Update to wcmio-content-package-maven-plugin 1.6.2.
       </action>
       <action type="update" dev="sseifert">
+        Add Jackrabbit filevault-package-maven-plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 18.
       </action>
     </release>
