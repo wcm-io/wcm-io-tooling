@@ -1,7 +1,7 @@
 About Content Package Maven Plugin
 ==================================
 
-Build, upload and download content packages.
+Upload and download content packages.
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/wcmio-content-package-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven.plugins/wcmio-content-package-maven-plugin)
 
@@ -19,16 +19,13 @@ This Maven Plugin is an alternative to the [Content Package Maven Plugin][adobe-
 
 It supports:
 
-* Building content packages
 * Uploading and installing content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
 * Downloading and extracting content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
+* Building content packages (deprecated)
 
 The wcm.io Content Package Maven plugin aims for compatibility in goal and property names and behavior with the Adobe plugin, so for a lot of use cases it can be used as drop-in replacement. However some goals and features are missing. See [this wiki page](https://wcm-io.atlassian.net/wiki/x/-HkIAw) for a comparison.
 
-
-#### `package` goal
-
-The behavior of the `package` goal is nearly identical to that of the Adobe plugin.
+Compared to the Adobe plugin the `install` supports more parameters, and is much more sophisticated and failure tolerant when uploading packages. It tries to catch all types of possible problems (e.g. AEM instance not available for some seconds) and retries the upload for a certain amount of time until it succeeds.
 
 
 #### `install` goal
@@ -64,8 +61,18 @@ Additional the `download` goal supports compared to the Adobe plugin:
 * Exclude files, nodes and properties from the unpacked content via pattern lists.
 
 
+#### `package` goal
+
+The `package` goal of this plugin is deprecated. You should use the [Jackrabbit FileVault Package Maven Plugin][jackrabbit-filevault-package-maven-plugin] instead.
+
+This [migration guide][package-migration-guide] lists the migration steps.
+
+
+
 [usage]: usage.html
 [plugindocs]: plugin-info.html
 [changelog]: changes-report.html
 [adobe-content-package-maven-plugin]: https://docs.adobe.com/docs/en/aem/6-3/develop/dev-tools/vlt-mavenplugin.html
+[jackrabbit-filevault-package-maven-plugin]: http://jackrabbit.apache.org/filevault-package-maven-plugin/
+[package-migration-guide]: https://wcm-io.atlassian.net/wiki/x/GYB1BQ
 [composum]: https://github.com/ist-dresden/composum
