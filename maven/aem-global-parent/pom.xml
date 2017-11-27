@@ -333,6 +333,10 @@
           <version>1.0.0</version>
           <configuration>
             <filterSource>src/main/package-definition/filter.xml</filterSource>
+            <!-- JCRVLT-239, JCRVLT-240
+            <thumbnailImage>src/main/package-definition/thumbnail.png</thumbnailImage>
+            <acHandling>ignore</acHandling>
+            -->
             <failOnDependencyErrors>true</failOnDependencyErrors>
             <failOnEmptyFilter>true</failOnEmptyFilter>
             <failOnMissingEmbed>true</failOnMissingEmbed>
@@ -342,7 +346,7 @@
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation features that are not documented and may fail the build -->
+          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation - and it's recommended to switch to filevault-package-maven-plugin -->
           <version>0.5.1</version>
           <configuration>
             <failOnError>true</failOnError>
