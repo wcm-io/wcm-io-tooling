@@ -140,8 +140,9 @@
         <artifactId>maven-source-plugin</artifactId>
         <inherited>true</inherited>
         <executions>
+          <!-- Use execution id 'attach-sources-no-fork' to not mix up with disabled execution from super pom -->
           <execution>
-            <id>attach-sources</id>
+            <id>attach-sources-no-fork</id>
             <phase>verify</phase>
             <goals>
               <goal>jar-no-fork</goal>
@@ -159,7 +160,7 @@
           <execution>
             <id>attach-javadocs</id>
             <goals>
-             <goal>jar</goal>
+              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
@@ -576,8 +577,6 @@
           <version>2.5.3</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <useReleaseProfile>false</useReleaseProfile>
-            <releaseProfiles>release</releaseProfiles>
             <goals>deploy</goals>
             <!-- Do not push automatically on release:prepare, and allow local git checkout on release:perform -->
             <pushChanges>false</pushChanges>
@@ -1053,9 +1052,9 @@
 
     </profile>
 
-    <!-- profile used for building releases and deployment to sonatype/maven central -->
+    <!-- release-profile -->
     <profile>
-      <id>release</id>
+      <id>release-profile</id>
       <activation>
         <property>
           <name>performRelease</name>
@@ -1064,7 +1063,33 @@
       </activation>
       <build>
         <plugins>
-          <!-- sign the build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <inherited>true</inherited>
+            <configuration>
+              <updateReleaseInfo>true</updateReleaseInfo>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <inherited>true</inherited>
+            <executions>
+              <!-- disable "jar" goal inherited from maven super-pom -->
+              <execution>
+                <id>attach-sources</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+                <configuration>
+                  <skipSource>true</skipSource>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- sign the build (only for this pom, not inherited)  -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -1079,7 +1104,7 @@
               </execution>
             </executions>
           </plugin>
-          <!-- configure staging process at sonatype.-->
+          <!-- configure staging process at sonatype (only for this pom, not inherited) -->
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
