@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -67,6 +68,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.LineSeparator;
 import org.jdom2.output.XMLOutputter;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -131,7 +133,7 @@ public final class ContentUnpacker {
     if (this.excludeNodes.length == 0 & this.excludeProperties.length == 0) {
       return false;
     }
-    return StringUtils.endsWith(name, "/.content.xml");
+    return StringUtils.endsWith(name, ".xml");
   }
 
   /**
@@ -181,7 +183,7 @@ public final class ContentUnpacker {
         File directory = outputFile.getParentFile();
         directory.mkdirs();
         fos = new FileOutputStream(outputFile);
-        if (applyXmlExcludes(entry.getName())) {
+        if (applyXmlExcludes(entry.getName()) && namespacePrefixes != null) {
           // write file with XML filtering
           try {
             writeXmlWithExcludes(entryStream, fos, namespacePrefixes);
@@ -207,7 +209,8 @@ public final class ContentUnpacker {
    * (to keep the same order when outputting the XML file again).
    * @param zipFile ZIP file
    * @param entry ZIP entry
-   * @return Ordered set with namespace prefixes in correct order
+   * @return Ordered set with namespace prefixes in correct order.
+   *         Returns null if given XML file does not contain FileVault XML content.
    * @throws IOException
    */
   private Set<String> getNamespacePrefixes(ZipFile zipFile, ZipArchiveEntry entry) throws IOException {
@@ -215,7 +218,15 @@ public final class ContentUnpacker {
       SAXParser parser = SAX_PARSER_FACTORY.newSAXParser();
       final Set<String> prefixes = new LinkedHashSet<>();
 
+      final AtomicBoolean foundRootElement = new AtomicBoolean(false);
       DefaultHandler handler = new DefaultHandler() {
+        @Override
+        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+          // validate that XML file contains FileVault XML content
+          if (StringUtils.equals(uri, JCR_NAMESPACE.getURI()) && StringUtils.equals(localName, "root")) {
+            foundRootElement.set(true);
+          }
+        }
         @Override
         public void startPrefixMapping(String prefix, String uri) throws SAXException {
           if (StringUtils.isNotBlank(prefix)) {
@@ -225,7 +236,12 @@ public final class ContentUnpacker {
       };
       parser.parse(entryStream, handler);
 
-      return prefixes;
+      if (!foundRootElement.get()) {
+        return null;
+      }
+      else {
+        return prefixes;
+      }
     }
     catch (IOException | SAXException | ParserConfigurationException ex) {
       throw new IOException("Error parsing " + entry.getName(), ex);

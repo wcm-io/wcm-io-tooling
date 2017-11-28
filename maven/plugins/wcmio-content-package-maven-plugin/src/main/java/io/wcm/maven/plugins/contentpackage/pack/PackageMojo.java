@@ -68,11 +68,15 @@ import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Creates a JCR Content Package with embedded Bundles and Packages.
+ * @deprecated Please switch to <a href="http://jackrabbit.apache.org/filevault-package-maven-plugin/">Jackrabbit
+ *             filevault-package-maven-plugin</a> - see
+ *             <a href="https://wcm-io.atlassian.net/wiki/x/GYB1BQ">this migration guide</a>.
  */
 @Mojo(
     name = "package",
     defaultPhase = LifecyclePhase.PACKAGE,
     requiresDependencyResolution = ResolutionScope.COMPILE)
+@Deprecated
 public final class PackageMojo extends AbstractMojo {
 
   private static final String ETC_PACKAGES = "/etc/packages";
@@ -393,6 +397,10 @@ public final class PackageMojo extends AbstractMojo {
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
+
+    // show deprecation warning
+    getLog().warn("Please switch to Jackrabbit filevault-package-maven-plugin - see https://wcm-io.atlassian.net/wiki/x/GYB1BQ");
+
     try {
       final File finalFile = new File(outputDirectory, finalName + PACKAGE_EXT);
       final File vaultFolder = new File(workDirectory, META_DIR);

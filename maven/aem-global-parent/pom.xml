@@ -33,13 +33,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>17</version>
+    <version>18-SNAPSHOT</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.2.8</version>
+  <version>1.2.9-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -324,13 +324,29 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>1.0.8</version>
+          <version>1.1.0</version>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.jackrabbit</groupId>
+          <artifactId>filevault-package-maven-plugin</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <filterSource>src/main/package-definition/filter.xml</filterSource>
+            <!-- JCRVLT-239, JCRVLT-240
+            <thumbnailImage>src/main/package-definition/thumbnail.png</thumbnailImage>
+            <acHandling>ignore</acHandling>
+            -->
+            <failOnDependencyErrors>true</failOnDependencyErrors>
+            <failOnEmptyFilter>true</failOnEmptyFilter>
+            <failOnMissingEmbed>true</failOnMissingEmbed>
+          </configuration>
         </plugin>
       
         <plugin>
           <groupId>com.day.jcr.vault</groupId>
           <artifactId>content-package-maven-plugin</artifactId>
-          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation features that are not documented and may fail the build -->
+          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation - and it's recommended to switch to filevault-package-maven-plugin -->
           <version>0.5.1</version>
           <configuration>
             <failOnError>true</failOnError>
@@ -413,7 +429,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.4.2</version>
+          <version>1.4.4</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
@@ -449,7 +465,7 @@
 
     <!-- profile used for building releases and deployment to sonatype/maven central -->
     <profile>
-      <id>release</id>
+      <id>release-profile</id>
       <activation>
         <property>
           <name>performRelease</name>

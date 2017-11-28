@@ -49,6 +49,10 @@
     <maven.version>3.0.5</maven.version>
   </properties>
 
+  <prerequisites>
+    <maven>${maven.version}</maven>
+  </prerequisites>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
