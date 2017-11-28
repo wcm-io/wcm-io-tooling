@@ -181,8 +181,6 @@
           <version>2.5.3</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <useReleaseProfile>false</useReleaseProfile>
-            <releaseProfiles>release</releaseProfiles>
             <goals>deploy</goals>
           </configuration>
           <dependencies>
@@ -240,7 +238,7 @@
 
     <!-- profile used for building releases and deployment to sonatype/maven central -->
     <profile>
-      <id>release</id>
+      <id>release-profile</id>
       <activation>
         <property>
           <name>performRelease</name>

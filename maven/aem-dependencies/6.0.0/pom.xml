@@ -384,8 +384,6 @@
           <version>2.5.1</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <useReleaseProfile>false</useReleaseProfile>
-            <releaseProfiles>release</releaseProfiles>
             <goals>deploy</goals>
           </configuration>
           <dependencies>
@@ -419,7 +417,7 @@
 
     <!-- configuration to deploy into maven central -->
     <profile>
-      <id>release</id>
+      <id>release-profile</id>
       <activation>
         <property>
           <name>performRelease</name>
