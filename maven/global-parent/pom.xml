@@ -143,7 +143,6 @@
           <!-- Use execution id 'attach-sources-no-fork' to not mix up with disabled execution from super pom -->
           <execution>
             <id>attach-sources-no-fork</id>
-            <phase>verify</phase>
             <goals>
               <goal>jar-no-fork</goal>
             </goals>
@@ -1079,7 +1078,6 @@
               <!-- disable "jar" goal inherited from maven super-pom -->
               <execution>
                 <id>attach-sources</id>
-                <phase>verify</phase>
                 <goals>
                   <goal>jar</goal>
                 </goals>
