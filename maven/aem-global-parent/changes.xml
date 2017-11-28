@@ -34,6 +34,9 @@
         Add Jackrabbit filevault-package-maven-plugin.
       </action>
       <action type="update" dev="sseifert">
+        Update Maven Sling HTL Plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 18.
       </action>
     </release>
