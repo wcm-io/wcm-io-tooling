@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update to wcmio-content-package-maven-plugin 1.6.2.
       </action>
+      <action type="update" dev="sseifert">
+        Add xgettext-maven-plugin.
+      </action>
     </release>
 
     <release version="1.2.10" date="2017-11-28">
