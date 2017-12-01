@@ -11,6 +11,11 @@ Defines Maven dependencies for a specific AEM version, including those that are 
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>6.3.0.0000</version>
 </dependency>
+<dependency>
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
+  <version>6.3.1.0000</version>
+</dependency>
 ```
 
 ### Maven Dependency (AEM 6.2)
