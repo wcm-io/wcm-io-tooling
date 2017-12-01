@@ -139,6 +139,7 @@
           }
         }
 
+        coords.filetype = filetype;
         return coords;
       }
 
@@ -153,6 +154,16 @@
       }
 
       function getCongaCoords(coords) {
+        var delayAfterInstallSec;
+        switch (coords.filetype) {
+          case "servicepack":
+          case "cumulativefixpack":
+          case "cumulativeoakfixpack":
+            delayAfterInstallSec = 30;
+            break;
+          default:
+            delayAfterInstallSec = 0;
+        }
         return "- url: mvn:"
             + (coords.groupId ? coords.groupId : "")
             + "/"
@@ -162,7 +173,8 @@
             + (coords.type ? "/" + coords.type : "")
             + (coords.classifier ? "/" + coords.classifier : "")
             + "\n"
-            + "  dir: packages";
+            + "  dir: packages"
+            + (delayAfterInstallSec > 0 ? "\n  modelOptions:\n    delayAfterInstallSec: " + delayAfterInstallSec : "");
       }
 
       function getDeployFileCmd(filename, description, coords, mavenRepositoryId, mavenRepositoryUrl) {
