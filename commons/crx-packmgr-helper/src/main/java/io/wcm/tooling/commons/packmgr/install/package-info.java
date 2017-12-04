@@ -20,5 +20,5 @@
 /**
  * Package installer
  */
-@org.osgi.annotation.versioning.Version("1.2.0")
+@org.osgi.annotation.versioning.Version("1.3.0")
 package io.wcm.tooling.commons.packmgr.install;

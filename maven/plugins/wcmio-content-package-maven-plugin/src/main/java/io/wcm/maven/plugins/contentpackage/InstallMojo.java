@@ -117,7 +117,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
    * Delay further steps after package installation by this amount of seconds
    */
   @Parameter(property = "vault.delayAfterInstallSec")
-  private int delayAfterInstallSec;
+  private Integer delayAfterInstallSec;
 
   /**
    * Fail build when no file was found for installing.
@@ -243,8 +243,11 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     if (ref.getDelayAfterInstallSec() != null) {
       output.setDelayAfterInstallSec(ref.getDelayAfterInstallSec());
     }
-    else {
+    else if (this.delayAfterInstallSec != null) {
       output.setDelayAfterInstallSec(this.delayAfterInstallSec);
+    }
+    else {
+      output.setDelayAfterInstallSecAutoDetect();
     }
 
     return output;
