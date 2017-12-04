@@ -22,4 +22,4 @@ Maven Parent POMs, Build Tools and Plugins.
 
 ### Maven Archetypes
 
-* [CQ Maven Plugin](archetypes/aem/): Maven Archetype for creating new AEM projects.
+* [Maven Archetype for AEM](archetypes/aem/): Maven Archetype for creating new AEM projects.
