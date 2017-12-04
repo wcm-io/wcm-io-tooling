@@ -28,6 +28,12 @@
         Update to wcmio-content-package-maven-plugin 1.6.2.
       </action>
       <action type="update" dev="sseifert">
+        Update Maven Sling HTL Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Jackrabbit filevault-package-maven-plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Add xgettext-maven-plugin.
       </action>
     </release>
