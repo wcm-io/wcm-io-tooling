@@ -18,3 +18,8 @@ Maven Parent POMs, Build Tools and Plugins.
 * [i18n Maven Plugin](plugins/i18n-maven-plugin/): Transforms and validates i18n resources for usage in Sling/AEM applications.
 * [Node.js Maven Plugin](plugins/nodejs-maven-plugin/): Maven Plugin to wrap the Node.js execution.
 * [JSON Dialog Converter Maven Plugin](plugins/json-dialog-conversion-plugin/): Converts AEM Dialog Definitions in JSON Format.
+
+
+### Maven Archetypes
+
+* [CQ Maven Plugin](archetypes/aem/): Maven Archetype for creating new AEM projects.
