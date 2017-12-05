@@ -210,6 +210,10 @@
         </executions>
         <configuration>
           <sourceDirectory>src/main/webapp</sourceDirectory>
+          <includes>
+            <include>**/*.html</include>
+          </includes>
+          <failOnWarnings>true</failOnWarnings>
         </configuration>
       </plugin>
 
