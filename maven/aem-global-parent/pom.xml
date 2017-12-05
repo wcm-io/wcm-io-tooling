@@ -343,8 +343,8 @@
           <!-- Update to final release version once 1.0.1-SNAPSHOT is released -->
           <version>1.0.1-R1816885</version>
           <configuration>
-            <filterSource>src/main/package-definition/filter.xml</filterSource>
-            <thumbnailImage>src/main/package-definition/thumbnail.png</thumbnailImage>
+            <filterSource>META-INF/vault/filter.xml</filterSource>
+            <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
             <failOnDependencyErrors>true</failOnDependencyErrors>
             <failOnEmptyFilter>true</failOnEmptyFilter>
             <failOnMissingEmbed>true</failOnMissingEmbed>
