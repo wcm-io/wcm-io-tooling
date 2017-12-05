@@ -101,7 +101,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
 
   private void delay(int seconds, Logger log) {
     if (seconds > 0) {
-      log.info("Wait for " + seconds + " seconds after package install...");
+      log.info("Wait " + seconds + " seconds after package install...");
       try {
         Thread.sleep(seconds * 1000);
       }
