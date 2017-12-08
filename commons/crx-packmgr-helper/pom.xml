@@ -35,6 +35,7 @@
 
   <name>CRX Package Manager Helper</name>
   <description>Java Library for uploading and downloading AEM content packages via CRX Package Manager.</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
