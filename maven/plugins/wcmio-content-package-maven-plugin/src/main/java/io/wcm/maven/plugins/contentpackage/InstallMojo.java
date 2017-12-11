@@ -260,7 +260,9 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     output.setInstall(this.install);
     output.setForce(this.force);
     output.setRecursive(this.recursive);
-    output.setDelayAfterInstallSec(this.delayAfterInstallSec);
+    if (this.delayAfterInstallSec != null) {
+      output.setDelayAfterInstallSec(this.delayAfterInstallSec);
+    }
 
     return output;
   }
