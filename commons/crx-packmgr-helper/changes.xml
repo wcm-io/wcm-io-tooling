@@ -28,6 +28,9 @@
         Unpack downloaded AEM package: Rewrite also FileVault XML files that are not named .content.xml.
       </action>
       <action type="update" dev="sseifert">
+        Unpack downloaded AEM package: Sort weak reference values alphatecially to ensure consistent ordering.
+      </action>
+      <action type="update" dev="sseifert">
         Apply default install delay of 3 sec for 'container' and 'mixed' package types.
       </action>
     </release>
