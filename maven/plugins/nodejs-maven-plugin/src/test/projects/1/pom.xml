@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>p9yp9y.vaos</groupId>
+	<version>0.0.7-SNAPSHOT</version>
+	<artifactId>vaos-nodejs</artifactId>
+	<packaging>jar</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>p9yp9y.maven.plugins</groupId>
+				<artifactId>nodejs-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<npmVersion>5.5.1</npmVersion>
+					<nodeJsVersion>8.9.1</nodeJsVersion>
+					<nodeJsDirectory>/tmp/nodejs</nodeJsDirectory>
+					<tasks>
+						<nodeJsTask>
+							<workingDirectory>${project.basedir}/src/test/javascript/</workingDirectory>
+							<moduleName>wetty</moduleName>
+							<arguments>
+								<argument>-p 3000</argument>
+							</arguments>
+						</nodeJsTask>
+					</tasks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
