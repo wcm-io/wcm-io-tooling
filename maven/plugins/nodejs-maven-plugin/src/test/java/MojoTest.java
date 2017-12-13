@@ -29,11 +29,10 @@ public class MojoTest extends AbstractMojoTestCase {
 	public void testMojoGoal() throws Exception {
 		File pom = getTestFile( "src/test/projects/1/pom.xml" );
         assertNotNull( pom );
-//        assertTrue( pom.exists() );
+        assertTrue( pom.exists() );
 
         Mojo myMojo = lookupMojo( "run", pom );
         assertNotNull( myMojo );
         myMojo.execute();
-
 	}
 }

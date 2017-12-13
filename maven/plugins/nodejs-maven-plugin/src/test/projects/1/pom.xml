@@ -23,10 +23,12 @@
 					<npmVersion>5.5.1</npmVersion>
 					<nodeJsVersion>8.9.1</nodeJsVersion>
 					<nodeJsDirectory>/tmp/nodejs</nodeJsDirectory>
+					<installDirectly>true</installDirectly>
 					<tasks>
 						<nodeJsTask>
-							<workingDirectory>${project.basedir}/src/test/javascript/</workingDirectory>
+							<workingDirectory>/tmp/test</workingDirectory>
 							<moduleName>wetty</moduleName>
+							<executableName>wetty.js</executableName>
 							<arguments>
 								<argument>-p 3000</argument>
 							</arguments>

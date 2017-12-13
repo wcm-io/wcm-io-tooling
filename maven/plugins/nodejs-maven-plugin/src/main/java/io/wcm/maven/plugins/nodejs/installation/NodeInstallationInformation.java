@@ -20,7 +20,10 @@
 package io.wcm.maven.plugins.nodejs.installation;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -109,6 +112,12 @@ public class NodeInstallationInformation {
     }
     else if (Os.isArch("x86_64") || Os.isArch("amd64")) {
       arch = "x64";
+    } else if (Os.isArch("arm")) {
+        try {
+			arch = "arm" + getArmType();
+		} catch (IOException e) {
+			throw new MojoExecutionException(e.toString(), e);
+		}
     }
     else {
       throw new MojoExecutionException("Unsupported OS arch: " + Os.OS_ARCH);
@@ -145,6 +154,10 @@ public class NodeInstallationInformation {
     }
     return result;
 
+  }
+
+  public static String getArmType() throws IOException {
+	return Arrays.stream(IOUtils.toString(new ProcessBuilder("uname -a").start().getInputStream()).split(" ")).filter(w -> w.startsWith("arm")).findFirst().get();
   }
 
   private static Dependency buildDependency(String groupId, String artifactId, String version, String os, String arch, String type) {
