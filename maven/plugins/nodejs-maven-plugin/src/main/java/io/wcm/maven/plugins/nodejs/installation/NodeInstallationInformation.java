@@ -114,7 +114,7 @@ public class NodeInstallationInformation {
       arch = "x64";
     } else if (Os.isArch("arm")) {
         try {
-			arch = "arm" + getArmType();
+			arch = "arm" + getArchitecture("arm");
 		} catch (IOException e) {
 			throw new MojoExecutionException(e.toString(), e);
 		}
@@ -156,8 +156,8 @@ public class NodeInstallationInformation {
 
   }
 
-  public static String getArmType() throws IOException {
-	return Arrays.stream(IOUtils.toString(new ProcessBuilder("uname -a").start().getInputStream()).split(" ")).filter(w -> w.startsWith("arm")).findFirst().get();
+  public static String getArchitecture(String search) throws IOException {
+	return Arrays.stream(IOUtils.toString(new ProcessBuilder("uname", "-a").start().getInputStream()).split(" ")).filter(w -> w.startsWith(search)).findFirst().get();
   }
 
   private static Dependency buildDependency(String groupId, String artifactId, String version, String os, String arch, String type) {
