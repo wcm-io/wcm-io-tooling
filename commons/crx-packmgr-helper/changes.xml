@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Apply default install delay of 3 sec for 'container' and 'mixed' package types.
       </action>
+      <action type="update" dev="sseifert">
+        Make bundles starting/stopping wait message more compact.
+      </action>
     </release>
 
     <release version="1.3.0" date="2017-09-12">

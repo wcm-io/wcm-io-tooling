@@ -256,9 +256,9 @@ public final class PackageManagerHelper {
       if (bundleStatus.isAllBundlesRunning()) {
         return;
       }
-      log.info(bundleStatus.getStatusLine());
-      log.info("Bundles are currently starting/stopping - wait " + WAIT_INTERVAL_SEC + " seconds "
-          + "(max. " + props.getBundleStatusWaitLimitSec() + " seconds) ...");
+      log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
+          + " - wait " + WAIT_INTERVAL_SEC + " sec "
+          + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
       try {
         Thread.sleep(WAIT_INTERVAL_SEC * DateUtils.MILLIS_PER_SECOND);
       }

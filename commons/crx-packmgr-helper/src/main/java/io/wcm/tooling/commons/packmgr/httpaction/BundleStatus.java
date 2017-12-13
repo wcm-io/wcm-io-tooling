@@ -44,6 +44,27 @@ public final class BundleStatus {
     return this.statusLine;
   }
 
+  /**
+   * @return Compact version of status line.
+   */
+  public String getStatusLineCompact() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(total).append(" total");
+    if (active > 0) {
+      sb.append(", ").append(active).append(" active");
+    }
+    if (activeFragment > 0) {
+      sb.append(", ").append(activeFragment).append(" fragment");
+    }
+    if (resolved > 0) {
+      sb.append(", ").append(resolved).append(" resolved");
+    }
+    if (installed > 0) {
+      sb.append(", ").append(installed).append(" installed");
+    }
+    return sb.toString();
+  }
+
   public int getTotal() {
     return this.total;
   }
