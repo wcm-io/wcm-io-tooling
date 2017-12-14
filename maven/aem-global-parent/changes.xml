@@ -39,9 +39,6 @@
       <action type="update" dev="sseifert">
         Add xgettext-maven-plugin.
       </action>
-      <action type="update" dev="sseifert">
-        Update to maven-bundle-plugin.
-      </action>
     </release>
 
     <release version="1.2.10" date="2017-11-28">
