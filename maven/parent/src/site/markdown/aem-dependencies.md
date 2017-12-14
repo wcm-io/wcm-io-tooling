@@ -2,6 +2,7 @@
 
 Defines Maven dependencies for a specific AEM version, including those that are not defined in the aem-api "Uber" JAR provided by Adobe.
 
+Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
 
 ### Maven Dependency (AEM 6.3)
 

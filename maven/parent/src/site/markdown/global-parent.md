@@ -17,3 +17,5 @@ The settings in this global parent POM cover:
 * Set build timestamps
 * Define default versions of common used maven plugins
 * Define default exclusions for m2e lifecycle
+
+Source code: [maven/global-parent](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/global-parent)
