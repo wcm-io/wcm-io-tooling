@@ -157,7 +157,7 @@ public class NodeInstallationInformation {
   }
 
   public static String getArchitecture(String search) throws IOException {
-	return Arrays.stream(IOUtils.toString(new ProcessBuilder("uname", "-a").start().getInputStream()).split(" ")).filter(w -> w.startsWith(search)).findFirst().get();
+    return Arrays.stream(IOUtils.toString(new ProcessBuilder("uname", "-a").start().getInputStream()).split(" ")).filter(w -> w.startsWith(search)).findFirst().get();
   }
 
   private static Dependency buildDependency(String groupId, String artifactId, String version, String os, String arch, String type) {
