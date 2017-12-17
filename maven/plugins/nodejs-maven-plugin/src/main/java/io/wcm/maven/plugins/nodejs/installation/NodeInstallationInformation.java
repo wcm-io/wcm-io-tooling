@@ -114,7 +114,7 @@ public class NodeInstallationInformation {
       arch = "x64";
     } else if (Os.isArch("arm")) {
         try {
-			arch = "arm" + getArchitecture("arm");
+			arch = getArchitecture("arm");
 		} catch (IOException e) {
 			throw new MojoExecutionException(e.toString(), e);
 		}

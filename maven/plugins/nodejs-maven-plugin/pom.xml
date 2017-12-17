@@ -46,7 +46,7 @@
 
   <properties>
     <site.url.module.prefix>tooling/maven/plugins/nodejs-maven-plugin</site.url.module.prefix>
-    <maven.version>3.0.5</maven.version>
+    <maven.version>3.5.2</maven.version>
   </properties>
 
   <prerequisites>
@@ -148,15 +148,15 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.5</version>
         <configuration>
           <goalPrefix>nodejs</goalPrefix>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
