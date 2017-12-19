@@ -1673,7 +1673,7 @@
 
   <!-- JavaScript 
   ================================================== -->
-  <script src="$resourcePath/css/jquery.min.js"></script>
+  <script src="$resourcePath/js/jquery.min.js"></script>
   <script src="$resourcePath/js/bootstrap.min.js"></script>
 #*
   *##if ( !$config.not( "imgLightbox" ) )#*
