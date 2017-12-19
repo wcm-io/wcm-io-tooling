@@ -1374,7 +1374,7 @@
     *##set ( $resourcePath = $currentFileRelativeLink )#*
   *##else#*
     *##set ( $resourcePath = $relativePath )#*
-  *##end#*
+  *##end#
 
     <link href="$resourcePath/css/bootstrap.min.css" rel="stylesheet" />
     <link href="$resourcePath/css/docs.css" rel="stylesheet" />
