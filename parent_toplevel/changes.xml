@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update Mockito.
       </action>
+      <action type="update" dev="sseifert">
+        Update reflow-maven-skin.
+      </action>
     </release>
 
     <release version="1.2.0" date="2017-04-04">
