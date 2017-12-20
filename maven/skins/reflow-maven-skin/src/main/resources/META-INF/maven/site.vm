@@ -1374,7 +1374,12 @@
     *##set ( $resourcePath = $currentFileRelativeLink )#*
   *##else#*
     *##set ( $resourcePath = $relativePath )#*
-  *##end##
+  *##end#*
+  // remove trailing slash
+  *##if ( $resourcePath.endsWith('/') )#*
+    *##set ( $length = $resourcePath.length() - 1 )#*
+    *##set ( $resourcePath = $resourcePath.substring(0, $length) )#*
+  *##end
 
     <link href="$resourcePath/css/bootstrap.min.css" rel="stylesheet" />
     <link href="$resourcePath/css/docs.css" rel="stylesheet" />
