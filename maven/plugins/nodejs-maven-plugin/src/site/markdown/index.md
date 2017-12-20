@@ -36,8 +36,19 @@ A public version of this proxy is running at [https://maven-nodejs-proxy.pvtool.
 This plugin is derived from https://github.com/ClearboxSystems/NodeJsMaven.
 
 
+### Alternatives
+
+The most prominent alternative to this plugin is the [frontend-maven-plugin][frontend-maven-plugin]. These are the most notable differences:
+
+* The `frontend-maven-plugin` defines goals for specific tools like grunt, gulp, karma, whereas the `nodejs-maven-plugin` has just one generic `run` goals that lets you execute any Node.js-based tool.
+* The `nodejs-maven-plugin` automatically downloads and installs the required NPM version on your local system, using the `frontend-maven-plugin` plugin you need a separate goal for this.
+* The `nodejs-maven-plugin` supports downloading the NPM binaries via maven dependencies ([Maven NodeJS Proxy][maven-nodejs-proxy]) - this allows caching the binaries the same way all other maven binaries are cached, and also helps if all internet communication is locked down on your build systems despite the artifact manager.
+
+
+
 
 [usage]: usage.html
 [plugindocs]: plugin-info.html
 [changelog]: changes-report.html
 [maven-nodejs-proxy]: https://github.com/wcm-io-devops/maven-nodejs-proxy
+[frontend-maven-plugin]: https://github.com/eirslett/frontend-maven-plugin

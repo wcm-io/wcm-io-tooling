@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -303,6 +304,9 @@ public final class ContentUnpacker {
       else if (StringUtils.startsWith(attribute.getValue(), "{Name}")) {
         collectNamespacePrefixNameArray(namespacePrefixesActuallyUsed, attribute.getQualifiedName(), attribute.getValue());
       }
+      else if (StringUtils.startsWith(attribute.getValue(), "{WeakReference}")) {
+        attribute.setValue(sortWeakReferenceValues(attribute.getQualifiedName(), attribute.getValue()));
+      }
       if (!excluded) {
         collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
       }
@@ -353,6 +357,31 @@ public final class ContentUnpacker {
       String item = prop.values[i];
       String namespacePrefix = StringUtils.substringBefore(item, ":");
       collectNamespacePrefix(prefixes, namespacePrefix);
+    }
+  }
+
+  /**
+   * Sort weak reference values alphabetically to ensure consistent ordering.
+   * @param name Property name
+   * @param value Property value
+   * @return Property value with sorted references
+   */
+  private String sortWeakReferenceValues(String name, String value) {
+    Set<String> refs = new TreeSet<>();
+    DocViewProperty prop = DocViewProperty.parse(name, value);
+    for (int i = 0; i < prop.values.length; i++) {
+      refs.add(prop.values[i]);
+    }
+    List<Value> values = new ArrayList<>();
+    for (String ref : refs) {
+      values.add(new MockValue(ref, PropertyType.WEAKREFERENCE));
+    }
+    try {
+      String sortedValues = DocViewProperty.format(new MockProperty(name, true, values.toArray(new Value[values.size()])));
+      return sortedValues;
+    }
+    catch (RepositoryException ex) {
+      throw new RuntimeException("Unable to format value for " + name, ex);
     }
   }
 

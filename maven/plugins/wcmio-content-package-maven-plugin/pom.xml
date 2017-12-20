@@ -35,7 +35,8 @@
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
-  <description>Build, upload and download content packages.</description>
+  <description>Upload and download content packages.</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>

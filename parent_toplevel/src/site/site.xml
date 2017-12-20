@@ -35,7 +35,7 @@
   <skin>
     <groupId>io.wcm.maven.skins</groupId>
     <artifactId>reflow-maven-skin</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
   </skin>
   <custom>
     <reflowSkin>
@@ -43,8 +43,6 @@
       <protocolRelativeURLs>false</protocolRelativeURLs>
       <smoothScroll>true</smoothScroll>
       <theme>default</theme>
-      <highlightJs>true</highlightJs>
-      <highlightJsTheme>github</highlightJsTheme>
       <absoluteResourceURL>http://wcm.io</absoluteResourceURL>
       <skinAttribution>false</skinAttribution>
       <brand>

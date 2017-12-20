@@ -23,6 +23,24 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.12" date="not released">
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin version.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin 1.6.2.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Jackrabbit filevault-package-maven-plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Add xgettext-maven-plugin.
+      </action>
+    </release>
+
     <release version="1.2.10" date="2017-11-28">
       <action type="update" dev="sseifert">
         Update CONGA version.

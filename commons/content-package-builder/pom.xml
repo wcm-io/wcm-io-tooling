@@ -35,6 +35,7 @@
 
   <name>AEM Content Package Builder</name>
   <description>Java Library for building AEM Content Packages with content pages and binary files.</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>

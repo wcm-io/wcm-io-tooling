@@ -36,6 +36,7 @@
 
   <name>JSON Dialog Converter Maven Plugin</name>
   <description>Converts AEM Dialog Definitions in JSON Format with Rules from "Adobe AEM Dialog Conversion Tool".</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>

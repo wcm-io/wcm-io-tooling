@@ -36,6 +36,7 @@
 
   <name>CQ Maven Plugin</name>
   <description>Convenience maven plugin for working with CQ/AEM maven projects.</description>
+  <url>${site.url}/${site.url.module.prefix}/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>

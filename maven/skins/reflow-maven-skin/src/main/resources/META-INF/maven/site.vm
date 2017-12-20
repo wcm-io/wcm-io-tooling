@@ -1375,80 +1375,16 @@
   *##else#*
     *##set ( $resourcePath = $relativePath )#*
   *##end#*
+  // remove trailing slash
+  *##if ( $resourcePath.endsWith('/') )#*
+    *##set ( $length = $resourcePath.length() - 1 )#*
+    *##set ( $resourcePath = $resourcePath.substring(0, $length) )#*
+  *##end
 
-  // Config option <localResources>true</localResources> to force CDN-less Bootstrap & jQuery
-  *##if ( $config.is( "localResources" ) )#*
-    *##set ( $localResources = true )#*
-  *##else#*
-    *##set ( $localResources = false )#*
-  *##end#*
-
-  // for 'site' theme, use local CSS/Javascript. This allows users to use their own Bootstrap configs.
-  // Otherwise, load the default or Bootswatch themes from BootstrapCDN
-  *##if ( $localResources || ( $config.theme && "site" == $config.theme.getValue() ) )#*
-    *##set ( $bootstrapCssPath = "$resourcePath/css" )#*
-    *##set ( $bootstrapCssResponsivePath = $bootstrapCssPath )#*
-    *##set ( $bootstrapCssCombined = false )#*
-    *##set ( $bootstrapJsPath = "$resourcePath/js" )#*
-  *##else#*
-    *##set ( $bootstrapVersion = "2.3.2" )#*
-    *##set ( $bootswatchVersion = "2.3.2" )#*
-
-    // use Bootstrap theme from BootstrapCDN (loaded over network)
-    *##if ( $config.theme && $config.theme.getValue().startsWith("bootswatch-") )#*
-      *##set ( $bootswatchTheme = $config.theme.getValue().substring(11) )#*
-    *##else#*
-      *##set ( $bootswatchTheme = false )#*
-    *##end#*
-
-    *##if ( $bootswatchTheme )#*
-      *##set ( $bootstrapCssPath = "$protocol//netdna.bootstrapcdn.com/bootswatch/${bootswatchVersion}/$bootswatchTheme" )#*
-      *##set ( $bootstrapCssResponsivePath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
-      *##set ( $bootstrapCssCombined = false )#*
-    *##else#*
-      *##set ( $bootstrapCssPath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/css" )#*
-      // since Bootstrap 2.3.2, the CDN hosts a combined version of default Bootstrap
-      *##set ( $bootstrapCssCombined = true )#*
-    *##end#*
-
-
-    *##set ( $bootstrapJsPath = "https://maxcdn.bootstrapcdn.com/bootstrap/${bootstrapVersion}/js" )#*
-
-  *##end##
-
-    <link href="$bootstrapCssPath/bootstrap.min.css" rel="stylesheet" />
-#*    *##if ( !$bootstrapCssCombined )#*
-        // if Bootstrap CSS is not combined, add bootstrap-responsive CSS *###
-    <link href="$bootstrapCssResponsivePath/bootstrap-responsive.min.css" rel="stylesheet" />
-#*    *##end#*
-    *##if ( $bootswatchTheme )#*
-        // for Bootswatch themes, add bootswatch.css *###
-    <link href="$resourcePath/css/bootswatch.css" rel="stylesheet" />
-#*    *##else##
+    <link href="$resourcePath/css/bootstrap.min.css" rel="stylesheet" />
     <link href="$resourcePath/css/docs.css" rel="stylesheet" />
-#*    *##end##
     <link href="$resourcePath/css/reflow-skin.css" rel="stylesheet" />
-
-#*
-  // disable CDN-loaded highlightJs altogether if `localResources` is selected.
-  // it will need to be added manually
-  *##if ( !$localResources && $config.is( "highlightJs" ) )#*
-    *##set ( $highlightJs = true )#*
-  *##else#*
-    *##set ( $highlightJs = false )#*
-  *##end#*
-  *##set ( $highlightJsVersion = "8.3" )#*
-
-#*  *##if ( $highlightJs )#*
-    // get the configured theme, or use default if not explicitly specified
-    *##if ( $config.highlightJsTheme )#*
-      *##set ( $highlightJsTheme = $config.highlightJsTheme.getValue() )#*
-    *##else#*
-      *##set ( $highlightJsTheme = 'default' )#*
-    *##end#*
-    // use a hosted version of highlight.js for syntax highlighting  *###
-    <link href="$protocol//cdnjs.cloudflare.com/ajax/libs/highlight.js/$highlightJsVersion/styles/${highlightJsTheme}.min.css" rel="stylesheet" />
-#*  *##end##
+    <link href="$resourcePath/css/highlightjs-style-github.min.css" rel="stylesheet" />
 
 #*  *##if ( !$config.not( "imgLightbox" ) )#*
     // if not disabled, include lightbox for showing images  *###
@@ -1457,16 +1393,6 @@
 
     <link href="$resourcePath/css/site.css" rel="stylesheet" />
     <link href="$resourcePath/css/print.css" rel="stylesheet" media="print" />
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-#*  *##if ( $localResources )##
-      <script src="$resourcePath/js/html5.js"></script>
-#*  *##else##
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-#*  *##end##
-    <![endif]-->
-
 
 #*  *##if ( $decoration.body.head )##
     #htmlContent ( $decoration.body.head.getChildren() )
@@ -1533,7 +1459,7 @@
 
 *###
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
@@ -1669,7 +1595,7 @@
 #*  *##end##
   </div>
 
-  </div><!-- /container -->
+  </div>
 
   <!-- Footer
   ================================================== -->
@@ -1750,17 +1676,10 @@
     </div>
   </div>
 
-  <!-- Le javascript
+  <!-- JavaScript 
   ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-#*
-  *##if ( $localResources )##
   <script src="$resourcePath/js/jquery.min.js"></script>
-#*  *##else##
-  <script src="$protocol//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-#*  *##end##
-
-  <script src="$bootstrapJsPath/bootstrap.min.js"></script>
+  <script src="$resourcePath/js/bootstrap.min.js"></script>
 #*
   *##if ( !$config.not( "imgLightbox" ) )#*
     // if not disabled, include lightbox for showing images  *###
@@ -1772,12 +1691,10 @@
   <script src="$resourcePath/js/reflow-scroll.js"></script>
 #*  *##end#*
 
-  *##if ( $highlightJs )#*
     // use a hosted version of highlight.js for syntax highlighting  *###
-  <script src="$protocol//cdnjs.cloudflare.com/ajax/libs/highlight.js/$highlightJsVersion/highlight.min.js"></script>
-#*  *##end#*
+  <script src="$resourcePath/js/highlight.min.js"></script>
 
-  *##if ( $config.endContent )#*
+#*  *##if ( $config.endContent )#*
     // custom HTML (e.g. JavaScript) to place at the end of the document before </body>  *###
   #htmlContent ( $config.endContent.getChildren() )
 #*  *##end##

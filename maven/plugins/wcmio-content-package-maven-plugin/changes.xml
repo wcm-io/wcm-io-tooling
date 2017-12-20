@@ -28,6 +28,15 @@
         Unpack downloaded AEM package: Rewrite also FileVault XML files that are not named .content.xml.
       </action>
       <action type="update" dev="sseifert">
+        Unpack downloaded AEM package: Sort weak reference values alphatecially to ensure consistent ordering.
+      </action>
+      <action type="update" dev="sseifert">
+        Apply default install delay of 3 sec for 'container' and 'mixed' package types.
+      </action>
+      <action type="update" dev="sseifert">
+        Make bundles starting/stopping wait message more compact.
+      </action>
+      <action type="update" dev="sseifert">
         Mark 'package' goal as deprecated - Jackrabbit filevault-package-maven-plugin should be used instead, see https://wcm-io.atlassian.net/wiki/x/GYB1BQ
       </action>
     </release>
