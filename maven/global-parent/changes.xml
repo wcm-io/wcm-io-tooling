@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update checkstyle, findbugs and PMD plugin and report configurations.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
     </release>
 
     <release version="18" date="2017-11-28">
