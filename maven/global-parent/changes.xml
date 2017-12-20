@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="19" date="not released">
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 12.
+      </action>
+      <action type="update" dev="sseifert">
+        Update checkstyle, findbugs and PMD plugin and report configurations.
+      </action>
+    </release>
+
     <release version="18" date="2017-11-28">
       <action type="update" dev="sseifert">
         Set minimum Maven version to 3.3.9. Remove prerequisites.maven which should only be set for maven-plugin projects.

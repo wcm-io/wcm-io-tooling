@@ -25,7 +25,6 @@
 
   <module name="TreeWalker">
     <property name="tabWidth" value="2"/>
-    <module name="FileContentsHolder"/>
 
     <!-- Naming conventions -->
     <!-- http://checkstyle.sourceforge.net/config_naming.html -->
@@ -109,9 +108,7 @@
     <module name="EmptyBlock">
       <property name="option" value="text"/>
     </module>
-    <module name="LeftCurly">
-      <property name="maxLineLength" value="120"/>
-    </module>
+    <module name="LeftCurly"/>
     <module name="NeedBraces"/>
     <module name="AvoidNestedBlocks"/>
 
@@ -190,6 +187,9 @@
       <property name="scope" value="public"/>
     </module>
 
+    <!-- Allow suppression of checkstyle warnings -->
+    <module name="SuppressionCommentFilter"/>
+
   </module>
 
   <!-- Size Violations -->
@@ -205,9 +205,6 @@
   <!-- Misc -->
   <!-- http://checkstyle.sourceforge.net/config_misc.html -->
   <module name="Translation"/>
-
-  <!-- Allow supproession of checkstyle warnings -->
-  <module name="SuppressionCommentFilter"/>
 
   <!-- External suppressions file -->
   <module name="SuppressionFilter">
