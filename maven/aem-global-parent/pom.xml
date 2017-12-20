@@ -23,7 +23,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!--
-    This cq-global-parent version supports the following CQ versions:
+    This aem-global-parent POM supports the following AEM versions:
     - AEM 6.0.x
     - AEM 6.1.x
     - AEM 6.2.x
@@ -58,12 +58,12 @@
     <sling.url>http://localhost:4502</sling.url>
     <sling.user>admin</sling.user>
     <sling.password>admin</sling.password>
-    
+
     <!-- versions -->
     <sling.maven-sling-plugin.version>2.3.4</sling.maven-sling-plugin.version>
 
   </properties>
-  
+
   <dependencies>
 
     <!-- OSGi versioning annotations -->
@@ -261,12 +261,12 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.7.2</version>
+              <version>1.8.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.generator</artifactId>
-              <version>1.16.0</version>
+              <version>1.17.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
@@ -290,7 +290,7 @@
           <groupId>org.apache.sling</groupId>
           <artifactId>maven-sling-plugin</artifactId>
           <version>${sling.maven-sling-plugin.version}</version>
-          <!-- Default configuration for deploying bundles into running CQ instance -->
+          <!-- Default configuration for deploying bundles into running AEM instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
             <user>${sling.user}</user>
@@ -370,7 +370,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.6.1-SNAPSHOT</version>
+          <version>1.6.2</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -447,14 +447,14 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.5.1-SNAPSHOT</version>
+              <version>1.5.2</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.5.1-SNAPSHOT</version>
+          <version>1.5.2</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
