@@ -94,9 +94,9 @@
 
     <!-- global dependency for static code analysis -->
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>annotations</artifactId>
-      <version>3.0.1u2</version>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>3.1.1</version>
       <scope>provided</scope>
     </dependency>
 
@@ -278,8 +278,8 @@
               <location>/global-build-tools/checkstyle-suppressions.xml</location>
             </file>
             <file>
-              <name>.settings/plugins/findbugs-exclude.xml</name>
-              <location>/global-build-tools/findbugs-exclude.xml</location>
+              <name>.settings/plugins/spotbugs-exclude.xml</name>
+              <location>/global-build-tools/spotbugs-exclude.xml</location>
             </file>
             <file>
               <name>.pmd</name>
@@ -660,13 +660,13 @@
         </plugin>
         
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.5</version>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>3.1.0</version>
           <configuration>
             <xmlOutput>true</xmlOutput>
-            <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
-            <excludeFilterFile>global-build-tools/findbugs-exclude.xml</excludeFilterFile>
+            <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
+            <excludeFilterFile>global-build-tools/spotbugs-exclude.xml</excludeFilterFile>
           </configuration>
         </plugin>
 
@@ -867,16 +867,16 @@
         <inherited>true</inherited>
       </plugin>
 
-      <!-- findbugs -->
+      <!-- spotbugs -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>3.0.5</version>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>3.1.0</version>
         <inherited>true</inherited>
         <configuration>
           <xmlOutput>true</xmlOutput>
-          <xmlOutputDirectory>${project.build.directory}/findbugs</xmlOutputDirectory>
-          <excludeFilterFile>global-build-tools/findbugs-exclude.xml</excludeFilterFile>
+          <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
+          <excludeFilterFile>global-build-tools/spotbugs-exclude.xml</excludeFilterFile>
         </configuration>
       </plugin>
 

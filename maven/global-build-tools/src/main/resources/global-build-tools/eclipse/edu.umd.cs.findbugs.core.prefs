@@ -1,2 +1,4 @@
 #FindBugs User Preferences
-excludefilter0=.settings/plugins/findbugs-exclude.xml|true
+excludefilter0=.settings/plugins/spotbugs-exclude.xml|true
+filter_settings=Medium|BAD_PRACTICE,CORRECTNESS,MALICIOUS_CODE,MT_CORRECTNESS,PERFORMANCE,SECURITY,STYLE|false|20
+filter_settings_neg=EXPERIMENTAL,NOISE,I18N|

@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Checkstyle: Make rules compatible with Checkstyle 8.5.
       </action>
+      <action type="update" dev="sseifert">
+        Spotbugs: Change findbugs rules to spotbugs rules.
+      </action>
     </release>
 
     <release version="11" date="2017-10-17">
