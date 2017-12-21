@@ -22,11 +22,11 @@
         <configuration>
           <npmVersion>5.5.1</npmVersion>
           <nodeJsVersion>8.9.1</nodeJsVersion>
-          <nodeJsDirectory>/home/pi/nodejs</nodeJsDirectory>
+          <nodeJsDirectory>target/nodejs</nodeJsDirectory>
           <installDirectly>true</installDirectly>
           <tasks>
             <nodeJsTask>
-              <workingDirectory>/home/pi/nodejswork</workingDirectory>
+              <workingDirectory>target/nodejswork</workingDirectory>
               <moduleName>wetty</moduleName>
               <executableName>wetty.js</executableName>
               <arguments>
