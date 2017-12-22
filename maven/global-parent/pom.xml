@@ -667,6 +667,13 @@
             <xmlOutput>true</xmlOutput>
             <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
             <excludeFilterFile>global-build-tools/spotbugs-exclude.xml</excludeFilterFile>
+            <plugins>
+              <plugin>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-plugin</artifactId>
+                <version>1.7.1</version>
+              </plugin>
+            </plugins>
           </configuration>
         </plugin>
 
@@ -877,6 +884,13 @@
           <xmlOutput>true</xmlOutput>
           <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
           <excludeFilterFile>global-build-tools/spotbugs-exclude.xml</excludeFilterFile>
+          <plugins>
+            <plugin>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>1.7.1</version>
+            </plugin>
+          </plugins>
         </configuration>
       </plugin>
 
