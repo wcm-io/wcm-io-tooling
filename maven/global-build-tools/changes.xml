@@ -28,7 +28,7 @@
         Checkstyle: Make rules compatible with Checkstyle 8.5.
       </action>
       <action type="update" dev="sseifert">
-        Spotbugs: Change findbugs rules to spotbugs rules.
+        Spotbugs: Change findbugs rules to spotbugs rules, do not apply tests to *Test unit test classes.
       </action>
     </release>
 

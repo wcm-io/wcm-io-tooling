@@ -31,6 +31,9 @@
         Update checkstyle, spotbugs and PMD plugin and report configurations. Use spotbugs maven plugin instead of findbugs maven plugin.
       </action>
       <action type="update" dev="sseifert">
+        Add "Find Security Bugs" plugin to spotbugs maven plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Update plugins to latest versions.
       </action>
     </release>

@@ -3,7 +3,7 @@
   #%L
   wcm.io
   %%
-  Copyright (C) 2014 wcm.io
+  Copyright (C) 2017 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@
 
   <!-- Disable some specifc spotbugs checks -->
   <Match>
+
     <Bug pattern="
         BC_IMPOSSIBLE_INSTANCEOF,
         BC_UNCONFIRMED_CAST,
@@ -44,6 +45,18 @@
         UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR,
         VA_FORMAT_STRING_USES_NEWLINE
     "/>
+
+  </Match>
+
+  <Match>
+
+    <!-- Ignore unit tes classs -->
+    <Class name="~.*\.*Test" />
+
+    <Not>
+      <Bug code="IJU" /> <!-- 'IJU' is the code for bugs related to JUnit test code -->
+    </Not>
+
   </Match>
 
 </FindBugsFilter>

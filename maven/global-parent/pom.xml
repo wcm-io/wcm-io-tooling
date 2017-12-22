@@ -87,6 +87,19 @@
     <distribution.snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</distribution.snapshotRepositoryUrl>
     <distribution.releaseRepositoryId>ossrh</distribution.releaseRepositoryId>
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
+    
+    <!-- Plugin version -->
+    <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+    <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
+    <spotbugs-maven-plugin.version>3.1.0</spotbugs-maven-plugin.version>
+    <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
+    <maven-pmd-plugin.version>3.8</maven-pmd-plugin.version>
+    <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
+    <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
+    <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+    <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
+    <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
 
   </properties>
 
@@ -434,7 +447,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
+        <version>${maven-checkstyle-plugin.version}</version>
         <configuration>
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
@@ -474,7 +487,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-changes-plugin</artifactId>
-          <version>2.12.1</version>
+          <version>${maven-changes-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -516,7 +529,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.20.1</version>
+          <version>${maven-surefire-plugin.version}</version>
           <dependencies>
             <dependency>
               <groupId>xerces</groupId>
@@ -547,19 +560,19 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>${maven-javadoc-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.5</version>
+          <version>${maven-jxr-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.8</version>
+          <version>${maven-pmd-plugin.version}</version>
           <configuration>
             <targetJdk>${build.compiler.target}</targetJdk>
             <format>xml</format>
@@ -574,7 +587,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>2.9</version>
+          <version>${maven-project-info-reports-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -631,13 +644,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.20.1</version>
+          <version>${maven-surefire-plugin.version}</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.20.1</version>
+          <version>${maven-surefire-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -662,11 +675,18 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>${spotbugs-maven-plugin.version}</version>
           <configuration>
             <xmlOutput>true</xmlOutput>
             <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
             <excludeFilterFile>global-build-tools/spotbugs-exclude.xml</excludeFilterFile>
+            <plugins>
+              <plugin>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-plugin</artifactId>
+                <version>${spotbugs-findsecbugs-plugin.version}</version>
+              </plugin>
+            </plugins>
           </configuration>
         </plugin>
 
@@ -679,7 +699,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
-          <version>2.4</version>
+          <version>${taglist-maven-plugin.version}</version>
           <configuration>
             <tagListOptions>
               <tagClasses>
@@ -722,7 +742,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.9</version>
+          <version>${jacoco-maven-plugin.version}</version>
         </plugin>
 
         <plugin>
@@ -761,7 +781,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>
+        <version>${maven-project-info-reports-plugin.version}</version>
         <inherited>true</inherited>
         <configuration>
           <!-- following will remove the location fetching, will speed up the build process
@@ -774,7 +794,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.12</version>
+        <version>${maven-changes-plugin.version}</version>
         <inherited>true</inherited>
         <configuration>
           <xmlPath>${basedir}/changes.xml</xmlPath>
@@ -792,7 +812,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>${maven-javadoc-plugin.version}</version>
         <inherited>true</inherited>
         <reportSets>
           <reportSet>
@@ -807,7 +827,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.5</version>
+        <version>${maven-jxr-plugin.version}</version>
         <inherited>true</inherited>
         <reportSets>
           <reportSet>
@@ -822,7 +842,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
+        <version>${maven-checkstyle-plugin.version}</version>
         <inherited>true</inherited>
         <configuration>
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
@@ -846,7 +866,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.8</version>
+        <version>${maven-pmd-plugin.version}</version>
         <inherited>true</inherited>
         <configuration>
           <targetJdk>${build.compiler.target}</targetJdk>
@@ -863,20 +883,50 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
-        <version>2.4</version>
+        <version>${taglist-maven-plugin.version}</version>
         <inherited>true</inherited>
+        <configuration>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Todo Work</displayName>
+                <tags>
+                  <tag>
+                    <matchString>TODO:</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>XXX</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
       </plugin>
 
       <!-- spotbugs -->
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>${spotbugs-maven-plugin.version}</version>
         <inherited>true</inherited>
         <configuration>
           <xmlOutput>true</xmlOutput>
           <xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
           <excludeFilterFile>global-build-tools/spotbugs-exclude.xml</excludeFilterFile>
+          <plugins>
+            <plugin>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>${spotbugs-findsecbugs-plugin.version}</version>
+            </plugin>
+          </plugins>
         </configuration>
       </plugin>
 
@@ -884,7 +934,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.9</version>
+        <version>${jacoco-maven-plugin.version}</version>
       </plugin>
 
     </plugins>
