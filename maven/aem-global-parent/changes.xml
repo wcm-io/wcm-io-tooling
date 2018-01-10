@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update CONGA and plugin versions, add CONGA Ansible plugin.
       </action>
+      <action type="update" dev="sseifert">
+        wcmio-content-package-maven-plugin: Do not remove META-INF directory on download.
+      </action>
     </release>
 
     <release version="1.2.12" date="2017-12-20">

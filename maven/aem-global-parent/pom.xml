@@ -405,6 +405,9 @@
               <exclude>cq\:Taggable</exclude>
               <exclude>cq\:ReplicationStatus</exclude>
             </excludeMixins>
+            <unpackDeleteDirectories>
+              <directory>jcr_root</directory>
+            </unpackDeleteDirectories>
             <failOnMissingEmbed>true</failOnMissingEmbed>
           </configuration>
         </plugin>
