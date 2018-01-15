@@ -33,7 +33,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>18</version>
+    <version>19-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -224,7 +224,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.5.0</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -405,6 +405,9 @@
               <exclude>cq\:Taggable</exclude>
               <exclude>cq\:ReplicationStatus</exclude>
             </excludeMixins>
+            <unpackDeleteDirectories>
+              <directory>jcr_root</directory>
+            </unpackDeleteDirectories>
             <failOnMissingEmbed>true</failOnMissingEmbed>
           </configuration>
         </plugin>
@@ -436,25 +439,30 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.4.4</version>
+          <version>1.4.5-SNAPSHOT</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.sling</artifactId>            
-              <version>1.2.2</version>
+              <version>1.2.3-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.5.2</version>
+              <version>1.5.3-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+              <groupId>io.wcm.devops.conga.plugins</groupId>
+              <artifactId>io.wcm.devops.conga.plugins.ansible</artifactId>            
+              <version>1.0.0-SNAPSHOT</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.5.2</version>
+          <version>1.5.3-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>

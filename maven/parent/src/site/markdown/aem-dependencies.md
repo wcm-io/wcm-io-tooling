@@ -4,57 +4,74 @@ Defines Maven dependencies for a specific AEM version, including those that are 
 
 Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
 
-### Maven Dependency (AEM 6.3)
+### AEM 6.3 SP1
 
 ```xml
-<dependency>
-  <groupId>io.wcm.maven</groupId>
-  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.3.0.0000</version>
-</dependency>
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>6.3.1.0000</version>
+  <type>pom</type>
+  <scope>import</scope>
 </dependency>
 ```
 
-### Maven Dependency (AEM 6.2)
+### AEM 6.3
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.2.0.0001</version>
+  <version>6.3.0.0001</version>
+  <type>pom</type>
+  <scope>import</scope>
 </dependency>
 ```
 
-### Maven Dependency (AEM 6.1)
+### AEM 6.2
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.1.0.0000</version>
+  <version>6.2.0.0002</version>
+  <type>pom</type>
+  <scope>import</scope>
 </dependency>
 ```
 
-### Maven Dependency (AEM 6.0)
+### AEM 6.1
+
+```xml
+<dependency>
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
+  <version>6.1.0.0001</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+```
+
+### AEM 6.0
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>6.0.0.0001</version>
+  <type>pom</type>
+  <scope>import</scope>
 </dependency>
 ```
 
-### Maven Dependency (CQ 5.5)
+### CQ 5.5
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>5.5.0.0000</version>
+  <type>pom</type>
+  <scope>import</scope>
 </dependency>
 ```

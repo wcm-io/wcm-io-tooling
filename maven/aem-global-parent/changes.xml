@@ -23,6 +23,21 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.14" date="not released">
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 19.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to maven-bundle-plugin 3.5.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update CONGA and plugin versions, add CONGA Ansible plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        wcmio-content-package-maven-plugin: Do not remove META-INF directory on download.
+      </action>
+    </release>
+
     <release version="1.2.12" date="2017-12-20">
       <action type="update" dev="sseifert">
         Update CONGA AEM plugin version.

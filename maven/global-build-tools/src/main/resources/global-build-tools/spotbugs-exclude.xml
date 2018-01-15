@@ -3,7 +3,7 @@
   #%L
   wcm.io
   %%
-  Copyright (C) 2014 wcm.io
+  Copyright (C) 2017 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,12 +19,16 @@
   #L%
   -->
 
-<FindBugsFilter>
+<FindBugsFilter
+    xmlns="https://github.com/spotbugs/filter/3.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
 
-  <!-- see http://findbugs.sourceforge.net/manual/filter.html -->
+  <!-- see http://spotbugs.readthedocs.io/en/latest/filter.html -->
 
-  <!-- Disable some specifc findbugs checks -->
+  <!-- Disable some specifc spotbugs checks -->
   <Match>
+
     <Bug pattern="
         BC_IMPOSSIBLE_INSTANCEOF,
         BC_UNCONFIRMED_CAST,
@@ -41,6 +45,18 @@
         UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR,
         VA_FORMAT_STRING_USES_NEWLINE
     "/>
+
+  </Match>
+
+  <Match>
+
+    <!-- Ignore unit tes classs -->
+    <Class name="~.*\.*Test" />
+
+    <Not>
+      <Bug code="IJU" /> <!-- 'IJU' is the code for bugs related to JUnit test code -->
+    </Not>
+
   </Match>
 
 </FindBugsFilter>
