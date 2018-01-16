@@ -25,7 +25,7 @@
 
     <release version="1.2.16" date="not released">
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA ANsible plugin versions.
+        Update CONGA and CONGA Ansible plugin versions.
       </action>
       <action type="update" dev="sseifert">
         Define deployFsResourceBundlePrerequisites for maven-sling-plugin with latest File System Resource Provider versions.
