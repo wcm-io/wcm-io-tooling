@@ -10,7 +10,7 @@ Definition of rules for static code analysis tools and IDEs.
 The settings in this build tools project cover:
 
 * Checkstyle rule configuration and checkstyle suppressions
-* Findbugs exclusions rules
+* Spotbugs exclusions rules
 * PMD ruleset
 * Eclipse default settings
 

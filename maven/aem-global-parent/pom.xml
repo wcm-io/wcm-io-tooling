@@ -39,7 +39,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.2.15-SNAPSHOT</version>
+  <version>1.2.16</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -194,6 +194,35 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <deployFsResourceBundlePrerequisites>
+            <bundlePrerequisite>
+              <bundles>
+                <bundle>
+                  <groupId>org.apache.sling</groupId>
+                  <artifactId>org.apache.sling.fsresource</artifactId>
+                  <version>2.1.12</version>
+                </bundle>
+              </bundles>
+              <preconditions>
+                <bundle>
+                  <groupId>org.apache.sling</groupId>
+                  <artifactId>org.apache.sling.resourceresolver</artifactId>
+                  <version>1.5.18</version>
+                </bundle>
+              </preconditions>
+            </bundlePrerequisite>
+            <bundlePrerequisite>
+              <bundles>
+                <bundle>
+                  <groupId>org.apache.sling</groupId>
+                  <artifactId>org.apache.sling.fsresource</artifactId>
+                  <version>1.4.8</version>
+                </bundle>
+              </bundles>
+            </bundlePrerequisite>
+          </deployFsResourceBundlePrerequisites>
+        </configuration>
       </plugin>
 
       <!-- Validate Slightly HTML scripts -->
@@ -439,7 +468,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.5.0</version>
+          <version>1.6.0</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
