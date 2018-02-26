@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update CONGA and CONGA AEM Plugin version.
       </action>
+      <action type="update" dev="sseifert">
+        Switch from osgi.annotation to org.osgi.annotation.versioning artifact.
+      </action>
     </release>
 
     <release version="1.2.16" date="2018-02-05">
