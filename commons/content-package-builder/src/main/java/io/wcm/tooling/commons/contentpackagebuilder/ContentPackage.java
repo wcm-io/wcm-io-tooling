@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -48,7 +49,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.vault.fs.config.MetaInf;
@@ -304,7 +304,7 @@ public final class ContentPackage implements Closeable {
       String xmlContent = IOUtils.toString(is);
       for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
         xmlContent = StringUtils.replace(xmlContent, "{{" + entry.getKey() + "}}",
-            StringEscapeUtils.escapeXml(entry.getValue().toString()));
+            StringEscapeUtils.escapeXml10(entry.getValue().toString()));
       }
       zip.putNextEntry(new ZipEntry(path));
       try {
@@ -327,7 +327,7 @@ public final class ContentPackage implements Closeable {
     properties.put(PackageProperties.NAME_REQUIRES_ROOT, Boolean.toString(false));
 
     for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
-      String value = ObjectUtils.toString(entry.getValue());
+      String value = Objects.toString(entry.getValue());
       if (StringUtils.isNotEmpty(value)) {
         properties.put(entry.getKey(), value);
       }
