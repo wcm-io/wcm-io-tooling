@@ -28,6 +28,9 @@
         Update CONGA and CONGA AEM Plugin version.
       </action>
       <action type="update" dev="sseifert">
+        Update wcm.io Content Package Maven Plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Switch from osgi.annotation to org.osgi.annotation.versioning artifact.
       </action>
       <action type="update" dev="sseifert">
