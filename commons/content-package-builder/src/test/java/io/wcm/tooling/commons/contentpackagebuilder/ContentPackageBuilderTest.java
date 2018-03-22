@@ -80,6 +80,7 @@ public class ContentPackageBuilderTest {
     underTest.version("1.2.3");
     underTest.rootPath("/content/mypath");
     underTest.acHandling(AcHandling.OVERWRITE);
+    underTest.property("my.prop", "myvalue1");
 
     try (InputStream is = getClass().getResourceAsStream("/thumbnail.png")) {
       underTest.thumbnailImage(is);
@@ -108,6 +109,7 @@ public class ContentPackageBuilderTest {
     assertXpathEvaluatesTo("1.2.3", "/properties/entry[@key='version']", propsXml);
     assertXpathEvaluatesTo("false", "/properties/entry[@key='requiresRoot']", propsXml);
     assertXpathEvaluatesTo("overwrite", "/properties/entry[@key='acHandling']", propsXml);
+    assertXpathEvaluatesTo("myvalue1", "/properties/entry[@key='my.prop']", propsXml);
 
     Document settingsXml = getXmlFromZip("META-INF/vault/settings.xml");
     assertXpathEvaluatesTo("1.0", "/vault/@version", settingsXml);

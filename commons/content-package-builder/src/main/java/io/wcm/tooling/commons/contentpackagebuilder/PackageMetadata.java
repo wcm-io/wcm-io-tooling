@@ -41,7 +41,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Package metadata
+ * Package metadata.
  */
 final class PackageMetadata {
 
@@ -53,7 +53,8 @@ final class PackageMetadata {
   private String version = "1.0";
   private AcHandling acHandling;
   private List<PackageFilter> filters = new ArrayList<>();
-  private Map<String, String> xmlNamespaces = new HashMap<>();
+  private final Map<String, String> xmlNamespaces = new HashMap<>();
+  private final Map<String, Object> additionalProperties = new HashMap<>();
   private byte[] thumbnailImage;
 
   /**
@@ -104,6 +105,10 @@ final class PackageMetadata {
     xmlNamespaces.put(prefix, uri);
   }
 
+  public void addProperty(String property, Object value) {
+    additionalProperties.put(property, value);
+  }
+
   /**
    * @return XML namespaces
    */
@@ -146,16 +151,17 @@ final class PackageMetadata {
   public Map<String, Object> getVars() {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(created);
-    return ImmutableMap.<String,Object>builder()
-        .put(NAME_GROUP, StringUtils.defaultString(group))
-        .put(NAME_NAME, StringUtils.defaultString(name))
-        .put(NAME_DESCRIPTION, StringUtils.defaultString(description))
-        .put(NAME_CREATED, ISO8601.format(calendar))
-        .put(NAME_CREATED_BY, StringUtils.defaultString(createdBy))
-        .put(NAME_VERSION, StringUtils.defaultString(version))
-        .put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "")
-        .put("path", "/etc/packages/" + group + "/" + name + ".zip")
-        .build();
+    Map<String, Object> vars = new HashMap<>();
+    vars.put(NAME_GROUP, StringUtils.defaultString(group));
+    vars.put(NAME_NAME, StringUtils.defaultString(name));
+    vars.put(NAME_DESCRIPTION, StringUtils.defaultString(description));
+    vars.put(NAME_CREATED, ISO8601.format(calendar));
+    vars.put(NAME_CREATED_BY, StringUtils.defaultString(createdBy));
+    vars.put(NAME_VERSION, StringUtils.defaultString(version));
+    vars.put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "");
+    vars.put("path", "/etc/packages/" + group + "/" + name + ".zip");
+    vars.putAll(additionalProperties);
+    return ImmutableMap.copyOf(vars);
   }
 
 }
