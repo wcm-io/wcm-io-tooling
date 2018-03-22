@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.tooling.commons</groupId>
   <artifactId>io.wcm.tooling.commons.parent</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.6</version>
   <packaging>pom</packaging>
 
   <name>Tooling Commons</name>

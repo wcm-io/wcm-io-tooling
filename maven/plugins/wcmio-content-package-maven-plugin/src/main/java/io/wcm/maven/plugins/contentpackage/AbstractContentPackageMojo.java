@@ -25,9 +25,12 @@ import static io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory.CRX_
 import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
@@ -133,6 +136,12 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.httpSocketTimeoutSec", defaultValue = "60")
   private int httpSocketTimeout;
 
+  @Parameter(property = "session", defaultValue = "${session}", readonly = true)
+  private MavenSession session;
+
+  @Component(role = SettingsDecrypter.class)
+  private SettingsDecrypter decrypter;
+
   protected final File getPackageFile() {
     return this.packageFile;
   }
@@ -154,6 +163,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     props.setRelaxedSSLCheck(this.relaxedSSLCheck);
     props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
     props.setHttpSocketTimeoutSec(this.httpSocketTimeout);
+    props.setProxies(ProxySupport.getMavenProxies(session, decrypter));
 
     return props;
   }

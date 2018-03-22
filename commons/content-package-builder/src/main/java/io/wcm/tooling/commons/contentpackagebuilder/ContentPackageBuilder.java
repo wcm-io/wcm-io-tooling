@@ -132,6 +132,17 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Add custom package metadata property.
+   * @param property Property name
+   * @param value Property value
+   * @return this
+   */
+  public ContentPackageBuilder property(String property, Object value) {
+    metadata.addProperty(property, value);
+    return this;
+  }
+
+  /**
    * Register a XML namespace that is used by your content added to the JCR XML.
    * This method can be called multiple times to register multiple namespaces.
    * The JCR namespaces "jcr", "nt", "cq" and "sling" are registered by default.
@@ -173,7 +184,7 @@ public final class ContentPackageBuilder {
    * @return Content package
    * @throws IOException I/O exception
    */
-  @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION", justification = "stream is closed when ContentPackage is closes.")
+  @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION", justification = "Stream is closed when ContentPackage is closed.")
   public ContentPackage build(File file) throws IOException {
     return build(new FileOutputStream(file));
   }

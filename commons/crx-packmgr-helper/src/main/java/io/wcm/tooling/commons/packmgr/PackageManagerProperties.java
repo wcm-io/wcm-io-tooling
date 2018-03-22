@@ -19,6 +19,8 @@
  */
 package io.wcm.tooling.commons.packmgr;
 
+import java.util.List;
+
 /**
  * Configuration properties for {@link PackageManagerHelper}.
  */
@@ -34,6 +36,7 @@ public final class PackageManagerProperties {
   private boolean relaxedSSLCheck;
   private int httpConnectTimeoutSec = 10;
   private int httpSocketTimeoutSec = 60;
+  private List<Proxy> proxies;
 
   /**
    * The URL of the HTTP service API of the CRX package manager.
@@ -161,6 +164,18 @@ public final class PackageManagerProperties {
 
   public void setHttpSocketTimeoutSec(int httpSocketTimeoutSec) {
     this.httpSocketTimeoutSec = httpSocketTimeoutSec;
+  }
+
+  /**
+   * HTTP proxies from maven settings
+   * @return List of proxies
+   */
+  public List<Proxy> getProxies() {
+    return this.proxies;
+  }
+
+  public void setProxies(List<Proxy> proxies) {
+    this.proxies = proxies;
   }
 
 }
