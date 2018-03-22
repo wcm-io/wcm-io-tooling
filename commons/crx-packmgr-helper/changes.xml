@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.3.4" date="not relelased">
+    <release version="1.3.4" date="2018-03-23">
       <action type="update" dev="sseifert">
         Add HTTP proxy support.
       </action>
