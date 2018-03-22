@@ -399,7 +399,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.6.3-SNAPSHOT</version>
+          <version>1.6.4</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -470,7 +470,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.7.1-SNAPSHOT</version>
+          <version>1.8.0</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
