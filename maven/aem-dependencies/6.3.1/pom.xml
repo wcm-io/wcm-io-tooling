@@ -346,12 +346,12 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.commons.johnzon</artifactId>
-        <version>1.1.0</version>
+        <version>1.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
-        <artifactId>geronimo-json_1.1_spec</artifactId>
-        <version>1.0</version>
+        <artifactId>geronimo-json_1.0_spec</artifactId>
+        <version>1.0-alpha-1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
