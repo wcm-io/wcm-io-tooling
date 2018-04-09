@@ -38,7 +38,7 @@
     <tag>HEAD</tag>
   </scm>
 
-  <inceptionYear>2017</inceptionYear>
+  <inceptionYear>2018</inceptionYear>
 
   <organization>
     <name>wcm.io</name>
@@ -77,8 +77,8 @@
 <!--
      #######################################################################
 
-      Dependencies from this CQ release:
-      - cq-quickstart-beta-6.4.0-load18a.jar
+      Dependencies from this AEM release:
+      - AEM_6.4_Quickstart.jar
 
      #######################################################################
 -->
@@ -87,7 +87,7 @@
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.4.0-load18a</version>
+        <version>6.4.0</version>
         <classifier>apis</classifier>
       </dependency>
       
@@ -181,9 +181,9 @@
         <version>1.0</version>
       </dependency>
       <dependency>
-        <groupId>com.day.commons.osgi.wrapper</groupId>
-        <artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
-        <version>1.2.0-0002</version>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-email</artifactId>
+        <version>1.5</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -221,14 +221,19 @@
         <version>3.6</version>
       </dependency>
       <dependency>
-        <groupId>com.day.commons.osgi.wrapper</groupId>
-        <artifactId>com.day.commons.osgi.wrapper.commons-lang2</artifactId>
-        <version>2.5-0001</version>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
       </dependency>
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
         <version>3.2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>4.1</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
@@ -238,7 +243,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.13</version>
+        <version>1.15</version>
       </dependency>      
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -321,17 +326,17 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.scripting.sightly</artifactId>
-        <version>1.0.46</version>
+        <version>1.0.48</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.scripting.sightly.compiler</artifactId>
-        <version>1.0.18</version>
+        <version>1.0.20</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.scripting.sightly.compiler.java</artifactId>
-        <version>1.0.20</version>
+        <version>1.0.22</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -367,7 +372,7 @@
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>oak-jcr</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.2</version>
       </dependency>
 
     </dependencies>
