@@ -69,8 +69,8 @@
     <!-- OSGi versioning annotations -->
     <dependency>
       <groupId>org.osgi</groupId>
-      <artifactId>osgi.annotation</artifactId>
-      <version>6.0.1</version>
+      <artifactId>org.osgi.annotation.versioning</artifactId>
+      <version>1.0.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -399,7 +399,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.6.2</version>
+          <version>1.6.4</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -421,6 +421,8 @@
               <exclude>cq\:lastReplicated</exclude>
               <exclude>cq\:lastReplicatedBy</exclude>
               <exclude>cq\:lastReplicationAction</exclude>
+              <exclude>cq\:lastRolledout</exclude>
+              <exclude>cq\:lastRolledoutBy</exclude>
               <exclude>dam\:extracted</exclude>
               <exclude>dam\:sha1</exclude>
               <exclude>dam\:Comments</exclude>
@@ -468,7 +470,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.7.0</version>
+          <version>1.8.0</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
@@ -479,7 +481,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.6.2</version>
+              <version>1.7.0</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -491,7 +493,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.6.2</version>
+          <version>1.7.0</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>

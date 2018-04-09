@@ -25,12 +25,14 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
@@ -124,11 +126,22 @@ public final class PackageManagerHelper {
           .setSocketTimeout(props.getHttpSocketTimeoutSec() * (int)DateUtils.MILLIS_PER_SECOND)
           .build());
 
-
+      // relaxed SSL check
       if (props.isRelaxedSSLCheck()) {
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
         httpClientBuilder.setSSLSocketFactory(sslsf);
+      }
+
+      // proxy support
+      Proxy proxy = getProxyForUrl(props.getPackageManagerUrl());
+      if (proxy != null) {
+        httpClientBuilder.setProxy(new HttpHost(proxy.getHost(), proxy.getPort(), proxy.getProtocol()));
+        if (proxy.useAuthentication()) {
+          AuthScope proxyAuthScope = new AuthScope(proxy.getHost(), proxy.getPort());
+          Credentials proxyCredentials = new UsernamePasswordCredentials(proxy.getUsername(), proxy.getPassword());
+          credsProvider.setCredentials(proxyAuthScope, proxyCredentials);
+        }
       }
 
       return httpClientBuilder.build();
@@ -140,6 +153,26 @@ public final class PackageManagerHelper {
       throw new PackageManagerException("Could not set relaxedSSLCheck", ex);
     }
   }
+
+  /**
+   * Get proxy for given URL
+   * @param requestUrl Request URL
+   * @return Proxy or null if none matching found
+   */
+  private Proxy getProxyForUrl(String requestUrl) {
+    List<Proxy> proxies = props.getProxies();
+    if (proxies == null || proxies.isEmpty()) {
+      return null;
+    }
+    final URI uri = URI.create(requestUrl);
+    for (Proxy proxy : proxies) {
+      if (!proxy.isNonProxyHost(uri.getHost())) {
+        return proxy;
+      }
+    }
+    return null;
+  }
+
 
   /**
    * Execute HTTP call with automatic retry as configured for the MOJO.
