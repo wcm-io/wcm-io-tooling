@@ -23,11 +23,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!--
-    This aem-global-parent POM supports the following AEM versions:
-    - AEM 6.0.x
-    - AEM 6.1.x
-    - AEM 6.2.x
-    - AEM 6.3.x
+    This aem-global-parent POM supports the following AEM versions: AEM 6.0 and above.
   -->
 
   <parent>
