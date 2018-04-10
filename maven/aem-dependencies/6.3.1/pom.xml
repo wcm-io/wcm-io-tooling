@@ -246,7 +246,7 @@
         <artifactId>commons-compress</artifactId>
         <version>1.13</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-imaging</artifactId>
@@ -301,7 +301,7 @@
         <artifactId>standard</artifactId>
         <version>1.1.2</version>
       </dependency>
-      
+
       <!-- Dependencies that may required by AEM mocks/Sling mocks with version included in this AEM version -->
       <dependency>
         <groupId>org.apache.sling</groupId>

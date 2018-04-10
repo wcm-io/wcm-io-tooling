@@ -10,7 +10,7 @@ window.addEventListener("load", function() {
     fadeDuration: 0,
     attributionPosition: 45,
     rainbowStartColor: "hsla(206, 100%, 55%, 1)",
-    rainbowEndColor: "hsla(180, 100%, 55%, 1)",    
+    rainbowEndColor: "hsla(180, 100%, 55%, 1)",
 
     // Some data to visualize.
     dataObject: {

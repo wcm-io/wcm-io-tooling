@@ -108,7 +108,7 @@
       <artifactId>org.apache.sling.commons.json</artifactId>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.fsresource</artifactId>

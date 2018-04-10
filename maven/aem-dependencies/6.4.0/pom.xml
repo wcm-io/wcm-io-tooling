@@ -90,7 +90,7 @@
         <version>6.4.0</version>
         <classifier>apis</classifier>
       </dependency>
-      
+
       <!-- OSGI -->
       <dependency>
         <groupId>org.osgi</groupId>
@@ -244,7 +244,7 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.15</version>
-      </dependency>      
+      </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-imaging</artifactId>
