@@ -33,6 +33,7 @@ public final class PackageManagerProperties {
   private int retryDelaySec = 5;
   private String bundleStatusUrl;
   private int bundleStatusWaitLimitSec = 360;
+  private List<String> bundleStatusBlacklistBundleNames;
   private boolean relaxedSSLCheck;
   private int httpConnectTimeoutSec = 10;
   private int httpSocketTimeoutSec = 60;
@@ -128,6 +129,20 @@ public final class PackageManagerProperties {
 
   public void setBundleStatusWaitLimitSec(int bundleStatusWaitLimitSec) {
     this.bundleStatusWaitLimitSec = bundleStatusWaitLimitSec;
+  }
+
+  /**
+   * Symbolic names of bundles that are expected to be not present in bundle list. When any of these bundles are found
+   * in the bundle list, this system is assumed as not ready for installing further packages because a previous
+   * installation (e.g. of AEM service pack) is still in progress.
+   * @return List of symbolic bundle names.
+   */
+  public List<String> getBundleStatusBlacklistBundleNames() {
+    return this.bundleStatusBlacklistBundleNames;
+  }
+
+  public void setBundleStatusBlacklistBundleNames(List<String> bundleStatusBlacklistBundleNames) {
+    this.bundleStatusBlacklistBundleNames = bundleStatusBlacklistBundleNames;
   }
 
   /**

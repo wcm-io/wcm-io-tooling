@@ -103,7 +103,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         }
 
         // execute post
-        pkgmgr.executePackageManagerMethodHtml(httpClient, post, 0);
+        pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, post);
 
         // delay further processing after install (if activated)
         delay(packageFile.getDelayAfterInstallSec(), log);
