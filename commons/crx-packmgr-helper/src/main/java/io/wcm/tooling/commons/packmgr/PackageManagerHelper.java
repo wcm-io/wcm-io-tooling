@@ -286,18 +286,36 @@ public final class PackageManagerHelper {
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
       BundleStatusCall call = new BundleStatusCall(httpClient, props.getBundleStatusUrl(), log);
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
-      if (bundleStatus.isAllBundlesRunning()) {
+
+      // check if bundles are still stopping/staring
+      if (!bundleStatus.isAllBundlesRunning()) {
+        log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
+            + " - wait " + WAIT_INTERVAL_SEC + " sec "
+            + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+        sleep(WAIT_INTERVAL_SEC);
         return;
       }
-      log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
-          + " - wait " + WAIT_INTERVAL_SEC + " sec "
-          + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
-      try {
-        Thread.sleep(WAIT_INTERVAL_SEC * DateUtils.MILLIS_PER_SECOND);
+
+      // check if any of the blacklisted bundles is still present
+      for (String blacklistBundleName : props.getBundleStatusBlacklistBundleNames()) {
+        if (bundleStatus.containsBundle(blacklistBundleName)) {
+          log.info("Bundle '" + blacklistBundleName + "' is still deployed "
+              + " - wait " + WAIT_INTERVAL_SEC + " sec "
+              + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+          sleep(WAIT_INTERVAL_SEC);
+          return;
+        }
       }
-      catch (InterruptedException e) {
-        // ignore
-      }
+
+    }
+  }
+
+  private void sleep(int sec) {
+    try {
+      Thread.sleep(sec * DateUtils.MILLIS_PER_SECOND);
+    }
+    catch (InterruptedException e) {
+      // ignore
     }
   }
 
