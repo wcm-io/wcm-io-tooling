@@ -286,26 +286,35 @@ public final class PackageManagerHelper {
       BundleStatusCall call = new BundleStatusCall(httpClient, props.getBundleStatusUrl(), log);
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
 
+      boolean instanceReady = true;
+
       // check if bundles are still stopping/staring
       if (!bundleStatus.isAllBundlesRunning()) {
         log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
             + " - wait " + WAIT_INTERVAL_SEC + " sec "
             + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
         sleep(WAIT_INTERVAL_SEC);
-        return;
+        instanceReady = false;
       }
 
       // check if any of the blacklisted bundles is still present
-      for (String blacklistBundleName : props.getBundleStatusBlacklistBundleNames()) {
-        if (bundleStatus.containsBundle(blacklistBundleName)) {
-          log.info("Bundle '" + blacklistBundleName + "' is still deployed "
-              + " - wait " + WAIT_INTERVAL_SEC + " sec "
-              + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
-          sleep(WAIT_INTERVAL_SEC);
-          return;
+      if (instanceReady) {
+        for (String blacklistBundleName : props.getBundleStatusBlacklistBundleNames()) {
+          if (bundleStatus.containsBundle(blacklistBundleName)) {
+            log.info("Bundle '" + blacklistBundleName + "' is still deployed "
+                + " - wait " + WAIT_INTERVAL_SEC + " sec "
+                + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+            sleep(WAIT_INTERVAL_SEC);
+            instanceReady = false;
+            break;
+          }
         }
       }
 
+      // instance is ready
+      if (instanceReady) {
+        break;
+      }
     }
   }
 
