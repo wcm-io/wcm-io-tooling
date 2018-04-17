@@ -27,9 +27,6 @@
       <action type="update" dev="sseifert">
         Improve support for "feature model based service packs" by ensuring bundle "updater.aem-service-pkg" does not exist in bundle status check.
       </action>
-      <action type="update" dev="sseifert">
-        Set default parameters for install/download goals: retryCount=48, retryDelay=5.
-      </action>
     </release>
 
     <release version="1.6.4" date="2018-03-23">
