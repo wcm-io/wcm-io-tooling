@@ -32,6 +32,8 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 
+import com.google.common.collect.ImmutableList;
+
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
@@ -82,7 +84,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   /**
    * Number of times to retry upload and install via CRX HTTP interface if it fails.
    */
-  @Parameter(property = "vault.retryCount", defaultValue = "24")
+  @Parameter(property = "vault.retryCount", defaultValue = "48")
   private int retryCount;
 
   /**
@@ -117,6 +119,14 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   @Parameter(property = "vault.bundleStatusWaitLimit", defaultValue = "360")
   private int bundleStatusWaitLimit;
+
+  /**
+   * Symbolic names of bundles that are expected to be not present in bundle list. When any of these bundles are found
+   * in the bundle list, this system is assumed to be not ready for installing further packages because a previous
+   * installation (e.g. of AEM service pack) is still in progress.
+   */
+  @Parameter(property = "vault.bundleStatusBlacklistBundleNames", defaultValue = "updater.aem-service-pkg")
+  private String[] bundleStatusBlacklistBundleNames;
 
   /**
    * If set to true also self-signed certificates are accepted.
@@ -160,6 +170,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     props.setRetryDelaySec(this.retryDelay);
     props.setBundleStatusUrl(buildBundleStatusUrl());
     props.setBundleStatusWaitLimitSec(this.bundleStatusWaitLimit);
+    props.setBundleStatusBlacklistBundleNames(ImmutableList.copyOf(this.bundleStatusBlacklistBundleNames));
     props.setRelaxedSSLCheck(this.relaxedSSLCheck);
     props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
     props.setHttpSocketTimeoutSec(this.httpSocketTimeout);
