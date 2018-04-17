@@ -96,7 +96,7 @@ public final class PackageDownloader {
 
       // 2nd: build package
       HttpPost buildMethod = new HttpPost(props.getPackageManagerUrl() + "/console.html" + path + "?cmd=build");
-      pkgmgr.executePackageManagerMethodHtml(httpClient, buildMethod, 0);
+      pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, buildMethod);
 
       // 3rd: download package
       String crxUrl = StringUtils.removeEnd(props.getPackageManagerUrl(), "/crx/packmgr/service");

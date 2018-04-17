@@ -250,9 +250,8 @@ public final class PackageManagerHelper {
    * Execute CRX HTTP Package manager method and output HTML response.
    * @param httpClient Http client
    * @param method Get or Post method
-   * @param runCount Execution run count
    */
-  public void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method, int runCount) {
+  public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpRequestBase method) {
     PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, log);
     String message = executeHttpCallWithRetry(call, 0);
     log.info(message);
