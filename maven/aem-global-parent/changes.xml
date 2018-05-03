@@ -36,6 +36,9 @@
       <action type="update" dev="sseifert">
         Add "cq:lastRolledout" and "cq:lastRolledoutBy" properties to ignore list when downloading content via wcmio-content-package-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update maven-sling-plugin to File System Resource Provider 2.1.14.
+      </action>
     </release>
 
     <release version="1.2.16" date="2018-02-05">
