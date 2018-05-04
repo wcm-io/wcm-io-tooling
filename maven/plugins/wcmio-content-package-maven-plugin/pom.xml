@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.6.5-SNAPSHOT</version>
+  <version>1.6.6</version>
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
@@ -76,7 +76,7 @@
     <dependency>
       <groupId>io.wcm.tooling.commons</groupId>
       <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <version>1.4.1-SNAPSHOT</version>
+      <version>1.4.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
