@@ -250,9 +250,8 @@ public final class PackageManagerHelper {
    * Execute CRX HTTP Package manager method and output HTML response.
    * @param httpClient Http client
    * @param method Get or Post method
-   * @param runCount Execution run count
    */
-  public void executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method, int runCount) {
+  public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpRequestBase method) {
     PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, log);
     String message = executeHttpCallWithRetry(call, 0);
     log.info(message);
@@ -286,18 +285,45 @@ public final class PackageManagerHelper {
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
       BundleStatusCall call = new BundleStatusCall(httpClient, props.getBundleStatusUrl(), log);
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
-      if (bundleStatus.isAllBundlesRunning()) {
-        return;
+
+      boolean instanceReady = true;
+
+      // check if bundles are still stopping/staring
+      if (!bundleStatus.isAllBundlesRunning()) {
+        log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
+            + " - wait " + WAIT_INTERVAL_SEC + " sec "
+            + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+        sleep(WAIT_INTERVAL_SEC);
+        instanceReady = false;
       }
-      log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
-          + " - wait " + WAIT_INTERVAL_SEC + " sec "
-          + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
-      try {
-        Thread.sleep(WAIT_INTERVAL_SEC * DateUtils.MILLIS_PER_SECOND);
+
+      // check if any of the blacklisted bundles is still present
+      if (instanceReady) {
+        for (String blacklistBundleName : props.getBundleStatusBlacklistBundleNames()) {
+          if (bundleStatus.containsBundle(blacklistBundleName)) {
+            log.info("Bundle '" + blacklistBundleName + "' is still deployed "
+                + " - wait " + WAIT_INTERVAL_SEC + " sec "
+                + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+            sleep(WAIT_INTERVAL_SEC);
+            instanceReady = false;
+            break;
+          }
+        }
       }
-      catch (InterruptedException e) {
-        // ignore
+
+      // instance is ready
+      if (instanceReady) {
+        break;
       }
+    }
+  }
+
+  private void sleep(int sec) {
+    try {
+      Thread.sleep(sec * DateUtils.MILLIS_PER_SECOND);
+    }
+    catch (InterruptedException e) {
+      // ignore
     }
   }
 

@@ -67,7 +67,7 @@
     <distribution.releaseRepositoryId>ossrh</distribution.releaseRepositoryId>
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
   </properties>
-  
+
   <dependencyManagement>
     <dependencies>
 

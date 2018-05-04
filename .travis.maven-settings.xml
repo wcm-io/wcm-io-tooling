@@ -67,7 +67,7 @@
             <enabled>false</enabled>
           </snapshots>
         </repository>
-        
+
         <repository>
           <id>netbeans-releases</id>
           <name>Netbeans Repository</name>
@@ -80,7 +80,7 @@
             <enabled>false</enabled>
           </snapshots>
         </repository>
-        
+
         <repository>
           <id>oss-snapshots</id>
           <url>https://oss.sonatype.org/content/repositories/snapshots</url>

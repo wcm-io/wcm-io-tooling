@@ -19,6 +19,8 @@
  */
 package io.wcm.tooling.commons.packmgr.httpaction;
 
+import java.util.Set;
+
 /**
  * Wrapper for Status summary from Web Console Bundles Status info JSON.
  */
@@ -30,14 +32,17 @@ public final class BundleStatus {
   private final int activeFragment;
   private final int resolved;
   private final int installed;
+  private final Set<String> bundleSymbolicNames;
 
-  BundleStatus(String statusLine, int total, int active, int activeFragment, int resolved, int installed) {
+  BundleStatus(String statusLine, int total, int active, int activeFragment, int resolved, int installed,
+      Set<String> bundleSymbolicNames) {
     this.statusLine = statusLine;
     this.total = total;
     this.active = active;
     this.activeFragment = activeFragment;
     this.resolved = resolved;
     this.installed = installed;
+    this.bundleSymbolicNames = bundleSymbolicNames;
   }
 
   public String getStatusLine() {
@@ -90,6 +95,14 @@ public final class BundleStatus {
    */
   public boolean isAllBundlesRunning() {
     return getInstalled() + getResolved() == 0;
+  }
+
+  /**
+   * @param symbolicName Bundle symbolic name
+   * @return true if the given bundle is contained in the bundle list
+   */
+  public boolean containsBundle(String symbolicName) {
+    return bundleSymbolicNames.contains(symbolicName);
   }
 
 }

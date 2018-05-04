@@ -23,11 +23,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!--
-    This aem-global-parent POM supports the following AEM versions:
-    - AEM 6.0.x
-    - AEM 6.1.x
-    - AEM 6.2.x
-    - AEM 6.3.x
+    This aem-global-parent POM supports the following AEM versions: AEM 6.0 and above.
   -->
 
   <parent>
@@ -98,7 +94,7 @@
     </dependency>
 
   </dependencies>
-  
+
   <dependencyManagement>
     <dependencies>
 
@@ -110,7 +106,7 @@
         <version>1.11.0</version>
       </dependency>
 
-    </dependencies>  
+    </dependencies>
   </dependencyManagement>
 
   <build>
@@ -194,35 +190,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <deployFsResourceBundlePrerequisites>
-            <bundlePrerequisite>
-              <bundles>
-                <bundle>
-                  <groupId>org.apache.sling</groupId>
-                  <artifactId>org.apache.sling.fsresource</artifactId>
-                  <version>2.1.12</version>
-                </bundle>
-              </bundles>
-              <preconditions>
-                <bundle>
-                  <groupId>org.apache.sling</groupId>
-                  <artifactId>org.apache.sling.resourceresolver</artifactId>
-                  <version>1.5.18</version>
-                </bundle>
-              </preconditions>
-            </bundlePrerequisite>
-            <bundlePrerequisite>
-              <bundles>
-                <bundle>
-                  <groupId>org.apache.sling</groupId>
-                  <artifactId>org.apache.sling.fsresource</artifactId>
-                  <version>1.4.8</version>
-                </bundle>
-              </bundles>
-            </bundlePrerequisite>
-          </deployFsResourceBundlePrerequisites>
-        </configuration>
       </plugin>
 
       <!-- Validate Slightly HTML scripts -->
@@ -330,7 +297,7 @@
                   <bundle>
                     <groupId>org.apache.sling</groupId>
                     <artifactId>org.apache.sling.fsresource</artifactId>
-                    <version>2.1.8</version>
+                    <version>2.1.14</version>
                   </bundle>
                 </bundles>
                 <preconditions>
@@ -399,7 +366,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.6.4</version>
+          <version>1.6.5-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -470,30 +437,30 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.8.0</version>
+          <version>1.8.1-SNAPSHOT</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
-              <artifactId>io.wcm.devops.conga.plugins.sling</artifactId>            
+              <artifactId>io.wcm.devops.conga.plugins.sling</artifactId>
               <version>1.2.4</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
-              <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>            
-              <version>1.6.3-SNAPSHOT</version>
+              <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
+              <version>1.7.1-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
-              <artifactId>io.wcm.devops.conga.plugins.ansible</artifactId>            
-              <version>1.0.0</version>
+              <artifactId>io.wcm.devops.conga.plugins.ansible</artifactId>
+              <version>1.0.1-SNAPSHOT</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.6.3-SNAPSHOT</version>
+          <version>1.7.1-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>

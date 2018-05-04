@@ -25,16 +25,19 @@
 
     <release version="1.2.18" date="not released">
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA AEM Plugin version.
+        Update CONGA, CONGA AEM and CONGA Ansible plugin version.
       </action>
       <action type="update" dev="sseifert">
-        Update wcm.io Content Package Maven Plugin.
+        Update wcm.io Content Package Maven plugin.
       </action>
       <action type="update" dev="sseifert">
         Switch from osgi.annotation to org.osgi.annotation.versioning artifact.
       </action>
       <action type="update" dev="sseifert">
         Add "cq:lastRolledout" and "cq:lastRolledoutBy" properties to ignore list when downloading content via wcmio-content-package-maven-plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update maven-sling-plugin to File System Resource Provider 2.1.14.
       </action>
     </release>
 

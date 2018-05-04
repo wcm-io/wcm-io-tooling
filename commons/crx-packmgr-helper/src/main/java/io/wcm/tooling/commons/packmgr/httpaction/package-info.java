@@ -20,5 +20,5 @@
 /**
  * HTTP action
  */
-@org.osgi.annotation.versioning.Version("1.4.0")
+@org.osgi.annotation.versioning.Version("1.5.0")
 package io.wcm.tooling.commons.packmgr.httpaction;

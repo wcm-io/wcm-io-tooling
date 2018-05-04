@@ -20,7 +20,10 @@
 package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -77,13 +80,29 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
   private static BundleStatus toBundleStatus(JSONObject response) {
     String statusLine = response.getString("status");
     JSONArray statusArray = response.getJSONArray("s");
+
+    // get bundle stats
+    int total = statusArray.getInt(0);
+    int active = statusArray.getInt(0);
+    int activeFragment = statusArray.getInt(2);
+    int resolved = statusArray.getInt(3);
+    int installed = statusArray.getInt(4);
+
+    // get list of all bundle names
+    Set<String> bundleSymbolicNames = new HashSet<>();
+    JSONArray data = response.getJSONArray("data");
+    for (int i = 0; i < data.length(); i++) {
+      JSONObject item = data.getJSONObject(i);
+      String symbolicName = item.optString("symbolicName");
+      if (StringUtils.isNotBlank(symbolicName)) {
+        bundleSymbolicNames.add(symbolicName);
+      }
+    }
+
     return new BundleStatus(
         statusLine,
-        statusArray.getInt(0),
-        statusArray.getInt(1),
-        statusArray.getInt(2),
-        statusArray.getInt(3),
-        statusArray.getInt(4));
+        total, active, activeFragment, resolved, installed,
+        bundleSymbolicNames);
   }
 
 }
