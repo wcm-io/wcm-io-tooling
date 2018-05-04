@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.4.2" date="not released">
+    <release version="1.4.2" date="2018-05-04">
       <action type="update" dev="sseifert">
         Improve support for "feature model based service packs" by ensuring bundle "updater.aem-service-pkg" does not exist in bundle status check.
       </action>
