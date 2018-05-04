@@ -39,6 +39,9 @@
       <action type="update" dev="sseifert">
         Update maven-sling-plugin to File System Resource Provider 2.1.14.
       </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL Maven Plugin.
+      </action>
     </release>
 
     <release version="1.2.16" date="2018-02-05">
@@ -73,7 +76,7 @@
         Update to wcmio-content-package-maven-plugin 1.6.2.
       </action>
       <action type="update" dev="sseifert">
-        Update Maven Sling HTL Plugin.
+        Update Maven Sling HTL Maven Plugin.
       </action>
       <action type="update" dev="sseifert">
         Update Jackrabbit filevault-package-maven-plugin.
@@ -91,7 +94,7 @@
         Add Jackrabbit filevault-package-maven-plugin.
       </action>
       <action type="update" dev="sseifert">
-        Update Maven Sling HTL Plugin.
+        Update Maven Sling HTL Maven Plugin.
       </action>
       <action type="update" dev="sseifert">
         Update global-parent dependency to 18.
