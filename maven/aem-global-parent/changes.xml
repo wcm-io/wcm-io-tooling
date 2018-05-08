@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update Maven Sling Plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update OSGi annotation and Felix SCR dependencies.
+      </action>
     </release>
 
     <release version="1.2.18" date="2018-05-04">
