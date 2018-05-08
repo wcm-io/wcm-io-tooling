@@ -33,7 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.Logger;
-import io.wcm.tooling.commons.packmgr.PackageManagerException;
+import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
  * Get bundle status from web console.
@@ -66,14 +66,14 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
       String responseString = EntityUtils.toString(response.getEntity());
       if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-        throw new PackageManagerException("Failure:\n" + responseString);
+        throw new PackageManagerHttpActionException("Failure:\n" + responseString);
       }
 
       JSONObject jsonResponse = new JSONObject(responseString);
       return toBundleStatus(jsonResponse);
     }
     catch (IOException ex) {
-      throw new PackageManagerException("Can't determine bundle state via URL: " + bundleStatusURL, ex);
+      throw new PackageManagerHttpActionException("Can't determine bundle state via URL: " + bundleStatusURL, ex);
     }
   }
 

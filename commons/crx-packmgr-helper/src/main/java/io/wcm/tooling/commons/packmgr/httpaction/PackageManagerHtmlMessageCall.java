@@ -31,6 +31,7 @@ import org.apache.http.util.EntityUtils;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
+import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
  * Call that parses a packager manager HTML response and returns the contained message as plain text.
@@ -40,6 +41,8 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
   private final CloseableHttpClient httpClient;
   private final HttpRequestBase method;
   private final Logger log;
+
+  private static final String PACKAGE_MANAGER_ERROR_INDICATION = "Error during processing.";
 
   /**
    * @param httpClient HTTP client
@@ -78,17 +81,24 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
         responseString = HTML_ANYTAG.matcher(responseString).replaceAll("");
         responseString = StringUtils.replace(responseString, "&nbsp;", " ");
 
+        log.info(responseString);
+
+        if (StringUtils.contains(responseString, PACKAGE_MANAGER_ERROR_INDICATION)) {
+          throw new PackageManagerException("Package installation failed: " + PACKAGE_MANAGER_ERROR_INDICATION + "\n"
+              + method.getURI());
+        }
+
         return responseString;
       }
       else {
-        throw new PackageManagerException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
             + " " + response.getStatusLine().getReasonPhrase() + "\n"
             + responseString);
       }
 
     }
     catch (IOException ex) {
-      throw new PackageManagerException("Http method failed.", ex);
+      throw new PackageManagerHttpActionException("Http method failed.", ex);
     }
   }
 

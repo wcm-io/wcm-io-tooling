@@ -17,8 +17,27 @@
  * limitations under the License.
  * #L%
  */
-/**
- * CRX Package Manager Helper.
- */
-@org.osgi.annotation.versioning.Version("2.1.0")
 package io.wcm.tooling.commons.packmgr;
+
+/**
+ * Exception during package manager HTTP actions.
+ */
+public final class PackageManagerHttpActionException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * @param message Message
+   * @param cause Cause
+   */
+  public PackageManagerHttpActionException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * @param message Message
+   */
+  public PackageManagerHttpActionException(String message) {
+    super(message);
+  }
+
+}

@@ -28,7 +28,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import io.wcm.tooling.commons.packmgr.Logger;
-import io.wcm.tooling.commons.packmgr.PackageManagerException;
+import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
  * Call that parses a packager manager HTML response and returns the contained message as plain text.
@@ -69,14 +69,14 @@ public final class PackageManagerHtmlCall implements HttpCall<String> {
         return responseString;
       }
       else {
-        throw new PackageManagerException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
             + " " + response.getStatusLine().getReasonPhrase() + "\n"
             + responseString);
       }
 
     }
     catch (IOException ex) {
-      throw new PackageManagerException("Http method failed.", ex);
+      throw new PackageManagerHttpActionException("Http method failed.", ex);
     }
   }
 

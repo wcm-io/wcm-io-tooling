@@ -183,7 +183,7 @@ public final class PackageManagerHelper {
     try {
       return call.execute();
     }
-    catch (PackageManagerException ex) {
+    catch (PackageManagerHttpActionException ex) {
       // retry again if configured so...
       if (runCount < props.getRetryCount()) {
         log.info("ERROR: " + ex.getMessage());
@@ -253,8 +253,7 @@ public final class PackageManagerHelper {
    */
   public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpRequestBase method) {
     PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, log);
-    String message = executeHttpCallWithRetry(call, 0);
-    log.info(message);
+    executeHttpCallWithRetry(call, 0);
   }
 
   /**
