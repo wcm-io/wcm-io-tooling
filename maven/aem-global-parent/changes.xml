@@ -25,6 +25,12 @@
 
     <release version="1.2.20" date="not released">
       <action type="update" dev="sseifert">
+        Update CONGA AEM plugin version.
+      </action>
+      <action type="update" dev="sseifert">
+        Update wcm.io Content Package Maven plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Update Maven Sling Plugin.
       </action>
     </release>
