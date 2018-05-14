@@ -26,6 +26,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.SSLContext;
 
@@ -298,9 +299,10 @@ public final class PackageManagerHelper {
 
       // check if any of the blacklisted bundles is still present
       if (instanceReady) {
-        for (String blacklistBundleName : props.getBundleStatusBlacklistBundleNames()) {
-          if (bundleStatus.containsBundle(blacklistBundleName)) {
-            log.info("Bundle '" + blacklistBundleName + "' is still deployed "
+        for (Pattern blacklistBundleNamePattern : props.getBundleStatusBlacklistBundleNames()) {
+          String bundleSymbolicName = bundleStatus.getMatchingBundle(blacklistBundleNamePattern);
+          if (bundleSymbolicName != null) {
+            log.info("Bundle '" + bundleSymbolicName + "' is still deployed "
                 + " - wait " + WAIT_INTERVAL_SEC + " sec "
                 + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
             sleep(WAIT_INTERVAL_SEC);

@@ -27,11 +27,14 @@
       <action type="fix" dev="sseifert">
         Detect failed package installations that contain the string 'Error during processing.' in the response message and fail the build.
       </action>
+      <action type="update" dev="sseifert">
+        Improve support for "feature model based service packs" by defining a list of regular expressions for blacklisted bundle names on system ready check.
+      </action>
     </release>
 
     <release version="1.4.2" date="2018-05-04">
       <action type="update" dev="sseifert">
-        Improve support for "feature model based service packs" by ensuring bundle "updater.aem-service-pkg" does not exist in bundle status check.
+        Improve support for "feature model based service packs" by defining a list of blacklisted bundle names on system ready check.
       </action>
     </release>
 

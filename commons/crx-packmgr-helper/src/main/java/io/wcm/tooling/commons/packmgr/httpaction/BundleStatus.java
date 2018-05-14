@@ -20,6 +20,7 @@
 package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Wrapper for Status summary from Web Console Bundles Status info JSON.
@@ -103,6 +104,20 @@ public final class BundleStatus {
    */
   public boolean containsBundle(String symbolicName) {
     return bundleSymbolicNames.contains(symbolicName);
+  }
+
+  /**
+   * Checks if a bundle with the given pattern exists in the bundle list.
+   * @param symbolicNamePattern Bundle symbolic name pattern
+   * @return Bundle name if a bundle was found, null otherwise
+   */
+  public String getMatchingBundle(Pattern symbolicNamePattern) {
+    for (String bundleSymbolicName : bundleSymbolicNames) {
+      if (symbolicNamePattern.matcher(bundleSymbolicName).matches()) {
+        return bundleSymbolicName;
+      }
+    }
+    return null;
   }
 
 }
