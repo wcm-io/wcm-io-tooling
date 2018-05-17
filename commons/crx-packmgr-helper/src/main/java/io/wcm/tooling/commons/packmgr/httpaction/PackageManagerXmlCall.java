@@ -32,6 +32,7 @@ import org.jdom2.input.SAXBuilder;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
+import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
  * Call to package manager HTTP XML interface.
@@ -76,14 +77,14 @@ public final class PackageManagerXmlCall implements HttpCall<Document> {
 
       }
       else {
-        throw new PackageManagerException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
             + " " + response.getStatusLine().getReasonPhrase());
       }
 
       return xmlResponse;
     }
     catch (IOException ex) {
-      throw new PackageManagerException("Http method failed.", ex);
+      throw new PackageManagerHttpActionException("Http method failed.", ex);
     }
   }
 

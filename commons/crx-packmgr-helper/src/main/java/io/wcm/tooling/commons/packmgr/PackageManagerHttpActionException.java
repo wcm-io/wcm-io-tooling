@@ -17,8 +17,27 @@
  * limitations under the License.
  * #L%
  */
+package io.wcm.tooling.commons.packmgr;
+
 /**
- * HTTP action
+ * Exception during package manager HTTP actions.
  */
-@org.osgi.annotation.versioning.Version("1.6.0")
-package io.wcm.tooling.commons.packmgr.httpaction;
+public final class PackageManagerHttpActionException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * @param message Message
+   * @param cause Cause
+   */
+  public PackageManagerHttpActionException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * @param message Message
+   */
+  public PackageManagerHttpActionException(String message) {
+    super(message);
+  }
+
+}

@@ -20,6 +20,8 @@
 package io.wcm.tooling.commons.packmgr;
 
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Configuration properties for {@link PackageManagerHelper}.
@@ -33,7 +35,7 @@ public final class PackageManagerProperties {
   private int retryDelaySec = 5;
   private String bundleStatusUrl;
   private int bundleStatusWaitLimitSec = 360;
-  private List<String> bundleStatusBlacklistBundleNames;
+  private List<Pattern> bundleStatusBlacklistBundleNames;
   private boolean relaxedSSLCheck;
   private int httpConnectTimeoutSec = 10;
   private int httpSocketTimeoutSec = 60;
@@ -132,17 +134,19 @@ public final class PackageManagerProperties {
   }
 
   /**
-   * Symbolic names of bundles that are expected to be not present in bundle list. When any of these bundles are found
-   * in the bundle list, this system is assumed as not ready for installing further packages because a previous
-   * installation (e.g. of AEM service pack) is still in progress.
-   * @return List of symbolic bundle names.
+   * Patterns for symbolic names of bundles that are expected to be not present in bundle list.
+   * If any of these bundles are found in the bundle list, this system is assumed as not ready for installing further
+   * packages because a previous installation (e.g. of AEM service pack) is still in progress.
+   * @return List of regular expressions for symbolic bundle names.
    */
-  public List<String> getBundleStatusBlacklistBundleNames() {
+  public List<Pattern> getBundleStatusBlacklistBundleNames() {
     return this.bundleStatusBlacklistBundleNames;
   }
 
   public void setBundleStatusBlacklistBundleNames(List<String> bundleStatusBlacklistBundleNames) {
-    this.bundleStatusBlacklistBundleNames = bundleStatusBlacklistBundleNames;
+    this.bundleStatusBlacklistBundleNames = bundleStatusBlacklistBundleNames.stream()
+        .map(Pattern::compile)
+        .collect(Collectors.toList());
   }
 
   /**

@@ -121,11 +121,11 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   private int bundleStatusWaitLimit;
 
   /**
-   * Symbolic names of bundles that are expected to be not present in bundle list. When any of these bundles are found
-   * in the bundle list, this system is assumed to be not ready for installing further packages because a previous
-   * installation (e.g. of AEM service pack) is still in progress.
+   * Patterns for symbolic names of bundles that are expected to be not present in bundle list.
+   * If any of these bundles are found in the bundle list, this system is assumed as not ready for installing further
+   * packages because a previous installation (e.g. of AEM service pack) is still in progress.
    */
-  @Parameter(property = "vault.bundleStatusBlacklistBundleNames", defaultValue = "updater.aem-service-pkg")
+  @Parameter(property = "vault.bundleStatusBlacklistBundleNames", defaultValue = "^updater\\.aem.*$")
   private String[] bundleStatusBlacklistBundleNames;
 
   /**

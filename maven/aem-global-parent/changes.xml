@@ -23,6 +23,21 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.20" date="not released">
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin version.
+      </action>
+      <action type="update" dev="sseifert">
+        Update wcm.io Content Package Maven plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update OSGi annotation and Felix SCR dependencies.
+      </action>
+    </release>
+
     <release version="1.2.18" date="2018-05-04">
       <action type="update" dev="sseifert">
         Update CONGA, CONGA AEM and CONGA Ansible plugin version.
