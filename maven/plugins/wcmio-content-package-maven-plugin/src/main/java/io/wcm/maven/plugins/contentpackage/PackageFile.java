@@ -82,6 +82,11 @@ public final class PackageFile {
    */
   private Integer delayAfterInstallSec;
 
+  /**
+   * HTTP socket timeout (in seconds) for this package.
+   */
+  private Integer httpSocketTimeoutSec;
+
   File getPackageFile() {
     return this.packageFile;
   }
@@ -124,6 +129,10 @@ public final class PackageFile {
 
   Integer getDelayAfterInstallSec() {
     return this.delayAfterInstallSec;
+  }
+
+  Integer getHttpSocketTimeoutSec() {
+    return this.httpSocketTimeoutSec;
   }
 
 }

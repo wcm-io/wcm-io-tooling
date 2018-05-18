@@ -76,7 +76,7 @@
     <dependency>
       <groupId>io.wcm.tooling.commons</groupId>
       <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <version>1.4.4</version>
+      <version>1.4.5-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -95,12 +95,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.jackrabbit.vault</groupId>
-      <artifactId>org.apache.jackrabbit.vault</artifactId>
-      <version>3.1.18</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
@@ -114,7 +108,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.12</version>
+        <version>1.16.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -37,7 +37,7 @@ public final class PackageFile {
   private boolean install = true;
   private Boolean force;
   private boolean recursive = true;
-  private int httpSocketTimeoutSec;
+  private Integer httpSocketTimeoutSec;
 
   private static final int DEFAULT_DELAY_AFTER_CONTAINER_PACKAGE_SEC = 3;
 
@@ -132,11 +132,11 @@ public final class PackageFile {
    * HTTP socket timeout (in seconds).
    * @return Timeout
    */
-  public int getHttpSocketTimeoutSec() {
+  public Integer getHttpSocketTimeoutSec() {
     return this.httpSocketTimeoutSec;
   }
 
-  public void setHttpSocketTimeoutSec(int httpSocketTimeoutSec) {
+  public void setHttpSocketTimeoutSec(Integer httpSocketTimeoutSec) {
     this.httpSocketTimeoutSec = httpSocketTimeoutSec;
   }
 

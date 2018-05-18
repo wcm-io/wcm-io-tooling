@@ -40,8 +40,8 @@ public final class HttpClientUtil {
    * @param packageFile Package file
    */
   public static void applyRequestConfig(HttpRequestBase httpRequest, PackageFile packageFile) {
-    int httpSocketTimeoutSec = packageFile.getHttpSocketTimeoutSec();
-    if (httpSocketTimeoutSec == 0) {
+    Integer httpSocketTimeoutSec = packageFile.getHttpSocketTimeoutSec();
+    if (httpSocketTimeoutSec == null) {
       return;
     }
 
