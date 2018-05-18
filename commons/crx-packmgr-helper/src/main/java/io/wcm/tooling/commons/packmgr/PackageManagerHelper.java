@@ -42,7 +42,6 @@ import org.apache.http.auth.AuthState;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.ConnectionKeepAliveStrategy;
@@ -67,6 +66,7 @@ import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerHtmlMessageCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerJsonCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerStatusCall;
 import io.wcm.tooling.commons.packmgr.httpaction.PackageManagerXmlCall;
+import io.wcm.tooling.commons.packmgr.util.HttpClientUtil;
 
 /**
  * Common functionality for all mojos.
@@ -122,10 +122,7 @@ public final class PackageManagerHelper {
           });
 
       // timeout settings
-      httpClientBuilder.setDefaultRequestConfig(RequestConfig.custom()
-          .setConnectTimeout(props.getHttpConnectTimeoutSec() * (int)DateUtils.MILLIS_PER_SECOND)
-          .setSocketTimeout(props.getHttpSocketTimeoutSec() * (int)DateUtils.MILLIS_PER_SECOND)
-          .build());
+      httpClientBuilder.setDefaultRequestConfig(HttpClientUtil.buildRequestConfig(props));
 
       // relaxed SSL check
       if (props.isRelaxedSSLCheck()) {

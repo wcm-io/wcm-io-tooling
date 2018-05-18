@@ -23,6 +23,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 import io.wcm.tooling.commons.packmgr.install.PackageFile;
 
 /**
@@ -35,18 +36,32 @@ public final class HttpClientUtil {
   }
 
   /**
+   * Built custom request configuration from package manager properties.
+   * @param props Package manager properties
+   * @return Request config
+   */
+  public static RequestConfig buildRequestConfig(PackageManagerProperties props) {
+    return RequestConfig.custom()
+        .setConnectTimeout(props.getHttpConnectTimeoutSec() * (int)DateUtils.MILLIS_PER_SECOND)
+        .setSocketTimeout(props.getHttpSocketTimeoutSec() * (int)DateUtils.MILLIS_PER_SECOND)
+        .build();
+  }
+
+  /**
    * Apply timeout configurations that are defined specific for this package file.
    * @param httpRequest Http request
    * @param packageFile Package file
+   * @param props Package manager properties
    */
-  public static void applyRequestConfig(HttpRequestBase httpRequest, PackageFile packageFile) {
+  public static void applyRequestConfig(HttpRequestBase httpRequest, PackageFile packageFile, PackageManagerProperties props) {
     Integer httpSocketTimeoutSec = packageFile.getHttpSocketTimeoutSec();
     if (httpSocketTimeoutSec == null) {
       return;
     }
 
     // apply specific timeout settings configured for this package file
-    httpRequest.setConfig(RequestConfig.copy(httpRequest.getConfig())
+    RequestConfig defaultConfig = buildRequestConfig(props);
+    httpRequest.setConfig(RequestConfig.copy(defaultConfig)
         .setSocketTimeout(httpSocketTimeoutSec * (int)DateUtils.MILLIS_PER_SECOND)
         .build());
   }

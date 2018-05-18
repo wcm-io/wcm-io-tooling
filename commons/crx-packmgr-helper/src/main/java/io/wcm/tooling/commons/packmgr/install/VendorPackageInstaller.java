@@ -26,6 +26,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
+import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 
 /**
  * Interface any Vendor Package Installer must provide
@@ -37,11 +38,12 @@ public interface VendorPackageInstaller {
    * @param packageFile Package to be installed
    * @param pkgmgr Package Manager
    * @param httpClient Http Client used to call the service
+   * @param props Package manager properties
    * @param log Logger to report issues
    * @throws IOException If calls to the Web Service fail
    * @throws PackageManagerException If the package installation failed
    */
-  void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient, Logger log)
-      throws IOException, PackageManagerException;
+  void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
+      PackageManagerProperties props, Logger log) throws IOException, PackageManagerException;
 
 }
