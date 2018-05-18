@@ -83,7 +83,7 @@ public final class PackageInstaller {
 
       VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
       if (installer != null) {
-        installer.installPackage(packageFile, pkgmgr, httpClient, log);
+        installer.installPackage(packageFile, pkgmgr, httpClient, props, log);
       }
     }
     catch (IOException ex) {

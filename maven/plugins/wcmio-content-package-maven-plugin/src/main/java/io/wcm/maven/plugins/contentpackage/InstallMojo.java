@@ -148,6 +148,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
    * <li><code>recursive</code>: If set to true nested packages get installed as well.</li>
    * <li><code>delayAfterInstallSec</code>: Delay further steps after package installation by this amount of
    * seconds.</li>
+   * <li><code>httpSocketTimeoutSec</code>: HTTP socket timeout (in seconds) for this package.</li>
    * </ul>
    */
   @Parameter
@@ -249,6 +250,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     else {
       output.setDelayAfterInstallSecAutoDetect();
     }
+    output.setHttpSocketTimeoutSec(ref.getHttpSocketTimeoutSec());
 
     return output;
   }

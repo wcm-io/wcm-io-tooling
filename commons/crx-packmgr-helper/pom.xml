@@ -30,7 +30,7 @@
 
   <groupId>io.wcm.tooling.commons</groupId>
   <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-  <version>1.4.5-SNAPSHOT</version>
+  <version>1.5.0</version>
   <packaging>bundle</packaging>
 
   <name>CRX Package Manager Helper</name>
@@ -116,17 +116,17 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.2</version>
+        <version>4.5.5</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpmime</artifactId>
-        <version>4.5.2</version>
+        <version>4.5.5</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.12</version>
+        <version>1.16.1</version>
       </dependency>
       <dependency>
         <groupId>org.json</groupId>
@@ -156,7 +156,7 @@
       <dependency>
         <groupId>org.apache.jackrabbit.vault</groupId>
         <artifactId>org.apache.jackrabbit.vault</artifactId>
-        <version>3.1.18</version>
+        <version>3.1.44</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
