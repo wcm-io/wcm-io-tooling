@@ -44,6 +44,7 @@ import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.install.PackageFile;
 import io.wcm.tooling.commons.packmgr.install.VendorPackageInstaller;
 import io.wcm.tooling.commons.packmgr.util.ContentPackageProperties;
+import io.wcm.tooling.commons.packmgr.util.HttpClientUtil;
 
 /**
  * Package Installer for AEM's CRX Package Manager
@@ -78,6 +79,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
 
     // prepare post method
     HttpPost post = new HttpPost(url + "/.json?cmd=upload");
+    HttpClientUtil.applyRequestConfig(post, packageFile);
     MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
         .addBinaryBody("package", packageFile.getFile());
     if (packageFile.isForce()) {
@@ -97,6 +99,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         try {
           post = new HttpPost(url + "/console.html" + new URIBuilder().setPath(path).build().getRawPath() + "?cmd=install"
               + (packageFile.isRecursive() ? "&recursive=true" : ""));
+          HttpClientUtil.applyRequestConfig(post, packageFile);
         }
         catch (URISyntaxException ex) {
           throw new PackageManagerException("Invalid path: " + path, ex);

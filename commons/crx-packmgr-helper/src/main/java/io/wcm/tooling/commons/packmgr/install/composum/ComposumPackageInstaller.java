@@ -31,6 +31,7 @@ import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.install.PackageFile;
 import io.wcm.tooling.commons.packmgr.install.VendorPackageInstaller;
+import io.wcm.tooling.commons.packmgr.util.HttpClientUtil;
 
 /**
  * Vendor Installer for Composum
@@ -54,6 +55,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
     String baseUrl = url.substring(0, index) + "/bin/cpm/package.";
     String uploadUrl = baseUrl + "upload.json";
     HttpPost post = new HttpPost(uploadUrl);
+    HttpClientUtil.applyRequestConfig(post, packageFile);
     MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
         .addBinaryBody("file", packageFile.getFile());
     if (packageFile.isForce()) {
@@ -72,6 +74,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
 
         String installUrl = baseUrl + "install.json" + path;
         post = new HttpPost(installUrl);
+        HttpClientUtil.applyRequestConfig(post, packageFile);
 
         // execute post
         JSONObject jsonResponseInstallation = pkgmgr.executePackageManagerMethodJson(httpClient, post);
