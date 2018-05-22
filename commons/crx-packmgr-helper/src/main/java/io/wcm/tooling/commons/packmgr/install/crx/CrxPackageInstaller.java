@@ -32,10 +32,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.jackrabbit.vault.packaging.PackageProperties;
-import org.jdom2.Document;
-import org.jdom2.filter.Filters;
-import org.jdom2.xpath.XPathExpression;
-import org.jdom2.xpath.XPathFactory;
 import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.Logger;
@@ -43,6 +39,7 @@ import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 import io.wcm.tooling.commons.packmgr.install.PackageFile;
+import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 import io.wcm.tooling.commons.packmgr.install.VendorPackageInstaller;
 import io.wcm.tooling.commons.packmgr.util.ContentPackageProperties;
 import io.wcm.tooling.commons.packmgr.util.HttpClientUtil;
@@ -65,16 +62,33 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
   public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException {
 
-    if (packageFile.isForce()) {
+    boolean force = packageFile.isForce();
+
+    if (force) {
       // in force mode, just check that package manager is available and then start uploading
       ensurePackageManagerAvailability(pkgmgr, httpClient);
     }
     else {
       // otherwise check if package is already installed first, and skip further processing if it is
       // this implicitly also checks the availability of the package manager
-      if (isPackageInstalled(packageFile, pkgmgr, httpClient)) {
-        log.info("Package skipped because it was already uploaded.");
-        return;
+      PackageInstalledStatus status = getPackageInstalledStatus(packageFile, pkgmgr, httpClient, log);
+      switch (status) {
+        case NOT_FOUND:
+          log.debug("Package is not found in package list: proceed with install.");
+          break;
+        case INSTALLED:
+          log.info("Package skipped because it was already uploaded.");
+          return;
+        case UPLOADED:
+          log.info("Package was already uploaded but not installed: proceed with install and switch to force mode.");
+          force = true;
+          break;
+        case INSTALLED_OTHER_VERSION:
+          log.info("Package was already uploaded, but another version was installed more recently: proceed with install and switch to force mode.");
+          force = true;
+          break;
+        default:
+          throw new PackageManagerException("Unexpected status: " + status);
       }
     }
 
@@ -83,7 +97,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
     HttpClientUtil.applyRequestConfig(post, packageFile, props);
     MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create()
         .addBinaryBody("package", packageFile.getFile());
-    if (packageFile.isForce()) {
+    if (force) {
       entityBuilder.addTextBody("force", "true");
     }
     post.setEntity(entityBuilder.build());
@@ -119,7 +133,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         log.info("Package uploaded successfully (without installing).");
       }
     }
-    else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !packageFile.isForce()) {
+    else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !force) {
       log.info("Package skipped because it was already uploaded.");
     }
     else {
@@ -146,29 +160,21 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
     pkgmgr.executePackageManagerMethodStatus(httpClient, get);
   }
 
-  private boolean isPackageInstalled(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient) throws IOException {
+  private PackageInstalledStatus getPackageInstalledStatus(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
+      Logger log) throws IOException {
     // list packages in AEM instances and check for exact match
-    HttpGet get = new HttpGet(url + ".jsp?cmd=ls");
-    Document doc = pkgmgr.executePackageManagerMethodXml(httpClient, get);
-    return isPackageInstalled(doc, packageFile);
-  }
+    String baseUrl = VendorInstallerFactory.getBaseUrl(url, log);
+    String packageListUrl = baseUrl + PackageInstalledChecker.PACKMGR_LIST_URL;
+    HttpGet get = new HttpGet(packageListUrl);
+    JSONObject result = pkgmgr.executePackageManagerMethodJson(httpClient, get);
 
-  static boolean isPackageInstalled(Document listResponse, PackageFile packageFile) throws IOException {
-    // get properties from package file
     Map<String, Object> props = ContentPackageProperties.get(packageFile.getFile());
     String group = (String)props.get(PackageProperties.NAME_GROUP);
     String name = (String)props.get(PackageProperties.NAME_NAME);
     String version = (String)props.get(PackageProperties.NAME_VERSION);
-    if (StringUtils.isBlank(group) || StringUtils.isBlank(name) || StringUtils.isBlank(version)) {
-      return false;
-    }
 
-    // check if package is contained in package list XML
-    XPathExpression xpath = XPathFactory.instance().compile("/crx/response/data/packages/package"
-        + "[group=$group and name=$name and version=$version]",
-        Filters.element(),
-        props);
-    return xpath.evaluateFirst(listResponse) != null;
+    PackageInstalledChecker checker = new PackageInstalledChecker(result);
+    return checker.getStatus(group, name, version);
   }
 
 }
