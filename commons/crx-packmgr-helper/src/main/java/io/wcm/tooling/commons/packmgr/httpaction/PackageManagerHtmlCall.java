@@ -21,6 +21,7 @@ package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -76,7 +77,8 @@ public final class PackageManagerHtmlCall implements HttpCall<String> {
 
     }
     catch (IOException ex) {
-      throw new PackageManagerHttpActionException("Http method failed.", ex);
+      throw new PackageManagerHttpActionException("Http method failed: "
+          + StringUtils.defaultString(ex.getMessage(), ex.getClass().getSimpleName()), ex);
     }
   }
 
