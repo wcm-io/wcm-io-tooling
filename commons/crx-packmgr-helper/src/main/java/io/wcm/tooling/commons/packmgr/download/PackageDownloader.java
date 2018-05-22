@@ -42,6 +42,7 @@ import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
+import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 
 /**
  * Downloads a single AEM content package.
@@ -99,8 +100,8 @@ public final class PackageDownloader {
       pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, buildMethod);
 
       // 3rd: download package
-      String crxUrl = StringUtils.removeEnd(props.getPackageManagerUrl(), "/crx/packmgr/service");
-      HttpGet downloadMethod = new HttpGet(crxUrl + path);
+      String baseUrl = VendorInstallerFactory.getBaseUrl(props.getPackageManagerUrl(), log);
+      HttpGet downloadMethod = new HttpGet(baseUrl + path);
 
       // execute download
       CloseableHttpResponse response = httpClient.execute(downloadMethod);
