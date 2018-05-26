@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.2.20" date="not released">
+    <release version="1.2.20" date="2018-05-26">
       <action type="update" dev="sseifert">
         Update CONGA AEM plugin version.
       </action>
@@ -34,7 +34,7 @@
         Update Maven Sling Plugin.
       </action>
       <action type="update" dev="sseifert">
-        Update OSGi annotation and Felix SCR dependencies.
+        Update OSGi annotations and Felix SCR dependencies.
       </action>
     </release>
 

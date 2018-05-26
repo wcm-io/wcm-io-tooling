@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>1.6.12</version>
+  <version>1.6.13-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
@@ -135,6 +135,20 @@
             <id>generated-helpmojo</id>
             <goals>
               <goal>helpmojo</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Set property ${releasedVersion.version} for current project - to be used in maven site -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>released-version</id>
+            <goals>
+              <goal>released-version</goal>
             </goals>
           </execution>
         </executions>
