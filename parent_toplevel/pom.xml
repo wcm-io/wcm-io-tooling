@@ -348,7 +348,7 @@
               <report>index</report>
               <report>dependencies</report>
               <report>scm</report>
-              <report>license</report>
+              <report>licenses</report>
               <report>summary</report>
             </reports>
           </reportSet>
