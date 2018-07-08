@@ -96,22 +96,39 @@
 
   <dependencies>
 
-    <!-- global dependency for static code analysis -->
+    <!-- Global dependency for nullability annotations -->
     <dependency>
-      <groupId>com.github.spotbugs</groupId>
-      <artifactId>spotbugs-annotations</artifactId>
-      <version>3.1.5</version>
-      <scope>provided</scope>
-      <exclusions>
-        <!-- Do not include JSR-305 annotations - the standard never got accepted, the annotations from findbugs namespace should be used instead -->
-        <exclusion>
-          <groupId>com.google.code.findbugs</groupId>
-          <artifactId>jsr305</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>16.0.2</version>
     </dependency>
 
   </dependencies>
+  
+  <dependencyManagement>
+    <dependencies>
+    
+      <!--
+        Global dependency for static code analysis.
+        This is no longer included as default dependency because it's LGPL license is not compatible with Apache 2.0 license.
+        If this is no problem for your project you can add it as global dependency to your project parent POM.
+      -->
+      <dependency>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-annotations</artifactId>
+        <version>3.1.5</version>
+        <scope>provided</scope>
+        <exclusions>
+          <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
+          <exclusion>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <extensions>

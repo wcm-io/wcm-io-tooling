@@ -28,7 +28,10 @@
         Update plugins and dependencies to latest versions.
       </action>
       <action type="update" dev="sseifert">
-        Exclude JSR-305 dependencies that come as transitive dependency with spotbugs annotations.
+        Add Jetbrains annotations for nullability checks as default dependency.
+      </action>
+      <action type="update" dev="sseifert">
+        Do not include Spotbugs/Findbugs annotation by default due to its LGPL license. Exclude JSR-305 dependencies that come as transitive dependency with it.
       </action>
       <action type="update" dev="sseifert">
         Update to global-build-tools 13.
