@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update plugins and dependencies to latest versions.
       </action>
+      <action type="update" dev="sseifert">
+        Exclude JSR-305 dependencies that come as transitive dependency with spotbugs annotations.
+      </action>
     </release>
 
     <release version="19" date="2018-01-15">

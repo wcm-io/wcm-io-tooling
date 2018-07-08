@@ -105,6 +105,14 @@
         <version>3.0.0</version>
         <scope>provided</scope>
       </dependency>
+      <!-- Keep dependency for backward compatibility (it is recommended to use the null-check annotations from findbugs namespace instead) -->
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <!-- Downgrade to 3.0.0 because 3.0.2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
+        <version>3.0.0</version>
+        <scope>provided</scope>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
