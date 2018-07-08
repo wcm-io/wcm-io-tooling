@@ -159,6 +159,12 @@
         <artifactId>commons-lang3</artifactId>
         <version>3.3.2</version>
       </dependency>
+      <!-- Sling API included in AEM 6.1 -->
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.api</artifactId>
+        <version>2.9.0</version>
+      </dependency>
 
       <!-- Testing -->
       <dependency>
