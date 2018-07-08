@@ -51,9 +51,12 @@
     <module>maven/aem-dependencies/6.3.2</module>
     <module>maven/aem-dependencies/6.4.0</module>
     <module>maven/aem-global-parent</module>
+    <!-- exclude global-build-tools from main build to avoid problem with snapshot dependency to it -->
+    <!--
     <module>maven/global-build-tools</module>
     <module>maven/global-build-tools-mixin</module>
     <module>maven/global-build-tools-test</module>
+    -->
     <module>maven/global-parent</module>
     <module>maven/plugins/cq-maven-plugin</module>
     <module>maven/plugins/i18n-maven-plugin</module>
