@@ -91,6 +91,9 @@
     <!-- Plugin version -->
     <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
+    
+    <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
+    <eclipse.settings.nullanalysis>disabled</eclipse.settings.nullanalysis>
 
   </properties>
 
@@ -273,6 +276,7 @@
             <file>
               <name>.settings/org.eclipse.jdt.core.prefs</name>
               <location>/global-build-tools/eclipse/org.eclipse.jdt.core.prefs</location>
+              <filtering>true</filtering>
             </file>
             <file>
               <name>.settings/org.eclipse.jdt.ui.prefs</name>
@@ -532,7 +536,7 @@
         <plugin>
           <groupId>io.wcm.devops.maven.plugins</groupId>
           <artifactId>eclipse-maven-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.0.1-SNAPSHOT</version>
         </plugin>
 
         <plugin>

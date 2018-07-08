@@ -34,6 +34,9 @@
         Do not include Spotbugs/Findbugs annotation by default due to its LGPL license. Exclude JSR-305 dependencies that come as transitive dependency with it.
       </action>
       <action type="update" dev="sseifert">
+        Add new maven property eclipse.settings.nullanalysis to enable null-analysis for Eclipse IDE - disabled by default.
+      </action>
+      <action type="update" dev="sseifert">
         Update to global-build-tools 13.
       </action>
     </release>

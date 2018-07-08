@@ -25,7 +25,7 @@
 
     <release version="13" date="not released">
       <action type="update" dev="sseifert">
-        Eclipse core prefs: Enable annotation-based null analysis based on Jetbrains (preferred), Eclipse JDT, Findbugs/Spotbugs and JSR-305 annotations.
+        Eclipse core prefs: Enable annotation-based null analysis based on Jetbrains (preferred), Eclipse JDT, Findbugs/Spotbugs and JSR-305 annotations (configurable).
       </action>
       <action type="update" dev="sseifert">
         PMD: Update ruleset to PMD 6.4.
