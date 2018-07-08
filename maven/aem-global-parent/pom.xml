@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>19</version>
+    <version>20-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -84,15 +84,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- global dependency for static code analysis -->
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>annotations</artifactId>
-      <!-- Downgrade to 3.0.0 because 3.0.1u2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
-      <version>3.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-
   </dependencies>
 
   <dependencyManagement>
@@ -104,6 +95,15 @@
         <artifactId>org.apache.felix.scr.annotations</artifactId>
         <!-- Do not update to 1.12.0 yet, it marks all SCR annotations as deprecated -->
         <version>1.11.0</version>
+      </dependency>
+
+      <!-- Keep dependency for backward compatibility (earlier osgi-mock version declared it as transtivie dependency with an outdated version) -->
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>annotations</artifactId>
+        <!-- Downgrade to 3.0.0 because 3.0.1u2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
+        <version>3.0.0</version>
+        <scope>provided</scope>
       </dependency>
 
     </dependencies>
@@ -220,7 +220,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.5.1</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -324,7 +324,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>1.1.4-1.3.1</version>
+          <version>1.1.6-1.4.0</version>
         </plugin>
 
         <plugin>

@@ -27,6 +27,15 @@
       <action type="update" dev="sseifert">
         Update CONGA, CONGA AEM and CONGA Ansible plugin version.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 20.
+      </action>
+      <action type="update" dev="sseifert">
+        Remove findbugs annotations as implicit dependency (global-parent already includes spotbugs annotations as replacements).
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL plugin and Maven Bundle plugin.
+      </action>
     </release>
 
     <release version="1.2.20" date="2018-05-26">
@@ -37,7 +46,7 @@
         Update wcm.io Content Package Maven plugin.
       </action>
       <action type="update" dev="sseifert">
-        Update Maven Sling Plugin.
+        Update Maven Sling plugin.
       </action>
       <action type="update" dev="sseifert">
         Update OSGi annotations and Felix SCR dependencies.
@@ -61,7 +70,7 @@
         Update maven-sling-plugin to File System Resource Provider 2.1.14.
       </action>
       <action type="update" dev="sseifert">
-        Update Maven Sling HTL Maven Plugin.
+        Update Maven Sling HTL Maven plugin.
       </action>
     </release>
 
