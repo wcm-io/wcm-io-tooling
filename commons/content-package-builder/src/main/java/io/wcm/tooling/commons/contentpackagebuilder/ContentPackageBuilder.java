@@ -28,8 +28,6 @@ import java.util.Date;
 
 import org.apache.commons.io.IOUtils;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Builds a {@link ContentPackage} instance with metadata.
  * This class is not thread-safe.
@@ -184,7 +182,6 @@ public final class ContentPackageBuilder {
    * @return Content package
    * @throws IOException I/O exception
    */
-  @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION", justification = "Stream is closed when ContentPackage is closed.")
   public ContentPackage build(File file) throws IOException {
     return build(new FileOutputStream(file));
   }
