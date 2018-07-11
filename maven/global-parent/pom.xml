@@ -97,20 +97,16 @@
 
   </properties>
 
-  <dependencies>
-
-    <!-- Global dependency for nullability annotations -->
-    <dependency>
-      <groupId>org.jetbrains</groupId>
-      <artifactId>annotations</artifactId>
-      <version>16.0.2</version>
-    </dependency>
-
-  </dependencies>
-  
   <dependencyManagement>
     <dependencies>
-    
+
+      <!-- Recommended global dependency for nullability annotations -->
+      <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations</artifactId>
+        <version>16.0.2</version>
+      </dependency>
+
       <!--
         Global dependency for static code analysis.
         This is no longer included as default dependency because it's LGPL license is not compatible with Apache 2.0 license.
