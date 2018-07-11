@@ -105,6 +105,13 @@
   <!-- default dependencies for all projects -->
   <dependencies>
 
+    <!-- Recommended global dependency for nullability annotations -->
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.testing.hamcrest</artifactId>

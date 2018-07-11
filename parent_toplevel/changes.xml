@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update Mockito.
       </action>
+      <action type="update" dev="sseifert">
+        Declare jetbrains annotations as default dependency for nullability annotations.
+      </action>
     </release>
 
     <release version="1.2.2" date="2018-01-15">
