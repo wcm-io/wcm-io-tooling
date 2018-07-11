@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="13" date="not released">
+    <release version="13" date="2018-07-11">
       <action type="update" dev="sseifert">
         Eclipse core prefs: Enable annotation-based null analysis based on Jetbrains (preferred), Eclipse JDT, Findbugs/Spotbugs and JSR-305 annotations (configurable).
       </action>
