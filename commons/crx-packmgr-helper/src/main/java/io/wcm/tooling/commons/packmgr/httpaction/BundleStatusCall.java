@@ -66,7 +66,9 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
       String responseString = EntityUtils.toString(response.getEntity());
       if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-        throw new PackageManagerHttpActionException("Failure:\n" + responseString);
+        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
+            + " " + response.getStatusLine().getReasonPhrase() + "\n"
+            + responseString);
       }
 
       JSONObject jsonResponse = new JSONObject(responseString);
