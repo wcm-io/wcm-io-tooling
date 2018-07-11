@@ -34,134 +34,164 @@
   <!-- Exclude target folder that may contain generated sources -->
   <exclude-pattern>.*/target/.*</exclude-pattern>
 
-  <rule ref="rulesets/java/empty.xml">
-    <exclude name="EmptyCatchBlock"/>  <!-- false positives with empty blocks with comments as well -->
-    <exclude name="EmptyIfStmt"/>
-  </rule>
-  <rule ref="rulesets/java/braces.xml"/>
-  <rule ref="rulesets/java/clone.xml">
-    <exclude name="CloneThrowsCloneNotSupportedException"/>
-  </rule>
-  <!-- exclude rules for codesize - complexity metrics should be analyzed via code review/sonar inspection and not enforced by ide rules -->
-  <!--
-  <rule ref="rulesets/java/codesize.xml">
-    <exclude name="CyclomaticComplexity"/>
-    <exclude name="ExcessiveMethodLength"/>
-    <exclude name="NcssMethodCount"/>
-    <exclude name="TooManyMethods"/>
-  </rule>
-  <rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength">
-    <properties>
-      <property name="minimum" value="100"/>
-    </properties>
-  </rule>
-  <rule ref="rulesets/java/codesize.xml/NcssMethodCount">
-    <properties>
-      <property name="minimum" value="50"/>
-    </properties>
-  </rule>
-  <rule ref="rulesets/java/codesize.xml/TooManyMethods">
-    <properties>
-      <property name="maxmethods" value="20"/>
-    </properties>
-  </rule>
-  -->
-  <rule ref="rulesets/java/controversial.xml">
-    <exclude name="AtLeastOneConstructor"/>   <!-- Not clear why this is useful                                 -->
-    <exclude name="AvoidFinalLocalVariable"/> <!-- See "Hardcore Java," Chapter 2: "The Final Story"            -->
-    <exclude name="AvoidUsingNativeCode"/>    <!-- Decisions like this will not require PMD to tell us about it -->
-    <exclude name="AvoidUsingVolatile"/>      <!-- Learn about volatile in "Java Concurrency in Practice"       -->
-    <exclude name="CallSuperInConstructor"/>  <!-- Rule cannot know which super() overload should be called     -->
-    <exclude name="DataflowAnomalyAnalysis"/> <!-- Rule does not appear to be correct                           -->
-    <exclude name="DefaultPackage"/>          <!-- Package private is legitimate                                -->
-    <exclude name="OnlyOneReturn"/>           <!-- Certainly a good ideal to strive for, but not an absolute    -->
-    <exclude name="UnnecessaryParentheses"/>  <!-- Extra parens can clarify expressions when used tastefully    -->
-    <exclude name="AvoidLiteralsInIfCondition"/>   <!-- triggers even on ==null checks -->
-    <exclude name="UseConcurrentHashMap"/>  <!-- triggers on cases where concurrency is not an issue -->
-    <exclude name="NullAssignment"/>
-    <exclude name="AvoidUsingShortType"/>
-    <exclude name="AvoidPrefixingMethodParameters"/>
-  </rule>
-  <rule ref="rulesets/java/design.xml">
-    <exclude name="AbstractClassWithoutAnyMethod"/>              <!-- abstract -> non-instantable, not protected ctor        -->
-    <exclude name="AbstractClassWithoutAbstractMethod"/>         <!-- abstract -> non-instantable, not protected ctor        -->
-    <exclude name="CloseResource"/>                              <!-- avoids duplication                                     -->
-    <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/> <!-- Default behavior of no-op is OK                        -->
-    <exclude name="NonStaticInitializer"/>                       <!-- Non-static initializers are OK                         -->
-    <exclude name="UnnecessaryLocalBeforeReturn"/>               <!-- One line of code does one thing, "return" is one thing -->
-    <exclude name="UseLocaleWithCaseConversions"/>               <!-- TODO: Not thoroughly understood, L10n/I18n issue       -->
-    <!-- Consider excluding: AssignmentToNonFinalStatic                                                 -->
-    <!-- Consider excluding: MissingStaticMethodInNonInstantiatableClass                                -->
-    <!-- Consider excluding: PositionLiteralsFirstInComparisons                                         -->
-    <!-- Consider excluding: UncommentedEmptyConstructor                                                -->
-    <!-- Consider excluding: UncommentedEmptyMethod                                                     -->
-    <!-- Consider excluding: UnsynchronizedStaticDateFormatter, can it detect proper ThreadLocal usage? -->
-    <exclude name="ConfusingTernary"/>
-    <exclude name="ConstructorCallsOverridableMethod"/>
-    <exclude name="AvoidSynchronizedAtMethodLevel"/>
-    <exclude name="AvoidDeeplyNestedIfStmts"/>
-    <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
-    <exclude name="GodClass"/>
-  </rule>
-  <rule ref="rulesets/java/design.xml/CloseResource">
+  <!-- rules previously in rulesets/java/empty.xml -->
+  <rule ref="category/java/errorprone.xml/EmptyFinallyBlock" />
+  <rule ref="category/java/errorprone.xml/EmptyInitializer" />
+  <rule ref="category/java/errorprone.xml/EmptyStatementBlock" />
+  <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop" />
+  <rule ref="category/java/errorprone.xml/EmptyInitializer" name="EmptyStaticInitializer" />
+  <rule ref="category/java/errorprone.xml/EmptySwitchStatements" />
+  <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock" />
+  <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
+  <rule ref="category/java/errorprone.xml/EmptyWhileStmt" />
+
+  <!-- rules previously in rulesets/java/braces.xml -->
+  <rule ref="category/java/codestyle.xml/ForLoopsMustUseBraces" />
+  <rule ref="category/java/codestyle.xml/IfElseStmtsMustUseBraces" />
+  <rule ref="category/java/codestyle.xml/IfStmtsMustUseBraces" />
+  <rule ref="category/java/codestyle.xml/WhileLoopsMustUseBraces" />
+
+  <!-- rules previously in rulesets/java/clone.xml -->
+  <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
+  <rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable" />
+  <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName" />
+  <rule ref="category/java/errorprone.xml/ProperCloneImplementation" />
+
+  <!-- rules previously in rulesets/java/controversial.xml -->
+  <rule ref="category/java/errorprone.xml/AssignmentInOperand" />
+  <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />
+  <rule ref="category/java/errorprone.xml/DoNotCallGarbageCollectionExplicitly" />
+  <rule ref="category/java/errorprone.xml/DontImportSun" />
+  <rule ref="category/java/errorprone.xml/SuspiciousOctalEscape" />
+  <rule ref="category/java/codestyle.xml/UnnecessaryConstructor" />
+  <rule ref="category/java/bestpractices.xml/OneDeclarationPerLine" />
+  <rule ref="category/java/design.xml/UseObjectForClearerAPI" />
+
+  <!-- rules previously in rulesets/java/design.xml -->
+  <rule ref="category/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal" />
+  <rule ref="category/java/design.xml/FinalFieldCouldBeStatic" />
+  <rule ref="category/java/design.xml/ImmutableField" />
+  <rule ref="category/java/design.xml/LogicInversion" />
+  <rule ref="category/java/design.xml/SimplifyBooleanExpressions" />
+  <rule ref="category/java/design.xml/SimplifyBooleanReturns" />
+  <rule ref="category/java/design.xml/SimplifyConditional" />
+  <rule ref="category/java/design.xml/SingularField" />
+  <rule ref="category/java/design.xml/SwitchDensity" />
+  <rule ref="category/java/design.xml/UseUtilityClass" />
+  <rule ref="category/java/errorprone.xml/AssignmentToNonFinalStatic" />
+  <rule ref="category/java/errorprone.xml/AvoidInstanceofChecksInCatchClause" />
+  <rule ref="category/java/errorprone.xml/BadComparison" />
+  <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals" />
+  <rule ref="category/java/errorprone.xml/EqualsNull" />
+  <rule ref="category/java/errorprone.xml/IdempotentOperations" />
+  <rule ref="category/java/errorprone.xml/InstantiationToGetClass" />
+  <rule ref="category/java/errorprone.xml/MissingBreakInSwitch" />
+  <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass" />
+  <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement" />
+  <rule ref="category/java/errorprone.xml/ReturnEmptyArrayRatherThanNull" />
+  <rule ref="category/java/errorprone.xml/SimpleDateFormatNeedsLocale" />
+  <rule ref="category/java/errorprone.xml/SingleMethodSingleton" />
+  <rule ref="category/java/errorprone.xml/SingletonClassReturningNewInstance" />
+  <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
+  <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
+  <rule ref="category/java/multithreading.xml/NonThreadSafeSingleton" />
+  <rule ref="category/java/multithreading.xml/UnsynchronizedStaticDateFormatter" />
+  <rule ref="category/java/multithreading.xml/UseNotifyAllInsteadOfNotify" />
+  <rule ref="category/java/bestpractices.xml/AccessorClassGeneration" />
+  <rule ref="category/java/bestpractices.xml/AccessorMethodGeneration" />
+  <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters" />
+  <rule ref="category/java/bestpractices.xml/ConstantsInInterface" />
+  <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt" />
+  <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInCaseInsensitiveComparisons" />
+  <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInComparisons" />
+  <rule ref="category/java/bestpractices.xml/PreserveStackTrace" />
+  <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
+  <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty" />
+  <rule ref="category/java/bestpractices.xml/UseVarargs" />
+  <rule ref="category/java/performance.xml/OptimizableToArrayCall" />
+  <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement" />
+  <rule ref="category/java/documentation.xml/UncommentedEmptyConstructor" />
+  <rule ref="category/java/documentation.xml/UncommentedEmptyMethodBody" />
+  <rule ref="category/java/errorprone.xml/CloseResource">
     <properties>
       <property name="types" value="Connection,Statement,ResultSet,OutgoingMessageBuilder"/>
     </properties>
   </rule>
-  <rule ref="rulesets/java/finalizers.xml"/>
-  <rule ref="rulesets/java/imports.xml">
-    <exclude name="TooManyStaticImports"/> <!-- avoids duplication -->
-  </rule>
-  <!--
-  <rule ref="rulesets/java/imports.xml/TooManyStaticImports">
-    <properties>
-      <property name="maximumStaticImports" value="10"/>
-    </properties>
-  </rule>
-  -->
-  <rule ref="rulesets/java/javabeans.xml">
-    <!--
-      Generating too many false positives
-      TODO: configure this to include files that are designed to specify Beans.
-    -->
-    <exclude name="BeanMembersShouldSerialize"/>
-  </rule>
-  <rule ref="rulesets/java/logging-java.xml">
-    <exclude name="LoggerIsNotStaticFinal"/>
-  </rule>
-  <rule ref="rulesets/java/migrating.xml">
-    <exclude name="JUnit4TestShouldUseTestAnnotation"/>
-    <exclude name="JUnit4TestShouldUseBeforeAnnotation"/>
-    <exclude name="JUnit4TestShouldUseAfterAnnotation"/>
-  </rule>
-  <!-- avoid duplication with checkstlye
-  <rule ref="rulesets/java/naming.xml"/>
-  -->
-  <rule ref="rulesets/java/optimizations.xml">
-    <exclude name="MethodArgumentCouldBeFinal"/>
-    <exclude name="LocalVariableCouldBeFinal"/>
-    <exclude name="AvoidInstantiatingObjectsInLoops"/>
-    <exclude name="PrematureDeclaration"/>
-    <exclude name="SimplifyStartsWith"/>
-  </rule>
-  <rule ref="rulesets/java/strictexception.xml">
-    <exclude name="AvoidCatchingThrowable"/>  <!-- makes sense but is used alot currently -->
-    <exclude name="AvoidThrowingRawExceptionTypes"/>  <!-- makes sense but is used alot currently -->
-  </rule>
-  <rule ref="rulesets/java/strings.xml">
-    <exclude name="AvoidDuplicateLiterals"/> <!-- avoids duplication -->
-    <exclude name="ConsecutiveLiteralAppends"/>
-    <exclude name="InsufficientStringBufferDeclaration"/>
-  </rule>
-  <rule ref="rulesets/java/typeresolution.xml">
-    <exclude name="UnusedImports"/>                     <!-- avoids duplication, included in the "imports" ruleset         -->
-    <exclude name="SignatureDeclareThrowsException"/>   <!-- avoids duplication, included in the "strictexception" ruleset -->
-    <exclude name="CloneMethodMustImplementCloneable"/> <!-- avoids duplication, included in the "clone" ruleset           -->
-    <exclude name="LooseCoupling"/>                     <!-- avoids duplication, included in the "coupling" ruleset        -->
-  </rule>
-  <rule ref="rulesets/java/unusedcode.xml">
-    <exclude name="UnusedFormalParameter"/>
-    <exclude name="UnusedPrivateMethod"/>  <!-- too much false positives with annoated methods e.g. @PostConstruct, @Activate -->
-  </rule>
+  
+  <!-- rules previously in rulesets/java/finalizers.xml -->
+  <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
+  <rule ref="category/java/errorprone.xml/EmptyFinalizer" />
+  <rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize" />
+  <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />
+  <rule ref="category/java/errorprone.xml/FinalizeOverloaded" />
+  <rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected" />
+
+  <!-- rules previously in rulesets/java/imports.xml -->
+  <rule ref="category/java/bestpractices.xml/UnusedImports" />
+  <rule ref="category/java/errorprone.xml/ImportFromSamePackage" />  
+  <rule ref="category/java/codestyle.xml/DontImportJavaLang" />
+  <rule ref="category/java/codestyle.xml/DuplicateImports" />
+  <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" />
+
+  <!-- rules previously in rulesets/java/logging-java.xml -->
+  <rule ref="category/java/errorprone.xml/InvalidSlf4jMessageFormat" />
+  <rule ref="category/java/errorprone.xml/MoreThanOneLogger" />  
+  <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
+  <rule ref="category/java/bestpractices.xml/GuardLogStatement" />
+  <rule ref="category/java/bestpractices.xml/SystemPrintln" />
+
+  <!-- rules previously in rulesets/java/migrating.xml -->
+  <rule ref="category/java/errorprone.xml/AvoidAssertAsIdentifier" />
+  <rule ref="category/java/errorprone.xml/AvoidEnumAsIdentifier" />
+  <rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach" />
+  <rule ref="category/java/bestpractices.xml/JUnit4SuitesShouldUseSuiteAnnotation" />
+  <rule ref="category/java/bestpractices.xml/JUnitUseExpected" />
+  <rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator" />
+  <rule ref="category/java/bestpractices.xml/ReplaceHashtableWithMap" />
+  <rule ref="category/java/bestpractices.xml/ReplaceVectorWithList" />
+  <rule ref="category/java/performance.xml/ByteInstantiation" />
+  <rule ref="category/java/performance.xml/IntegerInstantiation" />
+  <rule ref="category/java/performance.xml/LongInstantiation" />
+  <rule ref="category/java/performance.xml/ShortInstantiation" />
+  
+  <!-- rules previously in rulesets/java/migrating.xml -->
+  <rule ref="category/java/performance.xml/AddEmptyString" />
+  <rule ref="category/java/performance.xml/AvoidArrayLoops" />
+  <rule ref="category/java/performance.xml/RedundantFieldInitializer" />
+  <rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation" />
+  <rule ref="category/java/performance.xml/UseArrayListInsteadOfVector" />
+  <rule ref="category/java/performance.xml/UseArraysAsList" />
+  <rule ref="category/java/performance.xml/UseStringBufferForStringAppends" />
+
+  <!-- rules previously in rulesets/java/strictexception.xml -->
+  <rule ref="category/java/errorprone.xml/AvoidCatchingNPE" />
+  <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation" />
+  <rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally" />
+  <rule ref="category/java/design.xml/AvoidCatchingGenericException" />
+  <rule ref="category/java/design.xml/AvoidRethrowingException" />
+  <rule ref="category/java/design.xml/AvoidThrowingNewInstanceOfSameException" />
+  <rule ref="category/java/design.xml/AvoidThrowingNullPointerException" />
+  <rule ref="category/java/design.xml/DoNotExtendJavaLangError" />
+  <rule ref="category/java/design.xml/ExceptionAsFlowControl" />
+  <rule ref="category/java/design.xml/SignatureDeclareThrowsException" />
+
+  <!-- rules previously in rulesets/java/strings.xml -->
+  <rule ref="category/java/errorprone.xml/StringBufferInstantiationWithChar" />
+  <rule ref="category/java/errorprone.xml/UnnecessaryCaseChange" />
+  <rule ref="category/java/errorprone.xml/UseEqualsToCompareStrings" />
+  <rule ref="category/java/bestpractices.xml/AvoidStringBufferField" />
+  <rule ref="category/java/performance.xml/AppendCharacterWithChar" />
+  <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse" />
+  <rule ref="category/java/performance.xml/InefficientEmptyStringCheck" />
+  <rule ref="category/java/performance.xml/InefficientStringBuffering" />
+  <rule ref="category/java/performance.xml/StringInstantiation" />
+  <rule ref="category/java/performance.xml/StringToString" />
+  <rule ref="category/java/performance.xml/UseIndexOfChar" />
+  <rule ref="category/java/performance.xml/UselessStringValueOf" />
+  <rule ref="category/java/performance.xml/UseStringBufferLength" />
+  
+  <!-- rules previously in rulesets/java/unusedcode.xml -->
+  <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
+  <rule ref="category/java/bestpractices.xml/UnusedPrivateField" />
 
 </ruleset>

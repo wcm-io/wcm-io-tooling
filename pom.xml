@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.tooling.parent</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9-SNAPSHOT</version>
     <relativePath>parent/pom.xml</relativePath>
   </parent>
 
@@ -51,9 +51,12 @@
     <module>maven/aem-dependencies/6.3.2</module>
     <module>maven/aem-dependencies/6.4.0</module>
     <module>maven/aem-global-parent</module>
+    <!-- exclude global-build-tools from main build to avoid problem with snapshot dependency to it -->
+    <!--
     <module>maven/global-build-tools</module>
     <module>maven/global-build-tools-mixin</module>
     <module>maven/global-build-tools-test</module>
+    -->
     <module>maven/global-parent</module>
     <module>maven/plugins/cq-maven-plugin</module>
     <module>maven/plugins/i18n-maven-plugin</module>
