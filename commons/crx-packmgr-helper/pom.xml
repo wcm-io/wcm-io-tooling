@@ -109,6 +109,11 @@
       <artifactId>org.apache.jackrabbit.vault</artifactId>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>
