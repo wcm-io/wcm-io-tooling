@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.2.22" date="not released">
+    <release version="1.2.22" date="2018-07-13">
       <action type="update" dev="sseifert">
         Update CONGA, CONGA AEM and CONGA Ansible plugin version.
       </action>
