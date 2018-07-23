@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Build;
@@ -224,6 +223,9 @@ public class TransformMojo extends AbstractMojo {
   private void writeTargetI18nFile(SlingI18nMap i18nMap, File targetfile, OutputFormat selectedOutputFormat) throws IOException, JSONException {
     if (selectedOutputFormat == OutputFormat.XML) {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nXmlString());
+    }
+    else if(selectedOutputFormat == OutputFormat.PROPERTIES){
+      FileUtils.fileWrite(targetfile, CharEncoding.ISO_8859_1, i18nMap.getI18nPropertiesString());
     }
     else {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nJsonString());

@@ -128,3 +128,14 @@ Any of the above listed input formats will result in the following output format
       sling:message="value 2"/>
 </jcr:root>
 ```
+
+
+### Output format properties File (Java Specification)
+
+
+Any of the above listed input formats will result in the following output format after translation (when outputFormat is set to 'properties'):
+
+```properties
+key1=value1
+key21.key22.key.23=value 2
+```
