@@ -225,6 +225,9 @@ public class TransformMojo extends AbstractMojo {
     if (selectedOutputFormat == OutputFormat.XML) {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nXmlString());
     }
+    else if (selectedOutputFormat == OutputFormat.PROPERTIES) {
+      FileUtils.fileWrite(targetfile, CharEncoding.ISO_8859_1, i18nMap.getI18nPropertiesString());
+    }
     else {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nJsonString());
     }
