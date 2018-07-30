@@ -76,7 +76,7 @@ public class TransformMojo extends AbstractMojo {
   private String target;
 
   /**
-   * Output format for i18n: "json" or "xml"
+   * Output format for i18n: <code>json</code>, <code>xml</code> or <code>properties</code>.
    */
   @Parameter(defaultValue = "json")
   private String outputFormat;
