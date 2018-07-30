@@ -83,7 +83,7 @@
         var dispatcherRegex = /^dispatcher-(.+)-(.+?)\.([^\.]*|tar.gz)$/g;
         var genericRegex = /^(.+)-(.+?)\.([^\.]*)$/g;
 
-        var packageServicePackRegex = /-service-pack-/i;
+        var packageServicePackRegex = /(-service-pack-|AEM-\d+\.\d+\.\d+\.\d+-\d+\.\d+\.\d+)/i;
         var packageFeaturePackRegex = /-feature-pack-/i;
         var packageCFPRegex = /-cfp(\d+)?-/i;
         var packageHotfixRegex = /-hotfix-/i;
