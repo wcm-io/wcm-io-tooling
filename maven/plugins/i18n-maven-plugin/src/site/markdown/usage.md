@@ -130,8 +130,7 @@ Any of the above listed input formats will result in the following output format
 ```
 
 
-### Output format properties File (Java Specification)
-
+### Output format i18n Properties File (Java Specification)
 
 Any of the above listed input formats will result in the following output format after translation (when outputFormat is set to 'properties'):
 

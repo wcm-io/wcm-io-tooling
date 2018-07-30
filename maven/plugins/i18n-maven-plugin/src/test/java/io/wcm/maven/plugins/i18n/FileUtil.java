@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.CharEncoding;
 
@@ -39,10 +40,10 @@ public final class FileUtil {
   }
 
   public static String getStringFromClasspath(String resourcePath) throws IOException {
-return getStringFromClasspath(resourcePath, CharEncoding.UTF_8);
+    return getStringFromClasspath(resourcePath, CharEncoding.UTF_8);
   }
 
-  public static String getStringFromClasspath(String resourcePath, String encoding) throws IOException{
+  public static String getStringFromClasspath(String resourcePath, String encoding) throws IOException {
     try (InputStream is = FileUtil.class.getClassLoader().getResourceAsStream(resourcePath)) {
       return IOUtils.toString(is, encoding);
     }

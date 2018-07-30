@@ -28,11 +28,13 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Map;
 import java.util.Properties;
+
 import org.apache.commons.lang3.CharEncoding;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
+
 import com.google.common.collect.ImmutableMap;
 
 public class SlingI18nMapTest {

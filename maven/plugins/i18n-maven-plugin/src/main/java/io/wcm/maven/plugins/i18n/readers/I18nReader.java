@@ -31,7 +31,7 @@ public interface I18nReader {
   /**
    * @param sourceFile Source file
    * @return I18n resources
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   Map<String, String> read(File sourceFile) throws IOException;
 
