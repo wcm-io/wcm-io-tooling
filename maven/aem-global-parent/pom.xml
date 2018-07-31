@@ -445,7 +445,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.9.2</version>
+          <version>1.9.3-SNAPSHOT-</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
