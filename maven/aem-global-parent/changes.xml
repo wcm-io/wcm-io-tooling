@@ -25,7 +25,10 @@
 
     <release version="1.2.24" date="not released">
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA Ansible plugin.
+        Update CONGA, CONGA AEM and CONGA Ansible plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update wcm.io Content Package Maven plugin.
       </action>
     </release>
 
