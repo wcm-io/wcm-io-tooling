@@ -188,11 +188,12 @@ public final class PackageManagerHelper {
         log.debug("HTTP call failed.", ex);
         log.info("---------------");
 
-        String msg = "HTTP call failed, try again (" + (runCount + 1) + "/" + props.getRetryCount() + ")";
+        StringBuilder msg = new StringBuilder();
+        msg.append("HTTP call failed, try again (" + (runCount + 1) + "/" + props.getRetryCount() + ")");
         if (props.getRetryDelaySec() > 0) {
-          msg += " after " + props.getRetryDelaySec() + " second(s)";
+          msg.append(" after " + props.getRetryDelaySec() + " second(s)");
         }
-        msg += "...";
+        msg.append("...");
         log.info(msg);
         if (props.getRetryDelaySec() > 0) {
           try {

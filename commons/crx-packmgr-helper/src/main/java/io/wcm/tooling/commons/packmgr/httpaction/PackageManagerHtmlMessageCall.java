@@ -91,15 +91,12 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
         return responseString;
       }
       else {
-        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
-            + " " + response.getStatusLine().getReasonPhrase() + "\n"
-            + responseString);
+        throw PackageManagerHttpActionException.forHttpError(method.getURI().toString(), response.getStatusLine(), responseString);
       }
 
     }
     catch (IOException ex) {
-      throw new PackageManagerHttpActionException("Http method failed: "
-          + StringUtils.defaultString(ex.getMessage(), ex.getClass().getSimpleName()), ex);
+      throw PackageManagerHttpActionException.forIOException(method.getURI().toString(), ex);
     }
   }
 

@@ -34,7 +34,12 @@ enum OutputFormat {
   /**
    * JCR XML
    */
-  XML;
+  XML,
+
+  /**
+   * PROPERTIES
+   */
+  PROPERTIES;
 
   /**
    * @return File extension

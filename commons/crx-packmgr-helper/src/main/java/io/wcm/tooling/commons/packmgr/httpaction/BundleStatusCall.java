@@ -66,16 +66,14 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
       String responseString = EntityUtils.toString(response.getEntity());
       if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
-            + " " + response.getStatusLine().getReasonPhrase() + "\n"
-            + responseString);
+        throw PackageManagerHttpActionException.forHttpError(bundleStatusURL, response.getStatusLine(), responseString);
       }
 
       JSONObject jsonResponse = new JSONObject(responseString);
       return toBundleStatus(jsonResponse);
     }
     catch (IOException ex) {
-      throw new PackageManagerHttpActionException("Can't determine bundle state via URL: " + bundleStatusURL, ex);
+      throw PackageManagerHttpActionException.forIOException(bundleStatusURL, ex);
     }
   }
 

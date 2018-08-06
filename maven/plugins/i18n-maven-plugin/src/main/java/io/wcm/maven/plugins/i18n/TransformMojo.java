@@ -76,7 +76,7 @@ public class TransformMojo extends AbstractMojo {
   private String target;
 
   /**
-   * Output format for i18n: "json" or "xml"
+   * Output format for i18n: <code>json</code>, <code>xml</code> or <code>properties</code>.
    */
   @Parameter(defaultValue = "json")
   private String outputFormat;
@@ -224,6 +224,9 @@ public class TransformMojo extends AbstractMojo {
   private void writeTargetI18nFile(SlingI18nMap i18nMap, File targetfile, OutputFormat selectedOutputFormat) throws IOException, JSONException {
     if (selectedOutputFormat == OutputFormat.XML) {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nXmlString());
+    }
+    else if (selectedOutputFormat == OutputFormat.PROPERTIES) {
+      FileUtils.fileWrite(targetfile, CharEncoding.ISO_8859_1, i18nMap.getI18nPropertiesString());
     }
     else {
       FileUtils.fileWrite(targetfile, CharEncoding.UTF_8, i18nMap.getI18nJsonString());

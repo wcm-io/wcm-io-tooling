@@ -20,7 +20,16 @@
 package io.wcm.maven.plugins.i18n;
 
 import static io.wcm.maven.plugins.i18n.FileUtil.getStringFromClasspath;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.lang3.CharEncoding;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +59,24 @@ public class SlingI18nMapTest {
   @Test
   public void testGetI18nXmlString() throws Exception {
     XMLAssert.assertXMLEqual(getStringFromClasspath("map/i18n-content.xml"), underTest.getI18nXmlString());
+  }
+
+  @Test
+  public void testGetI18nPropertiesString() throws Exception {
+    Properties props = new Properties();
+    //Note: as the files in file-system are encoded as utf-8, we need to set it manually to override the properties default
+    try (InputStream is = FileUtil.class.getClassLoader().getResourceAsStream("map/i18n-content.properties")) {
+      props.load(new InputStreamReader(is, CharEncoding.UTF_8));
+    }
+
+    Properties underTestProperties = new Properties();
+    underTestProperties.load(new StringReader(underTest.getI18nPropertiesString()));
+
+    assertEquals(props.keySet().size(), underTestProperties.keySet().size());
+    for (Map.Entry<Object, Object> entry : props.entrySet()) {
+      assertTrue(underTestProperties.containsKey(entry.getKey()));
+      assertEquals(entry.getValue(), underTestProperties.getProperty((String)entry.getKey()));
+    }
   }
 
 }

@@ -23,9 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.24" date="not released">
+      <action type="update" dev="sseifert">
+        Update CONGA, CONGA AEM and CONGA Ansible plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update wcm.io Content Package Maven plugin.
+      </action>
+    </release>
+
     <release version="1.2.22" date="2018-07-13">
       <action type="update" dev="sseifert">
-        Update CONGA, CONGA AEM and CONGA Ansible plugin version.
+        Update CONGA, CONGA AEM and CONGA Ansible plugin.
       </action>
       <action type="update" dev="sseifert">
         Update global-parent dependency to 20.
@@ -43,7 +52,7 @@
 
     <release version="1.2.20" date="2018-05-26">
       <action type="update" dev="sseifert">
-        Update CONGA AEM plugin version.
+        Update CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin.
@@ -58,7 +67,7 @@
 
     <release version="1.2.18" date="2018-05-04">
       <action type="update" dev="sseifert">
-        Update CONGA, CONGA AEM and CONGA Ansible plugin version.
+        Update CONGA, CONGA AEM and CONGA Ansible plugin.
       </action>
       <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin.
@@ -94,7 +103,7 @@
         Update to maven-bundle-plugin 3.5.0.
       </action>
       <action type="update" dev="sseifert">
-        Update CONGA and plugin versions, add CONGA Ansible plugin.
+        Update CONGA and CONGA Ansible plugin.
       </action>
       <action type="update" dev="sseifert">
         wcmio-content-package-maven-plugin: Do not remove META-INF directory on download.
@@ -103,7 +112,7 @@
 
     <release version="1.2.12" date="2017-12-20">
       <action type="update" dev="sseifert">
-        Update CONGA AEM plugin version.
+        Update CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
         Update to wcmio-content-package-maven-plugin 1.6.2.
@@ -136,7 +145,7 @@
 
     <release version="1.2.8" date="2017-10-17">
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA AEM plugin versions.
+        Update CONGA and CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
         Update Maven Sling Plugin.
@@ -178,7 +187,7 @@
         Update to wcmio-content-package-maven-plugin 1.5.2.
       </action>
       <action type="update" dev="sseifert">
-        Update CONGA AEM plugin version.
+        Update CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
         Update global-parent dependency to 15.
@@ -203,7 +212,7 @@
         Set failOnMissingEmbed for content-package-maven-plugin and wcmio-content-package-maven-plugin.
       </action>
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA AEM plugin versions.
+        Update CONGA and CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
         Update to latest plugins.

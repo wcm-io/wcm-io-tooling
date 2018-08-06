@@ -22,7 +22,6 @@ package io.wcm.tooling.commons.packmgr.httpaction;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -78,15 +77,13 @@ public final class PackageManagerXmlCall implements HttpCall<Document> {
 
       }
       else {
-        throw new PackageManagerHttpActionException("Call failed with HTTP status " + response.getStatusLine().getStatusCode()
-            + " " + response.getStatusLine().getReasonPhrase());
+        throw PackageManagerHttpActionException.forHttpError(method.getURI().toString(), response.getStatusLine(), null);
       }
 
       return xmlResponse;
     }
     catch (IOException ex) {
-      throw new PackageManagerHttpActionException("Http method failed: "
-          + StringUtils.defaultString(ex.getMessage(), ex.getClass().getSimpleName()), ex);
+      throw PackageManagerHttpActionException.forIOException(method.getURI().toString(), ex);
     }
   }
 

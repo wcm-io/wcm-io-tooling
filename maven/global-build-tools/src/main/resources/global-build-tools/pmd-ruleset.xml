@@ -117,7 +117,7 @@
       <property name="types" value="Connection,Statement,ResultSet,OutgoingMessageBuilder"/>
     </properties>
   </rule>
-  
+
   <!-- rules previously in rulesets/java/finalizers.xml -->
   <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
   <rule ref="category/java/errorprone.xml/EmptyFinalizer" />
@@ -128,14 +128,14 @@
 
   <!-- rules previously in rulesets/java/imports.xml -->
   <rule ref="category/java/bestpractices.xml/UnusedImports" />
-  <rule ref="category/java/errorprone.xml/ImportFromSamePackage" />  
+  <rule ref="category/java/errorprone.xml/ImportFromSamePackage" />
   <rule ref="category/java/codestyle.xml/DontImportJavaLang" />
   <rule ref="category/java/codestyle.xml/DuplicateImports" />
   <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" />
 
   <!-- rules previously in rulesets/java/logging-java.xml -->
   <rule ref="category/java/errorprone.xml/InvalidSlf4jMessageFormat" />
-  <rule ref="category/java/errorprone.xml/MoreThanOneLogger" />  
+  <rule ref="category/java/errorprone.xml/MoreThanOneLogger" />
   <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
   <rule ref="category/java/bestpractices.xml/GuardLogStatement" />
   <rule ref="category/java/bestpractices.xml/SystemPrintln" />
@@ -153,7 +153,7 @@
   <rule ref="category/java/performance.xml/IntegerInstantiation" />
   <rule ref="category/java/performance.xml/LongInstantiation" />
   <rule ref="category/java/performance.xml/ShortInstantiation" />
-  
+
   <!-- rules previously in rulesets/java/migrating.xml -->
   <rule ref="category/java/performance.xml/AddEmptyString" />
   <rule ref="category/java/performance.xml/AvoidArrayLoops" />
@@ -189,7 +189,7 @@
   <rule ref="category/java/performance.xml/UseIndexOfChar" />
   <rule ref="category/java/performance.xml/UselessStringValueOf" />
   <rule ref="category/java/performance.xml/UseStringBufferLength" />
-  
+
   <!-- rules previously in rulesets/java/unusedcode.xml -->
   <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
   <rule ref="category/java/bestpractices.xml/UnusedPrivateField" />

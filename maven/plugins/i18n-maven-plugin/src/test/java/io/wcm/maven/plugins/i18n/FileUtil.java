@@ -40,8 +40,12 @@ public final class FileUtil {
   }
 
   public static String getStringFromClasspath(String resourcePath) throws IOException {
+    return getStringFromClasspath(resourcePath, CharEncoding.UTF_8);
+  }
+
+  public static String getStringFromClasspath(String resourcePath, String encoding) throws IOException {
     try (InputStream is = FileUtil.class.getClassLoader().getResourceAsStream(resourcePath)) {
-      return IOUtils.toString(is, CharEncoding.UTF_8);
+      return IOUtils.toString(is, encoding);
     }
   }
 
