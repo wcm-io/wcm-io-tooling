@@ -72,8 +72,8 @@
     <integrationtests.skip>${maven.test.skip}</integrationtests.skip>
 
     <!-- compiler settings (can be overridden by inheriting poms) -->
-    <build.compiler.source>1.7</build.compiler.source>
-    <build.compiler.target>1.7</build.compiler.target>
+    <build.compiler.source>1.8</build.compiler.source>
+    <build.compiler.target>1.8</build.compiler.target>
 
     <!-- pmd needs this as a global property, even in mvn 3 - may be fixed some day -->
     <!-- see http://jira.codehaus.org/browse/MPMD-86 -->
@@ -343,6 +343,9 @@
                 <requireMavenVersion>
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[${build.compiler.target},]</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
@@ -357,6 +360,9 @@
                 <requireMavenVersion>
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[${build.compiler.target},]</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
@@ -371,6 +377,9 @@
                 <requireMavenVersion>
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[${build.compiler.target},]</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
