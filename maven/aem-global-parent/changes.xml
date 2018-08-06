@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 21.
+      </action>
     </release>
 
     <release version="1.2.22" date="2018-07-13">
