@@ -31,6 +31,9 @@
         Update wcm.io Content Package Maven plugin.
       </action>
       <action type="update" dev="sseifert">
+        Update Maven Sling HTL plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 21.
       </action>
     </release>
