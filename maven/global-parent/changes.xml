@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Set default Maven version to Java 8 and enfore it as minimum java version.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
     </release>
 
     <release version="20" date="2018-07-11">
