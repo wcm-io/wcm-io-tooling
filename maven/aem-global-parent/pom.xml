@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>20</version>
+    <version>21-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -97,7 +97,7 @@
         <version>1.11.0</version>
       </dependency>
 
-      <!-- Keep dependency for backward compatibility (earlier osgi-mock version declared it as transtivie dependency with an outdated version) -->
+      <!-- Keep dependency for backward compatibility (earlier osgi-mock version declared it as transitive dependency with an outdated version) -->
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
         <artifactId>annotations</artifactId>
@@ -332,7 +332,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>1.1.6-1.4.0</version>
+          <version>1.1.8-1.4.0</version>
         </plugin>
 
         <plugin>
