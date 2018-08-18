@@ -50,7 +50,6 @@ public class ContentPackageBuilderTest {
   private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
   static {
     DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
-    DOCUMENT_BUILDER_FACTORY.setValidating(false);
   }
 
   private ContentPackageBuilder underTest;
