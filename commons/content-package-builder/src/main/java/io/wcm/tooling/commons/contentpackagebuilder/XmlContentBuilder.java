@@ -57,6 +57,7 @@ final class XmlContentBuilder {
     this.documentBuilderFactory.setNamespaceAware(true);
     try {
       this.documentBuilder = documentBuilderFactory.newDocumentBuilder();
+      this.documentBuilder.setEntityResolver(new PropertiesEntityResolver());
     }
     catch (ParserConfigurationException ex) {
       throw new RuntimeException("Failed to set up XML document builder: " + ex.getMessage(), ex);
