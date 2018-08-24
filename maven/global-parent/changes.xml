@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update to global-build-tools 14.
       </action>
+      <action type="update" dev="sseifert">
+        Add frontend-maven-plugin.
+      </action>
     </release>
 
     <release version="21" date="2018-08-17">
