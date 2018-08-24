@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Add frontend-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins to latest versions.
+      </action>
     </release>
 
     <release version="21" date="2018-08-17">
