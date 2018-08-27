@@ -136,7 +136,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>14</version>
+        <version>15-SNAPSHOT</version>
       </extension>
 
       <!-- SCP support for deploying sites -->
@@ -638,7 +638,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
@@ -764,9 +764,15 @@
         </plugin>
 
         <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+
+        <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.1</version>
+          <version>0.8.2</version>
         </plugin>
 
         <plugin>

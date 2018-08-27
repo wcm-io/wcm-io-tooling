@@ -266,6 +266,7 @@ public class ContentPackageBuilderTest {
   private Document getXmlFromZip(String path) throws Exception {
     byte[] data = getDataFromZip(path);
     DocumentBuilder documentBuilder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+    documentBuilder.setEntityResolver(new PropertiesEntityResolver());
     return documentBuilder.parse(new ByteArrayInputStream(data));
   }
 

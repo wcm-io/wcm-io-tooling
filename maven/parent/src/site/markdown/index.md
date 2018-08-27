@@ -23,3 +23,4 @@ Maven Parent POMs, Build Tools and Plugins.
 ### Maven Archetypes
 
 * [Maven Archetype for AEM](archetypes/aem/): Maven Archetype for creating new AEM projects.
+* [Maven Archetype for AEM Configuration Management](archetypes/aem-confmgmt/): Maven Archetype for creating infrastructure deployment and configuration management projects for AEM.
