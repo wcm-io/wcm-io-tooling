@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.global-build-tools</artifactId>
-  <version>15-SNAPSHOT</version>
+  <version>16-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>io.wcm.maven.global-build-tools</name>
