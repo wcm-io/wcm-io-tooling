@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.tooling.parent</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.10</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.parent</artifactId>
-  <version>1.0.9-SNAPSHOT</version>
+  <version>1.0.10</version>
   <packaging>pom</packaging>
 
   <name>Maven Tooling</name>
