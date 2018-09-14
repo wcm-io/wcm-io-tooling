@@ -28,6 +28,18 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
+### AEM 6.3 SP3
+
+```xml
+<dependency>
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
+  <version>6.3.3.0000</version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+```
+
 ### AEM 6.3 SP2
 
 ```xml
