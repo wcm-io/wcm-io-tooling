@@ -28,6 +28,9 @@
         Update to maven-bundle-plugin 4.0.0.
       </action>
       <action type="update" dev="sseifert">
+        Add org.apache.sling.servlets.annotations as default dependency.
+      </action>
+      <action type="update" dev="sseifert">
         Update to Jackrabbit filevault-package-maven-plugin 1.0.3.
       </action>
       <action type="update" dev="sseifert">
