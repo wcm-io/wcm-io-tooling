@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>22</version>
+    <version>23-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -56,7 +56,7 @@
     <sling.password>admin</sling.password>
 
     <!-- versions -->
-    <sling.maven-sling-plugin.version>2.3.6</sling.maven-sling-plugin.version>
+    <sling.maven-sling-plugin.version>2.3.8</sling.maven-sling-plugin.version>
 
   </properties>
 
