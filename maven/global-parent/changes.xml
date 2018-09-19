@@ -25,6 +25,9 @@
 
     <release version="23" date="not released">
       <action type="update" dev="sseifert">
+        Update to global-build-tools 16.
+      </action>
+      <action type="update" dev="sseifert">
         Update plugins to latest versions.
       </action>
     </release>
