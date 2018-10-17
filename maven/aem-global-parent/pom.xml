@@ -29,13 +29,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>23-SNAPSHOT</version>
+    <version>23</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.2.27-SNAPSHOT</version>
+  <version>1.2.28</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -337,7 +337,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>1.1.8-1.4.0</version>
+          <version>1.2.0-1.4.0</version>
         </plugin>
 
         <plugin>
