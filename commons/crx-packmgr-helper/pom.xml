@@ -24,13 +24,13 @@
   <parent>
     <groupId>io.wcm.tooling.commons</groupId>
     <artifactId>io.wcm.tooling.commons.parent</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.8</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.tooling.commons</groupId>
   <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-  <version>1.5.7-SNAPSHOT</version>
+  <version>1.5.8</version>
   <packaging>bundle</packaging>
 
   <name>CRX Package Manager Helper</name>
