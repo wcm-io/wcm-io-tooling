@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>22</version>
+    <version>23-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -56,7 +56,7 @@
     <sling.password>admin</sling.password>
 
     <!-- versions -->
-    <sling.maven-sling-plugin.version>2.3.6</sling.maven-sling-plugin.version>
+    <sling.maven-sling-plugin.version>2.3.8</sling.maven-sling-plugin.version>
 
   </properties>
 
@@ -82,6 +82,11 @@
       <artifactId>org.osgi.service.metatype.annotations</artifactId>
       <version>1.4.0</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sling</groupId>
+      <artifactId>org.apache.sling.servlets.annotations</artifactId>
+      <version>1.1.0</version>
     </dependency>
 
   </dependencies>
@@ -374,7 +379,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.6.16</version>
+          <version>1.6.17-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -456,7 +461,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.8.10</version>
+              <version>1.8.11-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -468,7 +473,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.8.10</version>
+          <version>1.8.11-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>

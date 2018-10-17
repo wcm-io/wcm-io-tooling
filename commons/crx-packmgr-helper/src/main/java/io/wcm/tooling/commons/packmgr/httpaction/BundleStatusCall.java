@@ -83,7 +83,7 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
     // get bundle stats
     int total = statusArray.getInt(0);
-    int active = statusArray.getInt(0);
+    int active = statusArray.getInt(1);
     int activeFragment = statusArray.getInt(2);
     int resolved = statusArray.getInt(3);
     int installed = statusArray.getInt(4);

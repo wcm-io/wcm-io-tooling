@@ -16,7 +16,7 @@ Converts AEM Dialog Definitions in JSON Format with Rules from [Adobe AEM Dialog
 
 The [Adobe AEM Dialog Conversion Tool][aem-dialog-conversion] is deployed to a AEM instance and is able to convert dialogs from installed AEM application in the repository. This is not helpful for AEM projects with `Sling-Initial-Content` in JSON format, because it's tedious do get the converted dialogs back to the project in JSON format.
 
-This Maven plugin is a wrapper around the conversion tool an applies the conversion directly to the local Maven bundle project.
+This Maven plugin is a wrapper around the conversion tool and applies the conversion directly to the local Maven bundle project.
 
 From the rules included in [Adobe AEM Dialog Conversion Tool][aem-dialog-conversion] only the "Node-based rewrite rules" are applied. Via configuration it is possible to choose between:
 

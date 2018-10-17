@@ -52,6 +52,7 @@
     <module>maven/aem-dependencies/6.3.3</module>
     <module>maven/aem-dependencies/6.4.0</module>
     <module>maven/aem-dependencies/6.4.1</module>
+    <module>maven/aem-dependencies/6.4.2</module>
     <module>maven/aem-global-parent</module>
     <!-- exclude global-build-tools from main build to avoid problem with snapshot dependency to it -->
     <!--

@@ -150,7 +150,9 @@
     <module name="NoFinalizer"/>
     <module name="SuperClone"/>
     <module name="SuperFinalize"/>
-    <module name="IllegalCatch"/>
+    <module name="IllegalCatch">
+      <property name="illegalClassNames" value="java.lang.Throwable,RuntimeException,Error,Throwable,java.lang.Error,java.lang.RuntimeException"/>
+    </module>
     <module name="IllegalThrows"/>
     <module name="PackageDeclaration"/>
     <module name="IllegalType">

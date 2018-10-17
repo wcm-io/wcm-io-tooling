@@ -89,7 +89,7 @@
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
 
     <!-- Plugin version -->
-    <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
     <spotbugs-plugin.version>3.1.6</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
 
@@ -105,7 +105,7 @@
       <dependency>
         <groupId>org.jetbrains</groupId>
         <artifactId>annotations</artifactId>
-        <version>16.0.2</version>
+        <version>16.0.3</version>
       </dependency>
 
       <!--
@@ -116,7 +116,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>${spotbugs-plugin.version}</version>
+        <version>3.1.7</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -136,7 +136,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>15</version>
+        <version>16-SNAPSHOT</version>
       </extension>
 
       <!-- SCP support for deploying sites -->
@@ -485,7 +485,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.12</version>
+            <version>8.13</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -590,7 +590,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.5</version>
+          <version>3.0.0</version>
         </plugin>
 
         <plugin>
@@ -630,7 +630,7 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.10.0</version>
+              <version>1.11.1</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -644,13 +644,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.10.0</version>
+          <version>1.11.1</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
@@ -717,7 +717,7 @@
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.4.1.1168</version>
+          <version>3.5.0.1254</version>
         </plugin>
 
         <plugin>
