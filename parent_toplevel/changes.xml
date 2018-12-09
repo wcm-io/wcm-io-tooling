@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update to global-build-tools-mixin 2.
       </action>
+      <action type="update" dev="sseifert">
+        Update reflow-maven-skin.
+      </action>
     </release>
 
     <release version="1.2.8" date="2018-08-27">
