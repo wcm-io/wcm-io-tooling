@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.skins</groupId>
   <artifactId>reflow-maven-skin</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.6-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>wcm.io Reflow Maven Skin</name>
