@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>23</version>
+    <version>24-SNAPSHOT</version>
     <relativePath />
   </parent>
 

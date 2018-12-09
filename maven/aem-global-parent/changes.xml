@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.2.30" date="not released">
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 24.
+      </action>
+    </release>
+
     <release version="1.2.28" date="2018-10-17">
       <action type="update" dev="sseifert">
         Update to maven-bundle-plugin 4.0.0.

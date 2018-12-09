@@ -18,7 +18,7 @@
     {
       // classic encoding with <div class="source"><pre></pre></div>
       // and HTML5 version with <pre><code></code></pre>
-      $('div.source pre, pre code').each(function(i, e) {hljs.highlightBlock(e)});
+      $('div.source pre, pre code, pre.source').each(function(i, e) {hljs.highlightBlock(e)});
     }
 
   })
