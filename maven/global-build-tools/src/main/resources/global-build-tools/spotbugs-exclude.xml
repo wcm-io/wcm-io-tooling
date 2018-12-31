@@ -50,13 +50,18 @@
 
   <Match>
 
-    <!-- Ignore unit tes classs -->
+    <!-- Ignore unit test classs -->
     <Class name="~.*\.*Test" />
 
     <Not>
       <Bug code="IJU" /> <!-- 'IJU' is the code for bugs related to JUnit test code -->
     </Not>
 
+  </Match>
+  
+  <!-- Disable spotbugs for Kotlin source files. -->
+  <Match>
+    <Source name="~.*\.kt"/>
   </Match>
 
 </FindBugsFilter>
