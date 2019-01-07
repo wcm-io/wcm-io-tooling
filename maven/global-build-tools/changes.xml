@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Eclipse UI prefs: Remove wcm.io file header from global-build-tools and move it to global-build-tools-mixin for "eclipse-ignoreall" settings as well.
       </action>
+      <action type="update" dev="amuthmann">
+        Disable Spotbugs analysis for Kotlin (*.kt) files.
+      </action>
     </release>
 
     <release version="16" date="2018-10-17">
