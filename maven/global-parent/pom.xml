@@ -80,7 +80,7 @@
     <targetJdk>${build.compiler.target}</targetJdk>
 
     <!-- Mininum maven version -->
-    <maven.min-version>3.3.9</maven.min-version>
+    <maven.min-version>3.5.0</maven.min-version>
 
     <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
@@ -90,7 +90,7 @@
 
     <!-- Plugin version -->
     <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
-    <spotbugs-plugin.version>3.1.7</spotbugs-plugin.version>
+    <spotbugs-plugin.version>3.1.10</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
@@ -116,7 +116,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>3.1.8</version>
+        <version>3.1.10</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -485,7 +485,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.13</version>
+            <version>8.16</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -505,7 +505,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
         </plugin>
 
         <plugin>
@@ -578,7 +578,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
         </plugin>
 
         <plugin>
@@ -596,7 +596,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.10.0</version>
+          <version>3.11.0</version>
           <configuration>
             <targetJdk>${build.compiler.target}</targetJdk>
             <format>xml</format>
@@ -650,7 +650,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.2.1</version>
         </plugin>
 
         <plugin>
@@ -717,7 +717,7 @@
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.5.0.1254</version>
+          <version>3.6.0.1398</version>
         </plugin>
 
         <plugin>
