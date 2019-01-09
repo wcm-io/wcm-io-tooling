@@ -86,7 +86,7 @@
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.servlets.annotations</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.4</version>
     </dependency>
 
   </dependencies>
@@ -233,7 +233,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>4.0.0</version>
+          <version>4.1.0</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -337,7 +337,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>1.2.0-1.4.0</version>
+          <version>1.2.2-1.4.0</version>
         </plugin>
 
         <plugin>

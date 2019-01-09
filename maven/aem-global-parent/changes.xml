@@ -25,10 +25,10 @@
 
     <release version="1.2.30" date="not released">
       <action type="update" dev="sseifert">
-        Update Maven Sling plugin.
+        Update global-parent dependency to 24.
       </action>
       <action type="update" dev="sseifert">
-        Update global-parent dependency to 24.
+        Update plugins and dependencies to latest versions.
       </action>
     </release>
 
