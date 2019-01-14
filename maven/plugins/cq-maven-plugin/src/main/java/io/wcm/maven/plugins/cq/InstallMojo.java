@@ -105,7 +105,7 @@ public class InstallMojo extends AbstractMojo {
 
     Plugin plugin = new Plugin();
     plugin.setGroupId("org.apache.sling");
-    plugin.setArtifactId("maven-sling-plugin");
+    plugin.setArtifactId("sling-maven-plugin");
     plugin.setVersion(this.slingPluginVersion);
 
     try {
@@ -122,8 +122,8 @@ public class InstallMojo extends AbstractMojo {
       mojoExecution.setConfiguration(config);
 
       buildPluginManager.executeMojo(session, mojoExecution);
-    }
-    catch (Throwable ex) {
+    } /*CHECKSTYLE:OFF*/
+    catch (Throwable ex) { /*CHECKSTYLE_ON*/
       throw new MojoExecutionException("Faild to execute plugin: " + plugin, ex);
     }
 
