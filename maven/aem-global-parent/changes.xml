@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update plugins and dependencies to latest versions.
       </action>
+      <action type="update" dev="sseifert">
+        Change maven-sling-plugin to sling-maven-plugin and ban old artifact name.
+      </action>
     </release>
 
     <release version="1.2.28" date="2018-10-17">
