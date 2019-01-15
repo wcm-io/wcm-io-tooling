@@ -56,7 +56,7 @@
     <sling.password>admin</sling.password>
 
     <!-- versions -->
-    <sling.maven-sling-plugin.version>2.3.8</sling.maven-sling-plugin.version>
+    <sling.sling-maven-plugin.version>2.4.0</sling.sling-maven-plugin.version>
 
   </properties>
 
@@ -86,7 +86,7 @@
     <dependency>
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.servlets.annotations</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.4</version>
     </dependency>
 
   </dependencies>
@@ -188,13 +188,29 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>ban-maven-sling-plugin</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedPlugins>
+                  <excludes>
+                    <exclude>org.apache.sling:maven-sling-plugin</exclude>
+                  </excludes>
+                  <message>Please change all occurences of maven-sling-plugin to sling-maven-plugin (plugin was renamed).</message>
+                </bannedPlugins>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
       <!-- Validate JSON files -->
       <plugin>
         <groupId>org.apache.sling</groupId>
-        <artifactId>maven-sling-plugin</artifactId>
+        <artifactId>sling-maven-plugin</artifactId>
         <executions>
           <execution>
             <id>validate-json</id>
@@ -233,7 +249,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>4.0.0</version>
+          <version>4.1.0</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -297,8 +313,8 @@
 
         <plugin>
           <groupId>org.apache.sling</groupId>
-          <artifactId>maven-sling-plugin</artifactId>
-          <version>${sling.maven-sling-plugin.version}</version>
+          <artifactId>sling-maven-plugin</artifactId>
+          <version>${sling.sling-maven-plugin.version}</version>
           <!-- Default configuration for deploying bundles into running AEM instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
@@ -337,7 +353,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>1.2.0-1.4.0</version>
+          <version>1.2.2-1.4.0</version>
         </plugin>
 
         <plugin>
@@ -426,9 +442,9 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
-          <version>1.0.4</version>
+          <version>1.0.5-SNAPSHOT</version>
           <configuration>
-            <slingPluginVersion>${sling.maven-sling-plugin.version}</slingPluginVersion>
+            <slingPluginVersion>${sling.sling-maven-plugin.version}</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
             <slingConsoleUser>${sling.user}</slingConsoleUser>
             <slingConsolePassword>${sling.password}</slingConsolePassword>

@@ -31,7 +31,7 @@
         Update to global-build-tools-mixin 2.
       </action>
       <action type="update" dev="sseifert">
-        Update reflow-maven-skin.
+        Update to reflow-maven-skin 1.0.6.
       </action>
     </release>
 
