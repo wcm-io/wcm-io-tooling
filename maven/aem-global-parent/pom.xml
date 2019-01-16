@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>24-SNAPSHOT</version>
+    <version>24</version>
     <relativePath />
   </parent>
 
@@ -442,7 +442,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>cq-maven-plugin</artifactId>
-          <version>1.0.5-SNAPSHOT</version>
+          <version>1.0.6</version>
           <configuration>
             <slingPluginVersion>${sling.sling-maven-plugin.version}</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
