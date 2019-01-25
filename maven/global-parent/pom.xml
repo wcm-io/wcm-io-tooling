@@ -190,6 +190,9 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <source>${build.compiler.source}</source>
+        </configuration>
       </plugin>
 
       <!-- Unit tests -->
