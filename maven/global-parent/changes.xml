@@ -27,6 +27,9 @@
       <action type="update" dev="amuthmann">
         Set source for javadoc plugin to fix issues when builing with jdk11+.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
     </release>
 
     <release version="24" date="2019-01-16">
