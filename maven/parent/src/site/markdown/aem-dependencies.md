@@ -4,13 +4,13 @@ Defines Maven dependencies for a specific AEM version, including those that are 
 
 Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
 
-### AEM 6.4 SP1
+### AEM 6.4 SP3
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.4.1.0000</version>
+  <version>6.4.3.0000</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -35,30 +35,6 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
   <version>6.3.3.0000</version>
-  <type>pom</type>
-  <scope>import</scope>
-</dependency>
-```
-
-### AEM 6.3 SP2
-
-```xml
-<dependency>
-  <groupId>io.wcm.maven</groupId>
-  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.3.2.0000</version>
-  <type>pom</type>
-  <scope>import</scope>
-</dependency>
-```
-
-### AEM 6.3 SP1
-
-```xml
-<dependency>
-  <groupId>io.wcm.maven</groupId>
-  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.3.1.0001</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>

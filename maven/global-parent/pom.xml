@@ -90,7 +90,7 @@
 
     <!-- Plugin version -->
     <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
-    <spotbugs-plugin.version>3.1.10</spotbugs-plugin.version>
+    <spotbugs-plugin.version>3.1.11</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
@@ -105,7 +105,7 @@
       <dependency>
         <groupId>org.jetbrains</groupId>
         <artifactId>annotations</artifactId>
-        <version>16.0.3</version>
+        <version>17.0.0</version>
       </dependency>
 
       <!--
@@ -116,7 +116,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>3.1.10</version>
+        <version>3.1.11</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -136,7 +136,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>17</version>
+        <version>18-SNAPSHOT</version>
       </extension>
 
       <!-- SCP support for deploying sites -->
@@ -190,6 +190,9 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <source>${build.compiler.source}</source>
+        </configuration>
       </plugin>
 
       <!-- Unit tests -->
@@ -485,7 +488,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.16</version>
+            <version>8.17</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -772,13 +775,13 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.2</version>
+          <version>0.8.3</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>license-maven-plugin</artifactId>
-          <version>1.16</version>
+          <version>1.17</version>
         </plugin>
 
         <plugin>

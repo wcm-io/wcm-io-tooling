@@ -45,12 +45,6 @@
   <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
   <rule ref="category/java/errorprone.xml/EmptyWhileStmt" />
 
-  <!-- rules previously in rulesets/java/braces.xml -->
-  <rule ref="category/java/codestyle.xml/ForLoopsMustUseBraces" />
-  <rule ref="category/java/codestyle.xml/IfElseStmtsMustUseBraces" />
-  <rule ref="category/java/codestyle.xml/IfStmtsMustUseBraces" />
-  <rule ref="category/java/codestyle.xml/WhileLoopsMustUseBraces" />
-
   <!-- rules previously in rulesets/java/clone.xml -->
   <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
   <rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable" />
