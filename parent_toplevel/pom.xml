@@ -333,6 +333,15 @@
         </reportSets>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <configuration>
+          <!-- Allow HTML markup in CDATA sections in changes reports -->
+          <escapeHTML>false</escapeHTML>
+        </configuration>
+      </plugin>
+
     </plugins>
   </reporting>
 
