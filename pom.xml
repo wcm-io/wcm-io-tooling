@@ -69,7 +69,10 @@
     <module>maven/plugins/json-dialog-conversion-plugin</module>
     <module>maven/skins/reflow-velocity-tools</module>
     <module>maven/skins/reflow-maven-skin</module>
+    <!-- Exclude Netbeans Sightly extension from main build because it fails with Java 11 -->
+    <!--
     <module>netbeans/sightly</module>
+    -->
     <module>public_site</module>
   </modules>
 
