@@ -29,13 +29,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>25-SNAPSHOT</version>
+    <version>25</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.2.31-SNAPSHOT</version>
+  <version>1.2.32</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -466,7 +466,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.10.3-SNAPSHOT</version>
+          <version>1.11.0</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
