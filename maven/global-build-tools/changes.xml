@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         PMD: Remove rules scheduled for deprecation: ForLoopsMustUseBraces, IfElseStmtsMustUseBraces, IfStmtsMustUseBraces, WhileLoopsMustUseBraces.
       </action>
+      <action type="update" dev="sseifert">
+        Eclipse: Enable warning on unused parameter.
+      </action>
     </release>
 
     <release version="17" date="2019-01-16">

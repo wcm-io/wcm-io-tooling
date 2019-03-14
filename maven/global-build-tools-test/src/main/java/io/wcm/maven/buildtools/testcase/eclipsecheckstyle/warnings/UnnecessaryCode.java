@@ -26,10 +26,8 @@ import java.io.InputStream;
 
 /**
  * Test unnecessary code
- * Expected warnings: 6
- *
+ * Expected warnings: 7
  * *** WARNING: Please do not modify and save this class with default eclipse "save actions" enabled ***
- *
  */
 class UnnecessaryCode {
 
@@ -38,8 +36,8 @@ class UnnecessaryCode {
     int x = 1;
   }
 
-  void vaueOfParameterNotUsed(int pParam) {
-    // no warning
+  void vaueOfParameterNotUsed(int param) {
+    // 1 warning
   }
 
   // 1 warning
