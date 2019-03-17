@@ -13,7 +13,7 @@ https://oss.sonatype.org/content/repositories/snapshots/
 The maven artifact coordinates are documented on the index page of each wcm.io module.
 
 
-### External Maven Repositories
+### Adobe Maven Repositories
 
 wcm.io depends on the Adobe Public Maven Repository:
 
