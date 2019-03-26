@@ -111,6 +111,7 @@ class DialogConverter {
     }
   }
 
+  @SuppressWarnings("null")
   private void checkRuleMatch(Resource resource, boolean convert) {
     Rule rule = rules.getRule(resource);
     if (rule != null) {

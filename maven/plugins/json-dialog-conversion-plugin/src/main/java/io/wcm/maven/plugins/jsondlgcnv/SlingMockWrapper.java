@@ -58,7 +58,9 @@ class SlingMockWrapper {
         }
       }, null).evaluate();
     }
+    /*CHECKSTYLE:OFF*/
     catch (Throwable ex) {
+      /* CHECKSTYLE:ON */
       throw new MojoExecutionException(ex.getMessage(), ex);
     }
   }
