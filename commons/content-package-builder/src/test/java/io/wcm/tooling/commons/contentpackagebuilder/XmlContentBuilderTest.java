@@ -25,8 +25,8 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
 import java.util.List;
 
 import org.apache.jackrabbit.util.ISO9075;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import com.google.common.collect.ImmutableList;
@@ -35,18 +35,18 @@ import com.google.common.collect.ImmutableMap;
 import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
 import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElementImpl;
 
-public class XmlContentBuilderTest {
+class XmlContentBuilderTest {
 
   private XmlContentBuilder underTest;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     XmlUnitUtil.registerXmlUnitNamespaces();
     underTest = new XmlContentBuilder(XmlNamespaces.DEFAULT_NAMESPACES);
   }
 
   @Test
-  public void testPageSimpleMap() throws Exception {
+  void testPageSimpleMap() throws Exception {
     Document doc = underTest.buildPage(ImmutableMap.<String, Object>of(
         "var1", "v1",
         "var2", 55,
@@ -61,7 +61,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testPageNestedMaps() throws Exception {
+  void testPageNestedMaps() throws Exception {
     Document doc = underTest.buildPage(ImmutableMap.<String, Object>of(
         "var1", "v1",
         "var2", 55,
@@ -86,7 +86,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testContentSimpleMap() throws Exception {
+  void testContentSimpleMap() throws Exception {
     Document doc = underTest.buildContent(ImmutableMap.<String, Object>of(
         "jcr:primaryType", "myPrimaryType",
         "var1", "v1",
@@ -101,7 +101,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testContentWithSpecialElementNames() throws Exception {
+  void testContentWithSpecialElementNames() throws Exception {
     Document doc = underTest.buildContent(ImmutableMap.<String, Object>of(
         "0abc", "v1",
         "abc#def", ImmutableMap.of("prop1", "v2"),
@@ -112,7 +112,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testContentNestedMaps() throws Exception {
+  void testContentNestedMaps() throws Exception {
     Document doc = underTest.buildContent(ImmutableMap.<String, Object>of(
         "var1", "v1",
         "var2", 55,
@@ -136,7 +136,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testContentElementHierarchy() throws Exception {
+  void testContentElementHierarchy() throws Exception {
     ContentElement root = new ContentElementImpl(null, ImmutableMap.<String, Object>of(
         "var1", "v1",
         "var2", 55));
@@ -163,7 +163,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testNtFile() throws Exception {
+  void testNtFile() throws Exception {
     Document doc = underTest.buildNtFile("myMime", "myEncoding");
 
     assertXpathEvaluatesTo("nt:file", "/jcr:root/@jcr:primaryType", doc);
@@ -174,7 +174,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testNtFileNoMime() throws Exception {
+  void testNtFileNoMime() throws Exception {
     Document doc = underTest.buildNtFile(null, null);
 
     assertXpathEvaluatesTo("nt:file", "/jcr:root/@jcr:primaryType", doc);
@@ -185,7 +185,7 @@ public class XmlContentBuilderTest {
   }
 
   @Test
-  public void testBuildFilter() throws Exception {
+  void testBuildFilter() throws Exception {
     List<PackageFilter> filters = ImmutableList.of(
         new PackageFilter("/path1"),
         new PackageFilter("/path2").addIncludeRule("/pattern1").addExcludeRule("/pattern2").addIncludeRule("/pattern3"));

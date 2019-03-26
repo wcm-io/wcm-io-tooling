@@ -19,8 +19,9 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -29,32 +30,34 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ValueConverterTest {
+class ValueConverterTest {
 
   private ValueConverter underTest;
   private Date sampleDate;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     underTest = new ValueConverter();
     sampleDate = DateUtils.parseDate("05.09.2010 15:10:20", "dd.MM.yyyy HH:mm:ss");
   }
 
   @Test
-  public void testNull() {
+  void testNull() {
     assertEquals("", underTest.toString("prop", null));
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testInvalid() {
-    underTest.toString("prop", new Object());
+  @Test
+  void testInvalid() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      underTest.toString("prop", new Object());
+    });
   }
 
   @Test
-  public void testString() {
+  void testString() {
     assertEquals("myString", underTest.toString("prop", "myString"));
     assertEquals("myString [ ] { } \\\\ ,", underTest.toString("prop", "myString [ ] { } \\ ,"));
     assertEquals("\\{myString}", underTest.toString("prop", "{myString}"));
@@ -64,7 +67,7 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testStringArray() {
+  void testStringArray() {
     assertEquals("[myString1,myString2]", underTest.toString("prop", new String[] {
         "myString1", "myString2"
     }));
@@ -74,13 +77,13 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testBoolean() {
+  void testBoolean() {
     assertEquals("{Boolean}true", underTest.toString("prop", true));
     assertEquals("{Boolean}true", underTest.toString("prop", Boolean.TRUE));
   }
 
   @Test
-  public void testBooleanArray() {
+  void testBooleanArray() {
     assertEquals("{Boolean}[true,false]", underTest.toString("prop", new boolean[] {
         true, false
     }));
@@ -90,13 +93,13 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testInteger() {
+  void testInteger() {
     assertEquals("{Long}1", underTest.toString("prop", 1));
     assertEquals("{Long}2", underTest.toString("prop", new Integer(2)));
   }
 
   @Test
-  public void testIntegerArray() {
+  void testIntegerArray() {
     assertEquals("{Long}[1,2]", underTest.toString("prop", new int[] {
         1, 2
     }));
@@ -106,13 +109,13 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testLong() {
+  void testLong() {
     assertEquals("{Long}10000000000", underTest.toString("prop", 10000000000L));
     assertEquals("{Long}20000000000", underTest.toString("prop", new Long(20000000000L)));
   }
 
   @Test
-  public void testLongArray() {
+  void testLongArray() {
     assertEquals("{Long}[10000000000,20000000000]", underTest.toString("prop", new long[] {
         10000000000L, 20000000000L
     }));
@@ -122,13 +125,13 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testDouble() {
+  void testDouble() {
     assertEquals("{Decimal}1.234", underTest.toString("prop", 1.234d));
     assertEquals("{Decimal}2.345", underTest.toString("prop", new Double(2.345d)));
   }
 
   @Test
-  public void testDoubleArray() {
+  void testDoubleArray() {
     assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new double[] {
         1.234d, 2.345d
     }));
@@ -138,42 +141,42 @@ public class ValueConverterTest {
   }
 
   @Test
-  public void testBigDecimal() {
+  void testBigDecimal() {
     assertEquals("{Decimal}2.345", underTest.toString("prop", new BigDecimal("2.345")));
   }
 
   @Test
-  public void testBigDecimalArray() {
+  void testBigDecimalArray() {
     assertEquals("{Decimal}[1.234,2.345]", underTest.toString("prop", new BigDecimal[] {
         new BigDecimal("1.234"), new BigDecimal("2.345")
     }));
   }
 
   @Test
-  public void testDate() {
+  void testDate() {
     assertTrue(StringUtils.startsWith(underTest.toString("prop", sampleDate), "{Date}2010-09-05T15:10:20"));
   }
 
   @Test
-  public void testCalendar() {
+  void testCalendar() {
     assertTrue(StringUtils.startsWith(underTest.toString("prop", DateUtils.toCalendar(sampleDate)), "{Date}2010-09-05T15:10:20"));
   }
 
   @Test
-  public void testStringArrayRepPrivileges() {
+  void testStringArrayRepPrivileges() {
     assertEquals("{Name}[rep:write,crx:replicate,jcr:read]", underTest.toString("rep:privileges", new String[] {
         "rep:write", "crx:replicate", "jcr:read"
     }));
   }
 
   @Test
-  public void testUUID() {
+  void testUUID() {
     UUID uuid = UUID.randomUUID();
     assertEquals("{Reference}" + uuid.toString(), underTest.toString("prop", uuid));
   }
 
   @Test
-  public void testURI() throws Exception {
+  void testURI() throws Exception {
     URI uri = new URI("http://localhost");
     assertEquals("{URI}" + uri.toString(), underTest.toString("prop", uri));
   }

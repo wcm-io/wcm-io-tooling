@@ -21,9 +21,9 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -35,9 +35,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.CharEncoding;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -45,7 +45,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElementImpl;
 
-public class ContentPackageBuilderTest {
+class ContentPackageBuilderTest {
 
   private static final DocumentBuilderFactory DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
   static {
@@ -55,8 +55,8 @@ public class ContentPackageBuilderTest {
   private ContentPackageBuilder underTest;
   private File testFile;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     XmlUnitUtil.registerXmlUnitNamespaces();
     underTest = new ContentPackageBuilder();
 
@@ -64,15 +64,15 @@ public class ContentPackageBuilderTest {
     testFile.getParentFile().mkdirs();
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     if (testFile.exists()) {
       testFile.delete();
     }
   }
 
   @Test
-  public void testMetadata() throws Exception {
+  void testMetadata() throws Exception {
     underTest.name("myName");
     underTest.group("myGroup");
     underTest.description("myDescription");
@@ -122,7 +122,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddPagesContentElement() throws Exception {
+  void testAddPagesContentElement() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
     try (ContentPackage contentPackage = builder.build(testFile)) {
@@ -140,7 +140,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddPages() throws Exception {
+  void testAddPages() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
     try (ContentPackage contentPackage = builder.build(testFile)) {
@@ -158,7 +158,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddContentMultipleFilters() throws Exception {
+  void testAddContentMultipleFilters() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName")
         .filter(new PackageFilter("/path1"))
@@ -177,7 +177,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddContentContentElement() throws Exception {
+  void testAddContentContentElement() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
     try (ContentPackage contentPackage = builder.build(testFile)) {
@@ -195,7 +195,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddContent() throws Exception {
+  void testAddContent() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
     try (ContentPackage contentPackage = builder.build(testFile)) {
@@ -213,7 +213,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddContentCustomNamespace() throws Exception {
+  void testAddContentCustomNamespace() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test")
         .xmlNamespace(XmlUnitUtil.CUSTOM_NS_PREFIX, XmlUnitUtil.CUSTOM_NS_URI);
@@ -228,7 +228,7 @@ public class ContentPackageBuilderTest {
   }
 
   @Test
-  public void testAddBinaries() throws Exception {
+  void testAddBinaries() throws Exception {
 
     byte[] data1 = "content1".getBytes(CharEncoding.UTF_8);
     byte[] data2 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 };

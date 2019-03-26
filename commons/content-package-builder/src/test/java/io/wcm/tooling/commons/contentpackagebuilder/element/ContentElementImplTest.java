@@ -19,16 +19,16 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder.element;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableMap;
 
-public class ContentElementImplTest {
+class ContentElementImplTest {
 
   @Test
-  public void testGetChild() throws Exception {
+  void testGetChild() throws Exception {
     ContentElement root = new ContentElementImpl(null, ImmutableMap.<String, Object>of("prop1", "value1"));
     ContentElement child1 = new ContentElementImpl("child1", ImmutableMap.<String, Object>of("prop1", "value2"));
     ContentElement child11 = new ContentElementImpl("child11", ImmutableMap.<String, Object>of("prop1", "value3"));
