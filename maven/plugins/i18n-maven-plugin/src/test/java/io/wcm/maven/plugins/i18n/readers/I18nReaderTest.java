@@ -20,16 +20,16 @@
 package io.wcm.maven.plugins.i18n.readers;
 
 import static io.wcm.maven.plugins.i18n.FileUtil.getFileFromClasspath;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableMap;
 
-public class I18nReaderTest {
+class I18nReaderTest {
 
   private static final Map<String, String> EXPECTED_MAP = ImmutableMap.<String, String>builder()
       .put("key1", "value1")
@@ -38,21 +38,21 @@ public class I18nReaderTest {
       .build();
 
   @Test
-  public void testProperties() throws Exception {
+  void testProperties() throws Exception {
     File sampleFile = getFileFromClasspath("readers/sampleI18n.properties");
     Map<String, String> result = ImmutableMap.copyOf(new PropertiesI18nReader().read(sampleFile));
     assertEquals(EXPECTED_MAP, result);
   }
 
   @Test
-  public void testXml() throws Exception {
+  void testXml() throws Exception {
     File sampleFile = getFileFromClasspath("readers/sampleI18n.xml");
     Map<String, String> result = ImmutableMap.copyOf(new XmlI18nReader().read(sampleFile));
     assertEquals(EXPECTED_MAP, result);
   }
 
   @Test
-  public void testJson() throws Exception {
+  void testJson() throws Exception {
     File sampleFile = getFileFromClasspath("readers/sampleI18n.json");
     Map<String, String> result = ImmutableMap.copyOf(new JsonI18nReader().read(sampleFile));
     assertEquals(EXPECTED_MAP, result);
