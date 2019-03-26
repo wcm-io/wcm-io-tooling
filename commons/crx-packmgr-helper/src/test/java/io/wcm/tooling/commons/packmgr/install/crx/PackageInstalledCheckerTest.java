@@ -19,21 +19,21 @@
  */
 package io.wcm.tooling.commons.packmgr.install.crx;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class PackageInstalledCheckerTest {
+class PackageInstalledCheckerTest {
 
   private PackageInstalledChecker underTest;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     String testResult;
     try (InputStream is = getClass().getResourceAsStream("/packmgr/listResponse.json")) {
       testResult = IOUtils.toString(is);
@@ -43,7 +43,7 @@ public class PackageInstalledCheckerTest {
   }
 
   @Test
-  public void testGetStatus() throws Exception {
+  void testGetStatus() throws Exception {
     assertEquals(PackageInstalledStatus.NOT_FOUND, underTest.getStatus("invalidgroup", "invalidpackage", "1.0.0"));
     assertEquals(PackageInstalledStatus.INSTALLED, underTest.getStatus("day/cq60/product", "cq-wcm-content", "6.3.214"));
     assertEquals(PackageInstalledStatus.INSTALLED_OTHER_VERSION, underTest.getStatus("Netcentric", "accesscontroltool-package", "2.0.6"));
