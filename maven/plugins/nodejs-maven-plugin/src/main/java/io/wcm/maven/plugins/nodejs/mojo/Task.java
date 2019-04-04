@@ -27,7 +27,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.Os;
 
 import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
@@ -42,7 +41,6 @@ public class Task {
   /**
    * Directory in which the should be executed.
    */
-  @Parameter
   protected File workingDirectory;
 
   private Log log;
@@ -59,6 +57,10 @@ public class Task {
         workingDirectory.mkdir();
       }
       processBuilder.directory(workingDirectory);
+    }
+    else {
+      throw new MojoExecutionException("workingDirectory parameter missing for "
+          + StringUtils.uncapitalize(getClass().getSimpleName()));
     }
     setNodePath(processBuilder, information);
     startProcess(processBuilder);
