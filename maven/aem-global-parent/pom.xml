@@ -265,6 +265,9 @@
           </executions>
           <configuration>
             <exportScr>true</exportScr>
+            <noWarningProjectTypes>
+              <noWarningProjectType>maven-plugin</noWarningProjectType>
+            </noWarningProjectTypes>
             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
               <Bundle-Description>${project.description} (Rev. ${buildNumber} at ${timestamp})</Bundle-Description>
