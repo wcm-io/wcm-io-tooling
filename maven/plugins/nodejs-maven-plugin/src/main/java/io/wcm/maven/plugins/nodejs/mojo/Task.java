@@ -58,7 +58,7 @@ public class Task {
       }
       processBuilder.directory(workingDirectory);
     }
-    else {
+    else if (isWorkingDirectoryMandatory()) {
       throw new MojoExecutionException("workingDirectory parameter missing for "
           + StringUtils.uncapitalize(getClass().getSimpleName()));
     }
@@ -130,4 +130,9 @@ public class Task {
   public void setLog(Log log) {
     this.log = log;
   }
+
+  protected boolean isWorkingDirectoryMandatory() {
+    return false;
+  }
+
 }
