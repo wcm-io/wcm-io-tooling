@@ -48,10 +48,6 @@
   <properties>
     <site.url.module.prefix>tooling/maven/plugins/json-dialog-conversion-plugin</site.url.module.prefix>
     <maven.version>3.0.5</maven.version>
-
-    <!-- compiler settings -->
-    <build.compiler.source>1.8</build.compiler.source>
-    <build.compiler.target>1.8</build.compiler.target>
   </properties>
 
   <prerequisites>
