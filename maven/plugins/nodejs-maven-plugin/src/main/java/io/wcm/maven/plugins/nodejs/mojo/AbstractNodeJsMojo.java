@@ -107,9 +107,9 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   @Parameter(property = "nodejs.skip")
   protected boolean skip;
 
-  @Component
+  @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
-  @Component
+  @Parameter(defaultValue = "${session}", readonly = true)
   private MavenSession session;
   @Component
   private ArtifactHandlerManager artifactHandlerManager;
