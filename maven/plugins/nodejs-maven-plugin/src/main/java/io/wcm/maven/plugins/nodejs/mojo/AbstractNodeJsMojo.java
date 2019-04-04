@@ -19,10 +19,6 @@
  */
 package io.wcm.maven.plugins.nodejs.mojo;
 
-import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
-import io.wcm.maven.plugins.nodejs.installation.NodeUnarchiveTask;
-import io.wcm.maven.plugins.nodejs.installation.NpmUnarchiveTask;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +39,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.Os;
+
+import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
+import io.wcm.maven.plugins.nodejs.installation.NodeUnarchiveTask;
+import io.wcm.maven.plugins.nodejs.installation.NpmUnarchiveTask;
 
 /**
  * Common Node.js Mojo functionality.
@@ -118,7 +118,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
 
   /**
    * Installs node js if necessary and performs defined tasks
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   public void run() throws MojoExecutionException {
     if (skip) {

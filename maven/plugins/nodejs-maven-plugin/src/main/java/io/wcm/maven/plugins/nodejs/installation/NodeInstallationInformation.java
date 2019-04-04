@@ -95,11 +95,11 @@ public class NodeInstallationInformation {
 
   /**
    * Creates a {@link NodeInstallationInformation} for a specific Node.js and npm version and directory
-   * @param version
-   * @param npmVersion
-   * @param directory
+   * @param version Version
+   * @param npmVersion NPM version
+   * @param directory directory
    * @return {@link NodeInstallationInformation}
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   public static NodeInstallationInformation forVersion(String version, String npmVersion, File directory) throws MojoExecutionException {
     String basePath = directory.getAbsolutePath() + File.separator;
@@ -166,10 +166,10 @@ public class NodeInstallationInformation {
   }
 
   /**
-   * Sets the executable of the npm to specified version, previosly installed in the base directory
-   * @param information
-   * @param directory
-   * @throws MojoExecutionException
+   * Sets the executable of the npm to specified version, previously installed in the base directory
+   * @param information Information
+   * @param directory Directory
+   * @throws MojoExecutionException Mojo execution exception
    */
   public static void setSpecifiedNpmExecutable(NodeInstallationInformation information, File directory) throws MojoExecutionException {
     String basePath = directory.getAbsolutePath() + File.separator;

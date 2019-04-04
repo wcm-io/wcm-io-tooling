@@ -31,24 +31,23 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Wrapper around the commons comress library to decompress the zipped tar archives
+ * Wrapper around the commons compress library to decompress the zipped tar archives
  */
 public class TarUnArchiver {
 
   private File archive;
 
   /**
-   * Public constructor
-   * @param archive
+   * @param archive Archive
    */
   public TarUnArchiver(File archive) {
     this.archive = archive;
   }
 
   /**
-   * Unarchives the arvive into the pBaseDir
-   * @param baseDir
-   * @throws MojoExecutionException
+   * Unarchives the archive into the pBaseDir
+   * @param baseDir Base dir
+   * @throws MojoExecutionException Mojo execution exception
    */
   public void unarchive(String baseDir) throws MojoExecutionException {
     try {
@@ -91,4 +90,5 @@ public class TarUnArchiver {
     }
 
   }
+
 }

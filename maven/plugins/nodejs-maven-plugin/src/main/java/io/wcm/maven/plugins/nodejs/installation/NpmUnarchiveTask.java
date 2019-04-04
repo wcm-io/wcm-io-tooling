@@ -19,9 +19,9 @@
  */
 package io.wcm.maven.plugins.nodejs.installation;
 
-import io.wcm.maven.plugins.nodejs.mojo.Task;
-
 import org.apache.maven.plugin.MojoExecutionException;
+
+import io.wcm.maven.plugins.nodejs.mojo.Task;
 
 /**
  * Installation task for the npm package
@@ -31,8 +31,7 @@ public class NpmUnarchiveTask extends Task {
   protected String nodeJsDirectory;
 
   /**
-   * public constructor
-   * @param nodeJsDirectory
+   * @param nodeJsDirectory NodeJS directory
    */
   public NpmUnarchiveTask(String nodeJsDirectory) {
     this.nodeJsDirectory = nodeJsDirectory;

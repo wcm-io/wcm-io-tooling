@@ -19,8 +19,6 @@
  */
 package io.wcm.maven.plugins.nodejs.mojo;
 
-import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +29,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.Os;
+
+import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
 
 /**
  * General task implementation.
@@ -49,8 +49,8 @@ public class Task {
 
   /**
    * Executes the {@link Process} with commands returned by {@link #getCommand(NodeInstallationInformation)}.
-   * @param information
-   * @throws MojoExecutionException
+   * @param information Information
+   * @throws MojoExecutionException Mojo execution exception
    */
   public void execute(NodeInstallationInformation information) throws MojoExecutionException {
     ProcessBuilder processBuilder = new ProcessBuilder(getCommand(information));
@@ -115,7 +115,7 @@ public class Task {
   /**
    * @param information about the node installation
    * @return {@link List} of commands which will be executed by the task
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   protected List<String> getCommand(NodeInstallationInformation information) throws MojoExecutionException {
     return null;

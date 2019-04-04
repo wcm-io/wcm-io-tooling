@@ -19,9 +19,9 @@
  */
 package io.wcm.maven.plugins.nodejs.installation;
 
-import io.wcm.maven.plugins.nodejs.mojo.Task;
-
 import org.apache.maven.plugin.MojoExecutionException;
+
+import io.wcm.maven.plugins.nodejs.mojo.Task;
 
 /**
  * Task to for extracting gzipped tar archives
@@ -31,8 +31,7 @@ public class NodeUnarchiveTask extends Task {
   protected String nodeJsDirectory;
 
   /**
-   * public constructor
-   * @param nodeJsDirectory
+   * @param nodeJsDirectory nodejs directory
    */
   public NodeUnarchiveTask(String nodeJsDirectory) {
     this.nodeJsDirectory = nodeJsDirectory;
