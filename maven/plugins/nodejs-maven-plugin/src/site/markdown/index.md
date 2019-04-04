@@ -24,9 +24,9 @@ The plugin currently supports following platforms:
 The windows distribution of nodejs does not contain the npm executables. Therefore npm is installed seperateley by the plugin on windows.
 
 
-### NodeJS binary download
+### Node.js binary download
 
-The plugin needs to download NodeJS binaries which are not available in Maven Central. To support managing the download and caching of these artefacts they are wrapped as Maven Artifacts using the [Maven NodeJS Proxy][maven-nodejs-proxy].
+The plugin needs to download Node.js binaries which are not available in Maven Central. To support managing the download and caching of these artefacts they are wrapped as Maven Artifacts using the [Maven NodeJS Proxy][maven-nodejs-proxy].
 
 A public version of this proxy is running at [https://maven-nodejs-proxy.pvtool.org/](https://maven-nodejs-proxy.pvtool.org/). You have to include this URL in your Maven Artifact Manager our run your own instance of Maven NodeJS Proxy.
 
