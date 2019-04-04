@@ -34,7 +34,13 @@
         Delete downloaded Node.js archives after local installation, keep only installed Node.js directory.
       </action>
       <action type="update" dev="sseifert">
+        Make specifying NPM version optional. If it is not specified the NPM version that is bundles with the Node.js version is used.
+      </action>
+      <action type="update" dev="sseifert">
         Drop support for Node.js versions lower than 6.3.0.
+      </action>
+      <action type="fix" dev="sseifert" issue="WTOOL-49">
+        Make sure NPM is installed in the correct directory.
       </action>
       <action type="fix" dev="sseifert">
         Display error message instead of NPE when workingDirectory parameter missing for tasks.

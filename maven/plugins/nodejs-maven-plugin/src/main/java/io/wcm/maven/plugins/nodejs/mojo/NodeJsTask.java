@@ -82,13 +82,13 @@ public class NodeJsTask extends Task {
     File localInstallation = new File(localInstallationPath);
 
     if (!localInstallation.exists()) {
-      String globalInstallationPath = information.getBasePath() + "node_modules" + File.separator + moduleName;
+      String globalInstallationPath = information.getNodeModulesRootPath() + File.separator + "node_modules" + File.separator + moduleName;
       File moduleInstallation = new File(globalInstallationPath);
       if (!moduleInstallation.exists()) {
         NpmInstallTask installTask = new NpmInstallTask();
         installTask.setLog(getLog());
         installTask.setArguments(new String[] {
-            "--prefix", information.getBasePath(), moduleName
+            "--prefix", information.getNodeModulesRootPath(), moduleName
         });
         installTask.execute(information);
       }

@@ -31,24 +31,23 @@ import org.codehaus.plexus.util.Os;
  */
 public class NodeInstallationInformation {
 
-  static final String TYPE_TAR_GZ = "tar.gz";
+  private static final String NODEJS_BINARIES_GROUPID = "org.nodejs.dist";
+  private static final String NODEJS_BINARIES_ARTIFACTID = "nodejs-binaries";
+
+  private static final String TYPE_TAR_GZ = "tar.gz";
   static final String TYPE_ZIP = "zip";
 
   private static final String OS_WINDOWS = "win";
   private static final String OS_MACOS = "darwin";
   private static final String OS_LINUX = "linux";
 
-  private static final String NODEJS_BINARIES_GROUPID = "org.nodejs.dist";
-  private static final String NODEJS_BINARIES_ARTIFACTID = "nodejs-binaries";
-
   private Dependency nodeJsDependency;
   private Dependency npmDependency;
   private File archive;
-  private File nodeExecutable;
-  private File npmExecutable;
+  private String nodeExecutableRelativePath;
+  private String npmExecutableRelativePath;
   private String nodeJsInstallPath;
-  private String basePath;
-  private String archiveExtension;
+  private String nodeModulesRootPath;
 
   public Dependency getNodeJsDependency() {
     return this.nodeJsDependency;
@@ -74,36 +73,24 @@ public class NodeInstallationInformation {
     this.archive = archive;
   }
 
-  public String getArchiveExtension() {
-    return archiveExtension;
-  }
-
-  void setArchiveExtension(String archiveExtension) {
-    this.archiveExtension = archiveExtension;
-  }
-
   public File getNodeExecutable() {
-    return nodeExecutable;
+    return new File(this.nodeJsInstallPath + File.separator + nodeExecutableRelativePath);
   }
 
-  void setNodeExecutable(File nodeExecutable) {
-    this.nodeExecutable = nodeExecutable;
+  void setNodeExecutableRelativePath(String nodeExecutableRelativePath) {
+    this.nodeExecutableRelativePath = nodeExecutableRelativePath;
   }
 
   public File getNpmExecutable() {
-    return npmExecutable;
+    return new File(this.nodeModulesRootPath + File.separator + npmExecutableRelativePath);
   }
 
-  void setNpmExecutable(File npmExecutable) {
-    this.npmExecutable = npmExecutable;
+  public File getNpmExecutableBundledWithNodeJs() {
+    return new File(this.nodeJsInstallPath + File.separator + npmExecutableRelativePath);
   }
 
-  public String getBasePath() {
-    return basePath;
-  }
-
-  void setBasePath(String basePath) {
-    this.basePath = basePath;
+  void setNpmExecutableRelativePath(String npmExecutableRelativePath) {
+    this.npmExecutableRelativePath = npmExecutableRelativePath;
   }
 
   public String getNodeJsInstallPath() {
@@ -114,14 +101,23 @@ public class NodeInstallationInformation {
     this.nodeJsInstallPath = nodeJsInstallPath;
   }
 
+  public String getNodeModulesRootPath() {
+    return this.nodeModulesRootPath;
+  }
+
+  void setNodeModulesRootPath(String nodeModulesRootPath) {
+    this.nodeModulesRootPath = nodeModulesRootPath;
+  }
+
   /**
    * Creates a {@link NodeInstallationInformation} for a specific Node.js and npm version and directory
    * @param version Version
+   * @param npmVersion NPM version
    * @param directory directory
    * @return {@link NodeInstallationInformation}
    * @throws MojoExecutionException Mojo execution exception
    */
-  public static NodeInstallationInformation forVersion(String version, File directory) throws MojoExecutionException {
+  public static NodeInstallationInformation forVersion(String version, String npmVersion, File directory) throws MojoExecutionException {
     String arch;
     if (Os.isArch("x86") || Os.isArch("i386")) {
       arch = "x86";
@@ -136,38 +132,45 @@ public class NodeInstallationInformation {
     NodeInstallationInformation result = new NodeInstallationInformation();
 
     String basePath = directory.getAbsolutePath() + File.separator;
-    result.setBasePath(basePath);
 
     if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
       String nodeJsInstallPath = basePath + "node-v" + version + "-" + OS_WINDOWS + "-" + arch;
       result.setNodeJsInstallPath(nodeJsInstallPath);
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, OS_WINDOWS, arch, TYPE_ZIP));
       result.setArchive(new File(nodeJsInstallPath + "." + TYPE_ZIP));
-      result.setNodeExecutable(new File(nodeJsInstallPath + File.separator + "node.exe"));
-      result.setNpmExecutable(new File(nodeJsInstallPath + File.separator + "node_modules/npm/bin/npm-cli.js"));
-      result.setArchiveExtension(TYPE_ZIP);
+      result.setNodeExecutableRelativePath("node.exe");
+      result.setNpmExecutableRelativePath("node_modules" + File.separator
+          + "npm" + File.separator + "bin" + File.separator + "npm-cli.js");
     }
     else if (Os.isFamily(Os.FAMILY_MAC)) {
       String nodeJsInstallPath = basePath + "node-v" + version + "-" + OS_MACOS + "-" + arch;
       result.setNodeJsInstallPath(nodeJsInstallPath);
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, OS_MACOS, arch, TYPE_TAR_GZ));
       result.setArchive(new File(nodeJsInstallPath + "." + TYPE_TAR_GZ));
-      result.setNodeExecutable(new File(nodeJsInstallPath + File.separator + "bin" + File.separator + "node"));
-      result.setNpmExecutable(new File(nodeJsInstallPath + File.separator + "lib" + File.separator + "node_modules/npm/bin/npm-cli.js"));
-      result.setArchiveExtension(TYPE_TAR_GZ);
+      result.setNodeExecutableRelativePath("bin" + File.separator + "node");
+      result.setNpmExecutableRelativePath("lib" + File.separator + "node_modules" + File.separator
+          + "npm" + File.separator + "bin" + File.separator + "npm-cli.js");
     }
     else if (Os.isFamily(Os.FAMILY_UNIX)) {
       String nodeJsInstallPath = basePath + "node-v" + version + "-" + OS_LINUX + "-" + arch;
       result.setNodeJsInstallPath(nodeJsInstallPath);
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, OS_LINUX, arch, TYPE_TAR_GZ));
       result.setArchive(new File(nodeJsInstallPath + "." + TYPE_TAR_GZ));
-      result.setNodeExecutable(new File(nodeJsInstallPath + File.separator + "bin" + File.separator + "node"));
-      result.setNpmExecutable(new File(nodeJsInstallPath + File.separator + "lib" + File.separator + "node_modules/npm/bin/npm-cli.js"));
-      result.setArchiveExtension(TYPE_TAR_GZ);
+      result.setNodeExecutableRelativePath("bin" + File.separator + "node");
+      result.setNpmExecutableRelativePath("lib" + File.separator + "node_modules" + File.separator
+          + "npm" + File.separator + "bin" + File.separator + "npm-cli.js");
     }
     else {
       throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);
     }
+
+    if (StringUtils.isNotEmpty(npmVersion)) {
+      result.setNodeModulesRootPath(result.getNodeJsInstallPath() + File.separator + "npm-v" + npmVersion);
+    }
+    else {
+      result.setNodeModulesRootPath(result.getNodeJsInstallPath());
+    }
+
     return result;
   }
 
@@ -187,28 +190,6 @@ public class NodeInstallationInformation {
     dependency.setType(type);
     dependency.setClassifier(classifier);
     return dependency;
-  }
-
-  /**
-   * Sets the executable of the npm to specified version, previously installed in the base directory
-   * @param information Information
-   * @param directory Directory
-   * @throws MojoExecutionException Mojo execution exception
-   */
-  public static void setSpecifiedNpmExecutable(NodeInstallationInformation information, File directory) throws MojoExecutionException {
-    String basePath = directory.getAbsolutePath() + File.separator;
-    if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
-      information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
-    }
-    else if (Os.isFamily(Os.FAMILY_MAC)) {
-      information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
-    }
-    else if (Os.isFamily(Os.FAMILY_UNIX)) {
-      information.setNpmExecutable(new File(basePath + "node_modules/npm/bin/npm-cli.js"));
-    }
-    else {
-      throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);
-    }
   }
 
 }

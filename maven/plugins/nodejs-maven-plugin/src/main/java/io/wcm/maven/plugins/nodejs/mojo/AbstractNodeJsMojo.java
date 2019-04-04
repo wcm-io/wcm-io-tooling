@@ -73,7 +73,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
    * You can define different types of tasks: <code>npmInstallTask</code> or <code>nodeJsTask</code> items.
    * </p>
    * <p>
-   * Examples:
+   * Example 1:
    * </p>
    *
    * <pre>
@@ -87,6 +87,26 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
    *     &lt;executableName&gt;grunt&lt;/executableName&gt;
    *     &lt;arguments&gt;
    *       &lt;argument&gt;build&lt;/argument&gt;
+   *     &lt;/arguments&gt;
+   *   &lt;/nodeJsTask&gt;
+   * &lt;/tasks&gt;
+   * </pre>
+   * <p>
+   * Example 2:
+   * </p>
+   *
+   * <pre>
+   * &lt;tasks&gt;
+   *   &lt;npmInstallTask&gt;
+   *     &lt;workingDirectory&gt;${frontend.dir}&lt;/workingDirectory&gt;
+   *   &lt;/npmInstallTask&gt;
+   *   &lt;nodeJsTask&gt;
+   *     &lt;workingDirectory&gt;${frontend.dir}&lt;/workingDirectory&gt;
+   *     &lt;moduleName&gt;npm&lt;/moduleName&gt;
+   *     &lt;executableName&gt;npm-cli&lt;/executableName&gt;
+   *     &lt;arguments&gt;
+   *       &lt;argument&gt;run&lt;/argument&gt;
+   *       &lt;argument&gt;test&lt;/argument&gt;
    *     &lt;/arguments&gt;
    *   &lt;/nodeJsTask&gt;
    * &lt;/tasks&gt;
@@ -148,9 +168,10 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   }
 
   private NodeInstallationInformation getOrInstallNodeJS() throws MojoExecutionException {
-    NodeInstallationInformation information = NodeInstallationInformation.forVersion(nodeJsVersion, nodeJsDirectory);
+    NodeInstallationInformation information = NodeInstallationInformation.forVersion(nodeJsVersion, npmVersion, nodeJsDirectory);
     try {
-      if (!information.getNodeExecutable().exists() || !information.getNpmExecutable().exists()) {
+      if (!information.getNodeExecutable().exists() || !information.getNpmExecutableBundledWithNodeJs().exists()) {
+        getLog().info("Install Node.js to " + information.getNodeJsInstallPath());
         if (!cleanNodeJsInstallPath(information)) {
           throw new MojoExecutionException("Could not delete node js directory: " + information.getNodeJsInstallPath());
         }
@@ -161,7 +182,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         installationTask.execute(information);
       }
 
-      if (!specifiedNPMIsInstalled()) {
+      if (StringUtils.isNotEmpty(npmVersion) && !information.getNpmExecutable().exists()) {
         updateNPMExecutable(information);
       }
     }
@@ -178,12 +199,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         throw new MojoExecutionException("Execution Exception", ex);
       }
     }
-    NodeInstallationInformation.setSpecifiedNpmExecutable(information, nodeJsDirectory);
     return information;
-  }
-
-  private boolean specifiedNPMIsInstalled() {
-    return new File(nodeJsDirectory.getAbsolutePath() + File.separator + "node_modules/npm/bin/npm-cli.js").exists();
   }
 
   private boolean cleanNodeJsInstallPath(NodeInstallationInformation information) {
@@ -213,15 +229,14 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
    * @throws MojoExecutionException
    */
   private void updateNPMExecutable(NodeInstallationInformation information) throws MojoExecutionException {
-    if (StringUtils.isNotBlank(npmVersion)) {
-      getLog().info("Installing specified npm version " + npmVersion);
-      NpmInstallTask npmInstallTask = new NpmInstallTask();
-      npmInstallTask.setLog(getLog());
-      npmInstallTask.setArguments(new String[] {
-          "--prefix", nodeJsDirectory.getAbsolutePath(), "npm@" + npmVersion
-      });
-      npmInstallTask.execute(information);
-    }
+    getLog().info("Installing specified npm version " + npmVersion);
+    NpmInstallTask npmInstallTask = new NpmInstallTask();
+    npmInstallTask.setLog(getLog());
+    npmInstallTask.setNpmBundledWithNodeJs(true);
+    npmInstallTask.setArguments(new String[] {
+        "--prefix", information.getNodeModulesRootPath(), "--global", "npm@" + npmVersion
+    });
+    npmInstallTask.execute(information);
   }
 
   @SuppressWarnings("deprecation")
