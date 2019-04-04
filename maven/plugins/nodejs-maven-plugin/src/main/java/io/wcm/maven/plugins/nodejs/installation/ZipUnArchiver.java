@@ -2,7 +2,7 @@
  * #%L
  * wcm.io
  * %%
- * Copyright (C) 2014 wcm.io
+ * Copyright (C) 2019 wcm.io
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,23 +25,22 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Wrapper around the commons compress library to decompress the zipped tar archives
+ * Wrapper around the commons compress library to decompress the zip archives
  */
-public class TarUnArchiver {
+public class ZipUnArchiver {
 
   private File archive;
 
   /**
    * @param archive Archive
    */
-  public TarUnArchiver(File archive) {
+  public ZipUnArchiver(File archive) {
     this.archive = archive;
   }
 
@@ -52,22 +51,21 @@ public class TarUnArchiver {
    */
   public void unarchive(String baseDir) throws MojoExecutionException {
     try (FileInputStream fis = new FileInputStream(archive);
-        TarArchiveInputStream tarIn = new TarArchiveInputStream(new GzipCompressorInputStream(fis))) {
-      TarArchiveEntry tarEntry = tarIn.getNextTarEntry();
-      while (tarEntry != null) {
+        ZipArchiveInputStream zipIn = new ZipArchiveInputStream(fis)) {
+      ZipArchiveEntry zipEnry = zipIn.getNextZipEntry();
+      while (zipEnry != null) {
         // Create a file for this tarEntry
-        final File destPath = new File(baseDir + File.separator + tarEntry.getName());
-        if (tarEntry.isDirectory()) {
+        final File destPath = new File(baseDir + File.separator + zipEnry.getName());
+        if (zipEnry.isDirectory()) {
           destPath.mkdirs();
         }
         else {
           destPath.createNewFile();
-          destPath.setExecutable(true);
           try (BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(destPath))) {
-            IOUtils.copy(tarIn, bout);
+            IOUtils.copy(zipIn, bout);
           }
         }
-        tarEntry = tarIn.getNextTarEntry();
+        zipEnry = zipIn.getNextZipEntry();
       }
     }
     catch (IOException ex) {

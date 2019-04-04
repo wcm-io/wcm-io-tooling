@@ -19,6 +19,11 @@
  */
 package io.wcm.maven.plugins.nodejs.installation;
 
+import static io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation.TYPE_ZIP;
+
+import java.io.File;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import io.wcm.maven.plugins.nodejs.mojo.Task;
@@ -40,8 +45,15 @@ public class NodeUnarchiveTask extends Task {
 
   @Override
   public void execute(NodeInstallationInformation information) throws MojoExecutionException {
-    TarUnArchiver unArchiver = new TarUnArchiver(information.getArchive());
-    unArchiver.unarchive(nodeJsDirectory);
+    File archive = information.getArchive();
+    if (StringUtils.endsWith(archive.getName(), "." + TYPE_ZIP)) {
+      ZipUnArchiver unArchiver = new ZipUnArchiver(archive);
+      unArchiver.unarchive(nodeJsDirectory);
+    }
+    else {
+      TarUnArchiver unArchiver = new TarUnArchiver(archive);
+      unArchiver.unarchive(nodeJsDirectory);
+    }
   }
 
 }
