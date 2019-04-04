@@ -33,7 +33,7 @@
       <action type="update" dev="sseifert">
         Delete downloaded Node.js archives after local installation, keep only installed Node.js directory.
       </action>
-      <action type="update" dev="sseifert">
+      <action type="update" dev="sseifert" issue="WTOOL-46">
         Make specifying NPM version optional. If it is not specified the NPM version that is bundles with the Node.js version is used.
       </action>
       <action type="update" dev="sseifert">

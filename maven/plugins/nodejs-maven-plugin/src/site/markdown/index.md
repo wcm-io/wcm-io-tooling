@@ -21,7 +21,7 @@ The plugin currently supports following platforms:
 * Mac OS (32 and 64 bit)
 * Linux (i386 and amd64)
 
-The windows distribution of nodejs does not contain the npm executables. Therefore npm is installed seperateley by the plugin on windows.
+By default the NPM version that is bundled with Node.js is used. Optionally it is possible to specify a different NPM version to be used.
 
 
 ### Node.js binary download
