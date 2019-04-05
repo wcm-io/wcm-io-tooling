@@ -20,8 +20,8 @@
 package io.wcm.maven.plugins.i18n;
 
 import static io.wcm.maven.plugins.i18n.FileUtil.getStringFromClasspath;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,18 +31,18 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.CharEncoding;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.google.common.collect.ImmutableMap;
 
-public class SlingI18nMapTest {
+class SlingI18nMapTest {
 
   private SlingI18nMap underTest;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     underTest = new SlingI18nMap("en", ImmutableMap.<String, String>builder()
         .put("key1", "value1")
         .put("key2.key21.key211", "value2")
@@ -52,17 +52,17 @@ public class SlingI18nMapTest {
   }
 
   @Test
-  public void testGetI18nJsonString() throws Exception {
+  void testGetI18nJsonString() throws Exception {
     JSONAssert.assertEquals(getStringFromClasspath("map/i18n-content.json"), underTest.getI18nJsonString(), true);
   }
 
   @Test
-  public void testGetI18nXmlString() throws Exception {
+  void testGetI18nXmlString() throws Exception {
     XMLAssert.assertXMLEqual(getStringFromClasspath("map/i18n-content.xml"), underTest.getI18nXmlString());
   }
 
   @Test
-  public void testGetI18nPropertiesString() throws Exception {
+  void testGetI18nPropertiesString() throws Exception {
     Properties props = new Properties();
     //Note: as the files in file-system are encoded as utf-8, we need to set it manually to override the properties default
     try (InputStream is = FileUtil.class.getClassLoader().getResourceAsStream("map/i18n-content.properties")) {

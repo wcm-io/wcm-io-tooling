@@ -19,20 +19,18 @@
  */
 package io.wcm.maven.plugins.nodejs.mojo;
 
-import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
-import io.wcm.maven.plugins.nodejs.installation.NodeUnarchiveTask;
-import io.wcm.maven.plugins.nodejs.installation.NpmUnarchiveTask;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
@@ -42,7 +40,9 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
-import org.codehaus.plexus.util.Os;
+
+import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
+import io.wcm.maven.plugins.nodejs.installation.NodeUnarchiveTask;
 
 /**
  * Common Node.js Mojo functionality.
@@ -50,15 +50,15 @@ import org.codehaus.plexus.util.Os;
 public abstract class AbstractNodeJsMojo extends AbstractMojo {
 
   /**
-   * Node.js version
+   * Node.js version (minimum version: 6.3.0).
    */
-  @Parameter(property = "nodejs.version", defaultValue = "0.12.0")
+  @Parameter(property = "nodejs.version", defaultValue = "10.15.3", required = true)
   protected String nodeJsVersion;
 
   /**
-   * NPM version
+   * NPM version. If not set the NPM version that is bundled with Node.js is used.
    */
-  @Parameter(property = "nodejs.npm.version", defaultValue = "2.5.1")
+  @Parameter(property = "nodejs.npm.version")
   protected String npmVersion;
 
   /**
@@ -73,7 +73,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
    * You can define different types of tasks: <code>npmInstallTask</code> or <code>nodeJsTask</code> items.
    * </p>
    * <p>
-   * Examples:
+   * Example 1:
    * </p>
    *
    * <pre>
@@ -91,6 +91,26 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
    *   &lt;/nodeJsTask&gt;
    * &lt;/tasks&gt;
    * </pre>
+   * <p>
+   * Example 2:
+   * </p>
+   *
+   * <pre>
+   * &lt;tasks&gt;
+   *   &lt;npmInstallTask&gt;
+   *     &lt;workingDirectory&gt;${frontend.dir}&lt;/workingDirectory&gt;
+   *   &lt;/npmInstallTask&gt;
+   *   &lt;nodeJsTask&gt;
+   *     &lt;workingDirectory&gt;${frontend.dir}&lt;/workingDirectory&gt;
+   *     &lt;moduleName&gt;npm&lt;/moduleName&gt;
+   *     &lt;executableName&gt;npm-cli&lt;/executableName&gt;
+   *     &lt;arguments&gt;
+   *       &lt;argument&gt;run&lt;/argument&gt;
+   *       &lt;argument&gt;test&lt;/argument&gt;
+   *     &lt;/arguments&gt;
+   *   &lt;/nodeJsTask&gt;
+   * &lt;/tasks&gt;
+   * </pre>
    */
   @Parameter
   protected List<? extends Task> tasks;
@@ -102,23 +122,25 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   protected boolean stopOnError;
 
   /**
-   * If set to true all NodeJS plugin operations are skipped.
+   * If set to true all Node.js plugin operations are skipped.
    */
   @Parameter(property = "nodejs.skip")
   protected boolean skip;
 
-  @Component
+  @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
-  @Component
+  @Parameter(defaultValue = "${session}", readonly = true)
   private MavenSession session;
   @Component
   private ArtifactHandlerManager artifactHandlerManager;
   @Component
   private ArtifactResolver resolver;
 
+  private static final ComparableVersion NODEJS_MIN_VERSION = new ComparableVersion("6.3.0");
+
   /**
    * Installs node js if necessary and performs defined tasks
-   * @throws MojoExecutionException
+   * @throws MojoExecutionException Mojo execution exception
    */
   public void run() throws MojoExecutionException {
     if (skip) {
@@ -126,7 +148,13 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
     }
 
     if (tasks == null || tasks.isEmpty()) {
-      getLog().warn("No Node.jsTasks have been defined. Nothing to do");
+      getLog().warn("No Node.js tasks have been defined. Nothing to do.");
+    }
+
+    // validate nodejs version
+    ComparableVersion nodeJsVersionComparable = new ComparableVersion(nodeJsVersion);
+    if (nodeJsVersionComparable.compareTo(NODEJS_MIN_VERSION) < 0) {
+      throw new MojoExecutionException("This plugin supports Node.js " + NODEJS_MIN_VERSION + " and up.");
     }
 
     NodeInstallationInformation information = getOrInstallNodeJS();
@@ -142,23 +170,19 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
   private NodeInstallationInformation getOrInstallNodeJS() throws MojoExecutionException {
     NodeInstallationInformation information = NodeInstallationInformation.forVersion(nodeJsVersion, npmVersion, nodeJsDirectory);
     try {
-      if (!information.getNodeExecutable().exists() || !information.getNpmExecutable().exists()) {
-        if (!cleanBaseDirectory()) {
-          throw new MojoExecutionException("Could not delete node js directory: " + nodeJsDirectory);
+      if (!information.getNodeExecutable().exists() || !information.getNpmExecutableBundledWithNodeJs().exists()) {
+        getLog().info("Install Node.js to " + information.getNodeJsInstallPath());
+        if (!cleanNodeJsInstallPath(information)) {
+          throw new MojoExecutionException("Could not delete node js directory: " + information.getNodeJsInstallPath());
         }
         File nodeJsBinary = resolveArtifact(information.getNodeJsDependency());
         FileUtils.copyFile(nodeJsBinary, information.getArchive());
-        if (information.getArchive().getName().endsWith(".tar.gz")) {
-          Task installationTask = new NodeUnarchiveTask(nodeJsDirectory.getAbsolutePath());
-          installationTask.setLog(getLog());
-          installationTask.execute(information);
-        }
-        if (Os.isFamily(Os.FAMILY_WINDOWS) || Os.isFamily(Os.FAMILY_WIN9X)) {
-          installNPM(information);
-        }
+        Task installationTask = new NodeUnarchiveTask(nodeJsDirectory.getAbsolutePath());
+        installationTask.setLog(getLog());
+        installationTask.execute(information);
       }
 
-      if (!specifiedNPMIsInstalled()) {
+      if (StringUtils.isNotEmpty(npmVersion) && !information.getNpmExecutable().exists()) {
         updateNPMExecutable(information);
       }
     }
@@ -175,24 +199,27 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
         throw new MojoExecutionException("Execution Exception", ex);
       }
     }
-    NodeInstallationInformation.setSpecifiedNpmExecutable(information, nodeJsDirectory);
     return information;
   }
 
-  private boolean specifiedNPMIsInstalled() {
-    return new File(nodeJsDirectory.getAbsolutePath() + File.separator + "node_modules/npm/bin/npm-cli.js").exists();
-  }
-
-  private boolean cleanBaseDirectory() {
-    if (nodeJsDirectory.exists()) {
+  private boolean cleanNodeJsInstallPath(NodeInstallationInformation information) {
+    File directory = new File(information.getNodeJsInstallPath());
+    if (directory.exists()) {
       try {
-        FileUtils.deleteDirectory(nodeJsDirectory);
+        FileUtils.deleteDirectory(directory);
       }
       catch (IOException ex) {
         getLog().error(ex);
         return false;
       }
     }
+
+    if (information.getArchive().exists()) {
+      if (!information.getArchive().delete()) {
+        return false;
+      }
+    }
+
     return true;
   }
 
@@ -205,18 +232,11 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
     getLog().info("Installing specified npm version " + npmVersion);
     NpmInstallTask npmInstallTask = new NpmInstallTask();
     npmInstallTask.setLog(getLog());
+    npmInstallTask.setNpmBundledWithNodeJs(true);
     npmInstallTask.setArguments(new String[] {
-        "--prefix", nodeJsDirectory.getAbsolutePath(), "npm@" + npmVersion
+        "--prefix", information.getNodeModulesRootPath(), "--global", "npm@" + npmVersion
     });
     npmInstallTask.execute(information);
-  }
-
-  private void installNPM(NodeInstallationInformation information) throws IOException, MojoExecutionException {
-    File npmBinary = resolveArtifact(information.getNpmDependency());
-    FileUtils.copyFile(npmBinary, information.getNpmArchive());
-    Task installationTask = new NpmUnarchiveTask(nodeJsDirectory.getAbsolutePath() + File.separator + "v-" + nodeJsVersion);
-    installationTask.setLog(getLog());
-    installationTask.execute(information);
   }
 
   @SuppressWarnings("deprecation")

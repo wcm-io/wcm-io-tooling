@@ -19,27 +19,31 @@
  */
 package io.wcm.maven.plugins.nodejs.mojo;
 
-import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.maven.plugins.annotations.Parameter;
+import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
 
 /**
  * wrapper around the npm install command
  */
 public class NpmInstallTask extends Task {
 
-  @Parameter
   private String[] arguments;
+  private boolean npmBundledWithNodeJs;
 
   @Override
   protected List<String> getCommand(NodeInstallationInformation information) {
     List<String> commands = new ArrayList<>();
     String nodeExecutable = information.getNodeExecutable().getAbsolutePath();
-    String npmExecutable = information.getNpmExecutable().getAbsolutePath();
+    String npmExecutable;
+    if (npmBundledWithNodeJs) {
+      npmExecutable = information.getNpmExecutableBundledWithNodeJs().getAbsolutePath();
+    }
+    else {
+      npmExecutable = information.getNpmExecutable().getAbsolutePath();
+    }
     commands.add(nodeExecutable);
     commands.add(npmExecutable);
     commands.add("install");
@@ -55,6 +59,14 @@ public class NpmInstallTask extends Task {
 
   public void setArguments(String[] arguments) {
     this.arguments = arguments;
+  }
+
+  public boolean isNpmBundledWithNodeJs() {
+    return this.npmBundledWithNodeJs;
+  }
+
+  public void setNpmBundledWithNodeJs(boolean npmBundledWithNodeJs) {
+    this.npmBundledWithNodeJs = npmBundledWithNodeJs;
   }
 
 }

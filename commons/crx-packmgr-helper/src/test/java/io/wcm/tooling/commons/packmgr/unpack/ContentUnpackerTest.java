@@ -21,10 +21,10 @@ package io.wcm.tooling.commons.packmgr.unpack;
 
 import java.io.File;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ContentUnpackerTest {
+class ContentUnpackerTest {
 
   private static final String[] EXCLUDE_FILES = new String[] {
     ".*/sling-ide-tooling/.*",
@@ -44,8 +44,8 @@ public class ContentUnpackerTest {
 
   private ContentUnpacker underTest;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     ContentUnpackerProperties props = new ContentUnpackerProperties();
     props.setExcludeFiles(EXCLUDE_FILES);
     props.setExcludeNodes(EXCLUDE_NODES);
@@ -54,7 +54,7 @@ public class ContentUnpackerTest {
   }
 
   @Test
-  public void testUnpack() throws Exception {
+  void testUnpack() throws Exception {
     File contentPackage = new File("src/test/resources/content-package-test.zip");
     File outputDirectory = new File("target/unpacktest");
     outputDirectory.mkdirs();

@@ -19,27 +19,27 @@
  */
 package io.wcm.maven.plugins.contentpackage.pack;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
 import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
 import org.apache.jackrabbit.vault.fs.filter.DefaultPathFilter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableList;
 
-public class FiltersTest {
+class FiltersTest {
 
   private Filters underTest;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     underTest = new Filters();
   }
 
   @Test
-  public void testMergeWithEmptyFilter() {
+  void testMergeWithEmptyFilter() {
     underTest.addFilter(newFilter("/content/test1"));
     underTest.addFilter(newFilter("/content/test2", new String[] { "include1" }, new String[] { "exclude1" }));
 
@@ -52,7 +52,7 @@ public class FiltersTest {
   }
 
   @Test
-  public void testMerge() {
+  void testMerge() {
     underTest.addFilter(newFilter("/content/test1"));
     underTest.addFilter(newFilter("/content/test2", new String[] { "include1" }, new String[] { "exclude1" }));
 
@@ -67,7 +67,7 @@ public class FiltersTest {
   }
 
   @Test
-  public void testWithOverlap() {
+  void testWithOverlap() {
     underTest.addFilter(newFilter("/content/test1"));
     underTest.addFilter(newFilter("/content/test2", new String[] { "include1" }, new String[] { "exclude1" }));
 

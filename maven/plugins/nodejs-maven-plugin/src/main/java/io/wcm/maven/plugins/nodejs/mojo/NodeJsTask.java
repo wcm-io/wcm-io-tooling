@@ -19,8 +19,6 @@
  */
 package io.wcm.maven.plugins.nodejs.mojo;
 
-import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +26,8 @@ import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
+
+import io.wcm.maven.plugins.nodejs.installation.NodeInstallationInformation;
 
 /**
  * Wrapper around the execution of a nodejs module.
@@ -82,13 +82,13 @@ public class NodeJsTask extends Task {
     File localInstallation = new File(localInstallationPath);
 
     if (!localInstallation.exists()) {
-      String globalInstallationPath = information.getBasePath() + "node_modules" + File.separator + moduleName;
+      String globalInstallationPath = information.getNodeModulesRootPath() + File.separator + "node_modules" + File.separator + moduleName;
       File moduleInstallation = new File(globalInstallationPath);
       if (!moduleInstallation.exists()) {
         NpmInstallTask installTask = new NpmInstallTask();
         installTask.setLog(getLog());
         installTask.setArguments(new String[] {
-            "--prefix", information.getBasePath(), moduleName
+            "--prefix", information.getNodeModulesRootPath(), moduleName
         });
         installTask.execute(information);
       }
@@ -105,6 +105,11 @@ public class NodeJsTask extends Task {
   private String getModuleExecutable(String modulePath) {
     String executable = executableName == null ? moduleName : executableName;
     return modulePath + File.separator + "bin" + File.separator + executable;
+  }
+
+  @Override
+  protected boolean isWorkingDirectoryMandatory() {
+    return true;
   }
 
 }

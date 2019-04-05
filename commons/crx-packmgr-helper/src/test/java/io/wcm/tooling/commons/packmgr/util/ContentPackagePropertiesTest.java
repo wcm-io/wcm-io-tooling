@@ -19,19 +19,18 @@
  */
 package io.wcm.tooling.commons.packmgr.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-
-public class ContentPackagePropertiesTest {
+class ContentPackagePropertiesTest {
 
   @Test
-  public void testContentPackage() throws Exception {
+  void testContentPackage() throws Exception {
     File packageFile = new File("src/test/resources/package/example.zip");
     Map<String, Object> props = ContentPackageProperties.get(packageFile);
 
@@ -41,7 +40,7 @@ public class ContentPackagePropertiesTest {
   }
 
   @Test
-  public void testNoneContentPackage() throws Exception {
+  void testNoneContentPackage() throws Exception {
     File packageFile = new File("src/test/resources/package/no-content-package.zip");
     Map<String, Object> props = ContentPackageProperties.get(packageFile);
     assertTrue(props.isEmpty());

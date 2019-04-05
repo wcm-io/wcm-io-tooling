@@ -27,8 +27,7 @@ public class NodeJsPluginException extends Exception {
   private static final long serialVersionUID = 1L;
 
   /**
-   * Constructor
-   * @param message Esception Message
+   * @param message Message
    */
   public NodeJsPluginException(String message) {
     super(message);
@@ -36,7 +35,7 @@ public class NodeJsPluginException extends Exception {
 
   /**
    * Constructor
-   * @param cause
+   * @param cause Cause
    */
   public NodeJsPluginException(Throwable cause) {
     super(cause);
@@ -44,8 +43,8 @@ public class NodeJsPluginException extends Exception {
 
   /**
    * Constructor
-   * @param message
-   * @param cause
+   * @param message Message
+   * @param cause Cause
    */
   public NodeJsPluginException(String message, Throwable cause) {
     super(message, cause);
