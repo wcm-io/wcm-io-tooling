@@ -460,7 +460,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>3.0.0-SNAPSHOT</version>
+          <version>3.0.0</version>
         </plugin>
 
         <plugin>
