@@ -24,9 +24,10 @@
   <body>
 
     <release version="3.0.0" date="2019-04-05">
-      <action type="update" dev="sseifert">
+      <action type="update" dev="sseifert"><![CDATA[
         Install Node.js on Windows the same way as for the other platforms using the Node.js archive including the bundled NPM version.
-      </action>
+        This requires <a href="https://github.com/wcm-io-devops/maven-nodejs-proxy">Maven NodeJS Proxy</a> Version 1.2.0 or higher.
+      ]]></action>
       <action type="fix" dev="sseifert">
         Do not delete Node.js base directory with all other installed versions when installing a new Node.js version.
       </action>
