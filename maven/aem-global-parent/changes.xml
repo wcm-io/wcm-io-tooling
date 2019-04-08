@@ -25,6 +25,9 @@
 
     <release version="1.2.34" date="not released">
       <action type="update" dev="sseifert">
+        Update to Maven Bundle Plugin 4.2.0.
+      </action>
+      <action type="update" dev="sseifert">
         Update plugins and dependencies to latest versions.
       </action>
     </release>
