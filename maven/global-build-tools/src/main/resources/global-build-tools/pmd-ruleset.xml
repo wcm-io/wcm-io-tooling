@@ -89,7 +89,6 @@
   <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
   <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
   <rule ref="category/java/multithreading.xml/NonThreadSafeSingleton" />
-  <rule ref="category/java/multithreading.xml/UnsynchronizedStaticDateFormatter" />
   <rule ref="category/java/multithreading.xml/UseNotifyAllInsteadOfNotify" />
   <rule ref="category/java/bestpractices.xml/AccessorClassGeneration" />
   <rule ref="category/java/bestpractices.xml/AccessorMethodGeneration" />
