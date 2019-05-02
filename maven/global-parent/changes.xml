@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Use property 'project.build.sourceEncoding' consistently to specify source file encoding.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
     </release>
 
     <release version="25" date="2019-03-14">
