@@ -157,7 +157,7 @@
         <configuration>
           <source>${build.compiler.source}</source>
           <target>${build.compiler.target}</target>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
 
@@ -479,7 +479,7 @@
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
           <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <enableRulesSummary>false</enableRulesSummary>
           <linkXRef>true</linkXRef>
           <excludes>**/target/**</excludes>
@@ -604,7 +604,7 @@
             <targetJdk>${build.compiler.target}</targetJdk>
             <format>xml</format>
             <linkXref>true</linkXref>
-            <sourceEncoding>utf-8</sourceEncoding>
+            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
             <rulesets>
               <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
             </rulesets>
@@ -876,7 +876,7 @@
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
           <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <enableRulesSummary>false</enableRulesSummary>
           <linkXRef>true</linkXRef>
           <excludes>**/target/**</excludes>
@@ -899,7 +899,7 @@
           <targetJdk>${build.compiler.target}</targetJdk>
           <format>xml</format>
           <linkXref>true</linkXref>
-          <sourceEncoding>utf-8</sourceEncoding>
+          <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
           <rulesets>
             <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
           </rulesets>
