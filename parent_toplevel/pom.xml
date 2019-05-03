@@ -79,14 +79,14 @@
 
   <properties>
 
+    <!-- Java version -->
+    <java.version>1.8</java.version>
+    <build.compiler.release>8</build.compiler.release>
+
     <!-- Sling instance parameters -->
     <sling.url>http://localhost:4502</sling.url>
     <sling.user>admin</sling.user>
     <sling.password>admin</sling.password>
-
-    <!-- compiler settings -->
-    <java.version>1.8</java.version>
-    <build.compiler.release>8</build.compiler.release>
 
     <!-- site settings -->
     <site.url.module.prefix>tooling/parent_toplevel</site.url.module.prefix>
