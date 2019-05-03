@@ -391,7 +391,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>ban-maven-eclipse-plugin</id>
+            <id>warn-maven-eclipse-plugin</id>
             <goals>
               <goal>enforce</goal>
             </goals>
