@@ -18,7 +18,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.4 SP3
+### AEM 6.4 SP4
 
 ```xml
 <dependency>
