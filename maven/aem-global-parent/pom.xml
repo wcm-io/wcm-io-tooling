@@ -204,6 +204,35 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>warn-maven-scr-annotations</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <level>WARN</level>
+                  <excludes>
+                    <exclude>org.apache.felix:org.apache.felix.scr.annotations</exclude>
+                  </excludes>
+                  <message>
+******************************************************************************
+
+  Your project is using Felix SCR annotations for OSGi Declarative Services.
+
+  Felix SCR annotations are deprecated:
+    org.apache.felix:org.apache.felix.scr.annotations
+  
+  Please switch to OSGi Service Component annotations.
+
+*********************************************************************
+
+</message>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -553,6 +582,61 @@
       </build>
     </profile>
 
+    <!-- Profile is active when running with Java 9 and up -->
+    <profile>
+      <id>java9-and-up</id>
+      <activation>
+        <jdk>[9,]</jdk>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>        
+
+            <!-- Disable support for Felix SCR BND plugin on Java 9 and up - it does not support class files > Java 8 -->
+            <plugin>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>maven-bundle-plugin</artifactId>
+              <configuration>
+                <instructions>
+                  <_plugin>
+                    <!-- Generate bundle header containing all configuration annotation classes -->
+                    org.apache.sling.caconfig.bndplugin.ConfigurationClassScannerPlugin,
+                    <!-- Generate bundle header for Sling Models classes -->
+                    org.apache.sling.bnd.models.ModelsScannerPlugin
+                  </_plugin>
+                </instructions>
+              </configuration>
+            </plugin>
+
+            <!-- Make sure Felix SCR Annotations Dependency is not included in build - not supported for class files > Java 8 -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>ban-maven-scr-annotations</id>
+                  <goals>
+                    <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                    <rules>
+                      <bannedDependencies>
+                        <excludes>
+                          <exclude>org.apache.felix:org.apache.felix.scr.annotations</exclude>
+                        </excludes>
+                        <message>Please switch to OSGi Service Component annotations for Declarative Services - Felix SCR annotations are not supported for Java 9 and higher.</message>
+                      </bannedDependencies>
+                    </rules>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  
   </profiles>
 
 </project>
