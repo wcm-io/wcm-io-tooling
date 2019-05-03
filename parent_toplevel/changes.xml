@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.3.4" date="not released">
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.2.34.
+      </action>
+      <action type="update" dev="sseifert">
+        Switch from 'javax.annotation-api' dependency to 'geronimo-annotation_1.3_spec' to be in line with AEM.
+      </action>
+    </release>
+
     <release version="1.3.2" date="2019-03-14">
       <action type="update" dev="sseifert">
         Allow HTML markup in CDATA sections in changes reports.
