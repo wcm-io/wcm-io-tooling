@@ -24,6 +24,9 @@
   <body>
 
     <release version="26" date="not released">
+      <action type="add" dev="sseifert">
+        Introduce new property "java.version" to be used as main property to define the Java version to compile against. Add support for Java 9 and up.
+      </action>
       <action type="update" dev="sseifert">
         Use property 'project.build.sourceEncoding' consistently to specify source file encoding.
       </action>
