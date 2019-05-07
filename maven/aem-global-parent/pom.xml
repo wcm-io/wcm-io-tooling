@@ -99,8 +99,7 @@
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.scr.annotations</artifactId>
-        <!-- Do not update to 1.12.0 yet, it marks all SCR annotations as deprecated -->
-        <version>1.11.0</version>
+        <version>1.12.0</version>
       </dependency>
 
       <!-- Keep dependency for backward compatibility (earlier osgi-mock version declared it as transitive dependency with an outdated version) -->
@@ -324,7 +323,7 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.annotations</artifactId>
-              <version>1.11.0</version>
+              <version>1.12.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.sling</groupId>
