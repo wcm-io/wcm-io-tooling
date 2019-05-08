@@ -25,8 +25,23 @@
 
     <release version="1.2.34" date="not released">
       <action type="update" dev="sseifert">
+        Show warning on projects still using Felix SCR annotations.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to Maven Bundle Plugin 4.2.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update CONGA Sling plugin and CONGA AEM plugin.
+      </action>
+      <action type="update" dev="sseifert">
         Update plugins and dependencies to latest versions.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 26.
+      </action>
+      <action type="fix" dev="sseifert">
+        Set scope for org.apache.sling.servlets.annotations to provided.
+      </action>      
     </release>
 
     <release version="1.2.32" date="2019-03-14">

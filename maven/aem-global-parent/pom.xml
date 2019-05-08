@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>25</version>
+    <version>26-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -87,6 +87,7 @@
       <groupId>org.apache.sling</groupId>
       <artifactId>org.apache.sling.servlets.annotations</artifactId>
       <version>1.2.4</version>
+      <scope>provided</scope>
     </dependency>
 
   </dependencies>
@@ -98,8 +99,7 @@
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.scr.annotations</artifactId>
-        <!-- Do not update to 1.12.0 yet, it marks all SCR annotations as deprecated -->
-        <version>1.11.0</version>
+        <version>1.12.0</version>
       </dependency>
 
       <!-- Keep dependency for backward compatibility (earlier osgi-mock version declared it as transitive dependency with an outdated version) -->
@@ -204,6 +204,35 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>warn-maven-scr-annotations</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <level>WARN</level>
+                  <excludes>
+                    <exclude>org.apache.felix:org.apache.felix.scr.annotations</exclude>
+                  </excludes>
+                  <message>
+******************************************************************************
+
+  Your project is using Felix SCR annotations for OSGi Declarative Services.
+
+  Felix SCR annotations are deprecated:
+    org.apache.felix:org.apache.felix.scr.annotations
+  
+  Please switch to OSGi Service Component annotations.
+
+*********************************************************************
+
+</message>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -249,7 +278,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>4.1.0</version>
+          <version>4.2.0</version>
           <extensions>true</extensions>
           <executions>
             <!-- Configure extra execution of 'manifest' in process-classes phase to make sure SCR metadata is generated before unit test runs -->
@@ -265,6 +294,9 @@
           </executions>
           <configuration>
             <exportScr>true</exportScr>
+            <noWarningProjectTypes>
+              <noWarningProjectType>maven-plugin</noWarningProjectType>
+            </noWarningProjectTypes>
             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
               <Bundle-Description>${project.description} (Rev. ${buildNumber} at ${timestamp})</Bundle-Description>
@@ -286,17 +318,12 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.9.2</version>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.felix</groupId>
-              <artifactId>org.apache.felix.scr.generator</artifactId>
-              <version>1.18.0</version>
+              <version>1.9.3-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.annotations</artifactId>
-              <version>1.11.0</version>
+              <version>1.12.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.sling</groupId>
@@ -460,7 +487,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>3.0.0-SNAPSHOT</version>
+          <version>3.0.0</version>
         </plugin>
 
         <plugin>
@@ -472,12 +499,12 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.sling</artifactId>
-              <version>1.2.4</version>
+              <version>1.2.5-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.8.12</version>
+              <version>1.8.13-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -489,7 +516,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.8.12</version>
+          <version>1.8.13-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>

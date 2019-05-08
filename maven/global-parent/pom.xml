@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.global-parent</artifactId>
-  <version>26-SNAPSHOT</version>
+  <version>26</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.global-parent</name>
@@ -71,13 +71,16 @@
     <unittests.skip>${maven.test.skip}</unittests.skip>
     <integrationtests.skip>${maven.test.skip}</integrationtests.skip>
 
-    <!-- compiler settings (can be overridden by inheriting poms) -->
-    <build.compiler.source>1.8</build.compiler.source>
-    <build.compiler.target>1.8</build.compiler.target>
+    <!-- Java Version to build against (can be overridden by inheriting poms) -->
+    <!-- Use 1.7, 1.8 for Java versions <= 8, and 9, 10, 11 ... for Java Versions >= 9 -->
+    <java.version>1.8</java.version>
+    <build.compiler.source>${java.version}</build.compiler.source>
+    <build.compiler.target>${java.version}</build.compiler.target>
+    <build.compiler.release>${build.compiler.target}</build.compiler.release>
 
     <!-- pmd needs this as a global property, even in mvn 3 - may be fixed some day -->
-    <!-- see http://jira.codehaus.org/browse/MPMD-86 -->
-    <targetJdk>${build.compiler.target}</targetJdk>
+    <!-- see https://issues.apache.org/jira/browse/MPMD-86 -->
+    <targetJdk>${java.version}</targetJdk>
 
     <!-- Mininum maven version -->
     <maven.min-version>3.5.0</maven.min-version>
@@ -89,7 +92,7 @@
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
 
     <!-- Plugin version -->
-    <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <spotbugs-plugin.version>3.1.11</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
 
@@ -157,7 +160,7 @@
         <configuration>
           <source>${build.compiler.source}</source>
           <target>${build.compiler.target}</target>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
 
@@ -191,7 +194,7 @@
           </execution>
         </executions>
         <configuration>
-          <source>${build.compiler.source}</source>
+          <source>${java.version}</source>
         </configuration>
       </plugin>
 
@@ -348,7 +351,7 @@
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[${build.compiler.target},]</version>
+                  <version>[${java.version},]</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
@@ -365,7 +368,7 @@
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[${build.compiler.target},]</version>
+                  <version>[${java.version},]</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
@@ -382,13 +385,13 @@
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>[${build.compiler.target},]</version>
+                  <version>[${java.version},]</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
           </execution>
           <execution>
-            <id>ban-maven-eclipse-plugin</id>
+            <id>warn-maven-eclipse-plugin</id>
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -479,7 +482,7 @@
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
           <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <enableRulesSummary>false</enableRulesSummary>
           <linkXRef>true</linkXRef>
           <excludes>**/target/**</excludes>
@@ -488,7 +491,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.18</version>
+            <version>8.20</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -526,7 +529,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.8.1</version>
         </plugin>
 
         <plugin>
@@ -599,12 +602,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>3.12.0</version>
           <configuration>
-            <targetJdk>${build.compiler.target}</targetJdk>
+            <targetJdk>${java.version}</targetJdk>
             <format>xml</format>
             <linkXref>true</linkXref>
-            <sourceEncoding>utf-8</sourceEncoding>
+            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
             <rulesets>
               <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
             </rulesets>
@@ -633,7 +636,7 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.11.1</version>
+              <version>1.11.2</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -647,7 +650,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.11.1</version>
+          <version>1.11.2</version>
         </plugin>
 
         <plugin>
@@ -769,7 +772,7 @@
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
-          <version>1.7.5</version>
+          <version>1.7.6</version>
         </plugin>
 
         <plugin>
@@ -876,7 +879,7 @@
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
           <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-          <encoding>UTF-8</encoding>
+          <encoding>${project.build.sourceEncoding}</encoding>
           <enableRulesSummary>false</enableRulesSummary>
           <linkXRef>true</linkXRef>
           <excludes>**/target/**</excludes>
@@ -896,10 +899,10 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <inherited>true</inherited>
         <configuration>
-          <targetJdk>${build.compiler.target}</targetJdk>
+          <targetJdk>${java.version}</targetJdk>
           <format>xml</format>
           <linkXref>true</linkXref>
-          <sourceEncoding>utf-8</sourceEncoding>
+          <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
           <rulesets>
             <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
           </rulesets>
@@ -967,7 +970,7 @@
 
   <!-- Profiles -->
   <profiles>
-
+  
     <!-- "Fast" profile for quick compile of the project without any unit tests etc. -->
     <profile>
       <id>fast</id>
@@ -1263,6 +1266,28 @@
       </build>
     </profile>
 
+    <!-- Profile is active when running with Java 9 and up -->
+    <profile>
+      <id>java9-and-up</id>
+      <activation>
+        <jdk>[9,]</jdk>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>        
+            <!-- Explicitly set java version with "release" flag available since Java 9 -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                <release>${build.compiler.release}</release>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  
   </profiles>
 
   <distributionManagement>

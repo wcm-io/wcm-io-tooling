@@ -23,6 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="26" date="2019-05-08">
+      <action type="add" dev="sseifert">
+        Introduce new property "java.version" to be used as main property to define the Java version to compile against. Add support for Java 9 and up.
+      </action>
+      <action type="update" dev="sseifert">
+        Use property 'project.build.sourceEncoding' consistently to specify source file encoding.
+      </action>
+      <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
+    </release>
+
     <release version="25" date="2019-03-14">
       <action type="update" dev="amuthmann">
         Set source for javadoc plugin to fix issues when builing with jdk11+.
