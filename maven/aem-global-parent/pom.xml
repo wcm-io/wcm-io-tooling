@@ -35,7 +35,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.2.33-SNAPSHOT</version>
+  <version>1.2.34</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -318,7 +318,7 @@
             <dependency>
               <groupId>org.apache.felix</groupId>
               <artifactId>org.apache.felix.scr.bnd</artifactId>
-              <version>1.9.3-SNAPSHOT</version>
+              <version>1.9.4</version>
             </dependency>
             <dependency>
               <groupId>org.apache.felix</groupId>
@@ -499,12 +499,12 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.sling</artifactId>
-              <version>1.2.5-SNAPSHOT</version>
+              <version>1.2.6</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.8.13-SNAPSHOT</version>
+              <version>1.8.14</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -516,7 +516,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.8.13-SNAPSHOT</version>
+          <version>1.8.14</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
