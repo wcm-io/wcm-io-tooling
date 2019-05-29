@@ -56,7 +56,7 @@
     <sling.password>admin</sling.password>
 
     <!-- versions -->
-    <sling.sling-maven-plugin.version>2.4.0</sling.sling-maven-plugin.version>
+    <sling.sling-maven-plugin.version>2.4.1-SNAPSHOT</sling.sling-maven-plugin.version>
 
   </properties>
 
@@ -350,6 +350,17 @@
             <deployFsResourceBundlePrerequisites>
               <bundlePrerequisite>
                 <bundles>
+                  <bundle>
+                    <groupId>org.apache.sling</groupId>
+                    <artifactId>org.apache.sling.commons.johnzon</artifactId>
+                    <version>1.0.0</version>
+                  </bundle>
+                  <bundle>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-collections4</artifactId>
+                    <version>4.1</version>
+                    <symbolicName>org.apache.commons.collections4</symbolicName>
+                  </bundle>
                   <bundle>
                     <groupId>org.apache.sling</groupId>
                     <artifactId>org.apache.sling.fsresource</artifactId>
