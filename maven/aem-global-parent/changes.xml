@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update global-parent dependency to 27.
       </action>
+      <action type="update" dev="sseifert">
+        Update maven-sling-plugin to File System Resource Provider 2.1.16.
+      </action>
     </release>
 
     <release version="1.2.34" date="2019-05-09">
