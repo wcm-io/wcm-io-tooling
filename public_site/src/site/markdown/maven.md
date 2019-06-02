@@ -53,7 +53,7 @@ Sometimes snapshot are referenced from the Apache Snapshot repository:
 ```xml
 <repository>
   <id>apache-snapshots</id>
-  <url>http://repository.apache.org/snapshots</url>
+  <url>https://repository.apache.org/snapshots</url>
   <layout>default</layout>
   <releases>
     <enabled>false</enabled>
