@@ -16,5 +16,5 @@ This library manages the "resilient" handling of uploading and downloading packa
 
 It is used by these Maven plugins:
 
-* [wcm.io Content Package Maven Plugin](http://wcm.io/tooling/maven/plugins/wcmio-content-package-maven-plugin/)
-* [wcm.io DevOps CONGA AEM Maven Plugin](http://devops.wcm.io/conga/plugins/aem/conga-aem-maven-plugin/plugin-info.html)
+* [wcm.io Content Package Maven Plugin](https://wcm.io/tooling/maven/plugins/wcmio-content-package-maven-plugin/)
+* [wcm.io DevOps CONGA AEM Maven Plugin](https://devops.wcm.io/conga/plugins/aem/conga-aem-maven-plugin/plugin-info.html)

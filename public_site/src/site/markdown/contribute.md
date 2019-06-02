@@ -22,7 +22,7 @@ Overview over the project's [mailing lists][mailing-lists].
 [jira-signup]: https://wcm-io.atlassian.net/admin/users/sign-up
 [confluence]: https://wcm-io.atlassian.net/wiki/
 [issue-guidelines]: http://github.com/necolas/issue-guidelines/#readme
-[mailing-lists]: http://wcm.io/mailing-lists.html
+[mailing-lists]: https://wcm.io/mailing-lists.html
 
 
 ### Fork, patch and contribute code

@@ -19,8 +19,8 @@ The settings in this AEM global parent POM cover:
   [cq-maven-plugin](plugins/cq-maven-plugin/),
   [i18n-maven-plugin](plugins/i18n-maven-plugin/),
   [nodejs-maven-plugin](plugins/nodejs-maven-plugin/),
-  [conga-maven-plugin](http://devops.wcm.io/conga/),
-  [conga-aem-maven-plugin](http://devops.wcm.io/conga/plugins/aem/)
+  [conga-maven-plugin](https://devops.wcm.io/conga/),
+  [conga-aem-maven-plugin](https://devops.wcm.io/conga/plugins/aem/)
 * Define default exclusions for m2e lifecycle
 
 Source code: [maven/aem-global-parent](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-global-parent)
