@@ -4,7 +4,7 @@
 
 The released wcm.io artifacts are available at Maven Central:
 
-http://search.maven.org/#search|ga|1|io.wcm
+https://search.maven.org/search?q=io.wcm
 
 Snapshots releases are available on the Sonatype snapshot repository - use at your own risk!
 
