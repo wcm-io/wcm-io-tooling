@@ -4,7 +4,7 @@
 
 The released wcm.io artifacts are available at Maven Central:
 
-http://search.maven.org/#search|ga|1|io.wcm
+https://search.maven.org/search?q=io.wcm
 
 Snapshots releases are available on the Sonatype snapshot repository - use at your own risk!
 
@@ -53,7 +53,7 @@ Sometimes snapshot are referenced from the Apache Snapshot repository:
 ```xml
 <repository>
   <id>apache-snapshots</id>
-  <url>http://repository.apache.org/snapshots</url>
+  <url>https://repository.apache.org/snapshots</url>
   <layout>default</layout>
   <releases>
     <enabled>false</enabled>
@@ -73,7 +73,7 @@ This repository is hosted on wcm.io and provides intermediate releses with revis
 ```xml
 <repository>
   <id>wcm-io-apache-intermediate-release</id>
-  <url>http://wcm.io/maven/repositories/apache-intermediate-release</url>
+  <url>https://wcm.io/maven/repositories/apache-intermediate-release</url>
   <layout>default</layout>
   <releases>
     <enabled>true</enabled>
@@ -86,7 +86,7 @@ This repository is hosted on wcm.io and provides intermediate releses with revis
 
 <pluginRepository>
   <id>wcm-io-apache-intermediate-release</id>
-  <url>http://wcm.io/maven/repositories/apache-intermediate-release</url>
+  <url>https://wcm.io/maven/repositories/apache-intermediate-release</url>
   <releases>
     <enabled>true</enabled>
     <updatePolicy>never</updatePolicy>

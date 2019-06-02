@@ -25,8 +25,8 @@
   xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd">
 
   <bannerLeft>
-    <name><![CDATA[<img src="http://wcm.io/images/favicon-16@3x.png"/> wcm.io]]></name>
-    <href>http://wcm.io</href>
+    <name><![CDATA[<img src="https://wcm.io/images/favicon-16@3x.png"/> wcm.io]]></name>
+    <href>https://wcm.io</href>
   </bannerLeft>
 
   <publishDate position="bottom" format="yyyy-MM-dd" />
@@ -35,7 +35,7 @@
   <skin>
     <groupId>io.wcm.maven.skins</groupId>
     <artifactId>reflow-maven-skin</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
   </skin>
   <custom>
     <reflowSkin>
@@ -43,12 +43,12 @@
       <protocolRelativeURLs>false</protocolRelativeURLs>
       <smoothScroll>true</smoothScroll>
       <theme>default</theme>
-      <absoluteResourceURL>http://wcm.io</absoluteResourceURL>
+      <absoluteResourceURL>https://wcm.io</absoluteResourceURL>
       <skinAttribution>false</skinAttribution>
       <brand>
         <!-- Brand text in top-left part of the site -->
         <name>wcm.io</name>
-        <href>http://wcm.io</href>
+        <href>https://wcm.io</href>
       </brand>
       <slogan>Libraries and extensions for AEM applications</slogan>
       <titleTemplate>%2$s | %1$s</titleTemplate>
@@ -103,41 +103,41 @@
   <body>
 
     <links>
-      <item name="GitHub project" href="http://github.com/wcm-io" />
+      <item name="GitHub project" href="https://github.com/wcm-io" />
     </links>
 
     <breadcrumbs>
-      <item name="wcm.io" href="http://wcm.io" />
+      <item name="wcm.io" href="https://wcm.io" />
     </breadcrumbs>
 
     <menu name="Main" inherit="top">
-      <item name="Home" href="http://wcm.io" />
-      <item name="Platforms" href="http://wcm.io/platforms.html" />
-      <item name="Maven Repositories" href="http://wcm.io/maven.html" />
-      <item name="GitHub project" href="http://github.com/wcm-io" />
-      <item name="Subprojects" href="http://wcm.io/subprojects.html" />
-      <item name="License" href="http://wcm.io/license.html" />
-      <item name="Imprint" href="http://wcm.io/imprint.html" />
+      <item name="Home" href="https://wcm.io" />
+      <item name="Platforms" href="https://wcm.io/platforms.html" />
+      <item name="Maven Repositories" href="https://wcm.io/maven.html" />
+      <item name="GitHub project" href="https://github.com/wcm-io" />
+      <item name="Subprojects" href="https://wcm.io/subprojects.html" />
+      <item name="License" href="https://wcm.io/license.html" />
+      <item name="Imprint" href="https://wcm.io/imprint.html" />
     </menu>
     <menu name="Categories" inherit="top">
-      <item name="WCM" href="http://wcm.io/wcm/"/>
-      <item name="DAM" href="http://wcm.io/dam/"/>
-      <item name="Context-Aware Configuration" href="http://wcm.io/caconfig/"/>
-      <item name="Configuration (deprecated)" href="http://wcm.io/config/"/>
-      <item name="Handler" href="http://wcm.io/handler/"/>
-      <item name="Sling" href="http://wcm.io/sling/"/>
-      <item name="Testing" href="http://wcm.io/testing/"/>
-      <item name="Samples" href="http://wcm.io/samples/"/>
-      <item name="Tooling" href="http://wcm.io/tooling/"/>
+      <item name="WCM" href="https://wcm.io/wcm/"/>
+      <item name="DAM" href="https://wcm.io/dam/"/>
+      <item name="Context-Aware Configuration" href="https://wcm.io/caconfig/"/>
+      <item name="Configuration (deprecated)" href="https://wcm.io/config/"/>
+      <item name="Handler" href="https://wcm.io/handler/"/>
+      <item name="Sling" href="https://wcm.io/sling/"/>
+      <item name="Testing" href="https://wcm.io/testing/"/>
+      <item name="Samples" href="https://wcm.io/samples/"/>
+      <item name="Tooling" href="https://wcm.io/tooling/"/>
     </menu>
     <menu name="Contribute" inherit="top">
-      <item name="Contribute" href="http://wcm.io/contribute.html" />
-      <item name="Manifest" href="http://wcm.io/manifest.html" />
+      <item name="Contribute" href="https://wcm.io/contribute.html" />
+      <item name="Manifest" href="https://wcm.io/manifest.html" />
       <item name="Issues" href="https://wcm-io.atlassian.net" />
       <item name="Wiki" href="https://wcm-io.atlassian.net/wiki/" />
-      <item name="Mailing Lists" href="http://wcm.io/mailing-lists.html" />
+      <item name="Mailing Lists" href="https://wcm.io/mailing-lists.html" />
       <item name="Continuous Integration" href="https://travis-ci.org/wcm-io" />
-      <item name="Fork on GitHub" href="http://github.com/wcm-io" />
+      <item name="Fork on GitHub" href="https://github.com/wcm-io" />
     </menu>
     <menu name="Maven documentation" inherit="top" ref="reports"/>
   </body>

@@ -21,8 +21,8 @@ Overview over the project's [mailing lists][mailing-lists].
 [jira]: https://wcm-io.atlassian.net/
 [jira-signup]: https://wcm-io.atlassian.net/admin/users/sign-up
 [confluence]: https://wcm-io.atlassian.net/wiki/
-[issue-guidelines]: http://github.com/necolas/issue-guidelines/#readme
-[mailing-lists]: http://wcm.io/mailing-lists.html
+[issue-guidelines]: https://github.com/necolas/issue-guidelines/#readme
+[mailing-lists]: https://wcm.io/mailing-lists.html
 
 
 ### Fork, patch and contribute code
@@ -33,7 +33,7 @@ updates.
 Contribute your fixes and new features back to the main codebase using
 [GitHub pull requests][github-pull-req].
 
-[wcm-io-github]: http://github.com/wcm-io
+[wcm-io-github]: https://github.com/wcm-io
 [github-pull-req]: http://help.github.com/articles/using-pull-requests
 
 

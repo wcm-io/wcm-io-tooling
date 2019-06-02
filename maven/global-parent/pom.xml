@@ -29,7 +29,7 @@
 
   <name>io.wcm.maven.global-parent</name>
   <description>Global parent for Maven artifact hierarchy. Defines fixed versions of Maven plugins to be used and certain general Maven settings.</description>
-  <url>http://wcm.io/</url>
+  <url>https://wcm.io/</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
@@ -42,7 +42,7 @@
 
   <organization>
     <name>wcm.io</name>
-    <url>http://wcm.io</url>
+    <url>https://wcm.io</url>
   </organization>
 
   <licenses>
@@ -56,7 +56,7 @@
     <developer>
       <name>wcm.io Community</name>
       <organization>wcm.io</organization>
-      <organizationUrl>http://wcm.io</organizationUrl>
+      <organizationUrl>https://wcm.io</organizationUrl>
     </developer>
   </developers>
 
@@ -94,7 +94,7 @@
     <!-- Plugin version -->
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <spotbugs-plugin.version>3.1.11</spotbugs-plugin.version>
-    <spotbugs-findsecbugs-plugin.version>1.7.1</spotbugs-findsecbugs-plugin.version>
+    <spotbugs-findsecbugs-plugin.version>1.9.0</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
     <eclipse.settings.nullanalysis>disabled</eclipse.settings.nullanalysis>
@@ -477,7 +477,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <configuration>
           <configLocation>global-build-tools/checkstyle.xml</configLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
@@ -584,7 +584,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
         </plugin>
 
         <plugin>
@@ -668,7 +668,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
@@ -778,7 +778,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.3</version>
+          <version>0.8.4</version>
         </plugin>
 
         <plugin>

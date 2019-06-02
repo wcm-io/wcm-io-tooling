@@ -24,7 +24,7 @@
   <parent>
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.tooling.parent</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15-SNAPSHOT</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -59,7 +59,7 @@
         <configuration>
           <licenseName>Apache License, Version 2.0</licenseName>
           <licenseFile>../../../LICENSE</licenseFile>
-          <homePageUrl>http://wcm.io/tooling/netbeans/sightly/</homePageUrl>
+          <homePageUrl>https://wcm.io/tooling/netbeans/sightly/</homePageUrl>
           <useOSGiDependencies>false</useOSGiDependencies>
         </configuration>
       </plugin>

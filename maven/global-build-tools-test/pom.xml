@@ -36,7 +36,7 @@
 
   <name>io.wcm.maven.global-build-tools-test</name>
   <description>Test project with sample code to test the different checkstyle etc. settings</description>
-  <url>http://wcm.io</url>
+  <url>https://wcm.io</url>
 
   <properties>
     <!-- define default encoding for all source/resource files -->

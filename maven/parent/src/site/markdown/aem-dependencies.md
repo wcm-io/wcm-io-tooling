@@ -115,4 +115,4 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 ```
 
 
-[aem-mock]: http://wcm.io/testing/aem-mock/
+[aem-mock]: https://wcm.io/testing/aem-mock/

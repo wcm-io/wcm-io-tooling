@@ -29,7 +29,7 @@
 
   <name>io.wcm.maven.global-build-tools</name>
   <description>Definition of rules for static code analysis tools and IDEs.</description>
-  <url>http://wcm.io</url>
+  <url>https://wcm.io</url>
 
   <scm>
     <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
@@ -42,7 +42,7 @@
 
   <organization>
     <name>wcm.io</name>
-    <url>http://wcm.io</url>
+    <url>https://wcm.io</url>
   </organization>
 
   <licenses>
@@ -56,7 +56,7 @@
     <developer>
       <name>wcm.io Community</name>
       <organization>wcm.io</organization>
-      <organizationUrl>http://wcm.io</organizationUrl>
+      <organizationUrl>https://wcm.io</organizationUrl>
     </developer>
   </developers>
 
