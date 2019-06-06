@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.parent</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15-SNAPSHOT</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.maven.skins</groupId>
   <artifactId>reflow-maven-skin</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>wcm.io Reflow Maven Skin</name>
