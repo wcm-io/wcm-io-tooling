@@ -183,7 +183,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
     else if (StringUtils.isNotBlank(packageFileList)) {
       String[] fileNames = StringUtils.split(packageFileList, ",");
       for (String fileName : fileNames) {
-        File file = new File(fileName);
+        File file = new File(StringUtils.trimToEmpty(fileName));
         items.add(toPackageFile(file));
       }
     }
