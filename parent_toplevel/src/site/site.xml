@@ -20,9 +20,9 @@
   -->
 
 <project name="wcm.io"
-  xmlns="http://maven.apache.org/DECORATION/1.3.0"
+  xmlns="http://maven.apache.org/DECORATION/1.8.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.3.0 http://maven.apache.org/xsd/decoration-1.3.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd">
 
   <bannerLeft>
     <name><![CDATA[<img src="https://wcm.io/images/favicon-16@3x.png"/> wcm.io]]></name>
