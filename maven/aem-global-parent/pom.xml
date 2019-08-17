@@ -54,6 +54,9 @@
     <sling.url>http://localhost:4502</sling.url>
     <sling.user>admin</sling.user>
     <sling.password>admin</sling.password>
+    <sling.publish.url>http://localhost:4503</sling.publish.url>
+    <sling.publish.user>admin</sling.publish.user>
+    <sling.publish.password>admin</sling.publish.password>
 
     <!-- versions -->
     <sling.sling-maven-plugin.version>2.4.2</sling.sling-maven-plugin.version>
@@ -542,6 +545,64 @@
   </build>
 
   <profiles>
+
+    <!-- Switch deployment settings to publish instance -->
+    <profile>
+      <id>publish</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.sling</groupId>
+              <artifactId>sling-maven-plugin</artifactId>
+              <configuration>
+                <slingUrl>${sling.publish.url}/system/console</slingUrl>
+                <user>${sling.publish.user}</user>
+                <password>${sling.publish.password}</password>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>com.day.jcr.vault</groupId>
+              <artifactId>content-package-maven-plugin</artifactId>
+              <configuration>
+                <targetURL>${sling.publish.url}/crx/packmgr/service.jsp</targetURL>
+                <serviceURL>${sling.publish.url}/crx/packmgr/service/.json</serviceURL>
+                <userId>${sling.publish.user}</userId>
+                <password>${sling.publish.password}</password>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>io.wcm.maven.plugins</groupId>
+              <artifactId>wcmio-content-package-maven-plugin</artifactId>
+              <configuration>
+                <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
+                <userId>${sling.publish.user}</userId>
+                <password>${sling.publish.password}</password>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>io.wcm.maven.plugins</groupId>
+              <artifactId>cq-maven-plugin</artifactId>
+              <configuration>
+                <slingConsoleUrl>${sling.publish.url}/system/console</slingConsoleUrl>
+                <slingConsoleUser>${sling.publish.user}</slingConsoleUser>
+                <slingConsolePassword>${sling.publish.password}</slingConsolePassword>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>io.wcm.devops.conga.plugins</groupId>
+              <artifactId>conga-aem-maven-plugin</artifactId>
+              <version>1.8.14</version>
+              <configuration>
+                <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
+                <userId>${sling.publish.user}</userId>
+                <password>${sling.publish.password}</password>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
 
     <!-- profile used for building releases and deployment to sonatype/maven central -->
     <profile>
