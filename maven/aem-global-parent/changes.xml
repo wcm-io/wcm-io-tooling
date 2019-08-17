@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update cq Maven plugin.
+      </action>
     </release>
 
     <release version="1.2.36" date="2019-06-26">
