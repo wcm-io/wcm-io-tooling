@@ -50,7 +50,7 @@
 
   <properties>
 
-    <!-- Sling instance parameters -->
+    <!-- AEM instance parameters -->
     <sling.url>http://localhost:4502</sling.url>
     <sling.user>admin</sling.user>
     <sling.password>admin</sling.password>
