@@ -28,9 +28,6 @@
         Introduce "publish" profile to switch deployment settings to publish instance.
       </action>
       <action type="update" dev="sseifert">
-        Update to Jackrabbit filevault-package-maven-plugin 1.0.4.
-      </action>
-      <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin.
       </action>
       <action type="update" dev="sseifert">

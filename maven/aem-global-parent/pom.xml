@@ -406,7 +406,8 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <version>1.0.4</version>
+          <!-- Do not update yet to 1.0.4, seems to produce false failures/warnings on content check -->
+          <version>1.0.3</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
             <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
