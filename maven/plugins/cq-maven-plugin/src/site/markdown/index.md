@@ -13,6 +13,12 @@ Convenience maven plugin for working with CQ/AEM maven projects.
 * [Changelog][changelog]
 
 
+### Overview
+
+The `cq` Maven Plugin is a convenience tool to save some typing on the command line.
+
+With one goal it installs the current project (bundle or content package) and deploys it to the local AEM instance - see [usage][usage] for details.
+
 
 [usage]: usage.html
 [plugindocs]: plugin-info.html
