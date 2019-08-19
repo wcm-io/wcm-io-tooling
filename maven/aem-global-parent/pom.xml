@@ -406,7 +406,7 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <!-- Do not update yet to 1.0.4, seems to produce false failures/warnings on content check -->
+          <!-- Do not update yet to 1.0.4, seems to produce false failures/warnings on content check (JCRVLT-354, JCRVLT-355) -->
           <version>1.0.3</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
