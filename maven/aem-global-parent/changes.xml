@@ -31,7 +31,10 @@
         Update wcm.io Content Package Maven plugin.
       </action>
       <action type="update" dev="sseifert">
-        Update cq Maven plugin.
+        Update to cq Maven plugin 1.1.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to Maven Bundle Plugin 4.2.1.
       </action>
     </release>
 
