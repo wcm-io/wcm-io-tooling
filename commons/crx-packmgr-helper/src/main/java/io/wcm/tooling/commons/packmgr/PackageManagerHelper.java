@@ -281,7 +281,8 @@ public final class PackageManagerHelper {
 
     log.info("Check bundle activation status...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
-      BundleStatusCall call = new BundleStatusCall(httpClient, props.getBundleStatusUrl(), log);
+      BundleStatusCall call = new BundleStatusCall(httpClient, props.getBundleStatusUrl(),
+          props.getBundleStatusWhitelistBundleNames(), log);
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
 
       boolean instanceReady = true;

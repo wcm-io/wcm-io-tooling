@@ -129,6 +129,16 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   private String[] bundleStatusBlacklistBundleNames;
 
   /**
+   * Patterns for symbolic names of bundles that are ignored in bundle list.
+   * The state of these bundles has no effect on the bundle status check.
+   */
+  @Parameter(property = "vault.bundleStatusWhitelistBundleNames",
+      defaultValue = "^com\\.day\\.crx\\.crxde-support$,"
+          + "^com\\.adobe\\.granite\\.crx-explorer$,"
+          + "^com\\.adobe\\.granite\\.crxde-lite$")
+  private String[] bundleStatusWhitelistBundleNames;
+
+  /**
    * If set to true also self-signed certificates are accepted.
    */
   @Parameter(property = "vault.relaxedSSLCheck", defaultValue = "false")
@@ -171,6 +181,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     props.setBundleStatusUrl(buildBundleStatusUrl());
     props.setBundleStatusWaitLimitSec(this.bundleStatusWaitLimit);
     props.setBundleStatusBlacklistBundleNames(ImmutableList.copyOf(this.bundleStatusBlacklistBundleNames));
+    props.setBundleStatusWhitelistBundleNames(ImmutableList.copyOf(this.bundleStatusWhitelistBundleNames));
     props.setRelaxedSSLCheck(this.relaxedSSLCheck);
     props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
     props.setHttpSocketTimeoutSec(this.httpSocketTimeout);

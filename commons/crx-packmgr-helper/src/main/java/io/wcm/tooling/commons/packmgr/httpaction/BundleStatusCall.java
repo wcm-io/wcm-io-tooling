@@ -20,17 +20,15 @@
 package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
@@ -42,17 +40,32 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
   private final CloseableHttpClient httpClient;
   private final String bundleStatusURL;
+  private final List<Pattern> bundleStatusWhitelistBundleNames;
   private final Logger log;
 
   /**
    * @param httpClient HTTP client
    * @param bundleStatusURL Bundle status URL
+   * @param bundleStatusWhitelistBundleNames Patterns of bundle names to be ignored
    * @param log Logger
    */
-  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL, Logger log) {
+  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL,
+      List<Pattern> bundleStatusWhitelistBundleNames, Logger log) {
     this.httpClient = httpClient;
     this.bundleStatusURL = bundleStatusURL;
+    this.bundleStatusWhitelistBundleNames = bundleStatusWhitelistBundleNames;
     this.log = log;
+  }
+
+  /**
+   * @param httpClient HTTP client
+   * @param bundleStatusURL Bundle status URL
+   * @param log Logger
+   * @deprecated Please use {@link #BundleStatusCall(CloseableHttpClient, String, List, Logger)}
+   */
+  @Deprecated
+  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL, Logger log) {
+    this(httpClient, bundleStatusURL, Collections.emptyList(), log);
   }
 
   @Override
@@ -69,40 +82,16 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
         throw PackageManagerHttpActionException.forHttpError(bundleStatusURL, response.getStatusLine(), responseString);
       }
 
-      JSONObject jsonResponse = new JSONObject(responseString);
-      return toBundleStatus(jsonResponse);
+      return toBundleStatus(responseString);
     }
     catch (IOException ex) {
       throw PackageManagerHttpActionException.forIOException(bundleStatusURL, ex);
     }
   }
 
-  private static BundleStatus toBundleStatus(JSONObject response) {
-    String statusLine = response.getString("status");
-    JSONArray statusArray = response.getJSONArray("s");
-
-    // get bundle stats
-    int total = statusArray.getInt(0);
-    int active = statusArray.getInt(1);
-    int activeFragment = statusArray.getInt(2);
-    int resolved = statusArray.getInt(3);
-    int installed = statusArray.getInt(4);
-
-    // get list of all bundle names
-    Set<String> bundleSymbolicNames = new HashSet<>();
-    JSONArray data = response.getJSONArray("data");
-    for (int i = 0; i < data.length(); i++) {
-      JSONObject item = data.getJSONObject(i);
-      String symbolicName = item.optString("symbolicName");
-      if (StringUtils.isNotBlank(symbolicName)) {
-        bundleSymbolicNames.add(symbolicName);
-      }
-    }
-
-    return new BundleStatus(
-        statusLine,
-        total, active, activeFragment, resolved, installed,
-        bundleSymbolicNames);
+  private BundleStatus toBundleStatus(String jsonString) {
+    BundleStatusParser parser = new BundleStatusParser(bundleStatusWhitelistBundleNames);
+    return parser.parse(jsonString);
   }
 
 }

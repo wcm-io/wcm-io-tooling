@@ -23,7 +23,10 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.6.20" date="not released">
+    <release version="1.7.0" date="not released">
+      <action type="add" dev="sseifert" issue="WTOOL-52">
+        Add "Bundle Status Whitelist Bundle Names" property to define list of bundles ignored by bundle status check.
+      </action>
       <action type="fix" dev="pbjorkstrand">
         Fix parsing of packageFileList property for install goal: Trim whitespaces if files are provided in multiple lines.
       </action>
