@@ -33,9 +33,11 @@ public final class BundleStatus {
   private final int activeFragment;
   private final int resolved;
   private final int installed;
+  private final int ignored;
   private final Set<String> bundleSymbolicNames;
 
-  BundleStatus(String statusLine, int total, int active, int activeFragment, int resolved, int installed,
+  BundleStatus(String statusLine, int total, int active, int activeFragment,
+      int resolved, int installed, int ignored,
       Set<String> bundleSymbolicNames) {
     this.statusLine = statusLine;
     this.total = total;
@@ -43,9 +45,15 @@ public final class BundleStatus {
     this.activeFragment = activeFragment;
     this.resolved = resolved;
     this.installed = installed;
+    this.ignored = ignored;
     this.bundleSymbolicNames = bundleSymbolicNames;
   }
 
+  /**
+   * @return Status Line from JSON string
+   * @deprecated Please use {@link #getStatusLineCompact()}
+   */
+  @Deprecated
   public String getStatusLine() {
     return this.statusLine;
   }
@@ -68,6 +76,9 @@ public final class BundleStatus {
     if (installed > 0) {
       sb.append(", ").append(installed).append(" installed");
     }
+    if (ignored > 0) {
+      sb.append(", ").append(ignored).append(" ignored");
+    }
     return sb.toString();
   }
 
@@ -89,6 +100,10 @@ public final class BundleStatus {
 
   public int getInstalled() {
     return this.installed;
+  }
+
+  public int getIgnored() {
+    return ignored;
   }
 
   /**

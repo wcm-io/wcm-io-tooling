@@ -19,6 +19,7 @@
  */
 package io.wcm.tooling.commons.packmgr;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,7 +36,8 @@ public final class PackageManagerProperties {
   private int retryDelaySec = 5;
   private String bundleStatusUrl;
   private int bundleStatusWaitLimitSec = 360;
-  private List<Pattern> bundleStatusBlacklistBundleNames;
+  private List<Pattern> bundleStatusBlacklistBundleNames = Collections.emptyList();
+  private List<Pattern> bundleStatusWhitelistBundleNames = Collections.emptyList();
   private boolean relaxedSSLCheck;
   private int httpConnectTimeoutSec = 10;
   private int httpSocketTimeoutSec = 60;
@@ -145,6 +147,21 @@ public final class PackageManagerProperties {
 
   public void setBundleStatusBlacklistBundleNames(List<String> bundleStatusBlacklistBundleNames) {
     this.bundleStatusBlacklistBundleNames = bundleStatusBlacklistBundleNames.stream()
+        .map(Pattern::compile)
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Patterns for symbolic names of bundles that are ignored in bundle list.
+   * The state of these bundles has no effect on the bundle status check.
+   * @return List of regular expressions for symbolic bundle names.
+   */
+  public List<Pattern> getBundleStatusWhitelistBundleNames() {
+    return this.bundleStatusWhitelistBundleNames;
+  }
+
+  public void setBundleStatusWhitelistBundleNames(List<String> bundleStatusWhitelistBundleNames) {
+    this.bundleStatusWhitelistBundleNames = bundleStatusWhitelistBundleNames.stream()
         .map(Pattern::compile)
         .collect(Collectors.toList());
   }
