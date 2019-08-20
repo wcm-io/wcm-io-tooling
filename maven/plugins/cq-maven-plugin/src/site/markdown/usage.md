@@ -15,6 +15,14 @@ instead of having to type
 mvn install sling:install
 ```
 
+for `bundle` projects or
+
+```
+mvn install wcmio-content-package:install
+```
+
+for `content-package` projects.
+
 That's all.
 
 You may need to define some configuration properties to make sure the correct instance URL and credentials are used,

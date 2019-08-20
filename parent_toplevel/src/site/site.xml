@@ -35,7 +35,7 @@
   <skin>
     <groupId>io.wcm.maven.skins</groupId>
     <artifactId>reflow-maven-skin</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.10</version>
   </skin>
   <custom>
     <reflowSkin>
@@ -123,7 +123,6 @@
       <item name="WCM" href="https://wcm.io/wcm/"/>
       <item name="DAM" href="https://wcm.io/dam/"/>
       <item name="Context-Aware Configuration" href="https://wcm.io/caconfig/"/>
-      <item name="Configuration (deprecated)" href="https://wcm.io/config/"/>
       <item name="Handler" href="https://wcm.io/handler/"/>
       <item name="Sling" href="https://wcm.io/sling/"/>
       <item name="Testing" href="https://wcm.io/testing/"/>

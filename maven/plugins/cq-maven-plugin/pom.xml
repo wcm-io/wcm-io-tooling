@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>cq-maven-plugin</artifactId>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>1.1.0</version>
   <packaging>maven-plugin</packaging>
 
   <name>CQ Maven Plugin</name>
@@ -47,7 +47,7 @@
 
   <properties>
     <site.url.module.prefix>tooling/maven/plugins/cq-maven-plugin</site.url.module.prefix>
-    <maven.version>3.2.2</maven.version>
+    <maven.version>3.5.0</maven.version>
   </properties>
 
   <prerequisites>
@@ -68,9 +68,15 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>maven-invoker</artifactId>
+      <version>3.0.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.2</version>
+      <version>3.6.0</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -81,7 +87,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.5.2</version>
+        <version>3.6.0</version>
         <configuration>
           <goalPrefix>cq</goalPrefix>
           <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>

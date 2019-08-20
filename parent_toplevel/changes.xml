@@ -23,7 +23,25 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.3.10" date="not released">
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.2.38.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to reflow-maven-skin 1.0.10.
+      </action>
+      <action type="update" dev="sseifert">
+        Remove "Configuration (deprecated)" from global list of categories in Maven Site.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to Mockito 3.0.0.
+      </action>
+    </release>
+
     <release version="1.3.8" date="2019-08-12">
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.2.36.
+      </action>
       <action type="update" dev="sseifert">
         Exclude all *.impl.* packages from API docs.
       </action>
