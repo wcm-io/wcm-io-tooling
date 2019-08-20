@@ -238,6 +238,7 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * Sets the key under which this tool has been configured.
+   * @param key Key
    * @since 1.0
    */
   protected void setKey(String key) {
@@ -249,6 +250,7 @@ public class SkinConfigTool extends SafeConfig {
 
   /**
    * Should return the key under which this tool has been configured. The default is `config`.
+   * @return Key
    * @since 1.0
    */
   public String getKey() {
