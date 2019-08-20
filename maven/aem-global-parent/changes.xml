@@ -36,6 +36,9 @@
       <action type="update" dev="sseifert">
         Update to Maven Bundle Plugin 4.2.1.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin.
+      </action>
     </release>
 
     <release version="1.2.36" date="2019-06-26">
