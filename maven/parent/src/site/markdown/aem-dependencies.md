@@ -6,13 +6,13 @@ The first three parts of the `aem-dependencies` version number match with the AE
 
 Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
 
-### AEM 6.5 SP1
+### AEM 6.5 SP2
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.1.0000</version>
+  <version>6.5.2.0000</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
