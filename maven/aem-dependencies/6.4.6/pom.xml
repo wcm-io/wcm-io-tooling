@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.4.6.0000-SNAPSHOT</version>
+  <version>6.4.6.0001-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-dependencies</name>
