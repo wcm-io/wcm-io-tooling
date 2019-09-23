@@ -59,7 +59,7 @@ AEM stands for [Adobe Experience Manager][aem] and is a registered Trademark fro
 
 The project's websites uses the [Reflow Maven Skin][reflow] by [Andrius Velykis][andrius-velykis].
 
-The "parametrized" JUnit rule from the JUnit Commons project is based on work by [Jens Schauder]([schauderhaft]).
+The "parametrized" JUnit rule from the JUnit Commons project is based on work by [Jens Schauder][schauderhaft].
 
 [pro-vision]: http://www.pro-vision.de
 [aem]: http://www.adobe.com/solutions/web-experience-management.html

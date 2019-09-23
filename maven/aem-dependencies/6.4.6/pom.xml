@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.4.5.0001</version>
+  <version>6.4.6.0000-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-dependencies</name>
@@ -64,7 +64,7 @@
     <!-- versions -->
     <slf4j.version>1.7.25</slf4j.version>
     <jackrabbit.version>2.16.4</jackrabbit.version>
-    <oak.version>1.8.13</oak.version>
+    <oak.version>1.8.15</oak.version>
 
     <!-- repository settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
@@ -81,7 +81,7 @@
 
       Dependencies from this AEM release:
       - AEM_6.4_Quickstart.jar
-      - AEM-6.4.5.0-6.4.5.zip
+      - AEM-6.4.6.0-6.4.6.zip
 
      #######################################################################
 -->
@@ -90,7 +90,7 @@
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.4.5</version>
+        <version>6.4.6</version>
         <classifier>apis</classifier>
       </dependency>
 
@@ -221,7 +221,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.6</version>
+        <version>3.9</version>
       </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
@@ -241,7 +241,7 @@
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.11</version>
+        <version>1.12</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>

@@ -1005,8 +1005,8 @@ public class HtmlTool extends SafeConfig {
    * Note that the algorithm also modifies existing IDs that have symbols not allowed in CSS
    * selectors, e.g. ":", ".", etc. The symbols are removed.
    * </p>
-   * @param content
-   *          HTML content to modify
+   * @param content HTML content to modify
+   * @param idSeparator ID separator
    * @return HTML content with all heading elements having {@code id} attributes. If all headings
    *         were with IDs already, the original content is returned.
    * @since 1.0
