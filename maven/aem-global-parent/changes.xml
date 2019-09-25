@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update CONGA.
       </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL plugin.
+      </action>
     </release>
 
     <release version="1.3.0" date="2019-08-20">
