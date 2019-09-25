@@ -25,6 +25,9 @@
 
     <release version="28" date="not released">
       <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
+      <action type="fix" dev="sseifert">
         Add dependency to maven-scm-api for maven-release-plugin to fix problem with release execution.
       </action>
     </release>
