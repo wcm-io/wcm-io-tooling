@@ -25,6 +25,9 @@
 
     <release version="1.3.2" date="not released">
       <action type="update" dev="sseifert">
+        Update global-parent dependency to 28.
+      </action>
+      <action type="update" dev="sseifert">
         Update CONGA.
       </action>
     </release>
