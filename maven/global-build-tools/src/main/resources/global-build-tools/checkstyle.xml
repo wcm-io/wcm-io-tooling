@@ -69,10 +69,6 @@
 
     <!-- Size Violations -->
     <!-- http://checkstyle.sourceforge.net/config_sizes.html -->
-    <module name="LineLength">
-      <property name="max" value="180"/>
-      <property name="tabWidth" value="2"/>
-    </module>
     <module name="MethodLength">
       <property name="max" value="300"/>
     </module>
@@ -199,6 +195,13 @@
   <module name="FileLength">
     <property name="max" value="4000"/>
   </module>
+  <!--
+  ** comment out until checkstyle 8.24 is available in IDE plugins as well (breaking change in 8.24) **
+  <module name="LineLength">
+    <property name="max" value="180"/>
+    <property name="tabWidth" value="2"/>
+  </module>
+  -->
 
   <!-- Whitespaces -->
   <!-- http://checkstyle.sourceforge.net/config_whitespace.html -->

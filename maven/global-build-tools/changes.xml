@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         PMD: Remove rules scheduled for deprecation: UnsynchronizedStaticDateFormatter.
       </action>
+      <action type="update" dev="sseifert">
+        Checkstyle: Change LineLength Check parent from TreeWalker to Checker (Checkstyle 8.24) - and comment out this check for now.
+      </action>
     </release>
 
     <release version="18" date="2019-03-14">
