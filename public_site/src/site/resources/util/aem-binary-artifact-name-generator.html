@@ -3,7 +3,7 @@
   #%L
   wcm.io
   %%
-  Copyright (C) 2017 wcm.io
+  Copyright (C) 2017-2019 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -35,6 +35,9 @@
       label {
         display: block;
       }
+      input:invalid {
+        background-color: pink;
+      }
       #output textarea {
         font-family: monospace;
       }
@@ -52,6 +55,10 @@
       }
 
       function generateOutput() {
+        if (!(window.aemversion.checkValidity() && window.filename.checkValidity())) {
+          return;
+        }
+
         var filename = window.filename.value;
         var description = window.description.value;
         var aemversion = window.aemversion.value;
@@ -258,8 +265,8 @@
       </p>
 
       <p>
-        <label for="aemversion">AEM Major Version String (63, 62, 61 etc.)</label>
-        <input id="aemversion" type="text" value="63" required>
+        <label for="aemversion">AEM Major Version String (65, 63, 62 etc.)</label>
+        <input id="aemversion" type="text" value="65" required pattern="\d{2}">
       </p>
 
       <p>
