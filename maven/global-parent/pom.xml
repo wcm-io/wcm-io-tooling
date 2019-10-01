@@ -93,7 +93,7 @@
 
     <!-- Plugin version -->
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <spotbugs-plugin.version>3.1.12</spotbugs-plugin.version>
+    <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.9.0</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
@@ -139,7 +139,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>18</version>
+        <version>19-SNAPSHOT</version>
       </extension>
 
       <!-- SCP support for deploying sites -->
@@ -491,7 +491,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.22</version>
+            <version>8.24</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -590,7 +590,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
         </plugin>
 
         <plugin>
@@ -638,6 +638,11 @@
               <artifactId>maven-scm-provider-gitexe</artifactId>
               <version>1.11.2</version>
             </dependency>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-api</artifactId>
+              <version>1.11.2</version>
+            </dependency>
           </dependencies>
         </plugin>
 
@@ -662,7 +667,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>3.8.2</version>
         </plugin>
 
         <plugin>
@@ -772,7 +777,7 @@
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
-          <version>1.7.6</version>
+          <version>1.8.0</version>
         </plugin>
 
         <plugin>

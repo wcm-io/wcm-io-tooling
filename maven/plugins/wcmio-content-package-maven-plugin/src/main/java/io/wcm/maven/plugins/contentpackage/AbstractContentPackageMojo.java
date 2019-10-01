@@ -135,7 +135,9 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.bundleStatusWhitelistBundleNames",
       defaultValue = "^com\\.day\\.crx\\.crxde-support$,"
           + "^com\\.adobe\\.granite\\.crx-explorer$,"
-          + "^com\\.adobe\\.granite\\.crxde-lite$")
+          + "^com\\.adobe\\.granite\\.crxde-lite$,"
+          + "^org\\.apache\\.sling\\.jcr\\.webdav$,"
+          + "^org\\.apache\\.sling\\.jcr\\.davex$")
   private String[] bundleStatusWhitelistBundleNames;
 
   /**
