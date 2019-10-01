@@ -276,6 +276,7 @@
             <option>wcmmode</option>
             <option>decorationTagName</option>
             <option>cssClassName</option>
+            <option>decoration</option>
           </allowedExpressionOptions>
         </configuration>
       </plugin>
