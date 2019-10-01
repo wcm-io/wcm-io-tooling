@@ -28,7 +28,10 @@
         Update global-parent dependency to 28.
       </action>
       <action type="update" dev="sseifert">
-        Update CONGA.
+        Update CONGA, CONGA AEM Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update wcm.io Content Package Maven plugin.
       </action>
       <action type="update" dev="sseifert">
         Update Maven Sling HTL plugin.
