@@ -19,7 +19,7 @@
   #L%
   -->
 
-<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://checkstyle.sourceforge.net/dtds/suppressions_1_1.dtd">
 <suppressions>
 
   <!-- Required in unit tests e.g. for public JUnit rule variables -->
