@@ -104,13 +104,12 @@ public class InstallMojo extends AbstractMojo {
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    String packaging = project.getPackaging();
 
     // detect goal to deploy current project based on packaging
-    if (StringUtils.equals(packaging, "bundle")) {
+    if (isBundleProject()) {
       executeSlingPluginDirectly();
     }
-    else if (StringUtils.equals(packaging, "content-package")) {
+    else if (isContentPackageProject()) {
       getLog().info("Install content package to instance...");
       executeWithMavenInvoker("wcmio-content-package:install");
     }
@@ -118,6 +117,29 @@ public class InstallMojo extends AbstractMojo {
       // no supported packaging - skip processing
       getLog().info("No bundle or content-package project, skip deployment.");
     }
+  }
+
+  private boolean isBundleProject() {
+    // check for "bundle" packaging as used by maven-bundle-plugin
+    String packaging = project.getPackaging();
+    if (StringUtils.equals(packaging, "bundle")) {
+      return true;
+    }
+
+    // check for active bnd-maven-plugin in current project
+    return project.getBuildPlugins().stream()
+        .filter(this::isBndMavenPlugin)
+        .findFirst().isPresent();
+  }
+
+  private boolean isBndMavenPlugin(Plugin plugin) {
+    return StringUtils.equals(plugin.getGroupId(), "biz.aQute.bnd")
+        && StringUtils.equals(plugin.getArtifactId(), "bnd-maven-plugin");
+  }
+
+  private boolean isContentPackageProject() {
+    String packaging = project.getPackaging();
+    return StringUtils.equals(packaging, "content-package");
   }
 
   /**
