@@ -163,7 +163,9 @@
 
     <!-- Annotations -->
     <!-- http://checkstyle.sourceforge.net/config_annotation.html -->
-    <module name="AnnotationUseStyle"/>
+    <module name="AnnotationUseStyle">
+      <property name="elementStyle" value="compact"/>
+    </module>
     <module name="MissingDeprecated"/>
     <module name="MissingOverride"/>
 
@@ -186,9 +188,6 @@
     <module name="InvalidJavadocPosition"/>
     <module name="JavadocBlockTagLocation"/>
     <module name="JavadocParagraph"/>
-    <module name="JavadocStyle">
-      <property name="checkFirstSentence" value="false"/>
-    </module>
     <module name="JavadocTagContinuationIndentation"/>
     <module name="MissingJavadocMethod">
       <property name="allowMissingPropertyJavadoc" value="true"/>
