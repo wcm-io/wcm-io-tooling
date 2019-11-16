@@ -25,6 +25,9 @@
 
     <release version="21" date="not released">
       <action type="update" dev="sseifert">
+        Checkstyle: Update JavaDoc checks (Checkstyle 8.26).
+      </action>
+      <action type="update" dev="sseifert">
         Checkstyle: Fix broken references to DTD schemas.
       </action>
     </release>
