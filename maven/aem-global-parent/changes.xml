@@ -24,6 +24,15 @@
   <body>
 
     <release version="1.4.0" date="not released">
+      <action type="add" dev="sseifert">
+        Add support for bnd-maven-plugin and bnd-baseline-maven-plugin.
+      </action>
+      <action type="add" dev="sseifert">
+        Add org.osgi.annotation.bundle as default provided dependency.
+      </action>
+      <action type="update" dev="sseifert">
+        Put build number and build timestamp to separate bundle header "Scm-Revision" instead of appending it to the bundle description.
+      </action>
       <action type="update" dev="sseifert">
         Update global-parent dependency to 29.
       </action>
