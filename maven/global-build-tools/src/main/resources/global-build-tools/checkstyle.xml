@@ -19,7 +19,7 @@
   #L%
   -->
 
-<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://checkstyle.sourceforge.net/dtds/configuration_1_3.dtd">
 <module name="Checker">
   <property name="severity" value="warning"/>
 
@@ -163,7 +163,9 @@
 
     <!-- Annotations -->
     <!-- http://checkstyle.sourceforge.net/config_annotation.html -->
-    <module name="AnnotationUseStyle"/>
+    <module name="AnnotationUseStyle">
+      <property name="elementStyle" value="compact"/>
+    </module>
     <module name="MissingDeprecated"/>
     <module name="MissingOverride"/>
 
@@ -183,7 +185,15 @@
     <module name="JavadocVariable">
       <property name="scope" value="public"/>
     </module>
-
+    <module name="InvalidJavadocPosition"/>
+    <module name="JavadocBlockTagLocation"/>
+    <module name="JavadocParagraph"/>
+    <module name="JavadocTagContinuationIndentation"/>
+    <module name="MissingJavadocMethod">
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+    </module>
+    <module name="MissingJavadocType"/>
+    <module name="NonEmptyAtclauseDescription"/>
     <!-- Allow suppression of checkstyle warnings -->
     <module name="SuppressionCommentFilter"/>
 
@@ -194,13 +204,10 @@
   <module name="FileLength">
     <property name="max" value="4000"/>
   </module>
-  <!--
-  ** comment out until checkstyle 8.24 is available in IDE plugins as well (breaking change in 8.24) **
   <module name="LineLength">
     <property name="max" value="180"/>
     <property name="tabWidth" value="2"/>
   </module>
-  -->
 
   <!-- Whitespaces -->
   <!-- http://checkstyle.sourceforge.net/config_whitespace.html -->

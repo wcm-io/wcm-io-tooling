@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="21" date="not released">
+      <action type="update" dev="sseifert">
+        Checkstyle: Update JavaDoc checks (Checkstyle 8.26).
+      </action>
+      <action type="update" dev="sseifert">
+        Checkstyle: Fix broken references to DTD schemas.
+      </action>
+    </release>
+
     <release version="20" date="2019-10-01">
       <action type="update" dev="sseifert">
         Checkstyle: Remove JavaDocMethod.allowMissingPropertyJavadoc parameter (Checkstyle 8.25).

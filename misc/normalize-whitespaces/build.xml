@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="normalize-whitespaces-lineendings">
+
+  <!-- replace tabs with 2 spaces, and remove trailing spaces -->
+  <target name="normalize-whitespaces">
+    <replace dir="." encoding="UTF-8">
+
+      <include name="**/*.cfg"/>
+      <include name="**/*.conf"/>
+      <include name="**/*.config"/>
+      <include name="**/*.css"/>
+      <include name="**/*.dtd"/>
+      <include name="**/*.esp"/>
+      <include name="**/*.ecma"/>
+      <include name="**/*.groovy"/>
+      <include name="**/*.hbrs"/>
+      <include name="**/*.hbs"/>
+      <include name="**/*.htm"/>
+      <include name="**/*.html"/>
+      <include name="**/*.java"/>
+      <include name="**/*.jpage"/>
+      <include name="**/*.js"/>
+      <include name="**/*.json"/>
+      <include name="**/*.jsp"/>
+      <include name="**/*.md"/>
+      <include name="**/*.mustache"/>
+      <include name="**/*.tld"/>
+      <include name="**/*.launch"/>
+      <include name="**/*.log"/>
+      <include name="**/*.php"/>
+      <include name="**/*.pl"/>
+      <include name="**/*.project"/>
+      <include name="**/*.properties"/>
+      <include name="**/*.props"/>
+      <include name="**/*.py"/>
+      <include name="**/*.sass"/>
+      <include name="**/*.scss"/>
+      <include name="**/*.sh"/>
+      <include name="**/*.shtm"/>
+      <include name="**/*.shtml"/>
+      <include name="**/*.sql"/>
+      <include name="**/*.svg"/>
+      <include name="**/*.tf"/>
+      <include name="**/*.txt"/>
+      <include name="**/*.vm"/>
+      <include name="**/*.xml"/>
+      <include name="**/*.xsd"/>
+      <include name="**/*.xsl"/>
+      <include name="**/*.xslt"/>
+      <include name="**/*.yml"/>
+      <include name="**/*.yaml"/>
+
+      <include name="**/*.asp"/>
+      <include name="**/*.asax"/>
+      <include name="**/*.asa"/>
+      <include name="**/*.aspx"/>
+      <include name="**/*.bat"/>
+      <include name="**/*.cmd"/>
+      <include name="**/*.cs"/>
+      <include name="**/*.csproj"/>
+      <include name="**/*.reg"/>
+      <include name="**/*.sln"/>
+
+      <exclude name="**/target/**"/>
+      <exclude name="**/node_modules/**"/>
+
+      <replacetoken>&#9;</replacetoken>
+      <replacevalue><![CDATA[  ]]></replacevalue>
+    </replace>
+
+    <replaceregexp match="\s+$" replace="" flags="g" byline="true" encoding="UTF-8">
+      <fileset dir=".">
+
+        <include name="**/*.cfg"/>
+        <include name="**/*.conf"/>
+        <include name="**/*.config"/>
+        <include name="**/*.css"/>
+        <include name="**/*.dtd"/>
+        <include name="**/*.esp"/>
+        <include name="**/*.ecma"/>
+        <include name="**/*.groovy"/>
+        <include name="**/*.hbrs"/>
+        <include name="**/*.hbs"/>
+        <include name="**/*.htm"/>
+        <include name="**/*.html"/>
+        <include name="**/*.java"/>
+        <include name="**/*.jpage"/>
+        <include name="**/*.js"/>
+        <include name="**/*.json"/>
+        <include name="**/*.jsp"/>
+        <include name="**/*.md"/>
+        <include name="**/*.mustache"/>
+        <include name="**/*.tld"/>
+        <include name="**/*.launch"/>
+        <include name="**/*.log"/>
+        <include name="**/*.php"/>
+        <include name="**/*.pl"/>
+        <include name="**/*.project"/>
+        <include name="**/*.properties"/>
+        <include name="**/*.props"/>
+        <include name="**/*.py"/>
+        <include name="**/*.sass"/>
+        <include name="**/*.scss"/>
+        <include name="**/*.sh"/>
+        <include name="**/*.shtm"/>
+        <include name="**/*.shtml"/>
+        <include name="**/*.sql"/>
+        <include name="**/*.svg"/>
+        <include name="**/*.tf"/>
+        <include name="**/*.txt"/>
+        <include name="**/*.vm"/>
+        <include name="**/*.xml"/>
+        <include name="**/*.xsd"/>
+        <include name="**/*.xsl"/>
+        <include name="**/*.xslt"/>
+        <include name="**/*.yml"/>
+        <include name="**/*.yaml"/>
+  
+        <include name="**/*.asp"/>
+        <include name="**/*.asax"/>
+        <include name="**/*.asa"/>
+        <include name="**/*.aspx"/>
+        <include name="**/*.bat"/>
+        <include name="**/*.cmd"/>
+        <include name="**/*.cs"/>
+        <include name="**/*.csproj"/>
+        <include name="**/*.reg"/>
+        <include name="**/*.sln"/>
+
+        <exclude name="**/target/**"/>
+        <exclude name="**/node_modules/**"/>
+
+      </fileset>
+    </replaceregexp>
+
+  </target>
+
+  <!-- unify line endings -->
+  <target name="normalize-lineendings">
+
+    <fixcrlf eol="unix" encoding="UTF-8" srcdir="." includes="
+        **/*.cfg
+        **/*.conf
+        **/*.config
+        **/*.css
+        **/*.dtd
+        **/*.esp
+        **/*.ecma
+        **/*.groovy
+        **/*.hbrs
+        **/*.hbs
+        **/*.htm
+        **/*.html
+        **/*.java
+        **/*.jpage
+        **/*.js
+        **/*.json
+        **/*.jsp
+        **/*.md
+        **/*.mustache
+        **/*.tld
+        **/*.launch
+        **/*.log
+        **/*.php
+        **/*.pl
+        **/*.project
+        **/*.properties
+        **/*.props
+        **/*.py
+        **/*.sass
+        **/*.scss
+        **/*.sh
+        **/*.shtm
+        **/*.shtml
+        **/*.sql
+        **/*.svg
+        **/*.tf
+        **/*.txt
+        **/*.vm
+        **/*.xml
+        **/*.xsd
+        **/*.xsl
+        **/*.xslt
+        **/*.yml
+        **/*.yaml
+    "
+    excludes="
+        **/target/**
+        **/node_modules/**
+    "/>
+
+    <fixcrlf eol="dos" encoding="UTF-8" srcdir="." includes="
+        **/*.asp
+        **/*.asax
+        **/*.asa
+        **/*.aspx
+        **/*.bat
+        **/*.cmd
+        **/*.cs
+        **/*.csproj
+        **/*.reg
+        **/*.sln
+    "
+    excludes="
+        **/target/**
+        **/node_modules/**
+    "/>
+
+  </target>
+
+  <!-- replace tabs with 2 spaces, and remove trailing spaces, unify line endings -->
+  <target name="normalize-whitespaces-lineendings" depends="normalize-whitespaces,normalize-lineendings"/>
+
+</project>
