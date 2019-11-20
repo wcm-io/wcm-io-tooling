@@ -11,7 +11,8 @@ The settings in this AEM global parent POM cover:
 
 * Dependencies for SCR and OSGi annotations
 * Resource includes for src/main/webapp folder
-* Default configurations for maven-bundle-plugin, maven-sling-plugin, content-package-maven-plugin
+* Default configurations for bundle projects using either maven-bundle-plugin or bnd-maven-plugin
+* Default configurations for maven-sling-plugin, content-package-maven-plugin
 * Include bnd Plugins for
   [Sling Models](https://sling.apache.org/documentation/bundles/models.html)
   and [Sling Context-Aware Configuration](https://sling.apache.org/documentation/bundles/context-aware-configuration/context-aware-configuration.html).
