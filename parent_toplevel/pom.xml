@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.3.2</version>
+    <version>1.4.0-SNAPSHOT</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.3.11-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
@@ -193,20 +193,6 @@
         </executions>
       </plugin>
 
-      <!-- bnd baseline check -->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>baseline</id>
-            <goals>
-              <goal>baseline</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- site configuration -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -239,21 +225,45 @@
         </executions>
       </plugin>
 
+      <!-- maven-bundle-plugin is no longer allowed in wcm.io projects -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>ban-maven-bundle-plugin</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedPlugins>
+                  <excludes>
+                    <exclude>org.apache.felix:maven-bundle-plugin</exclude>
+                  </excludes>
+                  <message>Apache Felix maven-bundle-plugin must not longer be used in wcm.io Modules - migrate to bnd Maven plugins.</message>
+                </bannedPlugins>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
 
     <pluginManagement>
       <plugins>
 
         <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <extensions>true</extensions>
+          <groupId>biz.aQute.bnd</groupId>
+          <artifactId>bnd-maven-plugin</artifactId>
           <configuration>
-            <instructions>
-              <Bundle-Category>wcm.io</Bundle-Category>
-              <Bundle-Vendor>wcm.io</Bundle-Vendor>
-              <Bundle-Name>wcm.io ${project.name}</Bundle-Name>
-            </instructions>
+            <bnd>
+              Bundle-Category: wcm.io
+              Bundle-Vendor: wcm.io
+              Bundle-Name: wcm.io ${project.name}
+              Bundle-DocURL: ${project.url}
+            </bnd>
           </configuration>
         </plugin>
 
