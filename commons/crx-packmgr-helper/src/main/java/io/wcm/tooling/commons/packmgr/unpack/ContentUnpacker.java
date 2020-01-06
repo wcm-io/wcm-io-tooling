@@ -212,7 +212,6 @@ public final class ContentUnpacker {
    * @param entry ZIP entry
    * @return Ordered set with namespace prefixes in correct order.
    *         Returns null if given XML file does not contain FileVault XML content.
-   * @throws IOException
    */
   private Set<String> getNamespacePrefixes(ZipFile zipFile, ZipArchiveEntry entry) throws IOException {
     try (InputStream entryStream = zipFile.getInputStream(entry)) {

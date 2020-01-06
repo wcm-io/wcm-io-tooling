@@ -34,6 +34,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -79,7 +80,6 @@ public final class ContentPackage implements Closeable {
 
   /**
    * @param os Output stream
-   * @throws IOException
    */
   ContentPackage(PackageMetadata metadata, OutputStream os) throws IOException {
     this.metadata = metadata;
@@ -301,7 +301,7 @@ public final class ContentPackage implements Closeable {
    */
   private void buildTemplatedMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
-      String xmlContent = IOUtils.toString(is);
+      String xmlContent = IOUtils.toString(is, StandardCharsets.UTF_8);
       for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
         xmlContent = StringUtils.replace(xmlContent, "{{" + entry.getKey() + "}}",
             StringEscapeUtils.escapeXml10(entry.getValue().toString()));
