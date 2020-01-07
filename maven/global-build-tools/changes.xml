@@ -36,6 +36,9 @@
       <action type="update" dev="sseifert">
         Spotbugs: Remove rules EQ_COMPARETO_USE_OBJECT_EQUALS, RV_NEGATING_RESULT_OF_COMPARETO.
       </action>
+      <action type="update" dev="sseifert">
+        Checkstyle: Update JavaDoc checks (Checkstyle 8.28).
+      </action>
     </release>
 
     <release version="21" date="2019-11-25">
