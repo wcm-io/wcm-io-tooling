@@ -31,10 +31,10 @@
         Spotbugs: Also run at full build.
       </action>
       <action type="update" dev="sseifert">
-        PMD: Remove rules bestpractices/UseVarargs, performance/AppendCharacterWithChar, bestpractices/AccessorClassGeneration, bestpractices/AccessorMethodGeneration.
+        PMD: Remove rules bestpractices/UseVarargs, performance/AppendCharacterWithChar, bestpractices/AccessorClassGeneration, bestpractices/AccessorMethodGeneration, design/SimplifyBooleanReturns, bestpractices/ForLoopCanBeForeach, design/AvoidCatchingGenericException.
       </action>
       <action type="update" dev="sseifert">
-        Spotbugs: Remove rules EQ_COMPARETO_USE_OBJECT_EQUALS, RV_NEGATING_RESULT_OF_COMPARETO.
+        Spotbugs: Remove rules EQ_COMPARETO_USE_OBJECT_EQUALS, RV_NEGATING_RESULT_OF_COMPARETO, SE_BAD_FIELD.
       </action>
       <action type="update" dev="sseifert">
         Checkstyle: Update JavaDoc checks (Checkstyle 8.28).
