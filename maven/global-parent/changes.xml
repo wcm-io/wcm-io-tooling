@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Add support for eclipse-pmd plugin (as alternative to pmd-eclipse-plugin).
       </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 22.
+      </action>
     </release>
 
     <release version="29" date="2019-11-25">
