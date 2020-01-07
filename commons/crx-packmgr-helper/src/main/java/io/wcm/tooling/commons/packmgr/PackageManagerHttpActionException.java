@@ -52,6 +52,7 @@ public final class PackageManagerHttpActionException extends RuntimeException {
    * @param ex I/O exception
    * @return Exception instance
    */
+  @SuppressWarnings("PMD.UseStringBufferForStringAppends")
   public static PackageManagerHttpActionException forIOException(String url, IOException ex) {
     String message = "HTTP call to " + url + " failed: "
         + StringUtils.defaultString(ex.getMessage(), ex.getClass().getSimpleName());

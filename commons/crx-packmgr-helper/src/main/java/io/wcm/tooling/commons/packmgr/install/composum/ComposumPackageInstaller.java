@@ -103,6 +103,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
     }
   }
 
+  @SuppressWarnings("PMD.GuardLogStatement")
   private void delay(int seconds, Logger log) {
     if (seconds > 0) {
       log.info("Wait " + seconds + " seconds after package install...");

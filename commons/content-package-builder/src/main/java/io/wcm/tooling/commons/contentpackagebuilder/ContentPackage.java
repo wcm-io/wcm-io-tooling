@@ -71,7 +71,6 @@ public final class ContentPackage implements Closeable {
 
   private final PackageMetadata metadata;
   private final ZipOutputStream zip;
-  private final TransformerFactory transformerFactory;
   private final Transformer transformer;
   private final XmlContentBuilder xmlContentBuilder;
 
@@ -85,9 +84,9 @@ public final class ContentPackage implements Closeable {
     this.metadata = metadata;
     this.zip = new ZipOutputStream(os);
 
-    this.transformerFactory = TransformerFactory.newInstance();
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
     try {
-      this.transformerFactory.setAttribute("indent-number", 2);
+      transformerFactory.setAttribute("indent-number", 2);
     }
     catch (IllegalArgumentException ex) {
       // Implementation does not support configuration property. Ignore.
@@ -206,6 +205,7 @@ public final class ContentPackage implements Closeable {
    * @return Safe path
    */
   @VisibleForTesting
+  @SuppressWarnings("PMD.UseStringBufferForStringAppends")
   static String buildJcrPathForZip(final String path) {
     String normalizedPath = StringUtils.defaultString(path);
     if (!normalizedPath.startsWith("/")) {

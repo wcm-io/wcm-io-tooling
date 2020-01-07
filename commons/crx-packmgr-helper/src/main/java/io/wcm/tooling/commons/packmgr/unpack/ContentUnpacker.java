@@ -337,7 +337,7 @@ public final class ContentUnpacker {
     }
 
     try {
-      return DocViewProperty.format(new MockProperty(MIXINS_PROPERTY, true, mixins.toArray(new Value[mixins.size()])));
+      return DocViewProperty.format(new MockProperty(MIXINS_PROPERTY, true, mixins.toArray(new Value[0])));
     }
     catch (RepositoryException ex) {
       throw new RuntimeException("Unable to format value for " + MIXINS_PROPERTY, ex);
@@ -376,7 +376,7 @@ public final class ContentUnpacker {
       values.add(new MockValue(ref, PropertyType.WEAKREFERENCE));
     }
     try {
-      String sortedValues = DocViewProperty.format(new MockProperty(name, true, values.toArray(new Value[values.size()])));
+      String sortedValues = DocViewProperty.format(new MockProperty(name, true, values.toArray(new Value[0])));
       return sortedValues;
     }
     catch (RepositoryException ex) {

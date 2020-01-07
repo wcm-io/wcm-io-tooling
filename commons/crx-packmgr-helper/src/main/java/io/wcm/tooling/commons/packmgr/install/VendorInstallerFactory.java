@@ -92,6 +92,7 @@ public final class VendorInstallerFactory {
    * @param logger Logger
    * @return Base URL if service vendor was found otherwise the given URL
    */
+  @SuppressWarnings("PMD.GuardLogStatement")
   public static String getBaseUrl(String url, Logger logger) {
     String answer = url;
     switch (identify(url)) {
@@ -103,6 +104,7 @@ public final class VendorInstallerFactory {
         break;
       default:
         logger.error("Given URL is not supported: " + url);
+        break;
     }
     return answer;
   }
@@ -111,6 +113,7 @@ public final class VendorInstallerFactory {
    * Provides the Installer of the Service Vendor
    * @param url Base URL of the service
    * @return Installer if URL is supported otherwise null
+   * @throws PackageManagerException Package manager exception
    */
   public static VendorPackageInstaller getPackageInstaller(String url) throws PackageManagerException {
     VendorPackageInstaller answer;

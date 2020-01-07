@@ -69,6 +69,7 @@ public final class PackageDownloader {
    * @param ouputFilePath Path to download package from AEM instance to.
    * @return Downloaded file
    */
+  @SuppressWarnings("PMD.GuardLogStatement")
   public File downloadFile(File file, String ouputFilePath) {
     try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
       log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());
