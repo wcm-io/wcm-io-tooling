@@ -261,10 +261,12 @@
           <downloadSources>true</downloadSources>
           <useProjectReferences>false</useProjectReferences>
           <additionalBuildcommands>
+            <buildcommand>edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder</buildcommand>
             <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
             <buildcommand>ch.acanda.eclipse.pmd.builder.PMDBuilder</buildcommand>
           </additionalBuildcommands>
           <additionalProjectnatures>
+            <projectnature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</projectnature>
             <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
             <projectnature>ch.acanda.eclipse.pmd.builder.PMDNature</projectnature>
           </additionalProjectnatures>
@@ -329,19 +331,6 @@
     <ruleset name="wcm.io" ref=".settings/plugins/pmd-ruleset.xml" refcontext="project" />
   </rulesets>
 </eclipse-pmd>]]>
-              </content>
-            </file>
-            <!-- For plugin: https://marketplace.eclipse.org/content/pmd-eclipse-plugin -->
-            <file>
-              <name>.pmd</name>
-              <content>
-                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<pmd>
-  <useProjectRuleSet>true</useProjectRuleSet>
-  <ruleSetFile>.settings/plugins/pmd-ruleset.xml</ruleSetFile>
-  <includeDerivedFiles>false</includeDerivedFiles>
-  <violationsAsErrors>false</violationsAsErrors>
-</pmd>]]>
               </content>
             </file>
             <file>

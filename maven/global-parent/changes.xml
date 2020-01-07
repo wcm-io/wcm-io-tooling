@@ -25,7 +25,10 @@
 
     <release version="30" date="not released">
       <action type="update" dev="sseifert">
-        Add support for eclipse-pmd plugin (as alternative to pmd-eclipse-plugin).
+        Eclipse: Add support for eclipse-pmd plugin (replaces support for pmd-eclipse-plugin).
+      </action>
+      <action type="update" dev="sseifert">
+        Eclipse: Enable automatic check for Spotbugs Eclipse plugin.
       </action>
       <action type="update" dev="sseifert">
         Update to global-build-tools 22.
