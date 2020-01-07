@@ -262,9 +262,11 @@
           <useProjectReferences>false</useProjectReferences>
           <additionalBuildcommands>
             <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+            <buildcommand>ch.acanda.eclipse.pmd.builder.PMDBuilder</buildcommand>
           </additionalBuildcommands>
           <additionalProjectnatures>
             <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
+            <projectnature>ch.acanda.eclipse.pmd.builder.PMDNature</projectnature>
           </additionalProjectnatures>
           <additionalConfig>
             <file>
@@ -288,19 +290,20 @@
               <name>.settings/edu.umd.cs.findbugs.core.prefs</name>
               <location>/global-build-tools/eclipse/edu.umd.cs.findbugs.core.prefs</location>
             </file>
+            <!-- For plugin: https://marketplace.eclipse.org/content/checkstyle-plug -->
             <file>
               <name>.checkstyle</name>
               <content>
                 <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-                <fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
-                  <local-check-config name="wcm.io" location=".settings/plugins/checkstyle-config.xml" type="project" description="">
-                    <property name="checkstyle.suppressions.file" value="${basedir}/.settings/plugins/checkstyle-suppressions.xml" />
-                    <additional-data name="protect-config-file" value="true" />
-                  </local-check-config>
-                  <fileset name="all" enabled="true" check-config-name="wcm.io" local="true">
-                    <file-match-pattern match-pattern="^.*\.java$" include-pattern="true" />
-                  </fileset>
-                </fileset-config>]]>
+<fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
+  <local-check-config name="wcm.io" location=".settings/plugins/checkstyle-config.xml" type="project" description="">
+    <property name="checkstyle.suppressions.file" value="${basedir}/.settings/plugins/checkstyle-suppressions.xml" />
+    <additional-data name="protect-config-file" value="true" />
+  </local-check-config>
+  <fileset name="all" enabled="true" check-config-name="wcm.io" local="true">
+    <file-match-pattern match-pattern="^.*\.java$" include-pattern="true" />
+  </fileset>
+</fileset-config>]]>
               </content>
             </file>
             <file>
@@ -315,16 +318,30 @@
               <name>.settings/plugins/spotbugs-exclude.xml</name>
               <location>/global-build-tools/spotbugs-exclude.xml</location>
             </file>
+            <!-- For plugin: https://marketplace.eclipse.org/content/eclipse-pmd -->
+            <file>
+              <name>.eclipse-pmd</name>
+              <content>
+                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-pmd xmlns="http://acanda.ch/eclipse-pmd/0.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://acanda.ch/eclipse-pmd/0.8 http://acanda.ch/eclipse-pmd/eclipse-pmd-0.8.xsd">
+  <analysis enabled="true" />
+  <rulesets>
+    <ruleset name="wcm.io" ref=".settings/plugins/pmd-ruleset.xml" refcontext="project" />
+  </rulesets>
+</eclipse-pmd>]]>
+              </content>
+            </file>
+            <!-- For plugin: https://marketplace.eclipse.org/content/pmd-eclipse-plugin -->
             <file>
               <name>.pmd</name>
               <content>
                 <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-                <pmd>
-                  <useProjectRuleSet>true</useProjectRuleSet>
-                  <ruleSetFile>.settings/plugins/pmd-ruleset.xml</ruleSetFile>
-                  <includeDerivedFiles>false</includeDerivedFiles>
-                  <violationsAsErrors>false</violationsAsErrors>
-                </pmd>]]>
+<pmd>
+  <useProjectRuleSet>true</useProjectRuleSet>
+  <ruleSetFile>.settings/plugins/pmd-ruleset.xml</ruleSetFile>
+  <includeDerivedFiles>false</includeDerivedFiles>
+  <violationsAsErrors>false</violationsAsErrors>
+</pmd>]]>
               </content>
             </file>
             <file>
