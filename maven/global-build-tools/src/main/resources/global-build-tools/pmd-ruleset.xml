@@ -100,7 +100,6 @@
   <rule ref="category/java/bestpractices.xml/PreserveStackTrace" />
   <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
   <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty" />
-  <rule ref="category/java/bestpractices.xml/UseVarargs" />
   <rule ref="category/java/performance.xml/OptimizableToArrayCall" />
   <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement" />
   <rule ref="category/java/documentation.xml/UncommentedEmptyConstructor" />
@@ -173,7 +172,6 @@
   <rule ref="category/java/errorprone.xml/UnnecessaryCaseChange" />
   <rule ref="category/java/errorprone.xml/UseEqualsToCompareStrings" />
   <rule ref="category/java/bestpractices.xml/AvoidStringBufferField" />
-  <rule ref="category/java/performance.xml/AppendCharacterWithChar" />
   <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse" />
   <rule ref="category/java/performance.xml/InefficientEmptyStringCheck" />
   <rule ref="category/java/performance.xml/InefficientStringBuffering" />

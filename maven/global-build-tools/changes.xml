@@ -30,6 +30,12 @@
       <action type="update" dev="sseifert">
         Spotbugs: Also run at full build.
       </action>
+      <action type="update" dev="sseifert">
+        PMD: Remove rules java/bestpractices.xml/UseVarargs, java/performance.xml/AppendCharacterWithChar.
+      </action>
+      <action type="update" dev="sseifert">
+        Spotbugs: Remove rules EQ_COMPARETO_USE_OBJECT_EQUALS, RV_NEGATING_RESULT_OF_COMPARETO.
+      </action>
     </release>
 
     <release version="21" date="2019-11-25">
