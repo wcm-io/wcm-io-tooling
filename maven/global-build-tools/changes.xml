@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Eclipse: Ignore annotation warnings for unhandled tokens (e.g. PMD ignore annotations).
       </action>
+      <action type="update" dev="sseifert">
+        Spotbugs: Also run at full build.
+      </action>
     </release>
 
     <release version="21" date="2019-11-25">
