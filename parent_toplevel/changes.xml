@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Add wcm.io Spotbugs Annotations.
       </action>
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.4.2.
+      </action>
     </release>
 
     <release version="1.4.0" date="2019-11-25">
