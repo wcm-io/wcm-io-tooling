@@ -25,6 +25,9 @@
 
     <release version="30" date="not released">
       <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
+      <action type="update" dev="sseifert">
         Eclipse: Add support for eclipse-pmd plugin (replaces support for pmd-eclipse-plugin).
       </action>
       <action type="update" dev="sseifert">
