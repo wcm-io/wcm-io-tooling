@@ -90,8 +90,6 @@
   <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
   <rule ref="category/java/multithreading.xml/NonThreadSafeSingleton" />
   <rule ref="category/java/multithreading.xml/UseNotifyAllInsteadOfNotify" />
-  <rule ref="category/java/bestpractices.xml/AccessorClassGeneration" />
-  <rule ref="category/java/bestpractices.xml/AccessorMethodGeneration" />
   <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters" />
   <rule ref="category/java/bestpractices.xml/ConstantsInInterface" />
   <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt" />
