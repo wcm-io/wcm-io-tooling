@@ -47,12 +47,6 @@ public class NodeJsTask extends Task {
   private String executableName;
 
   /**
-   * Version of the module
-   */
-  @Parameter
-  private String moduleVersion;
-
-  /**
    * Task arguments
    */
   @Parameter

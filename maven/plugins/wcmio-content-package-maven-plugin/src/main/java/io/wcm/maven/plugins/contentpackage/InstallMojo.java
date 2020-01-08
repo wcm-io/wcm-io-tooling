@@ -161,7 +161,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private ArtifactRepository localRepository;
 
   @Parameter(property = "project.remoteArtifactRepositories", required = true, readonly = true)
-  private java.util.List<ArtifactRepository> remoteRepositories;
+  private List<ArtifactRepository> remoteRepositories;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {

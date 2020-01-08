@@ -20,6 +20,7 @@
 package io.wcm.maven.plugins.jsondlgcnv;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -46,14 +47,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-//CHECKSTYLE:OFF
 /**
  * This converter logic is heavily based on
- * <a href=
- * "https://github.com/Adobe-Marketing-Cloud/aem-dialog-conversion/blob/master/bundles/cq-dialog-conversion/src/main/java/com/adobe/cq/dialogconversion/impl/rules/NodeBasedRewriteRule.java">NodeBasedRewriteRule</a>
+ * https://github.com/Adobe-Marketing-Cloud/aem-dialog-conversion/blob/master/bundles/cq-dialog-conversion/
+ * src/main/java/com/adobe/cq/dialogconversion/impl/rules/NodeBasedRewriteRule.java
  * and uses exactly the same logic - but operations on local JSON files as output.
  */
-//CHECKSTYLE:ON
 class DialogConverter {
 
   // pattern that matches the regex for mapped properties: ${<path>}
@@ -115,11 +114,13 @@ class DialogConverter {
   private void checkRuleMatch(Resource resource, boolean convert) {
     Rule rule = rules.getRule(resource);
     if (rule != null) {
-      log.info("Convert " + StringUtils.removeStart(resource.getPath(), "/source/") + " with rule '" + rule.getName() + "'.");
+      if (log.isInfoEnabled()) {
+        log.info("Convert " + StringUtils.removeStart(resource.getPath(), "/source/") + " with rule '" + rule.getName() + "'.");
+      }
 
       ContentFile contentFile = resource.adaptTo(ContentFile.class);
       try {
-        JSONObject jsonContent = new JSONObject(FileUtils.readFileToString(contentFile.getFile()));
+        JSONObject jsonContent = new JSONObject(FileUtils.readFileToString(contentFile.getFile(), StandardCharsets.UTF_8));
         JsonElement wrapper = getJsonElement(jsonContent, contentFile.getSubPath());
 
         if (convert) {
@@ -130,7 +131,7 @@ class DialogConverter {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject gsonJson = gson.fromJson(jsonContent.toString(), JsonObject.class);
 
-        FileUtils.write(contentFile.getFile(), gson.toJson(gsonJson));
+        FileUtils.write(contentFile.getFile(), gson.toJson(gsonJson), StandardCharsets.UTF_8);
       }
       catch (JSONException | IOException ex) {
         throw new RuntimeException(ex);
@@ -292,7 +293,6 @@ class DialogConverter {
    * @param node the replacement tree object
    * @param key property name of the (potentially) mapped property in the replacement copy tree
    * @return true if there was a successful mapping, false otherwise
-   * @throws JSONException
    */
   private boolean mapProperty(JSONObject root, JSONObject node, String key, String... mapping) throws JSONException {
     boolean deleteProperty = false;
@@ -344,7 +344,6 @@ class DialogConverter {
    * @param node Node
    * @param key the property name to rewrite
    * @param rewriteProperty the property that defines the string rewrite
-   * @throws JSONException
    */
   private void rewriteProperty(JSONObject node, String key, JSONArray rewriteProperty) throws JSONException {
     if (node.get(cleanup(key)) instanceof String) {
@@ -365,7 +364,6 @@ class DialogConverter {
    * Adds property mappings on a replacement node for Granite common attributes.
    * @param root the root node
    * @param node the replacement node
-   * @throws JSONException
    */
   private void addCommonAttrMappings(JSONObject root, JSONObject node) throws JSONException {
     for (String property : GRANITE_COMMON_ATTR_PROPERTIES) {

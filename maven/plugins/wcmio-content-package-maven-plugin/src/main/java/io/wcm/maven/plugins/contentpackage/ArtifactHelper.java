@@ -35,7 +35,7 @@ class ArtifactHelper {
 
   private final RepositorySystem repository;
   private final ArtifactRepository localRepository;
-  private final java.util.List<ArtifactRepository> remoteRepositories;
+  private final List<ArtifactRepository> remoteRepositories;
 
   ArtifactHelper(RepositorySystem repository, ArtifactRepository localRepository, List<ArtifactRepository> remoteRepositories) {
     this.repository = repository;
@@ -43,6 +43,7 @@ class ArtifactHelper {
     this.remoteRepositories = remoteRepositories;
   }
 
+  @SuppressWarnings("PMD.UseObjectForClearerAPI")
   public File getArtifactFile(final String artifactId, final String groupId, final String version,
       final String packaging, final String classifier, final String artifact) throws MojoFailureException, MojoExecutionException {
     // check if artifact was specified

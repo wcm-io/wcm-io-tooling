@@ -149,7 +149,7 @@ public class TransformMojo extends AbstractMojo {
 
   /**
    * Initialize parameters, which cannot get defaults from annotations. Currently only the root nodes.
-   * @throws IOException
+   * @throws IOException I/O exception
    */
   private void intialize(File sourceDirectory) throws IOException {
     getLog().debug("Initializing i18n plugin...");
@@ -179,7 +179,6 @@ public class TransformMojo extends AbstractMojo {
    * Fetches i18n source files from source directory.
    * @param sourceDirectory Source directory
    * @return a list of XML files
-   * @throws IOException
    */
   @SuppressWarnings("unchecked")
   private List<File> getI18nSourceFiles(File sourceDirectory) throws IOException {
@@ -203,7 +202,6 @@ public class TransformMojo extends AbstractMojo {
   /**
    * Get directory containing source i18n files.
    * @return directory containing source i18n files.
-   * @throws IOException
    */
   private File getSourceDirectory() throws IOException {
     File file = new File(source);
@@ -218,8 +216,6 @@ public class TransformMojo extends AbstractMojo {
    * @param i18nMap mappings
    * @param targetfile target file
    * @param selectedOutputFormat Output format
-   * @throws IOException
-   * @throws JSONException
    */
   private void writeTargetI18nFile(SlingI18nMap i18nMap, File targetfile, OutputFormat selectedOutputFormat) throws IOException, JSONException {
     if (selectedOutputFormat == OutputFormat.XML) {
@@ -239,7 +235,6 @@ public class TransformMojo extends AbstractMojo {
    * @param sourceFile the source file
    * @param selectedOutputFormat Output format
    * @return File with name and path based on file parameter
-   * @throws IOException
    */
   private File getTargetFile(File sourceFile, OutputFormat selectedOutputFormat) throws IOException {
 
@@ -276,7 +271,6 @@ public class TransformMojo extends AbstractMojo {
    * Get i18n reader for source file.
    * @param sourceFile Source file
    * @return I18n reader
-   * @throws MojoFailureException
    */
   private I18nReader getI18nReader(File sourceFile) throws MojoFailureException {
     String extension = FileUtils.getExtension(sourceFile.getName());

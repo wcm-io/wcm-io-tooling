@@ -44,6 +44,7 @@ final class NodejsOutputStreamHandler extends Thread {
   }
 
   @Override
+  @SuppressWarnings("PMD.AssignmentInOperand")
   public void run() {
     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     String line;

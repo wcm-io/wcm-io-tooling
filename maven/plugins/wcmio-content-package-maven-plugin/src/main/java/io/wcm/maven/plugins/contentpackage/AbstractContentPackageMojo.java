@@ -106,7 +106,6 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * Expected is an URL like: http://localhost:4502/system/console/bundles/.json
    * </p>
    * <p>
-   * <p>
    * If the URL is not set it is derived from serviceURL. Set to "-" to explicitly disable the status check.
    * </p>
    */

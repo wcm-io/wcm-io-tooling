@@ -38,7 +38,6 @@ import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
-import org.apache.maven.project.MavenProject;
 import org.apache.maven.repository.RepositorySystem;
 
 /**
@@ -77,9 +76,6 @@ public class ConversionMojo extends AbstractMojo {
    */
   @Parameter(defaultValue = "2.0.0", property = "convert.toolVersion")
   private String dialogConversionToolVersion;
-
-  @Parameter(property = "project", required = true, readonly = true)
-  private MavenProject project;
 
   @Component
   private RepositorySystem repository;

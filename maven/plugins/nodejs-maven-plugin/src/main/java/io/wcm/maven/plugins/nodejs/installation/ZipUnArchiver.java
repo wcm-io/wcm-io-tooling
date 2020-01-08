@@ -35,7 +35,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class ZipUnArchiver {
 
-  private File archive;
+  private final File archive;
 
   /**
    * @param archive Archive

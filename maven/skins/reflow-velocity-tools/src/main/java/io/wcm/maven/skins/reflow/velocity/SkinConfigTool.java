@@ -147,7 +147,7 @@ public class SkinConfigTool extends SafeConfig {
       String currentFile = (String)currentFileObj;
 
       // drop the extension
-      int lastDot = currentFile.lastIndexOf(".");
+      int lastDot = currentFile.lastIndexOf('.');
       if (lastDot >= 0) {
         currentFile = currentFile.substring(0, lastDot);
       }
@@ -243,7 +243,7 @@ public class SkinConfigTool extends SafeConfig {
    */
   protected void setKey(String key) {
     if (key == null) {
-      throw new NullPointerException("SkinConfigTool key cannot be null");
+      throw new IllegalArgumentException("SkinConfigTool key cannot be null");
     }
     this.key = key;
   }

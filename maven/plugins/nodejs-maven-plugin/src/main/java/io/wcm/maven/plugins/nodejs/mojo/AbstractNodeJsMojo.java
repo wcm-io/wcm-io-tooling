@@ -225,8 +225,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
 
   /**
    * Makes sure the specified npm version is installed in the base directory, regardless in which environment.
-   * @param information
-   * @throws MojoExecutionException
+   * @param information Information
    */
   private void updateNPMExecutable(NodeInstallationInformation information) throws MojoExecutionException {
     getLog().info("Installing specified npm version " + npmVersion);
