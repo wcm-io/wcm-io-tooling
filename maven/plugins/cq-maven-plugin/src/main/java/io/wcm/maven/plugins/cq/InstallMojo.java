@@ -144,7 +144,6 @@ public class InstallMojo extends AbstractMojo {
 
   /**
    * Executes the sling-maven-plugin directly from the current project.
-   * @throws MojoExecutionException
    */
   private void executeSlingPluginDirectly() throws MojoExecutionException {
 

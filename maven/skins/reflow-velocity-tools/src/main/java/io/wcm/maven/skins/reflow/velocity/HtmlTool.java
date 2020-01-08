@@ -74,6 +74,7 @@ import org.jsoup.parser.Tag;
  */
 //CHECKSTYLE:OFF
 @DefaultKey("htmlTool")
+@SuppressWarnings("PMD.UseCollectionIsEmpty")
 public class HtmlTool extends SafeConfig {
 
   /** A list of all HTML heading classes (h1-6) */
@@ -589,6 +590,7 @@ public class HtmlTool extends SafeConfig {
    *         is returned.
    * @since 1.0
    */
+  @SuppressWarnings("PMD.UseObjectForClearerAPI")
   public String setAttr(String content, String selector, String attributeKey, String value) {
 
     Element body = parseContent(content);
@@ -1067,7 +1069,7 @@ public class HtmlTool extends SafeConfig {
     String id = idBase;
     int counter = 1;
     while (ids.contains(id)) {
-      id = idBase + String.valueOf(counter++);
+      id = idBase + Integer.toString(counter++);
     }
 
     // put the newly generated one into the set

@@ -48,6 +48,10 @@ import org.apache.velocity.tools.config.DefaultKey;
 @DefaultKey("uriTool")
 public final class URITool {
 
+  private URITool() {
+    // static methods only
+  }
+
   /**
    * Resolves the link as relative to the base dir URI.
    * <p>

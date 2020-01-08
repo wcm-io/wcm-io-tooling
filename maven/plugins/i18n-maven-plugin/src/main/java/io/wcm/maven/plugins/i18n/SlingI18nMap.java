@@ -60,7 +60,7 @@ class SlingI18nMap {
   private static final Namespace NAMESPACE_MIX = Namespace.getNamespace("mix", "http://www.jcp.org/jcr/mix/1.0");
   private static final Namespace NAMESPACE_NT = Namespace.getNamespace("nt", "http://www.jcp.org/jcr/nt/1.0");
 
-  private String languageKey;
+  private final String languageKey;
   private final SortedMap<String, String> properties;
 
   /**
@@ -74,7 +74,6 @@ class SlingI18nMap {
   /**
    * Build i18n resource JSON in Sling i18n Message format.
    * @return JSON
-   * @throws JSONException
    */
   public String getI18nJsonString() throws JSONException {
     return buildI18nJson().toString(2);
@@ -224,7 +223,6 @@ class SlingI18nMap {
   /**
    * Build i18n resource PROPERTIES.
    * @return JSON
-   * @throws IOException
    */
   public String getI18nPropertiesString() throws IOException {
     // Load all properties

@@ -44,6 +44,7 @@ public final class PackageFile {
   /**
    * The packaging of the artifact to install.
    */
+  @SuppressWarnings("PMD.ImmutableField")
   private String type = "zip";
 
   /**

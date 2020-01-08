@@ -47,7 +47,7 @@ class PackageInstalledChecker {
       this.results = result.getJSONArray("results");
     }
     catch (JSONException ex) {
-      throw new PackageManagerException("JSON response from " + PACKMGR_LIST_URL + " does not contain 'results' array.");
+      throw new PackageManagerException("JSON response from " + PACKMGR_LIST_URL + " does not contain 'results' array.", ex);
     }
   }
 

@@ -174,6 +174,7 @@ public class NodeInstallationInformation {
     return result;
   }
 
+  @SuppressWarnings("PMD.UseStringBufferForStringAppends")
   private static Dependency buildDependency(String groupId, String artifactId, String version, String os, String arch, String type) {
     String classifier = null;
     if (StringUtils.isNotEmpty(os)) {

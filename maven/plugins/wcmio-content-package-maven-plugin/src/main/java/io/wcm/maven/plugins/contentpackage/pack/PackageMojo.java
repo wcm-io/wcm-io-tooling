@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
@@ -86,7 +87,7 @@ public final class PackageMojo extends AbstractMojo {
   private static final String PACKAGE_EXT = "." + PACKAGE_TYPE;
   private static final String DEFINITION_FOLDER = "definition";
   private static final String THUMBNAIL_FILE = "thumbnail.png";
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
 
   private static final String PROPERTY_GROUP = "group";
   private static final String PROPERTY_NAME = "name";
@@ -286,7 +287,6 @@ public final class PackageMojo extends AbstractMojo {
   /**
    * Specifies additional properties to be set in the properties.xml file.
    * These properties cannot overwrite the following predefined properties:
-   * <p>
    * <table>
    * <tr>
    * <td>group</td>
@@ -468,6 +468,7 @@ public final class PackageMojo extends AbstractMojo {
     }
   }
 
+  @SuppressWarnings("PMD.UseStringBufferForStringAppends")
   private void obtainEmbeddedBundles(List<EmbeddedBundle> embeddedBundleList, Map<String, File> resultList, DefaultWorkspaceFilter filter)
       throws MojoFailureException {
     for (EmbeddedBundle embeddedBundle : embeddedBundleList) {
@@ -569,7 +570,6 @@ public final class PackageMojo extends AbstractMojo {
   /**
    * Build Package Properties XML file.
    * @param vaultFolder Folder in where the properties.xml file is written to
-   * @throws IOException
    */
   private void writePropertiesFile(File vaultFolder)
       throws IOException {

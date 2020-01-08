@@ -23,6 +23,25 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="30" date="not released">
+      <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
+      <action type="update" dev="sseifert">
+        Eclipse: Add support for eclipse-pmd plugin (replaces support for pmd-eclipse-plugin).
+      </action>
+      <action type="update" dev="sseifert">
+        Eclipse: Enable automatic check for Spotbugs Eclipse plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 22.
+      </action>
+      <action type="update" dev="sseifert"><![CDATA[
+        Add <a href="https://github.com/wcm-io/wcm-io-tooling/tree/develop/misc/spotbugs-annotations">io.wcm.tooling.spotbugs:io.wcm.tooling.spotbugs.annotations</a>
+        as managed dependency (ASL20 compatible stripped down version of spotbugs annotations).
+      ]]></action>
+    </release>
+
     <release version="29" date="2019-11-25">
       <action type="update" dev="sseifert">
         Update plugins and dependencies to latest versions.

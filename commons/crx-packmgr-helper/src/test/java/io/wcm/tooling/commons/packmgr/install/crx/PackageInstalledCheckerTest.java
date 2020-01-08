@@ -22,6 +22,7 @@ package io.wcm.tooling.commons.packmgr.install.crx;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ class PackageInstalledCheckerTest {
   void setUp() throws Exception {
     String testResult;
     try (InputStream is = getClass().getResourceAsStream("/packmgr/listResponse.json")) {
-      testResult = IOUtils.toString(is);
+      testResult = IOUtils.toString(is, StandardCharsets.UTF_8);
     }
     JSONObject result = new JSONObject(testResult);
     underTest = new PackageInstalledChecker(result);

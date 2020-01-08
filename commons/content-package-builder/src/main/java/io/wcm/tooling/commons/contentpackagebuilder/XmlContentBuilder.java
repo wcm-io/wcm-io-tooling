@@ -40,7 +40,6 @@ import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
  */
 final class XmlContentBuilder {
 
-  private final DocumentBuilderFactory documentBuilderFactory;
   private final DocumentBuilder documentBuilder;
   private final Map<String, String> xmlNamespaces;
   private final ValueConverter valueConverter = new ValueConverter();
@@ -53,8 +52,8 @@ final class XmlContentBuilder {
   static final String NT_RESOURCE = "nt:resource";
 
   XmlContentBuilder(Map<String, String> xmlNamespaces) {
-    this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    this.documentBuilderFactory.setNamespaceAware(true);
+    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setNamespaceAware(true);
     try {
       this.documentBuilder = documentBuilderFactory.newDocumentBuilder();
       this.documentBuilder.setEntityResolver(new PropertiesEntityResolver());

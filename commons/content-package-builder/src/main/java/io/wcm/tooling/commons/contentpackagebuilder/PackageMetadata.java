@@ -52,7 +52,7 @@ final class PackageMetadata {
   private Date created = new Date();
   private String version = "1.0";
   private AcHandling acHandling;
-  private List<PackageFilter> filters = new ArrayList<>();
+  private final List<PackageFilter> filters = new ArrayList<>();
   private final Map<String, String> xmlNamespaces = new HashMap<>();
   private final Map<String, Object> additionalProperties = new HashMap<>();
   private byte[] thumbnailImage;

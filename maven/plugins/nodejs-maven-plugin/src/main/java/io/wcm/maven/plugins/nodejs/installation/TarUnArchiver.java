@@ -36,7 +36,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class TarUnArchiver {
 
-  private File archive;
+  private final File archive;
 
   /**
    * @param archive Archive

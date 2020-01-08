@@ -62,6 +62,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
    * before unpacking the package content, to make sure only the content from the downloaded package remains.
    */
   @Parameter
+  @SuppressWarnings("PMD.ImmutableField")
   private String[] unpackDeleteDirectories = new String[] {
       "jcr_root",
       "META-INF"

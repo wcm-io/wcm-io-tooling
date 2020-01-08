@@ -34,6 +34,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -70,7 +71,6 @@ public final class ContentPackage implements Closeable {
 
   private final PackageMetadata metadata;
   private final ZipOutputStream zip;
-  private final TransformerFactory transformerFactory;
   private final Transformer transformer;
   private final XmlContentBuilder xmlContentBuilder;
 
@@ -79,15 +79,14 @@ public final class ContentPackage implements Closeable {
 
   /**
    * @param os Output stream
-   * @throws IOException
    */
   ContentPackage(PackageMetadata metadata, OutputStream os) throws IOException {
     this.metadata = metadata;
     this.zip = new ZipOutputStream(os);
 
-    this.transformerFactory = TransformerFactory.newInstance();
+    TransformerFactory transformerFactory = TransformerFactory.newInstance();
     try {
-      this.transformerFactory.setAttribute("indent-number", 2);
+      transformerFactory.setAttribute("indent-number", 2);
     }
     catch (IllegalArgumentException ex) {
       // Implementation does not support configuration property. Ignore.
@@ -206,6 +205,7 @@ public final class ContentPackage implements Closeable {
    * @return Safe path
    */
   @VisibleForTesting
+  @SuppressWarnings("PMD.UseStringBufferForStringAppends")
   static String buildJcrPathForZip(final String path) {
     String normalizedPath = StringUtils.defaultString(path);
     if (!normalizedPath.startsWith("/")) {
@@ -301,7 +301,7 @@ public final class ContentPackage implements Closeable {
    */
   private void buildTemplatedMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
-      String xmlContent = IOUtils.toString(is);
+      String xmlContent = IOUtils.toString(is, StandardCharsets.UTF_8);
       for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
         xmlContent = StringUtils.replace(xmlContent, "{{" + entry.getKey() + "}}",
             StringEscapeUtils.escapeXml10(entry.getValue().toString()));

@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -92,7 +93,7 @@ class BundleStatusParserTest {
 
   private BundleStatus getStatus(String jsonFile, Pattern... bundleStatusWhitelistBundleNames) throws IOException {
     try (InputStream is = getClass().getResourceAsStream(jsonFile)) {
-      String bundleListJson = IOUtils.toString(is);
+      String bundleListJson = IOUtils.toString(is, StandardCharsets.UTF_8);
       BundleStatusParser underTest = new BundleStatusParser(Arrays.asList(bundleStatusWhitelistBundleNames));
       return underTest.parse(bundleListJson);
     }
