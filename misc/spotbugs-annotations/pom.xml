@@ -25,7 +25,7 @@
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
     <version>29</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <groupId>io.wcm.tooling.spotbugs</groupId>
