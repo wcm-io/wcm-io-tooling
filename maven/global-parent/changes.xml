@@ -36,6 +36,10 @@
       <action type="update" dev="sseifert">
         Update to global-build-tools 22.
       </action>
+      <action type="update" dev="sseifert"><![CDATA[
+        Add <a href="https://github.com/wcm-io/wcm-io-tooling/tree/develop/misc/spotbugs-annotations">io.wcm.tooling.spotbugs:io.wcm.tooling.spotbugs.annotations</a>
+        as managed dependency (ASL20 compatible stripped down version of spotbugs annotations).
+      ]]></action>
     </release>
 
     <release version="29" date="2019-11-25">
