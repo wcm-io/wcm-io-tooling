@@ -112,6 +112,13 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- Spotbugs annotations -->
+    <dependency>
+      <groupId>io.wcm.tooling.spotbugs</groupId>
+      <artifactId>io.wcm.tooling.spotbugs.annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <dependencyManagement>

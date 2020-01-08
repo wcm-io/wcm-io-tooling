@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update to JUnit 5.5.2 and Mockito 3.2.4.
       </action>
+      <action type="update" dev="sseifert">
+        Add wcm.io Spotbugs Annotations.
+      </action>
     </release>
 
     <release version="1.4.0" date="2019-11-25">
