@@ -177,6 +177,7 @@ public final class PackageManagerHelper {
    * @param call HTTP call
    * @param runCount Number of runs this call was already executed
    */
+  @SuppressWarnings("PMD.GuardLogStatement")
   private <T> T executeHttpCallWithRetry(HttpCall<T> call, int runCount) {
     try {
       return call.execute();
@@ -270,6 +271,7 @@ public final class PackageManagerHelper {
    * Wait for bundles to become active.
    * @param httpClient Http client
    */
+  @SuppressWarnings("PMD.GuardLogStatement")
   public void waitForBundlesActivation(CloseableHttpClient httpClient) {
     if (StringUtils.isBlank(props.getBundleStatusUrl())) {
       log.debug("Skipping check for bundle activation state because no bundleStatusURL is defined.");

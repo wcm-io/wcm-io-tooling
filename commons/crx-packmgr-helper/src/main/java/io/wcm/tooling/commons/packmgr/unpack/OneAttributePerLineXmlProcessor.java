@@ -54,6 +54,7 @@ class OneAttributePerLineXmlProcessor extends AbstractXMLOutputProcessor {
    * <p>
    * This method arranges for outputting the Element infrastructure including
    * Namespace Declarations and Attributes.
+   * </p>
    * @param out
    *          <code>Writer</code> to use.
    * @param fstack

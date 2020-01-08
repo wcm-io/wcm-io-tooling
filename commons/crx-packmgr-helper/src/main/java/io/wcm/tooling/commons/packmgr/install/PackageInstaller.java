@@ -63,6 +63,7 @@ public final class PackageInstaller {
    * Deploy file via package manager.
    * @param packageFile AEM content package
    */
+  @SuppressWarnings("PMD.GuardLogStatement")
   public void installFile(PackageFile packageFile) {
     File file = packageFile.getFile();
     if (!file.exists()) {
