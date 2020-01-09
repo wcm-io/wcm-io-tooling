@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update CONGA AEM Plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL plugin.
+      </action>
     </release>
 
     <release version="1.4.0" date="2019-11-25">
