@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update global-parent dependency to 30.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM Plugin.
+      </action>
     </release>
 
     <release version="1.4.0" date="2019-11-25">
