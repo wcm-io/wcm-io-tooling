@@ -320,10 +320,13 @@
 
               <!-- Remove Private-Package header as it may contain lists of all SLING-INF folders -->
               -removeheaders: Private-Package
-              
+
               <!-- Suppress warnings in Eclipse about generate maven properties not available -->
               -fixupmessages.buildNumber: 'No translation found for macro: buildNumber'
               -fixupmessages.timestamp: 'No translation found for macro: timestamp'
+
+              <!-- reproducible builds (https://github.com/bndtools/bnd/issues/3521) -->
+              -noextraheaders: true
             </bnd>
           </configuration>
           <executions>
