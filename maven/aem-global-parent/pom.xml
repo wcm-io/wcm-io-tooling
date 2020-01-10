@@ -310,9 +310,8 @@
               <!-- Export all versioned packages by default -->
               -exportcontents: ${packages;VERSIONED}
 
-              <!-- Overwrite timestamp format used as qualifier for snapshots to make the resolution higher (i.e. make them differ for each build), 
-                   compare with https://www.mail-archive.com/dev@sling.apache.org/msg76177.html -->
-              -snapshot: ${tstamp;yyyyMMddHHmmssSSS}
+              <!-- Use "SNAPSHOT" suffix for snapshot bundle versions -->
+              -snapshot: SNAPSHOT
 
               <!-- Generate bundle header containing all configuration annotation classes -->
               -plugin.slingcaconfig: org.apache.sling.caconfig.bndplugin.ConfigurationClassScannerPlugin
