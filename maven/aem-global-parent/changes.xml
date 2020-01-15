@@ -27,6 +27,12 @@
       <action type="update" dev="sseifert">
         bnd: Use "SNAPSHOT" suffix for snapshot bundle versions, remove additional headers.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin.
+      </action>
     </release>
 
     <release version="1.4.2" date="2020-01-09">
