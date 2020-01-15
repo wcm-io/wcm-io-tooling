@@ -73,6 +73,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 
 /**
@@ -162,6 +163,7 @@ public final class ContentUnpacker {
     }
   }
 
+  @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
   private void unpackEntry(ZipFile zipFile, ZipArchiveEntry entry, File outputDirectory) throws IOException {
     if (entry.isDirectory()) {
       File directory = FileUtils.getFile(outputDirectory, entry.getName());
