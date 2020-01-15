@@ -30,7 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.Logger;
-import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
@@ -71,7 +70,7 @@ public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
             jsonResponse = new JSONObject(responseString);
           }
           catch (JSONException ex) {
-            throw new PackageManagerException("Error parsing JSON response.\n" + responseString, ex);
+            throw PackageManagerHttpActionException.forJSONException(method.getURI().toString(), responseString, ex);
           }
         }
         if (jsonResponse == null) {

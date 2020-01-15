@@ -24,6 +24,7 @@ import java.net.SocketTimeoutException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.StatusLine;
+import org.json.JSONException;
 
 /**
  * Exception during package manager HTTP actions.
@@ -59,6 +60,22 @@ public final class PackageManagerHttpActionException extends RuntimeException {
     if (ex instanceof SocketTimeoutException) {
       message += " (consider to increase the socket timeout using -Dvault.httpSocketTimeoutSec)";
     }
+    return new PackageManagerHttpActionException(message, ex);
+  }
+
+  /**
+   * Create exception instance for JSON exception.
+   * @param url HTTP url called
+   * @param responseString Response string
+   * @param ex JSON exception
+   * @return Exception instance
+   */
+  @SuppressWarnings("PMD.UseStringBufferForStringAppends")
+  public static PackageManagerHttpActionException forJSONException(String url,
+      String responseString, JSONException ex) {
+    String message = "HTTP call to " + url + " failed: JSON parse failure - "
+        + ex.getMessage() + "\n"
+        + StringUtils.abbreviate(responseString, 200);
     return new PackageManagerHttpActionException(message, ex);
   }
 
