@@ -1,6 +1,8 @@
-## wcm.io Netbeans Sightly Extension
+## wcm.io Netbeans Sightly Extension (deprecated)
 
 Plugin for [Netbeans](http://www.netbeans.org) to help developers using [Sightly](http://docs.adobe.com/content/docs/en/aem/6-0/develop/sightly.html).
+
+**PLEASE NOTE**: The Netbeans IDE support of wcm.io is deprecated.
 
 ### Documentation
 
