@@ -60,7 +60,7 @@
 
     <!-- versions -->
     <sling.sling-maven-plugin.version>2.4.2</sling.sling-maven-plugin.version>
-    <bnd.version>4.3.1</bnd.version>
+    <bnd.version>5.0.0</bnd.version>
 
   </properties>
 
@@ -497,8 +497,7 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <!-- Do not update yet to 1.0.4, seems to produce false failures/warnings on content check (JCRVLT-354, JCRVLT-355) -->
-          <version>1.0.3</version>
+          <version>1.1.0</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
             <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
