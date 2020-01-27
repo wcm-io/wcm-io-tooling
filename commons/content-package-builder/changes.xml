@@ -23,9 +23,9 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.4.4" date="not-released">
-      <action type="fix" issue="WDEVOP-5" dev="mrozati">
-        Content package builder supports XML namespace "granite:"
+    <release version="1.4.4" date="not released">
+      <action type="fix" dev="mrozati" issue="WTOOL-56">
+        Add support for XML namespace "granite" when building content packages.
       </action>
     </release>
 
