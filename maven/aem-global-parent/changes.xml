@@ -39,6 +39,9 @@
       <action type="update" dev="sseifert">
         Update to bnd Maven plugins 5.0.0.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 31.
+      </action>
     </release>
 
     <release version="1.4.2" date="2020-01-09">
