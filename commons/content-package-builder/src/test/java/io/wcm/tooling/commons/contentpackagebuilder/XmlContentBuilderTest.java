@@ -93,6 +93,9 @@ class XmlContentBuilderTest {
         "var2", 55,
         "var3", new String[] {
             "v1", "v2", "v3"
+        },
+        "granite:data", new String[]{
+            "data-1", "data-2"
         }));
     assertXpathEvaluatesTo("myPrimaryType", "/jcr:root/@jcr:primaryType", doc);
     assertXpathEvaluatesTo("v1", "/jcr:root/@var1", doc);
