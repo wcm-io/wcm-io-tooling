@@ -69,6 +69,11 @@ public final class XmlNamespaces {
   public static final String NS_OAK = "http://jackrabbit.apache.org/oak/ns/1.0";
 
   /**
+   * Granite namespace
+   */
+  public static final String NS_GRANITE = "http://www.adobe.com/jcr/granite/1.0";
+
+  /**
    * XML Namespaces support by default for JCR content XML.
    */
   public static final Map<String, String> DEFAULT_NAMESPACES = ImmutableMap.<String, String>builder()
@@ -80,6 +85,7 @@ public final class XmlNamespaces {
       .put("sling", NS_SLING)
       .put("slingevent", NS_SLING_EVENT)
       .put("oak", NS_OAK)
+      .put("granite", NS_GRANITE)
       .build();
 
   private XmlNamespaces() {

@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.4.4" date="not-released">
+      <action type="fix" issue="WDEVOP-5" dev="mrozati">
+        Content package builder supports XML namespace "granite:"
+      </action>
+    </release>
+
     <release version="1.4.2" date="2019-05-08">
       <action type="add" dev="sseifert">
         Avoid to resolve external DTD reference from http://java.sun.com/dtd/properties.dtd.
