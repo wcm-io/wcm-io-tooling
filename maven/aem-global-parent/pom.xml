@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>30</version>
+    <version>31-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -60,7 +60,7 @@
 
     <!-- versions -->
     <sling.sling-maven-plugin.version>2.4.2</sling.sling-maven-plugin.version>
-    <bnd.version>4.3.1</bnd.version>
+    <bnd.version>5.0.0</bnd.version>
 
   </properties>
 
@@ -310,9 +310,8 @@
               <!-- Export all versioned packages by default -->
               -exportcontents: ${packages;VERSIONED}
 
-              <!-- Overwrite timestamp format used as qualifier for snapshots to make the resolution higher (i.e. make them differ for each build), 
-                   compare with https://www.mail-archive.com/dev@sling.apache.org/msg76177.html -->
-              -snapshot: ${tstamp;yyyyMMddHHmmssSSS}
+              <!-- Use "SNAPSHOT" suffix for snapshot bundle versions -->
+              -snapshot: SNAPSHOT
 
               <!-- Generate bundle header containing all configuration annotation classes -->
               -plugin.slingcaconfig: org.apache.sling.caconfig.bndplugin.ConfigurationClassScannerPlugin
@@ -321,10 +320,13 @@
 
               <!-- Remove Private-Package header as it may contain lists of all SLING-INF folders -->
               -removeheaders: Private-Package
-              
+
               <!-- Suppress warnings in Eclipse about generate maven properties not available -->
               -fixupmessages.buildNumber: 'No translation found for macro: buildNumber'
               -fixupmessages.timestamp: 'No translation found for macro: timestamp'
+
+              <!-- reproducible builds (https://github.com/bndtools/bnd/issues/3521) -->
+              -noextraheaders: true
             </bnd>
           </configuration>
           <executions>
@@ -495,8 +497,7 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <!-- Do not update yet to 1.0.4, seems to produce false failures/warnings on content check (JCRVLT-354, JCRVLT-355) -->
-          <version>1.0.3</version>
+          <version>1.1.0</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
             <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
@@ -526,7 +527,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.7.2</version>
+          <version>1.7.3-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>
@@ -608,7 +609,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.9.2</version>
+              <version>1.9.3-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -620,7 +621,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.9.2</version>
+          <version>1.9.3-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.user}</userId>

@@ -38,6 +38,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
@@ -70,6 +71,7 @@ public final class PackageDownloader {
    * @return Downloaded file
    */
   @SuppressWarnings("PMD.GuardLogStatement")
+  @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
   public File downloadFile(File file, String ouputFilePath) {
     try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
       log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());

@@ -23,6 +23,27 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.4.4" date="not released">
+      <action type="update" dev="sseifert">
+        bnd: Use "SNAPSHOT" suffix for snapshot bundle versions, remove additional headers.
+      </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to wcmio-content-package-maven-plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to Jackrabbit filevault-package-maven-plugin 1.1.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 5.0.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 31.
+      </action>
+    </release>
+
     <release version="1.4.2" date="2020-01-09">
       <action type="update" dev="sseifert">
         Update bnd plugin for maven-bundle-plugin.
