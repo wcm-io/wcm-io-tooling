@@ -274,6 +274,19 @@
         </plugin>
 
         <plugin>
+          <groupId>biz.aQute.bnd</groupId>
+          <artifactId>bnd-baseline-maven-plugin</artifactId>
+          <configuration>
+            <includeDistributionManagement>false</includeDistributionManagement>
+            <fullReport>true</fullReport>
+            <diffignores>
+              <!-- ignore Bundle-Version header for baseline, i.e. no enforcement of specific bundle versions -->
+              <diffignore>Bundle-Version</diffignore>
+            </diffignores>
+          </configuration>
+        </plugin>
+
+        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <configuration>
