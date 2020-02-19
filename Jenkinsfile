@@ -22,6 +22,11 @@ Map config = [
   (PROPERTIES) : [
     (PROPERTIES_PIPELINE_TRIGGERS): triggers
   ],
+  (STAGE_ANALYZE)            : [
+    (MAVEN): [
+      (MAVEN_GOALS): "checkstyle:checkstyle pmd:pmd",
+    ],
+  ],
   (STAGE_COMPILE): [
     (MAVEN): [
       (MAVEN_GOALS): ["clean", "deploy", "site-deploy"],
