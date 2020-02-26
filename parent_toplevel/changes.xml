@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Add configuration for bnd-baseline-maven-plugin, do not enforce bundle version changes.
       </action>
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.4.6.
+      </action>
     </release>
 
     <release version="1.5.2" date="2020-01-30">
