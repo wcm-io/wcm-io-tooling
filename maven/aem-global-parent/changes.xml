@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update CONGA and CONGA AEM plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 32.
+      </action>
     </release>
 
     <release version="1.4.4" date="2020-01-30">
