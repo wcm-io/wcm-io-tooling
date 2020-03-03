@@ -100,9 +100,6 @@
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
     <eclipse.settings.nullanalysis>disabled</eclipse.settings.nullanalysis>
 
-    <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>${timestamp}</project.build.outputTimestamp>
-
   </properties>
 
   <dependencyManagement>
