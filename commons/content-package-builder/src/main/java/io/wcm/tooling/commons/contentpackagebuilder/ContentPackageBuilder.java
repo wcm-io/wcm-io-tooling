@@ -107,6 +107,16 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set package type.
+   * @param value Package type.
+   * @return this
+   */
+  public ContentPackageBuilder packageType(String value) {
+    metadata.setPackageType(value);
+    return this;
+  }
+
+  /**
    * Creates a package filter with this root path.
    * This implicitly adds a {@link PackageFilter} with this pah and no further rules.
    * If this is executed multiple times multiple filters are addded.
