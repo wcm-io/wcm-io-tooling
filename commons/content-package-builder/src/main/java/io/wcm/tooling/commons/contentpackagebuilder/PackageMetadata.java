@@ -173,7 +173,6 @@ final class PackageMetadata {
     vars.put(NAME_VERSION, StringUtils.defaultString(version));
     vars.put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "");
     vars.put("packageType", StringUtils.defaultString(packageType));
-    vars.put("path", "/etc/packages/" + group + "/" + name + ".zip");
     vars.putAll(additionalProperties);
     return ImmutableMap.copyOf(vars);
   }

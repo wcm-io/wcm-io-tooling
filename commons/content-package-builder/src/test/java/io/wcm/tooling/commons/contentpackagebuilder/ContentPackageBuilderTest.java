@@ -104,7 +104,6 @@ class ContentPackageBuilderTest {
     assertXpathEvaluatesTo("myGroup", "/properties/entry[@key='group']", propsXml);
     assertXpathEvaluatesTo("myName", "/properties/entry[@key='name']", propsXml);
     assertXpathEvaluatesTo("myDescription", "/properties/entry[@key='description']", propsXml);
-    assertXpathEvaluatesTo("/etc/packages/myGroup/myName.zip", "/properties/entry[@key='path']", propsXml);
     assertXpathExists("/properties/entry[@key='created']", propsXml);
     assertXpathEvaluatesTo("myUser", "/properties/entry[@key='createdBy']", propsXml);
     assertXpathEvaluatesTo("1.2.3", "/properties/entry[@key='version']", propsXml);
