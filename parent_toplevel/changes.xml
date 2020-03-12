@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.5.4" date="not released">
+      <action type="update" dev="sseifert">
+        Add configuration for bnd-baseline-maven-plugin, do not enforce bundle version changes.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.4.6.
+      </action>
+    </release>
+
     <release version="1.5.2" date="2020-01-30">
       <action type="update" dev="sseifert">
         Update to aem-global-parent 1.4.4.

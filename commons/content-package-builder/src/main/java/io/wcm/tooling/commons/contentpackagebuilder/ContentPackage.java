@@ -52,7 +52,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jackrabbit.vault.fs.config.MetaInf;
 import org.apache.jackrabbit.vault.packaging.PackageProperties;
 import org.apache.jackrabbit.vault.util.PlatformNameFormat;
 import org.w3c.dom.Document;
@@ -323,8 +322,8 @@ public final class ContentPackage implements Closeable {
    */
   private void buildPropertiesFile(String path) throws IOException {
     Properties properties = new Properties();
-    properties.put(MetaInf.PACKAGE_FORMAT_VERSION, Integer.toString(MetaInf.FORMAT_VERSION_2));
     properties.put(PackageProperties.NAME_REQUIRES_ROOT, Boolean.toString(false));
+    properties.put("allowIndexDefinitions", Boolean.toString(false));
 
     for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
       String value = Objects.toString(entry.getValue());

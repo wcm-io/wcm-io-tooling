@@ -19,7 +19,7 @@
   #L%
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -58,10 +58,12 @@
     <module>maven/aem-dependencies/6.4.5</module>
     <module>maven/aem-dependencies/6.4.6</module>
     <module>maven/aem-dependencies/6.4.7</module>
+    <module>maven/aem-dependencies/6.4.8</module>
     <module>maven/aem-dependencies/6.5.0</module>
     <module>maven/aem-dependencies/6.5.1</module>
     <module>maven/aem-dependencies/6.5.2</module>
     <module>maven/aem-dependencies/6.5.3</module>
+    <module>maven/aem-dependencies/6.5.4</module>
     <module>maven/aem-global-parent</module>
     <!-- exclude global-build-tools from main build to avoid problem with snapshot dependency to it -->
     <!--

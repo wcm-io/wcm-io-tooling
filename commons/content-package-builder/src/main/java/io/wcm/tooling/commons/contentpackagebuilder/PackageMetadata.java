@@ -33,17 +33,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.util.ISO8601;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Package metadata.
  */
 final class PackageMetadata {
+
+  private static final Set<String> VALID_PACKAGE_TYPES = ImmutableSet.of(
+      "application", "content", "container", "mixed");
 
   private String group;
   private String name;
@@ -52,6 +57,7 @@ final class PackageMetadata {
   private Date created = new Date();
   private String version = "1.0";
   private AcHandling acHandling;
+  private String packageType;
   private final List<PackageFilter> filters = new ArrayList<>();
   private final Map<String, String> xmlNamespaces = new HashMap<>();
   private final Map<String, Object> additionalProperties = new HashMap<>();
@@ -91,6 +97,10 @@ final class PackageMetadata {
 
   public void setAcHandling(AcHandling acHandling) {
     this.acHandling = acHandling;
+  }
+
+  public void setPackageType(String packageType) {
+    this.packageType = packageType;
   }
 
   public void addFilter(PackageFilter filter) {
@@ -143,6 +153,9 @@ final class PackageMetadata {
     if (created == null) {
       throw new IllegalArgumentException("Package creation date not set.");
     }
+    if (packageType != null && !VALID_PACKAGE_TYPES.contains(packageType)) {
+      throw new IllegalArgumentException("Invalid packageType: " + packageType);
+    }
   }
 
   /**
@@ -159,7 +172,7 @@ final class PackageMetadata {
     vars.put(NAME_CREATED_BY, StringUtils.defaultString(createdBy));
     vars.put(NAME_VERSION, StringUtils.defaultString(version));
     vars.put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "");
-    vars.put("path", "/etc/packages/" + group + "/" + name + ".zip");
+    vars.put("packageType", StringUtils.defaultString(packageType));
     vars.putAll(additionalProperties);
     return ImmutableMap.copyOf(vars);
   }

@@ -18,7 +18,7 @@
   limitations under the License.
   #L%
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -59,21 +59,6 @@
               <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
             </flowInitContext>
           </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <configuration>
-            <projectVersionPolicyId>OddEvenVersionPolicy</projectVersionPolicyId>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.release</groupId>
-              <artifactId>maven-release-oddeven-policy</artifactId>
-              <version>2.5.3</version>
-            </dependency>
-          </dependencies>
         </plugin>
 
       </plugins>

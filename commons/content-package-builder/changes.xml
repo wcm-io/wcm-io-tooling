@@ -20,8 +20,20 @@
   -->
 
 <document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/changes/1.0.0"
-    xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
+
+    <release version="1.5.0" date="not released">
+      <action type="add" dev="sseifert">
+        Add support for "packageType" property.
+      </action>
+      <action type="remove" dev="sseifert">
+        Do no longer generate "path" and "contentPackageVersion" properties in package properties.
+      </action>
+      <action type="update" dev="sseifert">
+        Switch to AEM 6.3 as minimum version.
+      </action>
+    </release>
 
     <release version="1.4.4" date="2020-01-30">
       <action type="fix" dev="mrozati" issue="WTOOL-56">
