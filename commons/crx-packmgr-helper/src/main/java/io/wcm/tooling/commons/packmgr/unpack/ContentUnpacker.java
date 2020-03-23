@@ -19,6 +19,8 @@
  */
 package io.wcm.tooling.commons.packmgr.unpack;
 
+import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -56,10 +59,12 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.vault.util.DocViewProperty;
+import org.apache.jackrabbit.vault.util.PlatformNameFormat;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -84,6 +89,7 @@ public final class ContentUnpacker {
   private static final String MIXINS_PROPERTY = "jcr:mixinTypes";
   private static final String PRIMARYTYPE_PROPERTY = "jcr:primaryType";
   private static final Namespace JCR_NAMESPACE = Namespace.getNamespace("jcr", "http://www.jcp.org/jcr/1.0");
+  private static final Pattern FILENAME_NAMESPACE_PATTERN = Pattern.compile("^([^:]+):(.+)$");
 
   private static final SAXParserFactory SAX_PARSER_FACTORY;
   static {
@@ -189,7 +195,7 @@ public final class ContentUnpacker {
         if (applyXmlExcludes(entry.getName()) && namespacePrefixes != null) {
           // write file with XML filtering
           try {
-            writeXmlWithExcludes(entryStream, fos, namespacePrefixes);
+            writeXmlWithExcludes(entry, entryStream, fos, namespacePrefixes);
           }
           catch (JDOMException ex) {
             throw new PackageManagerException("Unable to parse XML file: " + entry.getName(), ex);
@@ -250,12 +256,19 @@ public final class ContentUnpacker {
     }
   }
 
-  private void writeXmlWithExcludes(InputStream inputStream, OutputStream outputStream, Set<String> namespacePrefixes)
+  private void writeXmlWithExcludes(ZipArchiveEntry entry, InputStream inputStream, OutputStream outputStream, Set<String> namespacePrefixes)
       throws IOException, JDOMException {
     SAXBuilder saxBuilder = new SAXBuilder();
     Document doc = saxBuilder.build(inputStream);
 
     Set<String> namespacePrefixesActuallyUsed = new HashSet<>();
+
+    // check for namespace prefix in file name
+    String namespacePrefix = getNamespacePrefix(entry.getName());
+    if (namespacePrefix != null) {
+      namespacePrefixesActuallyUsed.add(namespacePrefix);
+    }
+
     applyXmlExcludes(doc.getRootElement(), "", namespacePrefixesActuallyUsed);
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
@@ -264,6 +277,21 @@ public final class ContentUnpacker {
     outputter.setXMLOutputProcessor(new OneAttributePerLineXmlProcessor(namespacePrefixes, namespacePrefixesActuallyUsed));
     outputter.output(doc, outputStream);
     outputStream.flush();
+  }
+
+  static String getNamespacePrefix(String path) {
+    String fileName = FilenameUtils.getName(path);
+    if (StringUtils.equals(DOT_CONTENT_XML, fileName)) {
+      String parentFolderName = FilenameUtils.getName(FilenameUtils.getPathNoEndSeparator(path));
+      if (parentFolderName != null) {
+        String nodeName = PlatformNameFormat.getRepositoryName(parentFolderName);
+        Matcher matcher = FILENAME_NAMESPACE_PATTERN.matcher(nodeName);
+        if (matcher.matches()) {
+          return matcher.group(1);
+        }
+      }
+    }
+    return null;
   }
 
   private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed) {
