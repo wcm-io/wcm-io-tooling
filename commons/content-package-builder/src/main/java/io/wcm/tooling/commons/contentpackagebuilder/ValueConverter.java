@@ -47,7 +47,7 @@ import org.apache.jackrabbit.vault.util.DocViewProperty;
 /**
  * Converts an value to string for a content property in XML including type prefix.
  */
-final class ValueConverter {
+public final class ValueConverter {
 
   static final String PN_PRIVILEGES = "rep:privileges";
 
