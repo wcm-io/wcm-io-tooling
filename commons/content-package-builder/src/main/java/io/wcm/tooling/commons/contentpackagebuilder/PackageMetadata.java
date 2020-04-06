@@ -25,6 +25,7 @@ import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_CREAT
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_DESCRIPTION;
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_GROUP;
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_NAME;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_PACKAGE_TYPE;
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_VERSION;
 
 import java.util.ArrayList;
@@ -172,7 +173,7 @@ final class PackageMetadata {
     vars.put(NAME_CREATED_BY, StringUtils.defaultString(createdBy));
     vars.put(NAME_VERSION, StringUtils.defaultString(version));
     vars.put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "");
-    vars.put("packageType", StringUtils.defaultString(packageType));
+    vars.put(NAME_PACKAGE_TYPE, StringUtils.defaultString(packageType));
     vars.putAll(additionalProperties);
     return ImmutableMap.copyOf(vars);
   }
