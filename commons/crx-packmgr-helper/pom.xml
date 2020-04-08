@@ -46,6 +46,9 @@
 
   <properties>
     <site.url.module.prefix>tooling/commons/crx-packmgr-helper</site.url.module.prefix>
+
+    <!-- Enable reproducible builds -->
+    <project.build.outputTimestamp>${timestamp}</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
