@@ -82,6 +82,9 @@ class ContentPackageBuilderTest {
     underTest.acHandling(AcHandling.OVERWRITE);
     underTest.property("my.prop", "myvalue1");
     underTest.packageType("container");
+    underTest.requiresRoot(true);
+    underTest.requiresRestart(true);
+    underTest.allowIndexDefinitions(true);
 
     try (InputStream is = getClass().getResourceAsStream("/thumbnail.png")) {
       underTest.thumbnailImage(is);
@@ -107,7 +110,9 @@ class ContentPackageBuilderTest {
     assertXpathExists("/properties/entry[@key='created']", propsXml);
     assertXpathEvaluatesTo("myUser", "/properties/entry[@key='createdBy']", propsXml);
     assertXpathEvaluatesTo("1.2.3", "/properties/entry[@key='version']", propsXml);
-    assertXpathEvaluatesTo("false", "/properties/entry[@key='requiresRoot']", propsXml);
+    assertXpathEvaluatesTo("true", "/properties/entry[@key='requiresRoot']", propsXml);
+    assertXpathEvaluatesTo("true", "/properties/entry[@key='requiresRestart']", propsXml);
+    assertXpathEvaluatesTo("true", "/properties/entry[@key='allowIndexDefinitions']", propsXml);
     assertXpathEvaluatesTo("overwrite", "/properties/entry[@key='acHandling']", propsXml);
     assertXpathEvaluatesTo("myvalue1", "/properties/entry[@key='my.prop']", propsXml);
     assertXpathEvaluatesTo("container", "/properties/entry[@key='packageType']", propsXml);

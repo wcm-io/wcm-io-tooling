@@ -26,6 +26,8 @@ import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_DESCR
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_GROUP;
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_NAME;
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_PACKAGE_TYPE;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_REQUIRES_RESTART;
+import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_REQUIRES_ROOT;
 import static org.apache.jackrabbit.vault.packaging.PackageProperties.NAME_VERSION;
 
 import java.util.ArrayList;
@@ -59,6 +61,9 @@ final class PackageMetadata {
   private String version = "1.0";
   private AcHandling acHandling;
   private String packageType;
+  private boolean requiresRoot;
+  private boolean requiresRestart;
+  private boolean allowIndexDefinitions;
   private final List<PackageFilter> filters = new ArrayList<>();
   private final Map<String, String> xmlNamespaces = new HashMap<>();
   private final Map<String, Object> additionalProperties = new HashMap<>();
@@ -102,6 +107,18 @@ final class PackageMetadata {
 
   public void setPackageType(String packageType) {
     this.packageType = packageType;
+  }
+
+  public void setRequiresRoot(boolean requiresRoot) {
+    this.requiresRoot = requiresRoot;
+  }
+
+  public void setRequiresRestart(boolean requiresRestart) {
+    this.requiresRestart = requiresRestart;
+  }
+
+  public void setAllowIndexDefinitions(boolean allowIndexDefinitions) {
+    this.allowIndexDefinitions = allowIndexDefinitions;
   }
 
   public void addFilter(PackageFilter filter) {
@@ -174,6 +191,11 @@ final class PackageMetadata {
     vars.put(NAME_VERSION, StringUtils.defaultString(version));
     vars.put(NAME_AC_HANDLING, acHandling != null ? acHandling.getMode() : "");
     vars.put(NAME_PACKAGE_TYPE, StringUtils.defaultString(packageType));
+    vars.put(NAME_REQUIRES_ROOT, requiresRoot);
+    if (requiresRestart) {
+      vars.put(NAME_REQUIRES_RESTART, requiresRestart);
+    }
+    vars.put("allowIndexDefinitions", allowIndexDefinitions);
     vars.putAll(additionalProperties);
     return ImmutableMap.copyOf(vars);
   }
