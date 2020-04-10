@@ -470,7 +470,7 @@
         <artifactId>jgitflow-maven-plugin</artifactId>
         <inherited>false</inherited>
         <configuration>
-          <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
+          <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
           <eol>lf</eol>
           <flowInitContext>
             <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>

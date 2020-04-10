@@ -25,10 +25,13 @@
 
     <release version="1.4.6" date="not released">
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA AEM plugin.
+        Update CONGA, CONGA Sling plugin and CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
         Update global-parent dependency to 32.
+      </action>
+      <action type="update" dev="sseifert">
+        Update wcmio-content-package-maven-plugin.
       </action>
     </release>
 
@@ -40,7 +43,7 @@
         Update CONGA AEM plugin.
       </action>
       <action type="update" dev="sseifert">
-        Update to wcmio-content-package-maven-plugin.
+        Update wcmio-content-package-maven-plugin.
       </action>
       <action type="update" dev="sseifert">
         Update to Jackrabbit filevault-package-maven-plugin 1.1.0.

@@ -141,9 +141,10 @@
 
       <!-- Dependencies not included in uber jar -->
       <dependency>
-        <groupId>taglibs</groupId>
-        <artifactId>standard</artifactId>
-        <version>1.1.2</version>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-spec</artifactId>
+        <!-- day-commons-jstl 1.2.2 contains version 1.2.5 -->
+        <version>1.2.5</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
@@ -284,6 +285,11 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.9.6</version>
+      </dependency>
+      <dependency>
+        <groupId>taglibs</groupId>
+        <artifactId>standard</artifactId>
+        <version>1.1.2</version>
       </dependency>
 
       <!-- Dependencies that may required by AEM mocks/Sling mocks with version included in this AEM version -->
@@ -466,7 +472,7 @@
         <artifactId>jgitflow-maven-plugin</artifactId>
         <inherited>false</inherited>
         <configuration>
-          <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
+          <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
           <eol>lf</eol>
           <flowInitContext>
             <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>

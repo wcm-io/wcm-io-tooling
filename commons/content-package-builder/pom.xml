@@ -46,6 +46,9 @@
 
   <properties>
     <site.url.module.prefix>tooling/commons/content-package-builder</site.url.module.prefix>
+
+    <!-- Enable reproducible builds -->
+    <project.build.outputTimestamp>${timestamp}</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
@@ -154,7 +157,7 @@
       <dependency>
         <groupId>org.apache.jackrabbit.vault</groupId>
         <artifactId>org.apache.jackrabbit.vault</artifactId>
-        <version>3.1.38</version>
+        <version>3.1.42</version>
       </dependency>
 
       <dependency>

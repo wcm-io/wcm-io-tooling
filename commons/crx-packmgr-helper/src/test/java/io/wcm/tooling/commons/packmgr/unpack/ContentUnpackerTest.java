@@ -19,6 +19,10 @@
  */
 package io.wcm.tooling.commons.packmgr.unpack;
 
+import static io.wcm.tooling.commons.packmgr.unpack.ContentUnpacker.getNamespacePrefix;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.File;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +63,14 @@ class ContentUnpackerTest {
     File outputDirectory = new File("target/unpacktest");
     outputDirectory.mkdirs();
     underTest.unpack(contentPackage, outputDirectory);
+  }
+
+  @Test
+  public void testGetNamespacePrefix() {
+    assertNull(getNamespacePrefix("aaa"));
+    assertNull(getNamespacePrefix("aaa/bbb"));
+    assertNull(getNamespacePrefix("aaa/_cq_bbb"));
+    assertEquals("cq", getNamespacePrefix("aaa/_cq_bbb/.content.xml"));
   }
 
 }

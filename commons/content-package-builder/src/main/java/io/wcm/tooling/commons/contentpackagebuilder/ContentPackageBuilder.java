@@ -117,6 +117,36 @@ public final class ContentPackageBuilder {
   }
 
   /**
+   * Set requires root status
+   * @param value Requires root status
+   * @return this
+   */
+  public ContentPackageBuilder requiresRoot(boolean value) {
+    metadata.setRequiresRoot(value);
+    return this;
+  }
+
+  /**
+   * Set requires restart status
+   * @param value Requires restart status
+   * @return this
+   */
+  public ContentPackageBuilder requiresRestart(boolean value) {
+    metadata.setRequiresRestart(value);
+    return this;
+  }
+
+  /**
+   * Set allow index definitions root status
+   * @param value allow index definitions status
+   * @return this
+   */
+  public ContentPackageBuilder allowIndexDefinitions(boolean value) {
+    metadata.setAllowIndexDefinitions(value);
+    return this;
+  }
+
+  /**
    * Creates a package filter with this root path.
    * This implicitly adds a {@link PackageFilter} with this pah and no further rules.
    * If this is executed multiple times multiple filters are addded.

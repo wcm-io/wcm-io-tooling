@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.6.4" date="not released">
+      <action type="fix" dev="sseifert">
+        Do not remove namespace prefixes uses by node names escaped in the folder structure (e.g. "cq:tags" folder).
+      </action>
+    </release>
+
     <release version="1.6.2" date="2020-01-30">
       <action type="fix" dev="sseifert">
         Retry HTTP action in case of JSON parse failure (system may respond temporarily with non-JSON response).

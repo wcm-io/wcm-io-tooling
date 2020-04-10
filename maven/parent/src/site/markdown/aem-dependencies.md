@@ -6,6 +6,20 @@ The first three parts of the `aem-dependencies` version number match with the AE
 
 Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
 
+### AEM Cloud Service
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.aem-cloud-dependencies/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.aem-cloud-dependencies)
+
+```xml
+<dependency>
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-cloud-dependencies</artifactId>
+  <version><!-- latest version, see above --></version>
+  <type>pom</type>
+  <scope>import</scope>
+</dependency>
+```
+
 ### AEM 6.5 SP4
 
 ```xml

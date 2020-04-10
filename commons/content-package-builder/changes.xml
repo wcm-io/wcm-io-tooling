@@ -27,6 +27,9 @@
       <action type="add" dev="sseifert">
         Add support for "packageType" property.
       </action>
+      <action type="add" dev="sseifert">
+        Add support for "requireRoot", "requireRestart", "allowIndexDefinitions" properties.
+      </action>
       <action type="remove" dev="sseifert">
         Do no longer generate "path" and "contentPackageVersion" properties in package properties.
       </action>
