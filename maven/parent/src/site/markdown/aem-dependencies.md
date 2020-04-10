@@ -26,7 +26,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.4.0000</version>
+  <version>6.5.4.0001</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -50,7 +50,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.4.8.0000</version>
+  <version>6.4.8.0001</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
