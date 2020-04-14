@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update wcmio-content-package-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 5.0.1.
+      </action>
     </release>
 
     <release version="1.4.4" date="2020-01-30">

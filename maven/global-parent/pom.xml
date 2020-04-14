@@ -24,7 +24,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.global-parent</artifactId>
-  <version>32-SNAPSHOT</version>
+  <version>32</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.global-parent</name>
@@ -675,7 +675,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.2</version>
+          <version>3.2.3</version>
         </plugin>
 
         <plugin>
