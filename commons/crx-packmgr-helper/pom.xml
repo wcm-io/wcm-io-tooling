@@ -24,13 +24,13 @@
   <parent>
     <groupId>io.wcm.tooling.commons</groupId>
     <artifactId>io.wcm.tooling.commons.parent</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
   <groupId>io.wcm.tooling.commons</groupId>
   <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-  <version>1.6.4</version>
+  <version>1.6.5-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>CRX Package Manager Helper</name>
@@ -46,6 +46,9 @@
 
   <properties>
     <site.url.module.prefix>tooling/commons/crx-packmgr-helper</site.url.module.prefix>
+
+    <!-- Enable reproducible builds -->
+    <project.build.outputTimestamp>${timestamp}</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
