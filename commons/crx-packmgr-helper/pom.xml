@@ -24,7 +24,7 @@
   <parent>
     <groupId>io.wcm.tooling.commons</groupId>
     <artifactId>io.wcm.tooling.commons.parent</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
@@ -46,9 +46,6 @@
 
   <properties>
     <site.url.module.prefix>tooling/commons/crx-packmgr-helper</site.url.module.prefix>
-
-    <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>${timestamp}</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
