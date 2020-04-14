@@ -30,7 +30,7 @@
 
   <groupId>io.wcm.tooling.commons</groupId>
   <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-  <version>1.6.5-SNAPSHOT</version>
+  <version>1.6.4</version>
   <packaging>jar</packaging>
 
   <name>CRX Package Manager Helper</name>
