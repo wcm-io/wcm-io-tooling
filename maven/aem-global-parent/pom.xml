@@ -684,7 +684,6 @@
             <plugin>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>conga-aem-maven-plugin</artifactId>
-              <version>1.8.14</version>
               <configuration>
                 <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
                 <userId>${sling.publish.user}</userId>
