@@ -73,4 +73,9 @@ public final class ContentElementImpl implements ContentElement {
     }
   }
 
+  @Override
+  public String toString() {
+    return "[props=" + this.properties + ", children=" + this.children + "]";
+  }
+
 }

@@ -19,6 +19,8 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
+import static io.wcm.tooling.commons.contentpackagebuilder.NameUtil.ensureValidPath;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public final class PackageFilter {
    * @param rootPath Root path
    */
   public PackageFilter(String rootPath) {
+    ensureValidPath(rootPath);
     this.rootPath = rootPath;
   }
 

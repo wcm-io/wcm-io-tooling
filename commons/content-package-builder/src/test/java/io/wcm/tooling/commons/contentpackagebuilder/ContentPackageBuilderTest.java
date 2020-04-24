@@ -24,6 +24,7 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -231,6 +232,28 @@ class ContentPackageBuilderTest {
     // validate resulting XML
     Document page1Xml = getXmlFromZip("jcr_root/content/node1/.content.xml");
     assertXpathEvaluatesTo("v1", "/jcr:root/@myns:var1", page1Xml);
+  }
+
+  @Test
+  void testIllegalRootPath() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> {
+      ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test/*");
+      try (ContentPackage contentPackage = builder.build(testFile)) {
+        // add some content
+        contentPackage.addContent("/content/node1", ImmutableMap.<String, Object>of("var1", "v1"));
+      }
+    });
+  }
+
+  @Test
+  void testIllegalContentPath() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> {
+      ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+      try (ContentPackage contentPackage = builder.build(testFile)) {
+        // add some content
+        contentPackage.addContent("/content/*", ImmutableMap.<String, Object>of("var1", "v1"));
+      }
+    });
   }
 
   @Test
