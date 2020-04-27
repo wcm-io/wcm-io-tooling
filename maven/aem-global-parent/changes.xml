@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.4.8" date="not released">
+      <action type="update" dev="sseifert" issue="WTOOL-61">
+        Introduce separate Sling user/password properties for OSGi Console and Package Manager.
+      </action>
       <action type="update" dev="sseifert">
         Update CONGA and CONGA AEM plugin.
       </action>
