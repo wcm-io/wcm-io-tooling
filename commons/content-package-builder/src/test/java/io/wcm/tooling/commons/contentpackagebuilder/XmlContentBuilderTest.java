@@ -21,6 +21,7 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
 import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -144,8 +145,8 @@ class XmlContentBuilderTest {
         "var1", "v1",
         "var2", 55));
     ContentElement node1 = new ContentElementImpl("node1", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var3", "v3"));
-    ContentElement node2 = new ContentElementImpl("node1", ImmutableMap.<String, Object>of("var4", "v4"));
-    ContentElement node21 = new ContentElementImpl("node1", ImmutableMap.<String, Object>of("var5", "v5"));
+    ContentElement node2 = new ContentElementImpl("node2", ImmutableMap.<String, Object>of("var4", "v4"));
+    ContentElement node21 = new ContentElementImpl("node21", ImmutableMap.<String, Object>of("var5", "v5"));
     root.getChildren().put("node1", node1);
     root.getChildren().put("node2", node2);
     node2.getChildren().put("node21", node21);
@@ -206,6 +207,50 @@ class XmlContentBuilderTest {
     assertXpathEvaluatesTo("/pattern2", "/workspaceFilter/filter[2]/*[2]/@pattern", doc);
     assertXpathEvaluatesTo("include", "name(/workspaceFilter/filter[2]/*[3])", doc);
     assertXpathEvaluatesTo("/pattern3", "/workspaceFilter/filter[2]/*[3]/@pattern", doc);
+  }
+
+  @Test
+  void testMapInvalidNodeName() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> {
+      underTest.buildContent(ImmutableMap.<String, Object>of(
+          "node1", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var1", "v1"),
+          "*", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var2", "v2")));
+    });
+  }
+
+  @Test
+  void testMapInvalidAttributeName() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> {
+      underTest.buildContent(ImmutableMap.<String, Object>of(
+          "node1", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var1", "v1"),
+          "node2", ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "my:illegal:attribute", "v2")));
+    });
+  }
+
+  @Test
+  void testContentElementInvalidNodeName() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> {
+      ContentElement root = new ContentElementImpl(null, ImmutableMap.<String, Object>of(
+          "var1", "v1",
+          "var2", 55));
+      ContentElement node1 = new ContentElementImpl("*",
+          ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "var3", "v3"));
+      root.getChildren().put("*", node1);
+      underTest.buildContent(root);
+    });
+  }
+
+  @Test
+  void testContentElementAttributeName() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> {
+      ContentElement root = new ContentElementImpl(null, ImmutableMap.<String, Object>of(
+          "var1", "v1",
+          "var2", 55));
+      ContentElement node1 = new ContentElementImpl("node1",
+          ImmutableMap.<String, Object>of(XmlContentBuilder.PN_PRIMARY_TYPE, "myNodeType", "my:illegal:attribute", "v3"));
+      root.getChildren().put("node1", node1);
+      underTest.buildContent(root);
+    });
   }
 
 }

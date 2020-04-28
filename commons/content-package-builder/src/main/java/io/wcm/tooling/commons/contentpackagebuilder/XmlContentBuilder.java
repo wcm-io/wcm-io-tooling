@@ -204,7 +204,7 @@ final class XmlContentBuilder {
     }
     for (Map.Entry<String, ContentElement> entry : content.getChildren().entrySet()) {
       ContentElement child = entry.getValue();
-      Element subElement = doc.createElement(ISO9075.encode(entry.getKey()));
+      Element subElement = doc.createElement(validateAndEncodeName(entry.getKey()));
       if (!hasAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE) && !child.getProperties().containsKey(PN_PRIMARY_TYPE)) {
         setAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE, NT_UNSTRUCTURED);
       }
@@ -222,7 +222,7 @@ final class XmlContentBuilder {
       }
       if (value instanceof Map) {
         Map<String, Object> childMap = (Map<String, Object>)value;
-        Element subElement = doc.createElement(ISO9075.encode(entry.getKey()));
+        Element subElement = doc.createElement(validateAndEncodeName(entry.getKey()));
         if (!hasAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE) && !childMap.containsKey(PN_PRIMARY_TYPE)) {
           setAttributeNamespaceAware(subElement, PN_PRIMARY_TYPE, NT_UNSTRUCTURED);
         }
@@ -239,10 +239,10 @@ final class XmlContentBuilder {
   private void setAttributeNamespaceAware(Element element, String key, String value) {
     String namespace = getNamespace(key);
     if (namespace == null) {
-      element.setAttribute(ISO9075.encode(key), value);
+      element.setAttribute(validateAndEncodeName(key), value);
     }
     else {
-      element.setAttributeNS(namespace, ISO9075.encode(key), value);
+      element.setAttributeNS(namespace, validateAndEncodeName(key), value);
     }
   }
 
@@ -264,5 +264,11 @@ final class XmlContentBuilder {
     return xmlNamespaces.get(nsPrefix);
   }
 
+  private String validateAndEncodeName(String name) {
+    if (!NameUtil.isValidName(name)) {
+      throw new IllegalArgumentException("Illegal name (not following JCR standards): " + name);
+    }
+    return ISO9075.encode(name);
+  }
 
 }

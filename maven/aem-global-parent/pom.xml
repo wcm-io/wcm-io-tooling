@@ -54,9 +54,17 @@
     <sling.url>http://localhost:4502</sling.url>
     <sling.user>admin</sling.user>
     <sling.password>admin</sling.password>
+    <sling.console.user>${sling.user}</sling.console.user>
+    <sling.console.password>${sling.password}</sling.console.password>
+    <sling.vault.user>${sling.user}</sling.vault.user>
+    <sling.vault.password>${sling.password}</sling.vault.password>
     <sling.publish.url>http://localhost:4503</sling.publish.url>
     <sling.publish.user>admin</sling.publish.user>
     <sling.publish.password>admin</sling.publish.password>
+    <sling.console.publish.user>${sling.publish.user}</sling.console.publish.user>
+    <sling.console.publish.password>${sling.publish.password}</sling.console.publish.password>
+    <sling.vault.publish.user>${sling.publish.user}</sling.vault.publish.user>
+    <sling.vault.publish.password>${sling.publish.password}</sling.vault.publish.password>
 
     <!-- versions -->
     <sling.sling-maven-plugin.version>2.4.2</sling.sling-maven-plugin.version>
@@ -439,8 +447,8 @@
           <!-- Default configuration for deploying bundles into running AEM instance -->
           <configuration>
             <slingUrl>${sling.url}/system/console</slingUrl>
-            <user>${sling.user}</user>
-            <password>${sling.password}</password>
+            <user>${sling.console.user}</user>
+            <password>${sling.console.password}</password>
             <deployFsResourceBundlePrerequisites>
               <bundlePrerequisite>
                 <bundles>
@@ -518,8 +526,8 @@
             <failOnMissingEmbed>true</failOnMissingEmbed>
             <targetURL>${sling.url}/crx/packmgr/service.jsp</targetURL>
             <serviceURL>${sling.url}/crx/packmgr/service/.json</serviceURL>
-            <userId>${sling.user}</userId>
-            <password>${sling.password}</password>
+            <userId>${sling.vault.user}</userId>
+            <password>${sling.vault.password}</password>
             <builtContentDirectory>jcr_root</builtContentDirectory>
             <verbose>true</verbose>
           </configuration>
@@ -531,8 +539,8 @@
           <version>1.7.6</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
-            <userId>${sling.user}</userId>
-            <password>${sling.password}</password>
+            <userId>${sling.vault.user}</userId>
+            <password>${sling.vault.password}</password>
             <excludeFiles>
               <exclude>^META-INF/.*</exclude>
               <!-- exclude renditions that are automatically generated -->
@@ -579,8 +587,8 @@
           <configuration>
             <slingPluginVersion>${sling.sling-maven-plugin.version}</slingPluginVersion>
             <slingConsoleUrl>${sling.url}/system/console</slingConsoleUrl>
-            <slingConsoleUser>${sling.user}</slingConsoleUser>
-            <slingConsolePassword>${sling.password}</slingConsolePassword>
+            <slingConsoleUser>${sling.console.user}</slingConsoleUser>
+            <slingConsolePassword>${sling.console.password}</slingConsolePassword>
           </configuration>
         </plugin>
 
@@ -599,7 +607,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
           <artifactId>conga-maven-plugin</artifactId>
-          <version>1.13.0</version>
+          <version>1.13.1-SNAPSHOT</version>
           <extensions>true</extensions>
           <dependencies>
             <dependency>
@@ -610,7 +618,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.11.0</version>
+              <version>1.11.1-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -622,11 +630,11 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.11.0</version>
+          <version>1.11.1-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
-            <userId>${sling.user}</userId>
-            <password>${sling.password}</password>
+            <userId>${sling.vault.user}</userId>
+            <password>${sling.vault.password}</password>
           </configuration>
         </plugin>
 
@@ -649,8 +657,8 @@
               <artifactId>sling-maven-plugin</artifactId>
               <configuration>
                 <slingUrl>${sling.publish.url}/system/console</slingUrl>
-                <user>${sling.publish.user}</user>
-                <password>${sling.publish.password}</password>
+                <user>${sling.console.publish.user}</user>
+                <password>${sling.console.publish.password}</password>
               </configuration>
             </plugin>
             <plugin>
@@ -659,8 +667,8 @@
               <configuration>
                 <targetURL>${sling.publish.url}/crx/packmgr/service.jsp</targetURL>
                 <serviceURL>${sling.publish.url}/crx/packmgr/service/.json</serviceURL>
-                <userId>${sling.publish.user}</userId>
-                <password>${sling.publish.password}</password>
+                <userId>${sling.vault.publish.user}</userId>
+                <password>${sling.vault.publish.password}</password>
               </configuration>
             </plugin>
             <plugin>
@@ -668,8 +676,8 @@
               <artifactId>wcmio-content-package-maven-plugin</artifactId>
               <configuration>
                 <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
-                <userId>${sling.publish.user}</userId>
-                <password>${sling.publish.password}</password>
+                <userId>${sling.vault.publish.user}</userId>
+                <password>${sling.vault.publish.password}</password>
               </configuration>
             </plugin>
             <plugin>
@@ -677,18 +685,17 @@
               <artifactId>cq-maven-plugin</artifactId>
               <configuration>
                 <slingConsoleUrl>${sling.publish.url}/system/console</slingConsoleUrl>
-                <slingConsoleUser>${sling.publish.user}</slingConsoleUser>
-                <slingConsolePassword>${sling.publish.password}</slingConsolePassword>
+                <slingConsoleUser>${sling.console.publish.user}</slingConsoleUser>
+                <slingConsolePassword>${sling.console.publish.password}</slingConsolePassword>
               </configuration>
             </plugin>
             <plugin>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>conga-aem-maven-plugin</artifactId>
-              <version>1.8.14</version>
               <configuration>
                 <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
-                <userId>${sling.publish.user}</userId>
-                <password>${sling.publish.password}</password>
+                <userId>${sling.vault.publish.user}</userId>
+                <password>${sling.vault.publish.password}</password>
               </configuration>
             </plugin>
           </plugins>

@@ -19,6 +19,7 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
+import static io.wcm.tooling.commons.contentpackagebuilder.NameUtil.ensureValidPath;
 import static org.apache.jackrabbit.vault.util.Constants.CONFIG_XML;
 import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
 import static org.apache.jackrabbit.vault.util.Constants.FILTER_XML;
@@ -210,6 +211,7 @@ public final class ContentPackage implements Closeable {
     if (!normalizedPath.startsWith("/")) {
       normalizedPath = "/" + normalizedPath;
     }
+    ensureValidPath(path);
     return ROOT_DIR + PlatformNameFormat.getPlatformPath(normalizedPath);
   }
 
