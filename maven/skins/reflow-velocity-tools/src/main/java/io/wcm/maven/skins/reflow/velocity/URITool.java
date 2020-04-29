@@ -46,11 +46,8 @@ import org.apache.velocity.tools.config.DefaultKey;
  */
 //CHECKSTYLE:OFF
 @DefaultKey("uriTool")
+@SuppressWarnings("PMD.UseUtilityClass") // velocity tool requires instantiation of this class
 public final class URITool {
-
-  private URITool() {
-    // static methods only
-  }
 
   /**
    * Resolves the link as relative to the base dir URI.

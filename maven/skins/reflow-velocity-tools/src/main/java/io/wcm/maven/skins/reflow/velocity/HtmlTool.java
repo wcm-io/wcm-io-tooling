@@ -55,7 +55,7 @@ import org.apache.velocity.tools.config.DefaultKey;
 import org.apache.velocity.tools.generic.SafeConfig;
 import org.apache.velocity.tools.generic.ValueParser;
 import org.jsoup.Jsoup;
-import org.jsoup.helper.StringUtil;
+import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
@@ -1118,7 +1118,7 @@ public class HtmlTool extends SafeConfig {
   }
 
 
-  private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+  private static final Pattern NONLATIN = Pattern.compile("[^\\w-.]");
   private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
   /**
