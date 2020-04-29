@@ -11,7 +11,8 @@ $(window).load(function(){
 
      // animate
      $('html, body').animate({
-         scrollTop: $(this.hash).offset().top
+       // '.' needs to be escaped in jquery selector
+       scrollTop: $(this.hash.replace(/\./g, "\\.")).offset().top
        }, 300, function(){
 
          // when done, add hash to url
