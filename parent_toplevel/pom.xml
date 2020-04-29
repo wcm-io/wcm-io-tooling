@@ -207,7 +207,7 @@
           <dependency>
             <groupId>io.wcm.maven.skins</groupId>
             <artifactId>reflow-velocity-tools</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
           </dependency>
           <!-- Reflow skin requires Velocity >= 1.7  -->
           <dependency>

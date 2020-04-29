@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update to aem-global-parent 1.4.8.
       </action>
+      <action type="fix" dev="sseifert">
+        Update reflow-velocity-tools to fix broken links in changes report.
+      </action>
     </release>
 
     <release version="1.5.4" date="2020-04-23">
