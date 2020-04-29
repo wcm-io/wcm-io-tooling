@@ -28,10 +28,10 @@
         Update to aem-global-parent 1.4.8.
       </action>
       <action type="fix" dev="sseifert">
-        Update reflow-maven-skin and reflow-velocity-tools to fix broken links in changes report.
+        Update to reflow-maven-skin 1.0.12 and reflow-velocity-tools 1.0.2 to fix broken links in changes report.
       </action>
       <action type="fix" dev="sseifert">
-        maven-changes-plugin: Do not generate links to teamlist reports
+        maven-changes-plugin: Do not generate links to teamlist reports.
       </action>
     </release>
 
