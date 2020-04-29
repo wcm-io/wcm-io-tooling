@@ -7,7 +7,7 @@ Tooling for Maven and IDEs.
 Documentation: https://wcm.io/tooling/<br/>
 Issues: https://wcm-io.atlassian.net/browse/WTOOL<br/>
 Wiki: https://wcm-io.atlassian.net/wiki/<br/>
-Continuous Integration: https://travis-ci.org/wcm-io/wcm-io-tooling/
+Continuous Integration: https://travis-ci.org/wcm-io/wcm-io-tooling/<br/>
 Commercial support: https://wcm.io/commercial-support.html
 
 
