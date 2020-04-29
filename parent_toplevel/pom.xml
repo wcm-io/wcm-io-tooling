@@ -376,6 +376,8 @@
         <configuration>
           <!-- Allow HTML markup in CDATA sections in changes reports -->
           <escapeHTML>false</escapeHTML>
+          <!-- Do not generate links to teamlist reports -->
+          <teamlist>none</teamlist>
         </configuration>
       </plugin>
 
