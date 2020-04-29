@@ -35,7 +35,7 @@
   <skin>
     <groupId>io.wcm.maven.skins</groupId>
     <artifactId>reflow-maven-skin</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11-SNAPSHOT</version>
   </skin>
   <custom>
     <reflowSkin>
@@ -117,6 +117,7 @@
       <item name="GitHub project" href="https://github.com/wcm-io" />
       <item name="Subprojects" href="https://wcm.io/subprojects.html" />
       <item name="License" href="https://wcm.io/license.html" />
+      <item name="Commercial Support" href="https://wcm.io/commercial-support.html" />
       <item name="Imprint" href="https://wcm.io/imprint.html" />
     </menu>
     <menu name="Categories" inherit="top">

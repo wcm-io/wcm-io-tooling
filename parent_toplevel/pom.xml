@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.4.6</version>
+    <version>1.4.8</version>
     <relativePath />
   </parent>
 
@@ -207,7 +207,7 @@
           <dependency>
             <groupId>io.wcm.maven.skins</groupId>
             <artifactId>reflow-velocity-tools</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
           </dependency>
           <!-- Reflow skin requires Velocity >= 1.7  -->
           <dependency>
@@ -376,6 +376,8 @@
         <configuration>
           <!-- Allow HTML markup in CDATA sections in changes reports -->
           <escapeHTML>false</escapeHTML>
+          <!-- Do not generate links to teamlist reports -->
+          <teamlist>none</teamlist>
         </configuration>
       </plugin>
 
