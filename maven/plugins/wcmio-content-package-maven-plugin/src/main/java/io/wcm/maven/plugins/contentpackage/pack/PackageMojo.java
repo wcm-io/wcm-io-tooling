@@ -67,6 +67,8 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Creates a JCR Content Package with embedded Bundles and Packages.
  * @deprecated Please switch to <a href="http://jackrabbit.apache.org/filevault-package-maven-plugin/">Jackrabbit
@@ -87,7 +89,6 @@ public final class PackageMojo extends AbstractMojo {
   private static final String PACKAGE_EXT = "." + PACKAGE_TYPE;
   private static final String DEFINITION_FOLDER = "definition";
   private static final String THUMBNAIL_FILE = "thumbnail.png";
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
 
   private static final String PROPERTY_GROUP = "group";
   private static final String PROPERTY_NAME = "name";
@@ -396,6 +397,7 @@ public final class PackageMojo extends AbstractMojo {
   }
 
   @Override
+  @SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE", "REC_CATCH_EXCEPTION" })
   public void execute() throws MojoExecutionException, MojoFailureException {
 
     // show deprecation warning
@@ -571,8 +573,10 @@ public final class PackageMojo extends AbstractMojo {
    * Build Package Properties XML file.
    * @param vaultFolder Folder in where the properties.xml file is written to
    */
+  @SuppressFBWarnings("WMI_WRONG_MAP_ITERATOR")
   private void writePropertiesFile(File vaultFolder)
       throws IOException {
+    final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
     final Properties vaultProperties = new Properties();
 
     String description = project.getDescription();
@@ -611,7 +615,7 @@ public final class PackageMojo extends AbstractMojo {
     if (!vaultProperties.containsKey(PROPERTY_CREATED_BY)) {
       vaultProperties.put(PROPERTY_CREATED_BY, System.getProperty("user.name"));
     }
-    vaultProperties.put(PROPERTY_CREATED, DATE_FORMAT.format(new Date()));
+    vaultProperties.put(PROPERTY_CREATED, dateFormat.format(new Date()));
 
     // configurable properties
     vaultProperties.put(PROPERTY_REQUIRES_ROOT, String.valueOf(requiresRoot));
@@ -644,7 +648,7 @@ public final class PackageMojo extends AbstractMojo {
             return itemName.equals(fileName);
           }
         });
-    if (files.length > 0) {
+    if (files != null && files.length > 0) {
       answer = files[0];
     }
     return answer;

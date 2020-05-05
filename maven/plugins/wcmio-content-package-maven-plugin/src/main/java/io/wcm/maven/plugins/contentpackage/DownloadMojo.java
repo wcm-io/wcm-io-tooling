@@ -29,6 +29,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.wcm.tooling.commons.packmgr.download.PackageDownloader;
 import io.wcm.tooling.commons.packmgr.unpack.ContentUnpacker;
 import io.wcm.tooling.commons.packmgr.unpack.ContentUnpackerProperties;
@@ -116,6 +117,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
   /**
    * Unpack content package
    */
+  @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
   private void unpackFile(File file) throws MojoExecutionException {
 
     // initialize unpacker to validate patterns
