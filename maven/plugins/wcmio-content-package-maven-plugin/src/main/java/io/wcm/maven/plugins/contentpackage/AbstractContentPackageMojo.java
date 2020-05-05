@@ -64,16 +64,30 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   private String serviceURL;
 
   /**
-   * The user name to authenticate as against the remote CRX system.
+   * The user name to authenticate as against the remote CRX system (package manager).
    */
   @Parameter(property = "vault.userId", required = true, defaultValue = "admin")
   private String userId;
 
   /**
-   * The password to authenticate against the remote CRX system.
+   * The password to authenticate against the remote CRX system (package manager).
    */
   @Parameter(property = "vault.password", required = true, defaultValue = "admin")
   private String password;
+
+  /**
+   * The user name to authenticate as against the remote CRX system (Felix console).
+   * Defaults to the value from <code>userId</code>.
+   */
+  @Parameter(property = "console.userId", required = true)
+  private String consoleUserId;
+
+  /**
+   * The password to authenticate against the remote CRX system (Felix console).
+   * Defaults to the value from <code>password</code>.
+   */
+  @Parameter(property = "console.password", required = true)
+  private String consolePassword;
 
   /**
    * Set this to "true" to skip installing packages to CRX although configured in the POM.
@@ -177,6 +191,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     props.setPackageManagerUrl(buildPackageManagerUrl());
     props.setUserId(this.userId);
     props.setPassword(this.password);
+    props.setConsoleUserId(this.consoleUserId);
+    props.setConsolePassword(this.consolePassword);
     props.setRetryCount(this.retryCount);
     props.setRetryDelaySec(this.retryDelay);
     props.setBundleStatusUrl(buildBundleStatusUrl());
