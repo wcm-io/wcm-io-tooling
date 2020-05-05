@@ -32,6 +32,8 @@ public final class PackageManagerProperties {
   private String packageManagerUrl;
   private String userId;
   private String password;
+  private String consoleUserId;
+  private String consolePassword;
   private int retryCount = 24;
   private int retryDelaySec = 5;
   private String bundleStatusUrl;
@@ -59,7 +61,7 @@ public final class PackageManagerProperties {
   }
 
   /**
-   * The user name to authenticate as against the remote CRX system.
+   * The user name to authenticate as against the remote CRX system (package manager).
    * @return User ID
    */
   public String getUserId() {
@@ -71,7 +73,7 @@ public final class PackageManagerProperties {
   }
 
   /**
-   * The password to authenticate against the remote CRX system.
+   * The password to authenticate against the remote CRX system (package manager).
    * @return Password
    */
   public String getPassword() {
@@ -80,6 +82,38 @@ public final class PackageManagerProperties {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  /**
+   * The user name to authenticate as against the remote CRX system (Felix console).
+   * Fallback to {@link #getUserId()} if not set.
+   * @return User ID
+   */
+  public String getConsoleUserId() {
+    if (this.consoleUserId == null) {
+      return this.userId;
+    }
+    return this.consoleUserId;
+  }
+
+  public void setConsoleUserId(String consoleUserId) {
+    this.consoleUserId = consoleUserId;
+  }
+
+  /**
+   * The password to authenticate against the remote CRX system (Felix console).
+   * Fallback to {@link #getPassword()} if not set.
+   * @return Password
+   */
+  public String getConsolePassword() {
+    if (this.consolePassword == null) {
+      return this.password;
+    }
+    return this.consolePassword;
+  }
+
+  public void setConsolePassword(String consolePassword) {
+    this.consolePassword = consolePassword;
   }
 
   /**

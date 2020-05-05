@@ -73,7 +73,7 @@ public final class PackageDownloader {
   @SuppressWarnings("PMD.GuardLogStatement")
   @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
   public File downloadFile(File file, String ouputFilePath) {
-    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+    try (CloseableHttpClient httpClient = pkgmgr.getPackageManagerHttpClient()) {
       log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());
 
       // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)

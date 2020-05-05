@@ -37,13 +37,15 @@ public interface VendorPackageInstaller {
    * Install a Package
    * @param packageFile Package to be installed
    * @param pkgmgr Package Manager
-   * @param httpClient Http Client used to call the service
+   * @param packageManagerHttpClient Http Client used to call the package manager
+   * @param consoleHttpClient Http Client used to call the Felix console
    * @param props Package manager properties
    * @param log Logger to report issues
    * @throws IOException If calls to the Web Service fail
    * @throws PackageManagerException If the package installation failed
    */
-  void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
+  void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
+      CloseableHttpClient packageManagerHttpClient, CloseableHttpClient consoleHttpClient,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException;
 
 }
