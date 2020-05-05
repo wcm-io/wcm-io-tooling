@@ -24,7 +24,7 @@
   <body>
 
     <release version="1.7.0" date="not released">
-      <action type="update" dev="sseifert">
+      <action type="update" dev="sseifert" issue="WTOOL-62">
         Allow to provide separate credentials for package manager and Felix console.
       </action>
     </release>
