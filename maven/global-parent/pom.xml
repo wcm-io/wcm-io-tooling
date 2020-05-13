@@ -83,7 +83,7 @@
     <targetJdk>${java.version}</targetJdk>
 
     <!-- Mininum maven version -->
-    <maven.min-version>3.5.0</maven.min-version>
+    <maven.min-version>3.6.0</maven.min-version>
 
     <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
