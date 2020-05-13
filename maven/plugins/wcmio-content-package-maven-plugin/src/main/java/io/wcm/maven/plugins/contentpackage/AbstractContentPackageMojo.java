@@ -79,14 +79,14 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    * The user name to authenticate as against the remote CRX system (Felix console).
    * Defaults to the value from <code>userId</code>.
    */
-  @Parameter(property = "console.userId", required = true)
+  @Parameter(property = "console.userId")
   private String consoleUserId;
 
   /**
    * The password to authenticate against the remote CRX system (Felix console).
    * Defaults to the value from <code>password</code>.
    */
-  @Parameter(property = "console.password", required = true)
+  @Parameter(property = "console.password")
   private String consolePassword;
 
   /**
