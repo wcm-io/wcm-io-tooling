@@ -44,25 +44,6 @@
     <tag>HEAD</tag>
   </scm>
 
-  <build>
-    <plugins>
-
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <configuration>
-          <!-- Prefix release numbers with artifactId for GIT repo with more than one released artifact -->
-          <flowInitContext>
-            <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
-            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
-          </flowInitContext>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </build>
-
   <properties>
     <site.url.module.prefix>tooling</site.url.module.prefix>
   </properties>
