@@ -25,7 +25,7 @@
 
     <release version="1.5.6" date="not released">
       <action type="update" dev="sseifert">
-        Update to aem-global-parent 1.4.8.
+        Update to aem-global-parent 1.4.10.
       </action>
       <action type="fix" dev="sseifert">
         Update to reflow-maven-skin 1.0.12 and reflow-velocity-tools 1.0.2 to fix broken links in changes report.
