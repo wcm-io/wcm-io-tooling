@@ -39,9 +39,10 @@
       <action type="update" dev="sseifert">
         jgitflow-maven-plugin: Use normal blank as suffix for scmCommentPrefix.
       </action>
-      <action type="update" dev="sseifert">
+      <action type="update" dev="sseifert"><![CDATA[
         Move default configuration for eclipse-maven-plugin and maven-checkstyle-plugin to pluginManagement section.
-      </action>
+        See also this <a href="https://wcm-io.atlassian.net/wiki/x/AQBFY">How-To article</a>.
+      ]]></action>
     </release>
 
     <release version="32" date="2020-04-14">
