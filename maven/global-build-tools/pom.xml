@@ -156,24 +156,7 @@
         </executions>
       </plugin>
 
-      <!-- gitflow customization (only for this pom) -->
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <configuration>
-          <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
-          <eol>lf</eol>
-          <!-- Prefix release numbers with artifactId for GIT repo with more than one released artifact -->
-          <flowInitContext>
-            <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
-            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
-          </flowInitContext>
-        </configuration>
-      </plugin>
-
     </plugins>
-
     <pluginManagement>
       <plugins>
 
@@ -253,6 +236,16 @@
           <groupId>external.atlassian.jgitflow</groupId>
           <artifactId>jgitflow-maven-plugin</artifactId>
           <version>1.0-m5.1</version>
+          <inherited>false</inherited>
+          <configuration>
+            <scmCommentPrefix xml:space="preserve">[jgitflow-maven-plugin] </scmCommentPrefix>
+            <eol>lf</eol>
+            <flowInitContext>
+              <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+              <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+              <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+            </flowInitContext>
+          </configuration>
         </plugin>
 
       </plugins>
