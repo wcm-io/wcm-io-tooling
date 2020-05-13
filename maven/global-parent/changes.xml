@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         jgitflow-maven-plugin: Use normal blank as suffix for scmCommentPrefix.
       </action>
+      <action type="update" dev="sseifert">
+        Move default configuration for eclipse-maven-plugin and maven-checkstyle-plugin to pluginManagement section.
+      </action>
     </release>
 
     <release version="32" date="2020-04-14">

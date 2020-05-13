@@ -249,106 +249,6 @@
         </configuration>
       </plugin>
 
-      <!-- Site plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <inherited>false</inherited>
-        <configuration>
-          <skip>true</skip>
-          <skipDeploy>true</skipDeploy>
-        </configuration>
-      </plugin>
-
-      <!-- Eclipse configuration -->
-      <plugin>
-        <groupId>io.wcm.devops.maven.plugins</groupId>
-        <artifactId>eclipse-maven-plugin</artifactId>
-        <inherited>true</inherited>
-        <configuration>
-          <downloadSources>true</downloadSources>
-          <useProjectReferences>false</useProjectReferences>
-          <additionalBuildcommands>
-            <buildcommand>edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder</buildcommand>
-            <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
-            <buildcommand>ch.acanda.eclipse.pmd.builder.PMDBuilder</buildcommand>
-          </additionalBuildcommands>
-          <additionalProjectnatures>
-            <projectnature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</projectnature>
-            <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
-            <projectnature>ch.acanda.eclipse.pmd.builder.PMDNature</projectnature>
-          </additionalProjectnatures>
-          <additionalConfig>
-            <file>
-              <name>.settings/org.eclipse.core.resources.prefs</name>
-              <location>/global-build-tools/eclipse/org.eclipse.core.resources.prefs</location>
-            </file>
-            <file>
-              <name>.settings/org.eclipse.core.runtime.prefs</name>
-              <location>/global-build-tools/eclipse/org.eclipse.core.runtime.prefs</location>
-            </file>
-            <file>
-              <name>.settings/org.eclipse.jdt.core.prefs</name>
-              <location>/global-build-tools/eclipse/org.eclipse.jdt.core.prefs</location>
-              <filtering>true</filtering>
-            </file>
-            <file>
-              <name>.settings/org.eclipse.jdt.ui.prefs</name>
-              <location>/global-build-tools/eclipse/org.eclipse.jdt.ui.prefs</location>
-            </file>
-            <file>
-              <name>.settings/edu.umd.cs.findbugs.core.prefs</name>
-              <location>/global-build-tools/eclipse/edu.umd.cs.findbugs.core.prefs</location>
-            </file>
-            <!-- For plugin: https://marketplace.eclipse.org/content/checkstyle-plug -->
-            <file>
-              <name>.checkstyle</name>
-              <content>
-                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
-  <local-check-config name="wcm.io" location=".settings/plugins/checkstyle-config.xml" type="project" description="">
-    <property name="checkstyle.suppressions.file" value="${basedir}/.settings/plugins/checkstyle-suppressions.xml" />
-    <additional-data name="protect-config-file" value="true" />
-  </local-check-config>
-  <fileset name="all" enabled="true" check-config-name="wcm.io" local="true">
-    <file-match-pattern match-pattern="^.*\.java$" include-pattern="true" />
-  </fileset>
-</fileset-config>]]>
-              </content>
-            </file>
-            <file>
-              <name>.settings/plugins/checkstyle-config.xml</name>
-              <location>/global-build-tools/checkstyle.xml</location>
-            </file>
-            <file>
-              <name>.settings/plugins/checkstyle-suppressions.xml</name>
-              <location>/global-build-tools/checkstyle-suppressions.xml</location>
-            </file>
-            <file>
-              <name>.settings/plugins/spotbugs-exclude.xml</name>
-              <location>/global-build-tools/spotbugs-exclude.xml</location>
-            </file>
-            <!-- For plugin: https://marketplace.eclipse.org/content/eclipse-pmd -->
-            <file>
-              <name>.eclipse-pmd</name>
-              <content>
-                <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<eclipse-pmd xmlns="http://acanda.ch/eclipse-pmd/0.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://acanda.ch/eclipse-pmd/0.8 http://acanda.ch/eclipse-pmd/eclipse-pmd-0.8.xsd">
-  <analysis enabled="true" />
-  <rulesets>
-    <ruleset name="wcm.io" ref=".settings/plugins/pmd-ruleset.xml" refcontext="project" />
-  </rulesets>
-</eclipse-pmd>]]>
-              </content>
-            </file>
-            <file>
-              <name>.settings/plugins/pmd-ruleset.xml</name>
-              <location>/global-build-tools/pmd-ruleset.xml</location>
-            </file>
-          </additionalConfig>
-        </configuration>
-      </plugin>
-
       <!-- enforce min. maven version -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -473,6 +373,17 @@
         </configuration>
       </plugin>
 
+      <!-- Site plugin (only for this POM) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>true</skip>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+
       <!-- gitflow customization (only for this pom) -->
       <plugin>
         <groupId>external.atlassian.jgitflow</groupId>
@@ -486,28 +397,6 @@
             <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
           </flowInitContext>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <configLocation>global-build-tools/checkstyle.xml</configLocation>
-          <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
-          <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <enableRulesSummary>false</enableRulesSummary>
-          <linkXRef>true</linkXRef>
-          <excludes>**/target/**</excludes>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>8.32</version>
-          </dependency>
-        </dependencies>
       </plugin>
 
     </plugins>
@@ -562,6 +451,88 @@
           <groupId>io.wcm.devops.maven.plugins</groupId>
           <artifactId>eclipse-maven-plugin</artifactId>
           <version>3.1.0</version>
+          <configuration>
+            <downloadSources>true</downloadSources>
+            <useProjectReferences>false</useProjectReferences>
+            <additionalBuildcommands>
+              <buildcommand>edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder</buildcommand>
+              <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+              <buildcommand>ch.acanda.eclipse.pmd.builder.PMDBuilder</buildcommand>
+            </additionalBuildcommands>
+            <additionalProjectnatures>
+              <projectnature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</projectnature>
+              <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
+              <projectnature>ch.acanda.eclipse.pmd.builder.PMDNature</projectnature>
+            </additionalProjectnatures>
+            <additionalConfig>
+              <file>
+                <name>.settings/org.eclipse.core.resources.prefs</name>
+                <location>/global-build-tools/eclipse/org.eclipse.core.resources.prefs</location>
+              </file>
+              <file>
+                <name>.settings/org.eclipse.core.runtime.prefs</name>
+                <location>/global-build-tools/eclipse/org.eclipse.core.runtime.prefs</location>
+              </file>
+              <file>
+                <name>.settings/org.eclipse.jdt.core.prefs</name>
+                <location>/global-build-tools/eclipse/org.eclipse.jdt.core.prefs</location>
+                <filtering>true</filtering>
+              </file>
+              <file>
+                <name>.settings/org.eclipse.jdt.ui.prefs</name>
+                <location>/global-build-tools/eclipse/org.eclipse.jdt.ui.prefs</location>
+              </file>
+              <file>
+                <name>.settings/edu.umd.cs.findbugs.core.prefs</name>
+                <location>/global-build-tools/eclipse/edu.umd.cs.findbugs.core.prefs</location>
+              </file>
+              <!-- For plugin: https://marketplace.eclipse.org/content/checkstyle-plug -->
+              <file>
+                <name>.checkstyle</name>
+                <content>
+                  <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
+  <local-check-config name="wcm.io" location=".settings/plugins/checkstyle-config.xml" type="project" description="">
+    <property name="checkstyle.suppressions.file" value="${basedir}/.settings/plugins/checkstyle-suppressions.xml" />
+    <additional-data name="protect-config-file" value="true" />
+  </local-check-config>
+  <fileset name="all" enabled="true" check-config-name="wcm.io" local="true">
+    <file-match-pattern match-pattern="^.*\.java$" include-pattern="true" />
+  </fileset>
+</fileset-config>]]>
+                </content>
+              </file>
+              <file>
+                <name>.settings/plugins/checkstyle-config.xml</name>
+                <location>/global-build-tools/checkstyle.xml</location>
+              </file>
+              <file>
+                <name>.settings/plugins/checkstyle-suppressions.xml</name>
+                <location>/global-build-tools/checkstyle-suppressions.xml</location>
+              </file>
+              <file>
+                <name>.settings/plugins/spotbugs-exclude.xml</name>
+                <location>/global-build-tools/spotbugs-exclude.xml</location>
+              </file>
+              <!-- For plugin: https://marketplace.eclipse.org/content/eclipse-pmd -->
+              <file>
+                <name>.eclipse-pmd</name>
+                <content>
+                  <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-pmd xmlns="http://acanda.ch/eclipse-pmd/0.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://acanda.ch/eclipse-pmd/0.8 http://acanda.ch/eclipse-pmd/eclipse-pmd-0.8.xsd">
+  <analysis enabled="true" />
+  <rulesets>
+    <ruleset name="wcm.io" ref=".settings/plugins/pmd-ruleset.xml" refcontext="project" />
+  </rulesets>
+</eclipse-pmd>]]>
+                </content>
+              </file>
+              <file>
+                <name>.settings/plugins/pmd-ruleset.xml</name>
+                <location>/global-build-tools/pmd-ruleset.xml</location>
+              </file>
+            </additionalConfig>
+          </configuration>
         </plugin>
 
         <plugin>
@@ -611,6 +582,28 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <configLocation>global-build-tools/checkstyle.xml</configLocation>
+            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+            <suppressionsLocation>global-build-tools/checkstyle-suppressions.xml</suppressionsLocation>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <enableRulesSummary>false</enableRulesSummary>
+            <linkXRef>true</linkXRef>
+            <excludes>**/target/**</excludes>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>8.32</version>
+            </dependency>
+          </dependencies>
         </plugin>
 
         <plugin>
