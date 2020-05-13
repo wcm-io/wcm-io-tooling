@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Set minimum Maven version to 3.6.0.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
     </release>
 
     <release version="32" date="2020-04-14">
