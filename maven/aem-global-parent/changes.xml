@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert" issue="WTOOL-62">
         Update CONGA AEM plugin and wcmio-content-package-maven-plugin to allow to provide separate credentials for package manager and Felix console.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 33.
+      </action>
     </release>
 
     <release version="1.4.8" date="2020-04-28">
