@@ -24,7 +24,7 @@
   <body>
 
     <release version="33" date="not released">
-      <action type="add" dev="sseifert">
+      <action type="add" dev="sseifert" issue="WTOOL-63">
         Add gitflow-maven-plugin as alternative to jgitflow-maven-plugin.
       </action>
       <action type="add" dev="sseifert">
