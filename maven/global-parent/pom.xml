@@ -817,7 +817,7 @@
           <artifactId>jgitflow-maven-plugin</artifactId>
           <version>1.0-m5.1</version>
           <configuration>
-            <scmCommentPrefix>[jgitflow-maven-plugin] </scmCommentPrefix>
+            <scmCommentPrefix xml:space="preserve">[jgitflow-maven-plugin] </scmCommentPrefix>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <eol>lf</eol>
           </configuration>
