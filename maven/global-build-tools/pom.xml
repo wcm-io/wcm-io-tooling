@@ -233,6 +233,39 @@
         </plugin>
 
         <plugin>
+          <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>1.14.0</version>
+          <inherited>false</inherited>
+          <configuration>
+            <skipTestProject>true</skipTestProject>
+            <pushRemote>false</pushRemote>
+            <verbose>true</verbose>
+            <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
+            <postReleaseGoals>clean deploy</postReleaseGoals>
+            <gitFlowConfig>
+              <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+              <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+              <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+            </gitFlowConfig>
+          </configuration>
+          <!-- Workaround for https://github.com/aleksandr-m/gitflow-maven-plugin/issues/231 -->
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <goals>
+                <goal>release</goal>
+                <goal>release-finish</goal>
+                <goal>hotfix-finish</goal>
+              </goals>
+              <configuration>
+                <!-- Make sure release-profile gets activated, and pass through optional additional arguments (use same param name as maven-release-plugin) -->
+                <argLine>-DperformRelease=true ${arguments}</argLine>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <groupId>external.atlassian.jgitflow</groupId>
           <artifactId>jgitflow-maven-plugin</artifactId>
           <version>1.0-m5.1</version>

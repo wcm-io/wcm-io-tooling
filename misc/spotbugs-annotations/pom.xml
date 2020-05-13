@@ -48,11 +48,21 @@
     <pluginManagement>
       <plugins>
 
+      <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <configuration>
+          <gitFlowConfig>
+            <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+          </gitFlowConfig>
+        </configuration>
+      </plugin>
         <plugin>
           <groupId>external.atlassian.jgitflow</groupId>
           <artifactId>jgitflow-maven-plugin</artifactId>
           <configuration>
-            <!-- Prefix release numbers with artifactId for GIT repo with more than one released artifact -->
             <flowInitContext>
               <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
               <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
