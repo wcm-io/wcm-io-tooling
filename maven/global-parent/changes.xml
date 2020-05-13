@@ -24,6 +24,12 @@
   <body>
 
     <release version="33" date="not released">
+      <action type="add" dev="sseifert">
+        Add gitflow-maven-plugin as alternative to jgitflow-maven-plugin.
+      </action>
+      <action type="add" dev="sseifert">
+        Add versions-maven-plugin with processAllModules=true.
+      </action>
       <action type="update" dev="sseifert">
         Set minimum Maven version to 3.6.0.
       </action>

@@ -381,6 +381,18 @@
 
       <!-- gitflow customization (only for this pom) -->
       <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <gitFlowConfig>
+            <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+          </gitFlowConfig>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>external.atlassian.jgitflow</groupId>
         <artifactId>jgitflow-maven-plugin</artifactId>
         <inherited>false</inherited>
@@ -777,6 +789,16 @@
         </plugin>
 
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+            <!-- required for correct versioning by gitflow-maven-plugin, useful anyways for projects with separate aggregator and parent poms -->
+            <processAllModules>true</processAllModules>
+          </configuration>
+        </plugin>
+
+        <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
           <version>1.10.0</version>
@@ -798,6 +820,34 @@
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
           <version>1.6.8</version>
+        </plugin>
+
+        <plugin>
+          <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>1.14.0</version>
+          <configuration>
+            <skipTestProject>true</skipTestProject>
+            <pushRemote>false</pushRemote>
+            <verbose>true</verbose>
+            <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
+            <postReleaseGoals>clean deploy</postReleaseGoals>
+          </configuration>
+          <!-- Workaround for https://github.com/aleksandr-m/gitflow-maven-plugin/issues/231 -->
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <goals>
+                <goal>release</goal>
+                <goal>release-finish</goal>
+                <goal>hotfix-finish</goal>
+              </goals>
+              <configuration>
+                <!-- Make sure release-profile gets activated, and pass through optional additional arguments (use same param name as maven-release-plugin) -->
+                <argLine>-DperformRelease=true ${arguments}</argLine>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
 
         <plugin>
