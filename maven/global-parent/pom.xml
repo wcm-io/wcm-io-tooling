@@ -100,6 +100,12 @@
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
     <eclipse.settings.nullanalysis>disabled</eclipse.settings.nullanalysis>
 
+    <!-- gitflow Maven Plugin default settings -->
+    <gitflow.skipTestProject>true</gitflow.skipTestProject>
+    <gitflow.verbose>true</gitflow.verbose>
+    <gitflow.pushRemote>false</gitflow.pushRemote>
+    <gitflow.postReleaseGoals>clean deploy</gitflow.postReleaseGoals>
+
   </properties>
 
   <dependencyManagement>
@@ -827,11 +833,11 @@
           <artifactId>gitflow-maven-plugin</artifactId>
           <version>1.14.0</version>
           <configuration>
-            <skipTestProject>true</skipTestProject>
-            <pushRemote>false</pushRemote>
-            <verbose>true</verbose>
+            <skipTestProject>${gitflow.skipTestProject}</skipTestProject>
+            <verbose>${gitflow.verbose}</verbose>
+            <pushRemote>${gitflow.pushRemote}</pushRemote>
+            <postReleaseGoals>${gitflow.postReleaseGoals}</postReleaseGoals>
             <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
-            <postReleaseGoals>clean deploy</postReleaseGoals>
           </configuration>
           <!-- Workaround for https://github.com/aleksandr-m/gitflow-maven-plugin/issues/231 -->
           <executions>
