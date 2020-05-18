@@ -98,6 +98,12 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
   private String[] excludeMixins;
 
   /**
+   * Set replication status to "activated" for all cq:Page and cq:Template nodes.
+   */
+  @Parameter
+  private boolean markReplicationActivated;
+
+  /**
    * Downloads the files
    */
   @Override
@@ -126,6 +132,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
     props.setExcludeNodes(this.excludeNodes);
     props.setExcludeProperties(this.excludeProperties);
     props.setExcludeMixins(this.excludeMixins);
+    props.setMarkReplicationActivated(markReplicationActivated);
     ContentUnpacker unpacker = new ContentUnpacker(props);
 
     // validate output directory

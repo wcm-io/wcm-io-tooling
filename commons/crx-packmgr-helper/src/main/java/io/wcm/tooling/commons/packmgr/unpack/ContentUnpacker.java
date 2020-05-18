@@ -63,6 +63,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
+import org.apache.jackrabbit.util.ISO8601;
 import org.apache.jackrabbit.vault.util.DocViewProperty;
 import org.apache.jackrabbit.vault.util.PlatformNameFormat;
 import org.jdom2.Attribute;
@@ -89,6 +90,7 @@ public final class ContentUnpacker {
   private static final String MIXINS_PROPERTY = "jcr:mixinTypes";
   private static final String PRIMARYTYPE_PROPERTY = "jcr:primaryType";
   private static final Namespace JCR_NAMESPACE = Namespace.getNamespace("jcr", "http://www.jcp.org/jcr/1.0");
+  private static final Namespace CQ_NAMESPACE = Namespace.getNamespace("cq", "http://www.day.com/jcr/cq/1.0");
   private static final Pattern FILENAME_NAMESPACE_PATTERN = Pattern.compile("^([^:]+):(.+)$");
 
   private static final SAXParserFactory SAX_PARSER_FACTORY;
@@ -101,6 +103,8 @@ public final class ContentUnpacker {
   private final Pattern[] excludeNodes;
   private final Pattern[] excludeProperties;
   private final Pattern[] excludeMixins;
+  private final boolean markReplicationActivated;
+  private final String dateNow;
 
   /**
    * @param properties Configuration properties
@@ -110,6 +114,14 @@ public final class ContentUnpacker {
     this.excludeNodes = toPatternArray(properties.getExcludeNodes());
     this.excludeProperties = toPatternArray(properties.getExcludeProperties());
     this.excludeMixins = toPatternArray(properties.getExcludeMixins());
+    this.markReplicationActivated = properties.isMarkReplicationActivated();
+
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    this.dateNow = ISO8601.format(cal);
   }
 
   private static Pattern[] toPatternArray(String[] patternStrings) {
@@ -269,7 +281,7 @@ public final class ContentUnpacker {
       namespacePrefixesActuallyUsed.add(namespacePrefix);
     }
 
-    applyXmlExcludes(doc.getRootElement(), "", namespacePrefixesActuallyUsed);
+    applyXmlExcludes(doc.getRootElement(), "", namespacePrefixesActuallyUsed, false);
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
         .setIndent("    ")
@@ -294,7 +306,8 @@ public final class ContentUnpacker {
     return null;
   }
 
-  private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed) {
+  private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed,
+      boolean insideReplicationElement) {
     String path = parentPath + "/" + element.getQualifiedName();
     if (exclude(path, this.excludeNodes)) {
       element.detach();
@@ -304,6 +317,9 @@ public final class ContentUnpacker {
 
     String jcrPrimaryType = element.getAttributeValue("primaryType", JCR_NAMESPACE);
     boolean isRepositoryUserGroup = StringUtils.equals(jcrPrimaryType, "rep:User") || StringUtils.equals(jcrPrimaryType, "rep:Group");
+    boolean isReplicationElement = StringUtils.equals(jcrPrimaryType, "cq:Page") || StringUtils.equals(jcrPrimaryType, "cq:Template");
+    boolean isContent = insideReplicationElement && StringUtils.equals(element.getQualifiedName(), "jcr:content");
+    boolean setReplicationAttributes = isContent && markReplicationActivated;
 
     List<Attribute> attributes = new ArrayList<>(element.getAttributes());
     for (Attribute attribute : attributes) {
@@ -340,9 +356,17 @@ public final class ContentUnpacker {
         collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
       }
     }
+
+    // set replication status for jcr:content nodes inside cq:Page nodes
+    if (setReplicationAttributes) {
+      addMixin(element, "cq:ReplicationStatus");
+      element.setAttribute("lastReplicated", "{Date}" + dateNow, CQ_NAMESPACE);
+      element.setAttribute("lastReplicationAction", "Activate", CQ_NAMESPACE);
+    }
+
     List<Element> children = new ArrayList<>(element.getChildren());
     for (Element child : children) {
-      applyXmlExcludes(child, path, namespacePrefixesActuallyUsed);
+      applyXmlExcludes(child, path, namespacePrefixesActuallyUsed, (insideReplicationElement || isReplicationElement) && !isContent);
     }
   }
 
@@ -368,6 +392,32 @@ public final class ContentUnpacker {
 
     try {
       return DocViewProperty.format(new MockProperty(MIXINS_PROPERTY, true, mixins.toArray(new Value[0])));
+    }
+    catch (RepositoryException ex) {
+      throw new RuntimeException("Unable to format value for " + MIXINS_PROPERTY, ex);
+    }
+  }
+
+  private void addMixin(Element element, String mixin) {
+    String mixinsString = element.getAttributeValue("mixinTypes", JCR_NAMESPACE);
+
+    List<String> mixins = new ArrayList<>();
+    if (!StringUtils.isBlank(mixinsString)) {
+      DocViewProperty prop = DocViewProperty.parse(MIXINS_PROPERTY, mixinsString);
+      for (int i = 0; i < prop.values.length; i++) {
+        mixins.add(prop.values[i]);
+      }
+    }
+    if (!mixins.contains(mixin)) {
+      mixins.add(mixin);
+    }
+
+    try {
+      Value[] values = mixins.stream()
+          .map(item -> new MockValue(item, PropertyType.STRING))
+          .toArray(size -> new Value[size]);
+      mixinsString = DocViewProperty.format(new MockProperty(MIXINS_PROPERTY, true, values));
+      element.setAttribute("mixinTypes", mixinsString, JCR_NAMESPACE);
     }
     catch (RepositoryException ex) {
       throw new RuntimeException("Unable to format value for " + MIXINS_PROPERTY, ex);
@@ -725,7 +775,7 @@ public final class ContentUnpacker {
     }
 
     @Override
-    public String getString() throws ValueFormatException, IllegalStateException, RepositoryException {
+    public String getString() {
       return value;
     }
 
