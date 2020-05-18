@@ -104,9 +104,7 @@
     <gitflow.skipTestProject>true</gitflow.skipTestProject>
     <gitflow.verbose>true</gitflow.verbose>
     <gitflow.pushRemote>false</gitflow.pushRemote>
-    <gitflow.postReleaseGoals>clean deploy</gitflow.postReleaseGoals>
-    <!-- Initialize arguments with empty value for release profile workaround of gitflow Maven Plugin -->
-    <arguments></arguments>
+    <gitflow.postReleaseGoals>clean deploy -Prelease-profile</gitflow.postReleaseGoals>
 
   </properties>
 
@@ -405,7 +403,6 @@
         <artifactId>jgitflow-maven-plugin</artifactId>
         <inherited>false</inherited>
         <configuration>
-          <!-- Prefix release numbers with artifactId for GIT repo with more than one released artifact -->
           <flowInitContext>
             <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
             <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
@@ -841,21 +838,6 @@
             <postReleaseGoals>${gitflow.postReleaseGoals}</postReleaseGoals>
             <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
           </configuration>
-          <!-- Workaround for https://github.com/aleksandr-m/gitflow-maven-plugin/issues/231 -->
-          <executions>
-            <execution>
-              <id>default-cli</id>
-              <goals>
-                <goal>release</goal>
-                <goal>release-finish</goal>
-                <goal>hotfix-finish</goal>
-              </goals>
-              <configuration>
-                <!-- Make sure release-profile gets activated, and pass through optional additional arguments (use same param name as maven-release-plugin) -->
-                <argLine>-DperformRelease=true ${arguments}</argLine>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
 
         <plugin>
