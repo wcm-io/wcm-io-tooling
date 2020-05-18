@@ -28,6 +28,7 @@ public final class ContentUnpackerProperties {
   private String[] excludeNodes;
   private String[] excludeProperties;
   private String[] excludeMixins;
+  private boolean markReplicationActivated;
 
   /**
    * Exclude files
@@ -75,6 +76,18 @@ public final class ContentUnpackerProperties {
 
   public void setExcludeMixins(String[] excludeMixins) {
     this.excludeMixins = excludeMixins;
+  }
+
+  /**
+   * Set replication status to "activated" for all cq:Page and cq:Template nodes.
+   * @return Set replication status
+   */
+  public boolean isMarkReplicationActivated() {
+    return this.markReplicationActivated;
+  }
+
+  public void setMarkReplicationActivated(boolean markReplicationActivated) {
+    this.markReplicationActivated = markReplicationActivated;
   }
 
 }

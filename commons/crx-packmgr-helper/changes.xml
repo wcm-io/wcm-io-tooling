@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.7.0" date="not released">
+      <action type="add" dev="sseifert">
+        ContentUnpackager: Add "markReplicationActivated" option to set replication status to "activated" for all cq:Page and cq:Template nodes.
+      </action>
       <action type="update" dev="sseifert" issue="WTOOL-62">
         Allow to provide separate credentials for package manager and Felix console.
       </action>
