@@ -105,6 +105,8 @@
     <gitflow.verbose>true</gitflow.verbose>
     <gitflow.pushRemote>false</gitflow.pushRemote>
     <gitflow.postReleaseGoals>clean deploy</gitflow.postReleaseGoals>
+    <!-- Initialize arguments with empty value for release profile workaround of gitflow Maven Plugin -->
+    <arguments></arguments>
 
   </properties>
 
