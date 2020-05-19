@@ -29,7 +29,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>32</version>
+    <version>33-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -172,11 +172,22 @@
 
       <!-- gitflow customization (only for this pom) -->
       <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <gitFlowConfig>
+            <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+          </gitFlowConfig>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>external.atlassian.jgitflow</groupId>
         <artifactId>jgitflow-maven-plugin</artifactId>
         <inherited>false</inherited>
         <configuration>
-          <!-- Prefix release numbers with artifactId for GIT repo with more than one released artifact -->
           <flowInitContext>
             <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
             <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
@@ -536,11 +547,13 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.7.6</version>
+          <version>1.7.7-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.vault.user}</userId>
             <password>${sling.vault.password}</password>
+            <consoleUserId>${sling.console.user}</consoleUserId>
+            <consolePassword>${sling.console.password}</consolePassword>
             <excludeFiles>
               <exclude>^META-INF/.*</exclude>
               <!-- exclude renditions that are automatically generated -->
@@ -618,7 +631,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.11.2</version>
+              <version>1.11.3-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -630,11 +643,13 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.11.2</version>
+          <version>1.11.3-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.vault.user}</userId>
             <password>${sling.vault.password}</password>
+            <consoleUserId>${sling.console.user}</consoleUserId>
+            <consolePassword>${sling.console.password}</consolePassword>
           </configuration>
         </plugin>
 
@@ -678,6 +693,8 @@
                 <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
                 <userId>${sling.vault.publish.user}</userId>
                 <password>${sling.vault.publish.password}</password>
+                <consoleUserId>${sling.console.publish.user}</consoleUserId>
+                <consolePassword>${sling.console.publish.password}</consolePassword>
               </configuration>
             </plugin>
             <plugin>
@@ -696,6 +713,8 @@
                 <serviceURL>${sling.publish.url}/crx/packmgr/service</serviceURL>
                 <userId>${sling.vault.publish.user}</userId>
                 <password>${sling.vault.publish.password}</password>
+                <consoleUserId>${sling.console.publish.user}</consoleUserId>
+                <consolePassword>${sling.console.publish.password}</consolePassword>
               </configuration>
             </plugin>
           </plugins>

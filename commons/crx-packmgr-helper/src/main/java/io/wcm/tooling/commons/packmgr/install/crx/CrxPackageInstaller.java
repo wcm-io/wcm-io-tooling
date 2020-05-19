@@ -59,19 +59,20 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
   }
 
   @Override
-  public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
+  public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
+      CloseableHttpClient packageManagerHttpClient, CloseableHttpClient consoleHttpClient,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException {
 
     boolean force = packageFile.isForce();
 
     if (force) {
       // in force mode, just check that package manager is available and then start uploading
-      ensurePackageManagerAvailability(pkgmgr, httpClient);
+      ensurePackageManagerAvailability(pkgmgr, packageManagerHttpClient);
     }
     else {
       // otherwise check if package is already installed first, and skip further processing if it is
       // this implicitly also checks the availability of the package manager
-      PackageInstalledStatus status = getPackageInstalledStatus(packageFile, pkgmgr, httpClient, log);
+      PackageInstalledStatus status = getPackageInstalledStatus(packageFile, pkgmgr, packageManagerHttpClient, log);
       switch (status) {
         case NOT_FOUND:
           log.debug("Package is not found in package list: proceed with install.");
@@ -103,7 +104,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
     post.setEntity(entityBuilder.build());
 
     // execute post
-    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, post);
+    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(packageManagerHttpClient, post);
     boolean success = jsonResponse.optBoolean("success", false);
     String msg = jsonResponse.optString("msg", null);
     String path = jsonResponse.optString("path", null);
@@ -121,13 +122,13 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         }
 
         // execute post
-        pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, post);
+        pkgmgr.executePackageManagerMethodHtmlOutputResponse(packageManagerHttpClient, post);
 
         // delay further processing after install (if activated)
         delay(packageFile.getDelayAfterInstallSec(), log);
 
         // after install: if bundles are still stopping/starting, wait for completion
-        pkgmgr.waitForBundlesActivation(httpClient);
+        pkgmgr.waitForBundlesActivation(consoleHttpClient);
       }
       else {
         log.info("Package uploaded successfully (without installing).");

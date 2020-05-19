@@ -49,7 +49,8 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
   }
 
   @Override
-  public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
+  public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
+      CloseableHttpClient packageManagerHttpClient, CloseableHttpClient consoleHttpClient,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException {
     // prepare post method
     int index = url.indexOf("/bin/cpm/");
@@ -65,7 +66,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
     post.setEntity(entityBuilder.build());
 
     // execute post
-    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, post);
+    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(packageManagerHttpClient, post);
     String status = jsonResponse.optString("status", "not-found");
     boolean success = "successful".equals(status);
     String path = jsonResponse.optString("path", null);
@@ -78,7 +79,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
         HttpClientUtil.applyRequestConfig(post, packageFile, props);
 
         // execute post
-        JSONObject jsonResponseInstallation = pkgmgr.executePackageManagerMethodJson(httpClient, post);
+        JSONObject jsonResponseInstallation = pkgmgr.executePackageManagerMethodJson(packageManagerHttpClient, post);
         String installationStatus = jsonResponseInstallation.optString("status", "not-found");
         if (!"done".equals(installationStatus)) {
           throw new PackageManagerException("Package installation failed: " + status);
@@ -88,7 +89,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
         delay(packageFile.getDelayAfterInstallSec(), log);
 
         // after install: if bundles are still stopping/starting, wait for completion
-        pkgmgr.waitForBundlesActivation(httpClient);
+        pkgmgr.waitForBundlesActivation(consoleHttpClient);
       }
       else {
         log.info("Package uploaded successfully (without installing).");

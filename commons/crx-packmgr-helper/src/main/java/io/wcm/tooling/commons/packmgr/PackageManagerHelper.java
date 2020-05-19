@@ -94,12 +94,24 @@ public final class PackageManagerHelper {
    * Set up http client with credentials
    * @return Http client
    */
-  public CloseableHttpClient getHttpClient() {
+  public CloseableHttpClient getPackageManagerHttpClient() {
+    return getHttpClient(props.getUserId(), props.getPassword());
+  }
+
+  /**
+   * Set up http client with credentials
+   * @return Http client
+   */
+  public CloseableHttpClient getConsoleHttpClient() {
+    return getHttpClient(props.getConsoleUserId(), props.getConsolePassword());
+  }
+
+  private CloseableHttpClient getHttpClient(String userId, String password) {
     try {
       URI crxUri = new URI(props.getPackageManagerUrl());
 
       final AuthScope authScope = new AuthScope(crxUri.getHost(), crxUri.getPort());
-      final Credentials credentials = new UsernamePasswordCredentials(props.getUserId(), props.getPassword());
+      final Credentials credentials = new UsernamePasswordCredentials(userId, password);
       final CredentialsProvider credsProvider = new BasicCredentialsProvider();
       credsProvider.setCredentials(authScope, credentials);
 

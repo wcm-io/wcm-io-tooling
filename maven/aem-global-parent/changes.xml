@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.4.10" date="not released">
+      <action type="update" dev="sseifert" issue="WTOOL-62">
+        Update CONGA AEM plugin and wcmio-content-package-maven-plugin to allow to provide separate credentials for package manager and Felix console.
+      </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 33.
+      </action>
+    </release>
+
     <release version="1.4.8" date="2020-04-28">
       <action type="update" dev="sseifert" issue="WTOOL-61">
         Introduce separate Sling user/password properties for OSGi Console and Package Manager.

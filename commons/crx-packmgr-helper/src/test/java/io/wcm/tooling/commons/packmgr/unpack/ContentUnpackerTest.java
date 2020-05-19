@@ -46,15 +46,15 @@ class ContentUnpackerTest {
     "cq\\:lastModifiedBy"
   };
 
+  private ContentUnpackerProperties props;
   private ContentUnpacker underTest;
 
   @BeforeEach
   void setUp() throws Exception {
-    ContentUnpackerProperties props = new ContentUnpackerProperties();
+    props = new ContentUnpackerProperties();
     props.setExcludeFiles(EXCLUDE_FILES);
     props.setExcludeNodes(EXCLUDE_NODES);
     props.setExcludeProperties(EXCLUDE_PROPERTIES);
-    underTest = new ContentUnpacker(props);
   }
 
   @Test
@@ -62,6 +62,19 @@ class ContentUnpackerTest {
     File contentPackage = new File("src/test/resources/content-package-test.zip");
     File outputDirectory = new File("target/unpacktest");
     outputDirectory.mkdirs();
+
+    underTest = new ContentUnpacker(props);
+    underTest.unpack(contentPackage, outputDirectory);
+  }
+
+  @Test
+  void testUnpack_MarkReplicationActivated() throws Exception {
+    File contentPackage = new File("src/test/resources/content-package-test.zip");
+    File outputDirectory = new File("target/unpacktest-MarkReplicationActivated");
+    outputDirectory.mkdirs();
+
+    props.setMarkReplicationActivated(true);
+    underTest = new ContentUnpacker(props);
     underTest.unpack(contentPackage, outputDirectory);
   }
 
