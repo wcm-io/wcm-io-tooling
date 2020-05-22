@@ -59,8 +59,11 @@
 
   <properties>
     <!-- versions -->
+    <!-- update-aem-deps:bundle=slf4j.api -->
     <slf4j.version>1.7.25</slf4j.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.jackrabbit-jcr-commons -->
     <jackrabbit.version>2.18.4</jackrabbit.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.oak-core -->
     <oak.version>1.10.8</oak.version>
 
     <!-- repository settings -->
