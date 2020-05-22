@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert" issue="WTOOL-63">
         gitflow-maven-plugin: Use versionsForceUpdate instead of versions-maven-plugin/processAllModules.
       </action>
+      <action type="update" dev="sseifert" issue="WTOOL-63">
+        release-maven-plugin: Activate 'release-profile' by default.
+      </action>
     </release>
 
     <release version="33" date="2020-05-19">
