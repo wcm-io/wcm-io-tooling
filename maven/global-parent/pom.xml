@@ -104,6 +104,7 @@
     <gitflow.skipTestProject>true</gitflow.skipTestProject>
     <gitflow.verbose>true</gitflow.verbose>
     <gitflow.pushRemote>false</gitflow.pushRemote>
+    <gitflow.versionsForceUpdate>true</gitflow.versionsForceUpdate>
     <gitflow.postReleaseGoals>clean deploy -Prelease-profile</gitflow.postReleaseGoals>
 
   </properties>
@@ -797,10 +798,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
           <version>2.7</version>
-          <configuration>
-            <!-- required for correct versioning by gitflow-maven-plugin, useful anyways for projects with separate aggregator and parent poms -->
-            <processAllModules>true</processAllModules>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -835,6 +832,7 @@
             <skipTestProject>${gitflow.skipTestProject}</skipTestProject>
             <verbose>${gitflow.verbose}</verbose>
             <pushRemote>${gitflow.pushRemote}</pushRemote>
+            <versionsForceUpdate>${gitflow.versionsForceUpdate}</versionsForceUpdate>
             <postReleaseGoals>${gitflow.postReleaseGoals}</postReleaseGoals>
             <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
           </configuration>
