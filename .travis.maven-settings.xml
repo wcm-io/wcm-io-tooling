@@ -56,19 +56,6 @@
         </repository>
 
         <repository>
-          <id>adobe-experience-cloud</id>
-          <name>Adobe Experience Cloud</name>
-          <url>https://downloads.experiencecloud.adobe.com/content/maven/public/</url>
-          <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-
-        <repository>
           <id>wcm-io-apache-intermediate-release</id>
           <url>https://wcm.io/maven/repositories/apache-intermediate-release</url>
           <layout>default</layout>
