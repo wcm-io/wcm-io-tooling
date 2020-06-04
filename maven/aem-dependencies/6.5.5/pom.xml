@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
   #%L
   wcm.io
   %%
-  Copyright (C) 2019 wcm.io
+  Copyright (C) 2020 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,14 +16,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   #L%
-  -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.1.0001-SNAPSHOT</version>
+  <version>6.5.5.0000</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-dependencies</name>
@@ -38,7 +35,7 @@
     <tag>HEAD</tag>
   </scm>
 
-  <inceptionYear>2019</inceptionYear>
+  <inceptionYear>2020</inceptionYear>
 
   <organization>
     <name>wcm.io</name>
@@ -62,9 +59,12 @@
 
   <properties>
     <!-- versions -->
+    <!-- update-aem-deps:bundle=slf4j.api -->
     <slf4j.version>1.7.25</slf4j.version>
-    <jackrabbit.version>2.18.0</jackrabbit.version>
-    <oak.version>1.10.2</oak.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.jackrabbit-jcr-commons -->
+    <jackrabbit.version>2.20.0</jackrabbit.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.oak-core -->
+    <oak.version>1.22.3</oak.version>
 
     <!-- repository settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
@@ -81,7 +81,7 @@
 
       Dependencies from this AEM release:
       - AEM_6.5_Quickstart.jar
-      - AEM-6.5.1.0-6.5.1.zip
+      - aem-service-pkg-6.5.5.zip
 
      #######################################################################
 -->
@@ -90,13 +90,15 @@
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.5.1</version>
+        <!-- update-aem-deps:ignore -->
+        <version>6.5.5</version>
         <classifier>apis</classifier>
       </dependency>
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>uber-jar</artifactId>
-        <version>6.5.1</version>
+        <!-- update-aem-deps:ignore -->
+        <version>6.5.5</version>
         <classifier>apis-with-deprecations</classifier>
       </dependency>
 
@@ -104,11 +106,13 @@
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.core</artifactId>
+        <!-- update-aem-deps:ignore -->
         <version>7.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.cmpn</artifactId>
+        <!-- update-aem-deps:ignore -->
         <version>7.0.0</version>
       </dependency>
 
@@ -116,16 +120,19 @@
       <dependency>
         <groupId>javax.jcr</groupId>
         <artifactId>jcr</artifactId>
+        <!-- update-aem-deps:ignore -->
         <version>2.0</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
+        <!-- update-aem-deps:ignore -->
         <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet.jsp</groupId>
         <artifactId>jsp-api</artifactId>
+        <!-- update-aem-deps:ignore -->
         <version>2.1</version>
       </dependency>
       <dependency>
@@ -133,9 +140,17 @@
         <artifactId>geronimo-atinject_1.0_spec</artifactId>
         <version>1.0</version>
       </dependency>
+      <!-- Both javax.mail artifacts are deployed - it is recommended to use the new artifact -->
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>javax.mail-api</artifactId>
+        <!-- update-aem-deps:bundle=com.sun.mail.javax.mail -->
+        <version>1.6.2</version>
+      </dependency>
       <dependency>
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
+        <!-- update-aem-deps:bundle=javax.mail -->
         <version>1.5.0-b01</version>
       </dependency>
 
@@ -143,24 +158,26 @@
       <dependency>
         <groupId>org.apache.taglibs</groupId>
         <artifactId>taglibs-standard-spec</artifactId>
-        <!-- day-commons-jstl 1.2.2 contains version 1.2.5 -->
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
         <version>1.2.5</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
-        <!-- com.adobe.granite.poi 2.0.28 contains POI 3.17 -->
-        <version>3.17</version>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0001 -->
+        <version>4.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-scratchpad</artifactId>
-        <version>3.17</version>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0001 -->
+        <version>4.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-ooxml</artifactId>
-        <version>3.17</version>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0001 -->
+        <version>4.0.1</version>
       </dependency>
       <dependency>
         <groupId>com.adobe.granite</groupId>
@@ -177,6 +194,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.io -->
         <version>2.6</version>
       </dependency>
       <dependency>
@@ -187,22 +205,25 @@
       <dependency>
         <groupId>org.apache.xmlgraphics</groupId>
         <artifactId>fop</artifactId>
-        <!-- com.day.commons.osgi.wrapper.fop 1.16.0 contains FOP 1.0 -->
+        <!-- update-aem-deps:derived-from=com.day.commons.osgi.wrapper.fop:1.16.0 -->
         <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-email</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.email -->
         <version>1.5</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.math -->
         <version>2.2</version>
       </dependency>
       <dependency>
         <groupId>joda-time</groupId>
         <artifactId>joda-time</artifactId>
+        <!-- update-aem-deps:bundle=com.adobe.granite.joda-time -->
         <version>2.9.1</version>
       </dependency>
       <dependency>
@@ -223,32 +244,37 @@
       <dependency>
         <groupId>commons-fileupload</groupId>
         <artifactId>commons-fileupload</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.fileupload -->
         <version>1.3.3</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.6</version>
+        <!-- update-aem-deps:bundle=org.apache.commons.lang3 -->
+        <version>3.9</version>
       </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
+        <!-- update-aem-deps:bundle=com.day.commons.osgi.wrapper.commons-lang2 -->
         <version>2.6</version>
       </dependency>
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.collections -->
         <version>3.2.2</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.1</version>
+        <version>4.2</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.11</version>
+        <!-- update-aem-deps:bundle=org.apache.commons.commons-codec -->
+        <version>1.14</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -258,33 +284,35 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-imaging</artifactId>
-        <!-- AEM contains 1.0-R1725432-B002, but this is not available in any public repo -->
+        <!-- update-aem-deps:derived-from=org.apache.commons.commons-imaging:1.0-R1725432-B002 -->
         <version>1.0-R1534292</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.osgi.wrapper.guava:15.0.0.0002 -->
         <version>15.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
+        <!-- update-aem-deps:bundle=com.adobe.cq.gson -->
         <version>2.8.5</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.9.6</version>
+        <version>2.10.3</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
-        <version>2.9.6</version>
+        <version>2.10.3</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.9.6</version>
+        <version>2.10.3</version>
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
@@ -294,6 +322,7 @@
       <dependency>
         <groupId>taglibs</groupId>
         <artifactId>standard</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
         <version>1.1.2</version>
       </dependency>
 
@@ -301,7 +330,7 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.api</artifactId>
-        <version>2.18.4</version>
+        <version>2.20.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -316,7 +345,7 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.serviceusermapper</artifactId>
-        <!-- AEM contains 1.4.5.T20181201004400-4799433 -->
+        <!-- update-aem-deps:derived-from=org.apache.sling.serviceusermapper:1.4.5-T20181201004400-4799433 -->
         <version>1.4.4</version>
       </dependency>
       <dependency>
@@ -332,7 +361,7 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.commons.mime</artifactId>
-        <version>2.2.0</version>
+        <version>2.2.2</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -342,6 +371,7 @@
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
         <artifactId>geronimo-json_1.1_spec</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.commons.johnzon:1.1.2 -->
         <version>1.0</version>
       </dependency>
       <dependency>
@@ -425,6 +455,11 @@
         <version>1.4.14</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.xss</artifactId>
+        <version>2.2.2</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>jackrabbit-jcr-commons</artifactId>
         <version>${jackrabbit.version}</version>
@@ -504,12 +539,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>3.0.0-M1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.2.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -519,17 +554,17 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <version>3.0.0-M1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.3</version>
+          <version>3.0.0-M1</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <goals>deploy</goals>
@@ -538,19 +573,19 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.11.1</version>
+              <version>1.11.2</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>3.9.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>1.4.1</version>
+          <version>3.0.0-M3</version>
         </plugin>
         <plugin>
           <groupId>org.sonatype.plugins</groupId>

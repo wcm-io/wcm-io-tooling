@@ -31,7 +31,6 @@ LOCAL_AEM_PASSWORD = 'admin'
 //----------------------------------------------------------------------
 
 @GrabResolver(name='adobe-public-releases', root='https://repo.adobe.com/nexus/content/groups/public')
-@GrabResolver(name='adobe-experience-cloud', root='https://downloads.experiencecloud.adobe.com/content/maven/public')
 
 @Grab('org.slf4j:slf4j-simple:1.7.30')
 @Grab('io.github.http-builder-ng:http-builder-ng-core:1.0.4')
@@ -50,6 +49,8 @@ import groovy.grape.Grape
 import org.slf4j.LoggerFactory
 import java.util.regex.Pattern
 
+HINT_PATTERN = /\s*update-aem-deps:([^\s]*)\s*/
+
 log = LoggerFactory.getLogger(this.class)
 
 // get bundles version running in local AEM instance
@@ -63,9 +64,7 @@ Document doc = new SAXBuilder().build(new FileReader('pom.xml'))
 
 // update some well-known properties based on specific bundle versions
 log.info 'Update properties...'
-pomUpdateProperty(doc, bundleVersions, 'slf4j.version', 'slf4j.api')
-pomUpdateProperty(doc, bundleVersions, 'jackrabbit.version', 'org.apache.jackrabbit.jackrabbit-jcr-commons')
-pomUpdateProperty(doc, bundleVersions, 'oak.version', 'org.apache.jackrabbit.oak-core')
+pomUpdateProperties(doc, bundleVersions)
 
 // update all dependencies matching the bundles in local POM
 log.info 'Update dependencies...'
@@ -88,10 +87,16 @@ new XMLOutputter().with {
 
 // read URL from locale AEM instance
 def readAemUrl(relativeUrl) {
-  return HttpBuilder.configure {
-    request.uri = LOCAL_AEM_URL + relativeUrl
-    request.auth.basic LOCAL_AEM_USER, LOCAL_AEM_PASSWORD
-  }.get()
+  def url = LOCAL_AEM_URL + relativeUrl
+  try {
+    return HttpBuilder.configure {
+      request.uri = url
+      request.auth.basic LOCAL_AEM_USER, LOCAL_AEM_PASSWORD
+    }.get()
+  }
+  catch (Exception ex) {
+    throw new RuntimeException("Unable to access " + url, ex)
+  }
 }
 
 // read versions of all maven artifacts from bundle list
@@ -113,12 +118,44 @@ def readBundleVersions(bundleVersions) {
 }
 
 // update property in POM to match with a specific bundle version
-def pomUpdateProperty(doc, bundleVersions, propertyName, bundleName) {
-  def props = XPathFactory.instance().compile('/ns:project/ns:properties/ns:' + propertyName, Filters.element(), null, POM_NS).evaluate(doc)
+def pomUpdateProperties(doc, bundleVersions) {
+  def props = XPathFactory.instance().compile('/ns:project/ns:properties/*', Filters.element(), null, POM_NS).evaluate(doc)
   for (def prop in props) {
-    def version = bundleVersions[bundleName]
-    assert version != null : 'Version of bundle ' + bundleName + ' not found'
-    prop.text = version
+    // check if previous sibling is a comment not with a dependency hint
+    def elementIndex = prop.parent.getContent().indexOf(prop)
+    def previousSibling = null
+    while (elementIndex > 0) {
+      previousSibling = prop.parent.getContent().get(--elementIndex)
+      if (previousSibling instanceof Element || previousSibling instanceof Comment) {
+        break
+      }
+      else {
+        previousSibling = null
+      }
+    }
+    if (previousSibling instanceof Comment && previousSibling.text =~ HINT_PATTERN) {
+      def hint = (previousSibling.text =~ HINT_PATTERN)[0][1]
+      // check for dervied-from hint
+      def derivedFrom = getDerivedFromHint(hint)
+      if (derivedFrom) {
+        def actualVersion = bundleVersions[derivedFrom.bundleName]
+        if (derivedFrom.version != actualVersion) {
+          if (actualVersion) {
+            log.warn "property ${prop.name} is derived from ${derivedFrom.bundleName}:${derivedFrom.version}, but that bundle has currently version ${actualVersion}, check manually"
+          }
+          else {
+            log.warn "property ${prop.name} is derived from ${derivedFrom.bundleName}:${derivedFrom.version}, but that bundle is not present, check manually"
+          }
+        }
+        continue
+      }
+      def bundleName = getBundleNameFromHint(hint)
+      if (bundleName) {
+        def version = bundleVersions[bundleName]
+        assert version != null : 'Version of bundle ' + bundleName + ' not found'
+        prop.text = version
+      }
+    }
   } 
 }
 
@@ -203,10 +240,7 @@ def pomValidateDependencies(doc) {
       Grape.grab(group: groupId, module: artifactId, version: version)
     }
     catch (Exception ex) {
-      if (ex.message =~ /bad organisation: expected='com.adobe.aem' found='com.adobe.sdk'/) {
-        // ignore: problem in com.adobe.aem:aem-sdk-api which contains invalid groupId
-      }
-      else if (ex.message =~ /download failed: javax.mail#javax.mail-api;1.6.2!javax.mail-api.jar/
+      if (ex.message =~ /download failed: javax.mail#javax.mail-api;1.6.2!javax.mail-api.jar/
           || ex.message =~ /download failed: org.apache.poi#poi-ooxml-schemas;4.0.1!poi-ooxml-schemas.jar/
           || ex.message =~ /download failed: org.apache.xmlgraphics#fop;1.0!fop.jar/) {
         // ignore: dependencies cannot be downloaded by grape/ivy - unsure why
@@ -220,8 +254,7 @@ def pomValidateDependencies(doc) {
 
 // check for update-aem-deps hint in comment
 def getDependencyHint(dep) {
-  def hintPattern = /\s*update-aem-deps:([^\s]*)\s*/
-  return dep.getContent().findResult { (it instanceof Comment) && it.text =~ hintPattern ? (it.text =~ hintPattern)[0][1] : null }
+  return dep.getContent().findResult { (it instanceof Comment) && it.text =~ HINT_PATTERN ? (it.text =~ HINT_PATTERN)[0][1] : null }
 }
 
 def getBundleNameFromHint(hint) {

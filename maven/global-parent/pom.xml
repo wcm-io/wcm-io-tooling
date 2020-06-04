@@ -104,6 +104,7 @@
     <gitflow.skipTestProject>true</gitflow.skipTestProject>
     <gitflow.verbose>true</gitflow.verbose>
     <gitflow.pushRemote>false</gitflow.pushRemote>
+    <gitflow.versionsForceUpdate>true</gitflow.versionsForceUpdate>
     <gitflow.postReleaseGoals>clean deploy -Prelease-profile</gitflow.postReleaseGoals>
 
   </properties>
@@ -649,17 +650,14 @@
             <!-- Do not push automatically on release:prepare, and allow local git checkout on release:perform -->
             <pushChanges>false</pushChanges>
             <localCheckout>true</localCheckout>
+            <!-- <releaseProfiles>release-profile</releaseProfiles> should be used but is currently broken MRELEASE-1038/MRELEASE-1042 -->
+            <useReleaseProfile>true</useReleaseProfile>
           </configuration>
           <!-- fix for http://jira.codehaus.org/browse/MRELEASE-812, still occuring with 2.5 -->
           <dependencies>
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.11.2</version>
-            </dependency>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-api</artifactId>
               <version>1.11.2</version>
             </dependency>
           </dependencies>
@@ -797,10 +795,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
           <version>2.7</version>
-          <configuration>
-            <!-- required for correct versioning by gitflow-maven-plugin, useful anyways for projects with separate aggregator and parent poms -->
-            <processAllModules>true</processAllModules>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -835,6 +829,7 @@
             <skipTestProject>${gitflow.skipTestProject}</skipTestProject>
             <verbose>${gitflow.verbose}</verbose>
             <pushRemote>${gitflow.pushRemote}</pushRemote>
+            <versionsForceUpdate>${gitflow.versionsForceUpdate}</versionsForceUpdate>
             <postReleaseGoals>${gitflow.postReleaseGoals}</postReleaseGoals>
             <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
           </configuration>

@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="34" date="not released">
+      <action type="update" dev="sseifert" issue="WTOOL-63">
+        gitflow-maven-plugin: Use versionsForceUpdate instead of versions-maven-plugin/processAllModules.
+      </action>
+      <action type="update" dev="sseifert" issue="WTOOL-63">
+        release-maven-plugin: Activate 'release-profile' by default.
+      </action>
+    </release>
+
     <release version="33" date="2020-05-19">
       <action type="add" dev="sseifert" issue="WTOOL-63">
         Add gitflow-maven-plugin as alternative to jgitflow-maven-plugin.

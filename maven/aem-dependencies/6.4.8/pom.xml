@@ -59,8 +59,11 @@
 
   <properties>
     <!-- versions -->
+    <!-- update-aem-deps:bundle=slf4j.api -->
     <slf4j.version>1.7.25</slf4j.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.jackrabbit-jcr-commons -->
     <jackrabbit.version>2.16.5</jackrabbit.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.oak-core -->
     <oak.version>1.8.20</oak.version>
 
     <!-- repository settings -->
@@ -560,31 +563,17 @@
           <inherited>false</inherited>
           <configuration>
             <skipTestProject>true</skipTestProject>
-            <pushRemote>false</pushRemote>
             <verbose>true</verbose>
+            <pushRemote>false</pushRemote>
+            <versionsForceUpdate>true</versionsForceUpdate>
+            <postReleaseGoals>clean deploy -Prelease-profile</postReleaseGoals>
             <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
-            <postReleaseGoals>clean deploy</postReleaseGoals>
             <gitFlowConfig>
               <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
               <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
               <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
             </gitFlowConfig>
           </configuration>
-          <!-- Workaround for https://github.com/aleksandr-m/gitflow-maven-plugin/issues/231 -->
-          <executions>
-            <execution>
-              <id>default-cli</id>
-              <goals>
-                <goal>release</goal>
-                <goal>release-finish</goal>
-                <goal>hotfix-finish</goal>
-              </goals>
-              <configuration>
-                <!-- Make sure release-profile gets activated, and pass through optional additional arguments (use same param name as maven-release-plugin) -->
-                <argLine>-DperformRelease=true ${arguments}</argLine>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>external.atlassian.jgitflow</groupId>
