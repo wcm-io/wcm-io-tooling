@@ -39,6 +39,9 @@
         <imprint>
           <breadcrumbs>false</breadcrumbs>
         </imprint>
+        <privacy>
+          <breadcrumbs>false</breadcrumbs>
+        </privacy>
         <contribute>
           <breadcrumbs>false</breadcrumbs>
         </contribute>
