@@ -127,7 +127,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>4.0.3</version>
+        <version>4.0.4</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -614,7 +614,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.32</version>
+              <version>8.33</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -637,7 +637,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
@@ -678,7 +678,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.3</version>
+          <version>3.2.4</version>
         </plugin>
 
         <plugin>
@@ -708,7 +708,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.3</version>
+          <version>3.3.0</version>
         </plugin>
 
         <plugin>
