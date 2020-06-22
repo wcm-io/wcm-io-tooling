@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update to bnd Maven plugins 5.1.0.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin.
+      </action>
     </release>
 
     <release version="1.4.10" date="2020-05-19">

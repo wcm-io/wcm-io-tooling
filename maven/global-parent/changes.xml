@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert" issue="WTOOL-63">
         release-maven-plugin: Activate 'release-profile' by default.
       </action>
+      <action type="update" dev="sseifert">
+        Update plugins and dependencies to latest versions.
+      </action>
     </release>
 
     <release version="33" date="2020-05-19">
