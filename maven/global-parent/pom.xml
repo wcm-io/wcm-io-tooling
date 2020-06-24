@@ -1003,7 +1003,7 @@
 
   <!-- Profiles -->
   <profiles>
-  
+
     <!-- "Fast" profile for quick compile of the project without any unit tests etc. -->
     <profile>
       <id>fast</id>
@@ -1303,7 +1303,7 @@
       </activation>
       <build>
         <pluginManagement>
-          <plugins>        
+          <plugins>
             <!-- Explicitly set java version with "release" flag available since Java 9 -->
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -1316,7 +1316,7 @@
         </pluginManagement>
       </build>
     </profile>
-  
+
   </profiles>
 
   <distributionManagement>

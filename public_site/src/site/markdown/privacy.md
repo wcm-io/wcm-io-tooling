@@ -42,11 +42,11 @@ We herewith advise you that the transmission of data via the Internet (i.e. thro
 
 The data processing controller on this website is:
 
-pro!vision GmbH  
-Wilmersdorfer Str. 50/51  
+pro!vision GmbH
+Wilmersdorfer Str. 50/51
 D - 10627 Berlin, Germany
 
-Phone: +49 (30) 818 828-50  
+Phone: +49 (30) 818 828-50
 E-mail: info@pro-vision.de
 
 The controller is the natural person or legal entity that single-handedly or jointly with others makes decisions as to the purposes of and resources for the processing of personal data (e.g. names, e-mail addresses, etc.).
@@ -55,13 +55,13 @@ The controller is the natural person or legal entity that single-handedly or joi
 
 We have appointed a data protection officer for our company.
 
-Thomas Noll  
-c/o Fa. DataSecurITy UG  
-haftungsbeschränkt  
-Kirchstrasse 42  
+Thomas Noll
+c/o Fa. DataSecurITy UG
+haftungsbeschränkt
+Kirchstrasse 42
 89180 Berghülen
 
-Phone: 07344-924849-0  
+Phone: 07344-924849-0
 E-mail: datenschutz@datasecurity-ug.de
 
 #### Revocation of your consent to the processing of data

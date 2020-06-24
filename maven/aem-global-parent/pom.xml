@@ -252,7 +252,7 @@
 
   Felix SCR annotations are deprecated:
     org.apache.felix:org.apache.felix.scr.annotations
-  
+
   Please switch to OSGi Service Component annotations.
 
 *********************************************************************

@@ -115,7 +115,7 @@
         <include name="**/*.xslt"/>
         <include name="**/*.yml"/>
         <include name="**/*.yaml"/>
-  
+
         <include name="**/*.asp"/>
         <include name="**/*.asax"/>
         <include name="**/*.asa"/>

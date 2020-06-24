@@ -185,7 +185,7 @@
       </action>
       <action type="fix" dev="sseifert">
         Set scope for org.apache.sling.servlets.annotations to provided.
-      </action>      
+      </action>
     </release>
 
     <release version="1.2.32" date="2019-03-14">
