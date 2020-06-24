@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.4.12" date="2020-05-19">
+    <release version="1.4.12" date="not released">
       <action type="update" dev="sseifert">
         Update global-parent dependency to 34.
       </action>
