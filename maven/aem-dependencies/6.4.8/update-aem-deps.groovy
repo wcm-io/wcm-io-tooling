@@ -19,7 +19,7 @@
  */
 
 /***********************************************************************
- * 
+ *
  * PARAMETERS
  *
  ***********************************************************************/
@@ -156,7 +156,7 @@ def pomUpdateProperties(doc, bundleVersions) {
         prop.text = version
       }
     }
-  } 
+  }
 }
 
 // updates all dependencies to their latest versions
@@ -232,9 +232,9 @@ def pomValidateDependencies(doc) {
       def props = XPathFactory.instance().compile('/ns:project/ns:properties/ns:' + propertyName, Filters.element(), null, POM_NS).evaluate(doc)
       for (def prop in props) {
         version = prop.text
-      } 
+      }
     }
-    
+
     // try to resolve dependency
     try {
       Grape.grab(group: groupId, module: artifactId, version: version)

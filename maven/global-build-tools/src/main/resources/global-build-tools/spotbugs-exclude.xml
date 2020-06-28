@@ -61,7 +61,7 @@
     </Not>
 
   </Match>
-  
+
   <!-- Disable spotbugs for Kotlin source files. -->
   <Match>
     <Source name="~.*\.kt"/>

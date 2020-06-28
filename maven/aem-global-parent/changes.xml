@@ -23,12 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.4.12" date="2020-05-19">
+    <release version="1.4.12" date="not released">
       <action type="update" dev="sseifert">
         Update global-parent dependency to 34.
       </action>
       <action type="update" dev="sseifert">
         Update to bnd Maven plugins 5.1.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM plugin.
       </action>
     </release>
 
@@ -182,7 +185,7 @@
       </action>
       <action type="fix" dev="sseifert">
         Set scope for org.apache.sling.servlets.annotations to provided.
-      </action>      
+      </action>
     </release>
 
     <release version="1.2.32" date="2019-03-14">

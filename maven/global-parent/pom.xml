@@ -92,9 +92,9 @@
     <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
 
     <!-- Plugin version -->
-    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
-    <spotbugs-plugin.version>4.0.0</spotbugs-plugin.version>
+    <spotbugs-plugin.version>4.0.4</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.10.1</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
@@ -127,7 +127,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>4.0.3</version>
+        <version>4.0.6</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -614,7 +614,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.32</version>
+              <version>8.33</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -637,7 +637,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
 
         <plugin>
@@ -678,13 +678,13 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.3</version>
+          <version>3.2.4</version>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.9.1</version>
         </plugin>
 
         <plugin>
@@ -708,20 +708,19 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.3</version>
+          <version>3.3.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>buildnumber-maven-plugin</artifactId>
-          <!-- Do not update to v1.4, we had problems with it -->
-          <version>1.3</version>
+          <version>1.4</version>
         </plugin>
 
         <plugin>
@@ -1004,7 +1003,7 @@
 
   <!-- Profiles -->
   <profiles>
-  
+
     <!-- "Fast" profile for quick compile of the project without any unit tests etc. -->
     <profile>
       <id>fast</id>
@@ -1304,7 +1303,7 @@
       </activation>
       <build>
         <pluginManagement>
-          <plugins>        
+          <plugins>
             <!-- Explicitly set java version with "release" flag available since Java 9 -->
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -1317,7 +1316,7 @@
         </pluginManagement>
       </build>
     </profile>
-  
+
   </profiles>
 
   <distributionManagement>
