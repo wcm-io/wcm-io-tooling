@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="34" date="not released">
+    <release version="34" date="2020-06-28">
       <action type="update" dev="sseifert" issue="WTOOL-63">
         gitflow-maven-plugin: Use versionsForceUpdate instead of versions-maven-plugin/processAllModules.
       </action>
