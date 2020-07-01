@@ -338,7 +338,7 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
             <!-- Travis build workaround, see https://github.com/travis-ci/travis-ci/issues/3396 -->
-            <argLine>-Xmx1024m -XX:MaxPermSize=512M @{argLine}</argLine>
+            <argLine>-Xmx1024m @{argLine}</argLine>
           </configuration>
         </plugin>
 
