@@ -77,7 +77,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
   private String[] excludeFiles;
 
   /**
-   * List of regular patterns matching node paths inside a <code>.content.xml</code> file. All nodes matching
+   * List of regular patterns matching node paths in the whole content package. All nodes matching
    * theses patterns are removed from the <code>.content.xml</code> when unpacking the content package.
    */
   @Parameter
@@ -102,6 +102,13 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
    */
   @Parameter
   private boolean markReplicationActivated;
+
+  /**
+   * List of regular patterns matching node paths in the whole content package. If markReplicationActivated is
+   * activated it affects only nodes matched by any of these patterns.
+   */
+  @Parameter
+  private String[] markReplicationActivatedIncludeNodes;
 
   /**
    * Downloads the files
@@ -133,6 +140,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
     props.setExcludeProperties(this.excludeProperties);
     props.setExcludeMixins(this.excludeMixins);
     props.setMarkReplicationActivated(markReplicationActivated);
+    props.setMarkReplicationActivatedIncludeNodes(markReplicationActivatedIncludeNodes);
     ContentUnpacker unpacker = new ContentUnpacker(props);
 
     // validate output directory
