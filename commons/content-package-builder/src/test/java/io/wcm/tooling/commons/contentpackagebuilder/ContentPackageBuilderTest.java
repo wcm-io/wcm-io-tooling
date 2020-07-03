@@ -19,8 +19,8 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathEvaluatesTo;
+import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathExists;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,11 +28,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.UUID;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.CharEncoding;
@@ -40,7 +38,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
-import org.zeroturnaround.zip.ZipUtil;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -58,7 +55,6 @@ class ContentPackageBuilderTest {
 
   @BeforeEach
   void setUp() {
-    XmlUnitUtil.registerXmlUnitNamespaces();
     underTest = new ContentPackageBuilder();
 
     testFile = new File("target/testing/" + UUID.randomUUID() + ".zip");
@@ -285,18 +281,10 @@ class ContentPackageBuilderTest {
   }
 
   private byte[] getDataFromZip(String path) throws Exception {
-    byte[] data = ZipUtil.unpackEntry(testFile, path);
-    if (data == null) {
-      throw new FileNotFoundException("File not found in ZIP: " + path);
-    }
-    return data;
+    return ContentPackageTestUtil.getDataFromZip(testFile, path);
   }
 
   private Document getXmlFromZip(String path) throws Exception {
-    byte[] data = getDataFromZip(path);
-    DocumentBuilder documentBuilder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
-    documentBuilder.setEntityResolver(new PropertiesEntityResolver());
-    return documentBuilder.parse(new ByteArrayInputStream(data));
+    return ContentPackageTestUtil.getXmlFromZip(testFile, path);
   }
-
 }

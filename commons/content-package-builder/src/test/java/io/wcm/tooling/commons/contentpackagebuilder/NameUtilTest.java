@@ -20,11 +20,10 @@
 package io.wcm.tooling.commons.contentpackagebuilder;
 
 import static io.wcm.tooling.commons.contentpackagebuilder.NameUtil.isValidName;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
 
 class NameUtilTest {
 

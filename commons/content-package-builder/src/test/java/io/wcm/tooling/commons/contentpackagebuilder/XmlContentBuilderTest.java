@@ -19,8 +19,8 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathNotExists;
+import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathEvaluatesTo;
+import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathNotExists;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -42,7 +42,6 @@ class XmlContentBuilderTest {
 
   @BeforeEach
   void setUp() {
-    XmlUnitUtil.registerXmlUnitNamespaces();
     underTest = new XmlContentBuilder(XmlNamespaces.DEFAULT_NAMESPACES);
   }
 

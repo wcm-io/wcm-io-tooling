@@ -19,10 +19,16 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Map;
 
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLUnit;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -31,21 +37,41 @@ public final class XmlUnitUtil {
   public static final String CUSTOM_NS_PREFIX = "myns";
   public static final String CUSTOM_NS_URI = "http://myns";
 
-  private static volatile boolean namespacesRegistered;
+  private static final XPathEngine XPATH_ENGINE = new JAXPXPathEngine();
+  static {
+    Map<String, String> namespaces = ImmutableMap.<String, String>builder()
+        .putAll(XmlNamespaces.DEFAULT_NAMESPACES)
+        .put(CUSTOM_NS_PREFIX, CUSTOM_NS_URI)
+        .build();
+    XPATH_ENGINE.setNamespaceContext(namespaces);
+  }
 
   private XmlUnitUtil() {
     // static methods only
   }
 
-  public static synchronized void registerXmlUnitNamespaces() {
-    if (!namespacesRegistered) {
-      Map<String, String> namespaces = ImmutableMap.<String, String>builder()
-          .putAll(XmlNamespaces.DEFAULT_NAMESPACES)
-          .put(CUSTOM_NS_PREFIX, CUSTOM_NS_URI)
-          .build();
-      XMLUnit.setXpathNamespaceContext(new SimpleNamespaceContext(namespaces));
-      namespacesRegistered = true;
-    }
+  public static void assertXpathEvaluatesTo(String expected, String xpath, Node node) {
+    assertEquals(expected, XPATH_ENGINE.evaluate(xpath, node));
+  }
+
+  public static void assertXpathEvaluatesTo(String expected, String xpath, Document doc) {
+    assertXpathEvaluatesTo(expected, xpath, doc.getDocumentElement());
+  }
+
+  public static void assertXpathExists(String xpath, Node node) {
+    assertTrue(XPATH_ENGINE.selectNodes(xpath, node).iterator().hasNext(), "XPath '" + xpath + "' exists");
+  }
+
+  public static void assertXpathExists(String xpath, Document doc) {
+    assertXpathExists(xpath, doc.getDocumentElement());
+  }
+
+  public static void assertXpathNotExists(String xpath, Node node) {
+    assertFalse(XPATH_ENGINE.selectNodes(xpath, node).iterator().hasNext(), "XPath '" + xpath + "' does not exist");
+  }
+
+  public static void assertXpathNotExists(String xpath, Document doc) {
+    assertXpathNotExists(xpath, doc.getDocumentElement());
   }
 
 }
