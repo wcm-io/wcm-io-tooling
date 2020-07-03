@@ -20,6 +20,9 @@
 package io.wcm.tooling.commons.packmgr.unpack;
 
 import static io.wcm.tooling.commons.packmgr.unpack.ContentUnpacker.getNamespacePrefix;
+import static io.wcm.tooling.commons.packmgr.util.XmlUnitUtil.assertXpathEvaluatesTo;
+import static io.wcm.tooling.commons.packmgr.util.XmlUnitUtil.assertXpathExists;
+import static io.wcm.tooling.commons.packmgr.util.XmlUnitUtil.assertXpathNotExists;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -65,6 +68,9 @@ class ContentUnpackerTest {
 
     underTest = new ContentUnpacker(props);
     underTest.unpack(contentPackage, outputDirectory);
+
+    assertXpathExists("/jcr:root",
+        new File(outputDirectory, "jcr_root/content/adaptto/sample/en/.content.xml"));
   }
 
   @Test
@@ -74,8 +80,41 @@ class ContentUnpackerTest {
     outputDirectory.mkdirs();
 
     props.setMarkReplicationActivated(true);
+
     underTest = new ContentUnpacker(props);
     underTest.unpack(contentPackage, outputDirectory);
+
+    assertNoReplicationAction(outputDirectory, "jcr_root/.content.xml");
+    assertNoReplicationAction(outputDirectory, "jcr_root/content/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/sample/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/sample/en/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/sample/en/schedule/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/sample/en/schedule/oak--an-introduction-for-users/.content.xml");
+  }
+
+  @Test
+  void testUnpack_MarkReplicationActivated_IncludeNodes() throws Exception {
+    File contentPackage = new File("src/test/resources/content-package-test.zip");
+    File outputDirectory = new File("target/unpacktest-MarkReplicationActivated_IncludeNodes");
+    outputDirectory.mkdirs();
+
+    props.setMarkReplicationActivated(true);
+    props.setMarkReplicationActivatedIncludeNodes(new String[] {
+        "^/content/adaptto/sample/en/jcr:content$",
+        "^/content/adaptto/sample/en/schedule/[^/]+/jcr:content$",
+    });
+
+    underTest = new ContentUnpacker(props);
+    underTest.unpack(contentPackage, outputDirectory);
+
+    assertNoReplicationAction(outputDirectory, "jcr_root/.content.xml");
+    assertNoReplicationAction(outputDirectory, "jcr_root/content/.content.xml");
+    assertNoReplicationAction(outputDirectory, "jcr_root/content/adaptto/.content.xml");
+    assertNoReplicationAction(outputDirectory, "jcr_root/content/adaptto/sample/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/sample/en/.content.xml");
+    assertNoReplicationAction(outputDirectory, "jcr_root/content/adaptto/sample/en/schedule/.content.xml");
+    assertReplicationActionActivate(outputDirectory, "jcr_root/content/adaptto/sample/en/schedule/oak--an-introduction-for-users/.content.xml");
   }
 
   @Test
@@ -84,6 +123,16 @@ class ContentUnpackerTest {
     assertNull(getNamespacePrefix("aaa/bbb"));
     assertNull(getNamespacePrefix("aaa/_cq_bbb"));
     assertEquals("cq", getNamespacePrefix("aaa/_cq_bbb/.content.xml"));
+  }
+
+  private void assertReplicationActionActivate(File outputDirectory, String filePath) {
+    assertXpathEvaluatesTo("Activate", "/jcr:root/jcr:content/@cq:lastReplicationAction",
+        new File(outputDirectory, filePath));
+  }
+
+  private void assertNoReplicationAction(File outputDirectory, String filePath) {
+    assertXpathNotExists("/jcr:root/jcr:content/@cq:lastReplicationAction",
+        new File(outputDirectory, filePath));
   }
 
 }
