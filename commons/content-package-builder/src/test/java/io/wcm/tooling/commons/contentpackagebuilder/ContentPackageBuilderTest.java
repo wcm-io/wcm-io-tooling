@@ -21,6 +21,7 @@ package io.wcm.tooling.commons.contentpackagebuilder;
 
 import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathEvaluatesTo;
 import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathExists;
+import static org.apache.jackrabbit.JcrConstants.JCR_PRIMARYTYPE;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,14 +30,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.CharEncoding;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.w3c.dom.Document;
 
 import com.google.common.collect.ImmutableMap;
@@ -51,21 +51,20 @@ class ContentPackageBuilderTest {
   }
 
   private ContentPackageBuilder underTest;
+  private File destDir;
   private File testFile;
 
   @BeforeEach
-  void setUp() {
-    underTest = new ContentPackageBuilder();
+  void setUp(TestInfo testInfo) {
+    destDir = new File("target/test-" + getClass().getSimpleName() + "-" + testInfo.getTestMethod().get().getName());
+    destDir.mkdirs();
 
-    testFile = new File("target/testing/" + UUID.randomUUID() + ".zip");
-    testFile.getParentFile().mkdirs();
-  }
-
-  @AfterEach
-  void tearDown() {
+    testFile = new File(destDir, "output.zip");
     if (testFile.exists()) {
       testFile.delete();
     }
+
+    underTest = new ContentPackageBuilder();
   }
 
   @Test
@@ -213,6 +212,29 @@ class ContentPackageBuilderTest {
 
     Document page2Xml = getXmlFromZip("jcr_root/content/node2/.content.xml");
     assertXpathEvaluatesTo("v2", "/jcr:root/@var2", page2Xml);
+  }
+
+  @Test
+  void testAddContent_SplitContent() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add some content
+      contentPackage.addContent("/content/node1",
+          ImmutableMap.of(JCR_PRIMARYTYPE, "sling:Folder", "var1", "v1",
+              "node11", ImmutableMap.of(JCR_PRIMARYTYPE, "sling:Folder", "var11", "v11",
+                  "node111", ImmutableMap.of(JCR_PRIMARYTYPE, "sling:Folder", "var111", "v111"))));
+    }
+
+    // validate resulting XML
+    Document page1Xml = getXmlFromZip("jcr_root/content/node1/.content.xml");
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", page1Xml);
+
+    Document page11Xml = getXmlFromZip("jcr_root/content/node1/node11/.content.xml");
+    assertXpathEvaluatesTo("v11", "/jcr:root/@var11", page11Xml);
+
+    Document page111Xml = getXmlFromZip("jcr_root/content/node1/node11/node111/.content.xml");
+    assertXpathEvaluatesTo("v111", "/jcr:root/@var111", page111Xml);
   }
 
   @Test
