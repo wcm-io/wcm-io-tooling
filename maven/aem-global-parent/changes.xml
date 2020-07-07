@@ -25,7 +25,7 @@
 
     <release version="1.4.14" date="not released">
       <action type="update" dev="sseifert">
-        Update CONGA and CONGA Ansible plugin.
+        Update CONGA, CONGA AEM and CONGA Ansible plugin.
       </action>
       <action type="update" dev="sseifert">
         Update wcmio-content-package-maven-plugin.
