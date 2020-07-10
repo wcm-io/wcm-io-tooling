@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.parent</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.4</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -76,7 +76,7 @@
     <dependency>
       <groupId>io.wcm.tooling.commons</groupId>
       <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <version>1.7.1-SNAPSHOT</version>
+      <version>1.7.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
