@@ -60,6 +60,7 @@ import org.w3c.dom.Document;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 
+import io.wcm.tooling.commons.contentpackagebuilder.ContentFolderSplitter.ContentPart;
 import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
 
 /**
@@ -148,9 +149,13 @@ public final class ContentPackage implements Closeable {
    * @throws IOException I/O exception
    */
   public void addContent(String path, ContentElement content) throws IOException {
-    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
-    Document doc = xmlContentBuilder.buildContent(content);
-    writeXmlDocument(fullPath, doc);
+    String basePath = buildJcrPathForZip(path);
+    List<ContentPart> parts = ContentFolderSplitter.split(ContentElementConverter.toMap(content));
+    for (ContentPart part : parts) {
+      String fullPath = basePath + part.getPath() + "/" + DOT_CONTENT_XML;
+      Document doc = xmlContentBuilder.buildContent(part.getContent());
+      writeXmlDocument(fullPath, doc);
+    }
   }
 
   /**
@@ -162,9 +167,13 @@ public final class ContentPackage implements Closeable {
    * @throws IOException I/O exception
    */
   public void addContent(String path, Map<String, Object> content) throws IOException {
-    String fullPath = buildJcrPathForZip(path) + "/" + DOT_CONTENT_XML;
-    Document doc = xmlContentBuilder.buildContent(content);
-    writeXmlDocument(fullPath, doc);
+    String basePath = buildJcrPathForZip(path);
+    List<ContentPart> parts = ContentFolderSplitter.split(content);
+    for (ContentPart part : parts) {
+      String fullPath = basePath + part.getPath() + "/" + DOT_CONTENT_XML;
+      Document doc = xmlContentBuilder.buildContent(part.getContent());
+      writeXmlDocument(fullPath, doc);
+    }
   }
 
   /**

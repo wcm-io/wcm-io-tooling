@@ -234,6 +234,7 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <executions>
           <execution>
+            <id>default-integration-test</id>
             <goals>
               <goal>integration-test</goal>
               <goal>verify</goal>
@@ -355,6 +356,7 @@
         <artifactId>buildnumber-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>create-timestamp</id>
             <phase>validate</phase>
             <goals>
               <goal>create</goal>

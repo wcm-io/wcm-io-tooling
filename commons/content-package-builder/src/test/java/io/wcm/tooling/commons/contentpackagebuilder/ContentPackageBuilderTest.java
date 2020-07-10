@@ -19,8 +19,9 @@
  */
 package io.wcm.tooling.commons.contentpackagebuilder;
 
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathEvaluatesTo;
-import static org.custommonkey.xmlunit.XMLAssert.assertXpathExists;
+import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathEvaluatesTo;
+import static io.wcm.tooling.commons.contentpackagebuilder.XmlUnitUtil.assertXpathExists;
+import static org.apache.jackrabbit.JcrConstants.JCR_PRIMARYTYPE;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,19 +29,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.UUID;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.CharEncoding;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.w3c.dom.Document;
-import org.zeroturnaround.zip.ZipUtil;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -54,22 +51,20 @@ class ContentPackageBuilderTest {
   }
 
   private ContentPackageBuilder underTest;
+  private File destDir;
   private File testFile;
 
   @BeforeEach
-  void setUp() {
-    XmlUnitUtil.registerXmlUnitNamespaces();
-    underTest = new ContentPackageBuilder();
+  void setUp(TestInfo testInfo) {
+    destDir = new File("target/test-" + getClass().getSimpleName() + "-" + testInfo.getTestMethod().get().getName());
+    destDir.mkdirs();
 
-    testFile = new File("target/testing/" + UUID.randomUUID() + ".zip");
-    testFile.getParentFile().mkdirs();
-  }
-
-  @AfterEach
-  void tearDown() {
+    testFile = new File(destDir, "output.zip");
     if (testFile.exists()) {
       testFile.delete();
     }
+
+    underTest = new ContentPackageBuilder();
   }
 
   @Test
@@ -220,6 +215,29 @@ class ContentPackageBuilderTest {
   }
 
   @Test
+  void testAddContent_SplitContent() throws Exception {
+
+    ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");
+    try (ContentPackage contentPackage = builder.build(testFile)) {
+      // add some content
+      contentPackage.addContent("/content/node1",
+          ImmutableMap.of(JCR_PRIMARYTYPE, "sling:Folder", "var1", "v1",
+              "node11", ImmutableMap.of(JCR_PRIMARYTYPE, "sling:Folder", "var11", "v11",
+                  "node111", ImmutableMap.of(JCR_PRIMARYTYPE, "sling:Folder", "var111", "v111"))));
+    }
+
+    // validate resulting XML
+    Document page1Xml = getXmlFromZip("jcr_root/content/node1/.content.xml");
+    assertXpathEvaluatesTo("v1", "/jcr:root/@var1", page1Xml);
+
+    Document page11Xml = getXmlFromZip("jcr_root/content/node1/node11/.content.xml");
+    assertXpathEvaluatesTo("v11", "/jcr:root/@var11", page11Xml);
+
+    Document page111Xml = getXmlFromZip("jcr_root/content/node1/node11/node111/.content.xml");
+    assertXpathEvaluatesTo("v111", "/jcr:root/@var111", page111Xml);
+  }
+
+  @Test
   void testAddContentCustomNamespace() throws Exception {
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test")
@@ -285,18 +303,10 @@ class ContentPackageBuilderTest {
   }
 
   private byte[] getDataFromZip(String path) throws Exception {
-    byte[] data = ZipUtil.unpackEntry(testFile, path);
-    if (data == null) {
-      throw new FileNotFoundException("File not found in ZIP: " + path);
-    }
-    return data;
+    return ContentPackageTestUtil.getDataFromZip(testFile, path);
   }
 
   private Document getXmlFromZip(String path) throws Exception {
-    byte[] data = getDataFromZip(path);
-    DocumentBuilder documentBuilder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
-    documentBuilder.setEntityResolver(new PropertiesEntityResolver());
-    return documentBuilder.parse(new ByteArrayInputStream(data));
+    return ContentPackageTestUtil.getXmlFromZip(testFile, path);
   }
-
 }

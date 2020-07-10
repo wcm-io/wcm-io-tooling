@@ -29,6 +29,7 @@ public final class ContentUnpackerProperties {
   private String[] excludeProperties;
   private String[] excludeMixins;
   private boolean markReplicationActivated;
+  private String[] markReplicationActivatedIncludeNodes;
 
   /**
    * Exclude files
@@ -88,6 +89,18 @@ public final class ContentUnpackerProperties {
 
   public void setMarkReplicationActivated(boolean markReplicationActivated) {
     this.markReplicationActivated = markReplicationActivated;
+  }
+
+  /**
+   * Node path filter expressions to apply "activated" status on.
+   * @return Path patterns
+   */
+  public String[] getMarkReplicationActivatedIncludeNodes() {
+    return this.markReplicationActivatedIncludeNodes;
+  }
+
+  public void setMarkReplicationActivatedIncludeNodes(String[] markReplicationActivatedIncludeNodes) {
+    this.markReplicationActivatedIncludeNodes = markReplicationActivatedIncludeNodes;
   }
 
 }

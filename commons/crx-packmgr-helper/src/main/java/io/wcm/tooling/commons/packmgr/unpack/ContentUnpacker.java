@@ -20,6 +20,7 @@
 package io.wcm.tooling.commons.packmgr.unpack;
 
 import static org.apache.jackrabbit.vault.util.Constants.DOT_CONTENT_XML;
+import static org.apache.jackrabbit.vault.util.Constants.ROOT_DIR;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -104,6 +105,7 @@ public final class ContentUnpacker {
   private final Pattern[] excludeProperties;
   private final Pattern[] excludeMixins;
   private final boolean markReplicationActivated;
+  private final Pattern[] markReplicationActivatedIncludeNodes;
   private final String dateNow;
 
   /**
@@ -115,6 +117,7 @@ public final class ContentUnpacker {
     this.excludeProperties = toPatternArray(properties.getExcludeProperties());
     this.excludeMixins = toPatternArray(properties.getExcludeMixins());
     this.markReplicationActivated = properties.isMarkReplicationActivated();
+    this.markReplicationActivatedIncludeNodes = toPatternArray(properties.getMarkReplicationActivatedIncludeNodes());
 
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -140,7 +143,10 @@ public final class ContentUnpacker {
     return patterns;
   }
 
-  private static boolean exclude(String name, Pattern[] patterns) {
+  private static boolean matches(String name, Pattern[] patterns, boolean defaultIfNotPatternsDefined) {
+    if (patterns.length == 0) {
+      return defaultIfNotPatternsDefined;
+    }
     for (Pattern pattern : patterns) {
       if (pattern.matcher(name).matches()) {
         return true;
@@ -168,7 +174,7 @@ public final class ContentUnpacker {
       Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
       while (entries.hasMoreElements()) {
         ZipArchiveEntry entry = entries.nextElement();
-        if (!exclude(entry.getName(), excludeFiles)) {
+        if (!matches(entry.getName(), excludeFiles, false)) {
           unpackEntry(zipFile, entry, outputDirectory);
         }
       }
@@ -281,7 +287,7 @@ public final class ContentUnpacker {
       namespacePrefixesActuallyUsed.add(namespacePrefix);
     }
 
-    applyXmlExcludes(doc.getRootElement(), "", namespacePrefixesActuallyUsed, false);
+    applyXmlExcludes(doc.getRootElement(), getParentPath(entry), namespacePrefixesActuallyUsed, false);
 
     XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat()
         .setIndent("    ")
@@ -306,10 +312,23 @@ public final class ContentUnpacker {
     return null;
   }
 
+  private String getParentPath(ZipArchiveEntry entry) {
+    String path = StringUtils.removeEnd(StringUtils.removeStart(entry.getName(), ROOT_DIR), "/" + DOT_CONTENT_XML);
+    return path;
+  }
+
+  private String buildElementPath(Element element, String parentPath) {
+    StringBuilder path = new StringBuilder(parentPath);
+    if (!StringUtils.equals(element.getQualifiedName(), "jcr:root")) {
+      path.append("/").append(element.getQualifiedName());
+    }
+    return path.toString();
+  }
+
   private void applyXmlExcludes(Element element, String parentPath, Set<String> namespacePrefixesActuallyUsed,
       boolean insideReplicationElement) {
-    String path = parentPath + "/" + element.getQualifiedName();
-    if (exclude(path, this.excludeNodes)) {
+    String path = buildElementPath(element, parentPath);
+    if (matches(path, this.excludeNodes, false)) {
       element.detach();
       return;
     }
@@ -324,7 +343,7 @@ public final class ContentUnpacker {
     List<Attribute> attributes = new ArrayList<>(element.getAttributes());
     for (Attribute attribute : attributes) {
       boolean excluded = false;
-      if (exclude(attribute.getQualifiedName(), this.excludeProperties)) {
+      if (matches(attribute.getQualifiedName(), this.excludeProperties, false)) {
         if (isRepositoryUserGroup && StringUtils.equals(attribute.getQualifiedName(), JcrConstants.JCR_UUID)) {
           // keep jcr:uuid property for groups and users, otherwise they cannot be imported again
         }
@@ -358,7 +377,7 @@ public final class ContentUnpacker {
     }
 
     // set replication status for jcr:content nodes inside cq:Page nodes
-    if (setReplicationAttributes) {
+    if (setReplicationAttributes && matches(path, markReplicationActivatedIncludeNodes, true)) {
       addMixin(element, "cq:ReplicationStatus");
       element.setAttribute("lastReplicated", "{Date}" + dateNow, CQ_NAMESPACE);
       element.setAttribute("lastReplicationAction", "Activate", CQ_NAMESPACE);
@@ -379,7 +398,7 @@ public final class ContentUnpacker {
     List<Value> mixins = new ArrayList<>();
     for (int i = 0; i < prop.values.length; i++) {
       String mixin = prop.values[i];
-      if (!exclude(mixin, this.excludeMixins)) {
+      if (!matches(mixin, this.excludeMixins, false)) {
         String namespacePrefix = StringUtils.substringBefore(mixin, ":");
         collectNamespacePrefix(namespacePrefixesActuallyUsed, namespacePrefix);
         mixins.add(new MockValue(mixin, PropertyType.STRING));
