@@ -25,6 +25,9 @@
 
     <release version="1.5.8" date="not released">
       <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.4.14.
+      </action>
+      <action type="update" dev="sseifert">
         Remove MaxPermSize parameter from surefire memory configuration.
       </action>
     </release>
