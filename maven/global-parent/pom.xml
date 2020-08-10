@@ -83,7 +83,7 @@
     <targetJdk>${java.version}</targetJdk>
 
     <!-- Mininum maven version -->
-    <maven.min-version>3.6.0</maven.min-version>
+    <maven.min-version>3.6.1</maven.min-version>
 
     <!-- distribution settings -->
     <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
@@ -127,7 +127,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>4.0.6</version>
+        <version>4.1.1</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -616,7 +616,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.33</version>
+              <version>8.35</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -710,7 +710,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.3.1</version>
         </plugin>
 
         <plugin>
