@@ -37,9 +37,6 @@
         Update to maven-bundle-plugin 5.1.1.
       </action>
       <action type="update" dev="sseifert">
-        Update to Jackrabbit filevault-package-maven-plugin 1.1.4.
-      </action>
-      <action type="update" dev="sseifert">
         Update global-parent dependency to 35.
       </action>
     </release>

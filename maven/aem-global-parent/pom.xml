@@ -516,7 +516,8 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <version>1.1.4</version>
+          <!-- stick with version 1.1.0 until JCRVLT-461, JCRVLT-462, JCRVLT-463 are solved -->
+          <version>1.1.0</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
             <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
