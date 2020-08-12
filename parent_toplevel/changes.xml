@@ -25,10 +25,16 @@
 
     <release version="1.5.8" date="not released">
       <action type="update" dev="sseifert">
-        Update to aem-global-parent 1.4.14.
+        Update to aem-global-parent 1.4.16.
+      </action>
+      <action type="update" dev="sseifert">
+        Activate parallel test execution for JUnit 5.
       </action>
       <action type="update" dev="sseifert">
         Remove MaxPermSize parameter from surefire memory configuration.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to JUnit 4.13 and Mockito 3.4.6.
       </action>
     </release>
 
