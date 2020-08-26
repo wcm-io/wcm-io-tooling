@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="35" date="not releasd">
+    <release version="35" date="2020-08-26">
       <action type="update" dev="sseifert">
         Make sure all execution definitions have an execution id.
       </action>
