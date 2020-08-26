@@ -116,7 +116,7 @@
       <dependency>
         <groupId>org.jetbrains</groupId>
         <artifactId>annotations</artifactId>
-        <version>19.0.0</version>
+        <version>20.0.0</version>
       </dependency>
 
       <!--
@@ -127,7 +127,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -668,7 +668,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
