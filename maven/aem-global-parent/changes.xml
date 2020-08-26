@@ -30,6 +30,15 @@
       <action type="update" dev="sseifert">
         Update wcmio-content-package-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 5.1.2.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to maven-bundle-plugin 5.1.1.
+      </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 35.
+      </action>
     </release>
 
     <release version="1.4.12" date="2020-06-28">
