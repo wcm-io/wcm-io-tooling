@@ -111,6 +111,16 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
   private String[] markReplicationActivatedIncludeNodes;
 
   /**
+   * Sets a fixed date to be used for the "lastReplicated" property when setting replication status to "activated".
+   * If not set the current date is used.
+   * <p>
+   * Use ISO8601 format. Example: <code>2020-01-01T00:00:00.000+02:00</code>.
+   * </p>
+   */
+  @Parameter
+  private String dateLastReplicated;
+
+  /**
    * Downloads the files
    */
   @Override
@@ -141,6 +151,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
     props.setExcludeMixins(this.excludeMixins);
     props.setMarkReplicationActivated(markReplicationActivated);
     props.setMarkReplicationActivatedIncludeNodes(markReplicationActivatedIncludeNodes);
+    props.setDateLastReplicated(this.dateLastReplicated);
     ContentUnpacker unpacker = new ContentUnpacker(props);
 
     // validate output directory

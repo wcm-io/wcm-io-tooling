@@ -106,7 +106,7 @@ public final class ContentUnpacker {
   private final Pattern[] excludeMixins;
   private final boolean markReplicationActivated;
   private final Pattern[] markReplicationActivatedIncludeNodes;
-  private final String dateNow;
+  private final String dateLastReplicated;
 
   /**
    * @param properties Configuration properties
@@ -119,12 +119,18 @@ public final class ContentUnpacker {
     this.markReplicationActivated = properties.isMarkReplicationActivated();
     this.markReplicationActivatedIncludeNodes = toPatternArray(properties.getMarkReplicationActivatedIncludeNodes());
 
-    Calendar cal = Calendar.getInstance();
-    cal.set(Calendar.HOUR_OF_DAY, 0);
-    cal.set(Calendar.MINUTE, 0);
-    cal.set(Calendar.SECOND, 0);
-    cal.set(Calendar.MILLISECOND, 0);
-    this.dateNow = ISO8601.format(cal);
+    if (StringUtils.isNotBlank(properties.getDateLastReplicated())) {
+      this.dateLastReplicated = properties.getDateLastReplicated();
+    }
+    else {
+      // set to current date
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.HOUR_OF_DAY, 0);
+      cal.set(Calendar.MINUTE, 0);
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);
+      this.dateLastReplicated = ISO8601.format(cal);
+    }
   }
 
   private static Pattern[] toPatternArray(String[] patternStrings) {
@@ -379,7 +385,7 @@ public final class ContentUnpacker {
     // set replication status for jcr:content nodes inside cq:Page nodes
     if (setReplicationAttributes && matches(path, markReplicationActivatedIncludeNodes, true)) {
       addMixin(element, "cq:ReplicationStatus");
-      element.setAttribute("lastReplicated", "{Date}" + dateNow, CQ_NAMESPACE);
+      element.setAttribute("lastReplicated", "{Date}" + dateLastReplicated, CQ_NAMESPACE);
       element.setAttribute("lastReplicationAction", "Activate", CQ_NAMESPACE);
     }
 
