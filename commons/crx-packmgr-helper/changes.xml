@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         ContentUnpacker: Allow to set fixed date value to be used for the "lastReplicated" property when marking nodes as replicated.
       </action>
+      <action type="fix" dev="sseifert">
+        ContentUnpacker: Explicitly sort {Name} property arrays to ensure consistent ordering.
+      </action>
     </release>
 
     <release version="1.7.2" date="2020-07-10">

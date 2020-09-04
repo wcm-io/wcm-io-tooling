@@ -373,9 +373,12 @@ public final class ContentUnpacker {
       }
       else if (StringUtils.startsWith(attribute.getValue(), "{Name}")) {
         collectNamespacePrefixNameArray(namespacePrefixesActuallyUsed, attribute.getQualifiedName(), attribute.getValue());
+        // alphabetically sort name values
+        attribute.setValue(sortReferenceValues(attribute.getQualifiedName(), attribute.getValue(), PropertyType.NAME));
       }
       else if (StringUtils.startsWith(attribute.getValue(), "{WeakReference}")) {
-        attribute.setValue(sortWeakReferenceValues(attribute.getQualifiedName(), attribute.getValue()));
+        // alphabetically sort weak reference values
+        attribute.setValue(sortReferenceValues(attribute.getQualifiedName(), attribute.getValue(), PropertyType.WEAKREFERENCE));
       }
       if (!excluded) {
         collectNamespacePrefix(namespacePrefixesActuallyUsed, attribute.getNamespacePrefix());
@@ -468,9 +471,10 @@ public final class ContentUnpacker {
    * Sort weak reference values alphabetically to ensure consistent ordering.
    * @param name Property name
    * @param value Property value
+   * @param propertyType Property type from {@link PropertyType}
    * @return Property value with sorted references
    */
-  private String sortWeakReferenceValues(String name, String value) {
+  private String sortReferenceValues(String name, String value, int propertyType) {
     Set<String> refs = new TreeSet<>();
     DocViewProperty prop = DocViewProperty.parse(name, value);
     for (int i = 0; i < prop.values.length; i++) {
@@ -478,7 +482,7 @@ public final class ContentUnpacker {
     }
     List<Value> values = new ArrayList<>();
     for (String ref : refs) {
-      values.add(new MockValue(ref, PropertyType.WEAKREFERENCE));
+      values.add(new MockValue(ref, propertyType));
     }
     try {
       String sortedValues = DocViewProperty.format(new MockProperty(name, true, values.toArray(new Value[0])));

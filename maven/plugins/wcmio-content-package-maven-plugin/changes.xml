@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         download goal: Allow to set fixed date value to be used for the "lastReplicated" property when marking nodes as replicated.
       </action>
+      <action type="fix" dev="sseifert">
+        download goal: Explicitly sort {Name} property arrays to ensure consistent ordering.
+      </action>
     </release>
 
     <release version="1.8.2" date="2020-07-10">
