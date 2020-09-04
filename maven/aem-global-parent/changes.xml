@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update CONGA.
       </action>
+      <action type="update" dev="sseifert">
+        Update wcmio-content-package-maven-plugin.
+      </action>
     </release>
 
     <release version="1.4.16" date="2020-08-26">
