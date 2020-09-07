@@ -102,7 +102,57 @@
         <classifier>apis-with-deprecations</classifier>
       </dependency>
 
-      <!-- OSGI -->
+      <!-- OSGI (individual artifacts) -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.framework</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.framework -->
+        <version>1.9.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.component</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.scr:org.osgi.service.component -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.metatype</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.metatype:org.osgi.service.metatype -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.cm</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.configadmin:org.osgi.service.cm -->
+        <version>1.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.event</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.eventadmin:org.osgi.service.event -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.http</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.http.jetty:org.osgi.service.http -->
+        <version>1.2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.http.whiteboard</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.http.jetty:org.osgi.service.http.whiteboard -->
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.util.converter</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.felix.converter:1.0.2 -->
+        <version>1.0.0</version>
+      </dependency>
+
+      <!-- OSGI (aggregated artifacts - it is recommended to use the individual artifacts instead) -->
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.core</artifactId>
