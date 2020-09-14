@@ -30,6 +30,7 @@ public final class ContentUnpackerProperties {
   private String[] excludeMixins;
   private boolean markReplicationActivated;
   private String[] markReplicationActivatedIncludeNodes;
+  private String dateLastReplicated;
 
   /**
    * Exclude files
@@ -101,6 +102,19 @@ public final class ContentUnpackerProperties {
 
   public void setMarkReplicationActivatedIncludeNodes(String[] markReplicationActivatedIncludeNodes) {
     this.markReplicationActivatedIncludeNodes = markReplicationActivatedIncludeNodes;
+  }
+
+  /**
+   * Sets a fixed date to be used for the "lastReplicated" property when setting replication status to "activated".
+   * If not set the current date is used.
+   * @return Date in ISO8601 format. Example: <code>2020-01-01T00:00:00.000+02:00</code>.
+   */
+  public String getDateLastReplicated() {
+    return this.dateLastReplicated;
+  }
+
+  public void setDateLastReplicated(String dateLastReplicated) {
+    this.dateLastReplicated = dateLastReplicated;
   }
 
 }

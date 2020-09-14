@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.4.15-SNAPSHOT</version>
+    <version>1.4.16</version>
     <relativePath />
   </parent>
 
@@ -128,7 +128,7 @@
       <dependency>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-        <version>6.3.0.0002</version>
+        <version>6.3.0.0003-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

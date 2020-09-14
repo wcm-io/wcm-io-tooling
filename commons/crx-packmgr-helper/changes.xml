@@ -23,18 +23,27 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.7.2" date="2020-07-10">
-      <action type="add" dev="sseifert">
-        ContentUnpackager: Introduce "markReplicationActivatedIncludeNodes" option to allow to restrict setting replication status to a subset of nodes.
+    <release version="1.7.4" date="not released">
+      <action type="update" dev="sseifert">
+        ContentUnpacker: Allow to set fixed date value to be used for the "lastReplicated" property when marking nodes as replicated.
       </action>
       <action type="fix" dev="sseifert">
-        ContentUnpackager: Fix path building for "excludeNodes" and "markReplicationActivatedIncludeNodes" options to ensure paths in whole content package are respected.
+        ContentUnpacker: Explicitly sort {Name} property arrays to ensure consistent ordering.
+      </action>
+    </release>
+
+    <release version="1.7.2" date="2020-07-10">
+      <action type="add" dev="sseifert">
+        ContentUnpacker: Introduce "markReplicationActivatedIncludeNodes" option to allow to restrict setting replication status to a subset of nodes.
+      </action>
+      <action type="fix" dev="sseifert">
+        ContentUnpacker: Fix path building for "excludeNodes" and "markReplicationActivatedIncludeNodes" options to ensure paths in whole content package are respected.
       </action>
     </release>
 
     <release version="1.7.0" date="2020-05-19">
       <action type="add" dev="sseifert">
-        ContentUnpackager: Add "markReplicationActivated" option to set replication status to "activated" for all cq:Page and cq:Template nodes.
+        ContentUnpacker: Add "markReplicationActivated" option to set replication status to "activated" for all cq:Page and cq:Template nodes.
       </action>
       <action type="update" dev="sseifert" issue="WTOOL-62">
         Allow to provide separate credentials for package manager and Felix console.

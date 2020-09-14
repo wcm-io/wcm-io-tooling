@@ -102,7 +102,83 @@
         <classifier>apis-with-deprecations</classifier>
       </dependency>
 
-      <!-- OSGI -->
+      <!-- OSGI (individual artifacts) -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.framework</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.framework -->
+        <version>1.9.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.component</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.scr:org.osgi.service.component -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.metatype</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.metatype:org.osgi.service.metatype -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.cm</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.configadmin:org.osgi.service.cm -->
+        <version>1.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.event</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.eventadmin:org.osgi.service.event -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.http</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.http.jetty:org.osgi.service.http -->
+        <version>1.2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.http.whiteboard</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.http.jetty:org.osgi.service.http.whiteboard -->
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.util.converter</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.felix.converter:1.0.2 -->
+        <version>1.0.0</version>
+      </dependency>
+
+      <!-- OSGi annotations -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.bundle</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.versioning</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.component.annotations</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.scr:org.osgi.service.component -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.metatype.annotations</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.metatype:org.osgi.service.metatype -->
+        <version>1.4.0</version>
+      </dependency>
+
+      <!-- OSGI (aggregated artifacts - it is recommended to use the individual artifacts instead) -->
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.core</artifactId>
@@ -412,17 +488,20 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.scripting.sightly</artifactId>
-        <version>1.1.2.1_4_0</version>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly:1.1.2.1_4_0 -->
+        <version>1.1.2-1.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.scripting.sightly.compiler</artifactId>
-        <version>1.1.2.1_4_0</version>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly.compiler:1.1.2.1_4_0 -->
+        <version>1.1.2-1.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.scripting.sightly.compiler.java</artifactId>
-        <version>1.1.2.1_4_0</version>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly.compiler.java:1.1.2.1_4_0 -->
+        <version>1.1.2-1.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
@@ -521,7 +600,7 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>[3.3.9,)</version>
+                  <version>[3.6.0,)</version>
                 </requireMavenVersion>
               </rules>
             </configuration>
@@ -580,7 +659,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.9.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
