@@ -20,13 +20,13 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.5 SP5
+### AEM 6.5 SP6
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.5.0000</version>
+  <version>6.5.6.0000</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -38,7 +38,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.0.0001</version>
+  <version>6.5.0.0002</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -50,7 +50,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.4.8.0001</version>
+  <version>6.4.8.0002</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -62,7 +62,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.4.0.0000</version>
+  <version>6.4.0.0001</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -74,7 +74,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.3.3.0001</version>
+  <version>6.3.3.0002</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
@@ -86,7 +86,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.3.0.0002</version>
+  <version>6.3.0.0003</version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
