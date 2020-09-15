@@ -76,7 +76,7 @@
     <dependency>
       <groupId>io.wcm.tooling.commons</groupId>
       <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <version>1.7.3-SNAPSHOT</version>
+      <version>1.7.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
