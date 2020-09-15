@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update wcmio-content-package-maven-plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 36.
+      </action>
     </release>
 
     <release version="1.4.16" date="2020-08-26">
