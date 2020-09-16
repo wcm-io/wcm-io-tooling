@@ -29,13 +29,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>36-SNAPSHOT</version>
+    <version>35</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.4.17-SNAPSHOT</version>
+  <version>1.4.18</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -547,7 +547,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
-          <version>1.8.3-SNAPSHOT</version>
+          <version>1.8.4</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.vault.user}</userId>
@@ -619,7 +619,7 @@
 
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
-          <version>1.13.5-SNAPSHOT</version>
+          <version>1.14.0</version>
           <artifactId>conga-maven-plugin</artifactId>
           <extensions>true</extensions>
           <dependencies>
