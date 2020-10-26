@@ -27,6 +27,12 @@
       <action type="update" dev="sseifert">
         Update CONGA.
       </action>
+      <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 5.2.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL plugin.
+      </action>
     </release>
 
     <release version="1.4.18" date="2020-09-16">
