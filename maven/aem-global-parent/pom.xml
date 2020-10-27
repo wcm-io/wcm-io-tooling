@@ -346,6 +346,9 @@
 
               <!-- reproducible builds (https://github.com/bndtools/bnd/issues/3521) -->
               -noextraheaders: true
+
+              <!-- Do not create imports for java.* as this leads to failed builds with AEM cloud service -->
+              -noimportjava: true
             </bnd>
           </configuration>
           <executions>
