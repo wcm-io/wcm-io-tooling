@@ -622,7 +622,7 @@
 
         <plugin>
           <groupId>io.wcm.devops.conga</groupId>
-          <version>1.14.1-SNAPSHOT</version>
+          <version>1.14.2</version>
           <artifactId>conga-maven-plugin</artifactId>
           <extensions>true</extensions>
           <dependencies>
