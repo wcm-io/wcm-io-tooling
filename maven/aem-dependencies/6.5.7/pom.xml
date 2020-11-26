@@ -509,7 +509,9 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.models.impl</artifactId>
-        <version>1.4.16</version>
+        <!-- Stick with 1.4.14 to avoid problems in sling-mocks unit tests until 1.4.18 (or higher) is released with fix from SLING-9856 -->
+        <!-- update-aem-deps:derived-from=org.apache.sling.models.impl:1.4.16 -->
+        <version>1.4.14</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
