@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.5.10" date="not released">
+      <action type="update" dev="sseifert">
+        Update to JUnit 4.13.1 and Mockito 3.5.15.
+      </action>
+    </release>
+
     <release version="1.5.8" date="2020-09-14">
       <action type="update" dev="sseifert">
         Update to aem-global-parent 1.4.16.

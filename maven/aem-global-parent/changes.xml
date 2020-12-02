@@ -23,6 +23,21 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.4.20" date="not released">
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 36.
+      </action>
+      <action type="update" dev="sseifert">
+        Update CONGA.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 5.2.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL plugin.
+      </action>
+    </release>
+
     <release version="1.4.18" date="2020-09-16">
       <action type="update" dev="sseifert">
         Update CONGA.

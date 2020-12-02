@@ -1,13 +1,13 @@
 <img src="https://wcm.io/images/favicon-16@2x.png"/> wcm.io Tooling
 ======
-[![Build Status](https://travis-ci.org/wcm-io/wcm-io-tooling.png?branch=develop)](https://travis-ci.org/wcm-io/wcm-io-tooling)
+[![Build Status](https://travis-ci.com/wcm-io/wcm-io-tooling.png?branch=develop)](https://travis-ci.com/wcm-io/wcm-io-tooling)
 
 Tooling for Maven and IDEs.
 
 Documentation: https://wcm.io/tooling/<br/>
 Issues: https://wcm-io.atlassian.net/browse/WTOOL<br/>
 Wiki: https://wcm-io.atlassian.net/wiki/<br/>
-Continuous Integration: https://travis-ci.org/wcm-io/wcm-io-tooling/<br/>
+Continuous Integration: https://travis-ci.com/wcm-io/wcm-io-tooling/<br/>
 Commercial support: https://wcm.io/commercial-support.html
 
 
