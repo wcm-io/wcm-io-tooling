@@ -30,7 +30,7 @@
 
   <groupId>io.wcm.tooling.nodetypes</groupId>
   <artifactId>io.wcm.tooling.nodetypes.wcmio</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>wcm.io Node Types and Namespaces</name>
