@@ -20,19 +20,25 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.5 SP6
+### AEM 6.5 - Latest Version
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.aem-dependencies/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.aem-dependencies)
+
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.6.0000</version>
+  <version><!-- latest version, see above --></version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
 ```
 
-### AEM 6.5
+
+### Older AEM 6.x versions
+
+#### AEM 6.5.0
 
 ```xml
 <dependency>
@@ -44,7 +50,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.4 SP8
+#### AEM 6.4.8
 
 ```xml
 <dependency>
@@ -56,7 +62,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.4
+#### AEM 6.4.0
 
 ```xml
 <dependency>
@@ -68,7 +74,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.3 SP3
+#### AEM 6.3.3
 
 ```xml
 <dependency>
@@ -80,7 +86,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.3
+#### AEM 6.3.0
 
 ```xml
 <dependency>
@@ -92,7 +98,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.2
+#### AEM 6.2.0
 
 ```xml
 <dependency>
@@ -104,7 +110,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.1
+#### AEM 6.1.0
 
 ```xml
 <dependency>
@@ -116,7 +122,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.0
+#### AEM 6.0.0
 
 ```xml
 <dependency>
@@ -128,7 +134,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### CQ 5.5
+#### CQ 5.5.0
 
 ```xml
 <dependency>
