@@ -1,10 +1,8 @@
 ## AEM Dependencies
 
-Defines Maven dependencies for a specific AEM version, including those that are not defined in the aem-api "Uber" JAR provided by Adobe. Additionally, the POM includes Sling-internal dependencies required for [AEM Mocks][aem-mock] in exactly the versions included in the AEM version.
+Defines Maven dependencies for a specific AEM version, including those that are not defined in the AEM API JAR provided by Adobe. Additionally, the POM includes Sling-internal dependencies required for [AEM Mocks][aem-mock] in exactly the versions included in the AEM version.
 
-The first three parts of the `aem-dependencies` version number match with the AEM version, and the version of the aem-api "Uber" JAR. The last part (4 digits) is the revision number added by the wcm.io project, and is incremented if a fix or update of the POM needs to be published for the same AEM versions.
-
-Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
+The first part of the AEM dependencies version number matches with the AEM version, and the version of the AEM API JAR. The last part (4 digits) is the revision number added by the wcm.io project, and is incremented if a fix or update of the POM needs to be published for the same AEM versions.
 
 ### AEM Cloud Service
 
@@ -20,19 +18,30 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.5 SP6
+Source code: [wcm-io-tooling-aem-cloud-dependencies](https://github.com/wcm-io/wcm-io-tooling-aem-cloud-dependencies)
+
+
+### AEM 6.5 - Latest Version
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.aem-dependencies/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.wcm.maven/io.wcm.maven.aem-dependencies)
+
 
 ```xml
 <dependency>
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.6.0000</version>
+  <version><!-- latest version, see above --></version>
   <type>pom</type>
   <scope>import</scope>
 </dependency>
 ```
 
-### AEM 6.5
+Source code: [wcm-io-tooling/maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
+
+
+### Older AEM 6.x versions
+
+#### AEM 6.5.0
 
 ```xml
 <dependency>
@@ -44,7 +53,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.4 SP8
+#### AEM 6.4.8
 
 ```xml
 <dependency>
@@ -56,7 +65,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.4
+#### AEM 6.4.0
 
 ```xml
 <dependency>
@@ -68,7 +77,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.3 SP3
+#### AEM 6.3.3
 
 ```xml
 <dependency>
@@ -80,7 +89,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.3
+#### AEM 6.3.0
 
 ```xml
 <dependency>
@@ -92,7 +101,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.2
+#### AEM 6.2.0
 
 ```xml
 <dependency>
@@ -104,7 +113,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.1
+#### AEM 6.1.0
 
 ```xml
 <dependency>
@@ -116,7 +125,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### AEM 6.0
+#### AEM 6.0.0
 
 ```xml
 <dependency>
@@ -128,7 +137,7 @@ Source code: [maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/t
 </dependency>
 ```
 
-### CQ 5.5
+#### CQ 5.5.0
 
 ```xml
 <dependency>
