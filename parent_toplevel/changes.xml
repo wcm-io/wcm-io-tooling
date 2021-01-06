@@ -23,9 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.5.10" date="not released">
+    <release version="1.6.0" date="not released">
       <action type="update" dev="sseifert">
-        Update to JUnit 4.13.1 and Mockito 3.5.15.
+        Set minimum AEM version to AEM 6.4.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to JUnit 4.13.1 and Mockito 3.7.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.4.18.
       </action>
     </release>
 
