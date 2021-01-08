@@ -94,8 +94,8 @@
     <!-- Plugin version -->
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
-    <spotbugs-plugin.version>4.1.4</spotbugs-plugin.version>
-    <spotbugs-findsecbugs-plugin.version>1.10.1</spotbugs-findsecbugs-plugin.version>
+    <spotbugs-plugin.version>4.2.0</spotbugs-plugin.version>
+    <spotbugs-findsecbugs-plugin.version>1.11.0</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
     <eclipse.settings.nullanalysis>disabled</eclipse.settings.nullanalysis>
@@ -564,7 +564,7 @@
             <dependency>
               <groupId>xerces</groupId>
               <artifactId>xercesImpl</artifactId>
-              <version>2.12.0</version>
+              <version>2.12.1</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -616,7 +616,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.38</version>
+              <version>8.39</version>
             </dependency>
           </dependencies>
         </plugin>
