@@ -25,13 +25,16 @@
 
     <release version="1.6.0" date="not released">
       <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.5.0.
+      </action>
+      <action type="update" dev="sseifert">
+        Add dependencies for OSGi annotations as they are not longer defined in aem-global-parent.
+      </action>
+      <action type="update" dev="sseifert">
         Set minimum AEM version to AEM 6.4.
       </action>
       <action type="update" dev="sseifert">
         Update to JUnit 4.13.1 and Mockito 3.7.0.
-      </action>
-      <action type="update" dev="sseifert">
-        Update to aem-global-parent 1.4.18.
       </action>
     </release>
 
