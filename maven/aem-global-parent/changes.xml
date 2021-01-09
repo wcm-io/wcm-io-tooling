@@ -23,7 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.4.20" date="not released">
+    <release version="1.5.0" date="not released">
+      <action type="remove" dev="sseifert"><![CDATA[
+        Remove dependencies for OSGi annotations from POM: org.osgi.annotation.bundle, org.osgi.annotation.versioning, org.osgi.service.component.annotations, org.osgi.service.metatype.annotations, org.apache.sling.servlets.annotations.<br/>
+        Remove dependency management sections for deprecated annotations: org.apache.felix:org.apache.felix.scr.annotations, com.google.code.findbugs:annotations, com.google.code.findbugs:jsr305.<br/>
+        See <a href="https://wcm-io.atlassian.net/wiki/x/AoBihQ">Migrate from wcm.io Maven aem-global-parent 1.4.x to 1.5.x</a>.
+      ]]></action>
       <action type="update" dev="sseifert">
         Update global-parent dependency to 36.
       </action>

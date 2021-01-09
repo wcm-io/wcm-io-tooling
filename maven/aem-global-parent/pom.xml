@@ -35,7 +35,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.4.19-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -71,74 +71,6 @@
     <bnd.version>5.2.0</bnd.version>
 
   </properties>
-
-  <dependencies>
-
-    <!-- OSGi bundle and versioning annotations -->
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.annotation.bundle</artifactId>
-      <version>1.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.annotation.versioning</artifactId>
-      <version>1.1.0</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <!-- OSGi DS and metatype annotations -->
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.service.component.annotations</artifactId>
-      <version>1.4.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.service.metatype.annotations</artifactId>
-      <version>1.4.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.servlets.annotations</artifactId>
-      <version>1.2.4</version>
-      <scope>provided</scope>
-    </dependency>
-
-  </dependencies>
-
-  <dependencyManagement>
-    <dependencies>
-
-      <!-- Felix SCR DS annotations supported as well, but not included as default dependency by default any longer -->
-      <dependency>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>org.apache.felix.scr.annotations</artifactId>
-        <version>1.12.0</version>
-      </dependency>
-
-      <!-- Keep dependency for backward compatibility (earlier osgi-mock version declared it as transitive dependency with an outdated version) -->
-      <dependency>
-        <groupId>com.google.code.findbugs</groupId>
-        <artifactId>annotations</artifactId>
-        <!-- Downgrade to 3.0.0 because 3.0.1u2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
-        <version>3.0.0</version>
-        <scope>provided</scope>
-      </dependency>
-      <!-- Keep dependency for backward compatibility (it is recommended to use the null-check annotations from findbugs namespace instead) -->
-      <dependency>
-        <groupId>com.google.code.findbugs</groupId>
-        <artifactId>jsr305</artifactId>
-        <!-- Downgrade to 3.0.0 because 3.0.2 creates an OSGi dependency to javax.annotation 3.0.1 not present in AEM -->
-        <version>3.0.0</version>
-        <scope>provided</scope>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <resources>
