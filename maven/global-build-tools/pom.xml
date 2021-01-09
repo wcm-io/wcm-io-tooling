@@ -244,6 +244,15 @@
             <versionsForceUpdate>true</versionsForceUpdate>
             <postReleaseGoals>clean deploy -Prelease-profile</postReleaseGoals>
             <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
+            <commitMessages>
+              <!-- Add version number to commit messages -->
+              <hotfixStartMessage>Update versions for hotfix @{version}</hotfixStartMessage>
+              <hotfixFinishMessage>Update for next development version @{version}</hotfixFinishMessage>
+              <hotfixVersionUpdateMessage>Update to hotfix version @{version}</hotfixVersionUpdateMessage>
+              <releaseStartMessage>Update versions for release @{version}</releaseStartMessage>
+              <releaseFinishMessage>Update for next development version @{version}</releaseFinishMessage>
+              <releaseVersionUpdateMessage>Update for next development version @{version}</releaseVersionUpdateMessage>
+            </commitMessages>
             <gitFlowConfig>
               <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
               <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
