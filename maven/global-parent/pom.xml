@@ -752,7 +752,7 @@
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.7.0.1746</version>
+          <version>3.8.0.2131</version>
         </plugin>
 
         <plugin>
@@ -831,7 +831,7 @@
         <plugin>
           <groupId>com.amashchenko.maven.plugin</groupId>
           <artifactId>gitflow-maven-plugin</artifactId>
-          <version>1.15.0</version>
+          <version>1.15.1</version>
           <configuration>
             <skipTestProject>${gitflow.skipTestProject}</skipTestProject>
             <verbose>${gitflow.verbose}</verbose>
