@@ -142,8 +142,8 @@
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
-        <!-- com.adobe.granite.poi 2.0.24 contains POI 3.16 -->
-        <version>3.16</version>
+        <!-- com.adobe.granite.poi 2.0.24 contains POI 3.17 -->
+        <version>3.17</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
