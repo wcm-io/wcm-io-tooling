@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.5.0" date="not released">
+    <release version="1.5.0" date="2021-01-17">
       <action type="remove" dev="sseifert"><![CDATA[
         Remove dependencies for OSGi annotations from POM: org.osgi.annotation.bundle, org.osgi.annotation.versioning, org.osgi.service.component.annotations, org.osgi.service.metatype.annotations, org.apache.sling.servlets.annotations.<br/>
         Remove dependency management sections for deprecated annotations: org.apache.felix:org.apache.felix.scr.annotations, com.google.code.findbugs:annotations, com.google.code.findbugs:jsr305.<br/>
