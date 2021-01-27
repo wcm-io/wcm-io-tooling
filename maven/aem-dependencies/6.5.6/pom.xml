@@ -201,6 +201,12 @@
         <!-- update-aem-deps:ignore -->
         <version>1.2.4</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.adapter.annotations</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>2.0.0</version>
+      </dependency>
 
       <!-- OSGI (aggregated artifacts - it is recommended to use the individual artifacts instead) -->
       <dependency>
