@@ -42,7 +42,7 @@ Contribute your fixes and new features back to the main codebase using
 
 If you want to build wcm.io from sources make sure you have configured all [Maven Repositories](maven.html) in your settings.xml.
 
-See [Travis Maven settings.xml](https://github.com/wcm-io/wcm-io/blob/master/.travis.maven-settings.xml) for an example with a full configuration.
+See [Maven Settings](https://github.com/wcm-io/wcm-io-tooling/blob/develop/.maven-settings.xml) for an example with a full configuration.
 
 Then you can build using
 

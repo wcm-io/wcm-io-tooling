@@ -201,6 +201,12 @@
         <!-- update-aem-deps:ignore -->
         <version>1.2.4</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.adapter.annotations</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>2.0.0</version>
+      </dependency>
 
       <!-- OSGI (aggregated artifacts - it is recommended to use the individual artifacts instead) -->
       <dependency>
@@ -378,7 +384,7 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-imaging</artifactId>
         <!-- update-aem-deps:derived-from=org.apache.commons.commons-imaging:1.0-R1725432-B002 -->
-        <version>1.0-R1534292</version>
+        <version>1.0-alpha1</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
@@ -530,7 +536,6 @@
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.adapter</artifactId>
         <version>2.1.10</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>

@@ -23,6 +23,15 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="1.6.2" date="not released">
+      <action type="update" dev="sseifert">
+        Update to aem-global-parent 1.5.2.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to AEM dependencies 6.4.0.0003 to get rid of dependency on commons-image only available in Adobe Public Maven repo.
+      </action>
+    </release>
+
     <release version="1.6.0" date="2021-01-17">
       <action type="update" dev="sseifert">
         Update to aem-global-parent 1.5.0.

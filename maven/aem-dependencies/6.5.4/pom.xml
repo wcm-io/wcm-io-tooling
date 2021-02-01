@@ -285,7 +285,7 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-imaging</artifactId>
         <!-- update-aem-deps:derived-from=org.apache.commons.commons-imaging:1.0-R1725432-B002 -->
-        <version>1.0-R1534292</version>
+        <version>1.0-alpha1</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
