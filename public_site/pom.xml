@@ -64,12 +64,35 @@
       </plugin>
 
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <version>3.1.0</version>
+          <configuration>
+            <ignorePathsToDelete>
+              <ignorePathToDelete>samples</ignorePathToDelete>
+            </ignorePathsToDelete>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <topSiteURL>${project.distributionManagement.site.url}</topSiteURL>
+            <!--<stagingDirectory>${project.build.directory}/staging/</stagingDirectory>-->
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <distributionManagement>
     <site>
-      <id>${site.deploy.id}</id>
-      <url>${site.deploy.url}</url>
+      <id>github</id>
+      <url>scm:git:git@github.com:wcm-io/wcm-io.github.io.git</url>
     </site>
   </distributionManagement>
 
