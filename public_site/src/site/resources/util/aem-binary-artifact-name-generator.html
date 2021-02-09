@@ -3,7 +3,7 @@
   #%L
   wcm.io
   %%
-  Copyright (C) 2017-2019 wcm.io
+  Copyright (C) 2017-2021 wcm.io
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -105,14 +105,19 @@
           return null;
         }
 
-        var quickstartRegex = /^AEM_(.+)_Quickstart.jar$/;
-        var dispatcherRegex = /^dispatcher-(.+)-(.+?)\.([^\.]*|tar.gz)$/g;
+        var quickstartRegex = /^AEM_(.+)_Quickstart\.jar$/;
+        var dispatcherRegex = /^dispatcher-(.+)-(.+?)\.([^\.]*|tar\.gz)$/g;
         var genericRegex = /^(.+)-(.+?)\.([^\.]*)$/g;
+        var aemSdkGenericRegex = /^(.+)-(\d+\.\d+\.\d+\.\d+T\d+Z-\d+)\.([^\.]*)$/g;
 
         var packageServicePackRegex = /(-service-pack-|-service-pkg-|AEM-\d+\.\d+\.\d+\.\d+-\d+\.\d+\.\d+)/i;
-        var packageFeaturePackRegex = /-feature-pack-/i;
+        var packageFeaturePackRegex = /-feature-?pack-/i;
         var packageCFPRegex = /-cfp(\d+)?-/i;
         var packageHotfixRegex = /-hotfix-/i;
+
+        var aemSdkRegex = /^aem-sdk-(.+)\.zip$/;
+        var aemSdkQuickstartRegex = /^aem-sdk-quickstart-(.+)\.jar$/;
+        var aemSdkAddonRegex = /^aem-.+-addon-(.+)\.zip$/;
 
         var coords = {};
 
@@ -134,33 +139,64 @@
             coords.type = dispatcherMatch[3];
           }
           else {
-            var genericMatch = genericRegex.exec(filename);
-            if (genericMatch) {
+            var aemSdkGenericMatch = aemSdkGenericRegex.exec(filename);
+            if (aemSdkGenericMatch) {
 
               if (!filetype) {
                 // auto-detect filetype
-                if (packageServicePackRegex.exec(filename)) {
-                  filetype = "servicepack";
+                if (aemSdkRegex.exec(filename)) {
+                  filetype = "sdk";
                 }
-                else if (packageFeaturePackRegex.exec(filename)) {
-                  filetype = "featurepack";
-                }
-                else if (packageCFPRegex.exec(filename)) {
-                  filetype = "cumulativefixpack";
-                }
-                else if (packageHotfixRegex.exec(filename)) {
-                  filetype = "hotfix";
+                else if (aemSdkQuickstartRegex.exec(filename)) {
+                  filetype = "quickstart";
                 }
                 else {
                   // fallback
-                  filetype = "hotfix";
+                  filetype = "tooling";
                 }
               }
 
               coords.groupId = "adobe.binary.aem." + aemversion + "." + filetype;
-              coords.artifactId = genericMatch[1];
-              coords.version = genericMatch[2];
-              coords.type = genericMatch[3];
+              coords.artifactId = aemSdkGenericMatch[1];
+              coords.version = aemSdkGenericMatch[2];
+              if (aemSdkGenericMatch[3] != "jar") {
+                coords.type = aemSdkGenericMatch[3];
+              }
+            }
+            else {
+              var genericMatch = genericRegex.exec(filename);
+              if (genericMatch) {
+
+                if (!filetype) {
+                  // auto-detect filetype
+                  if (packageServicePackRegex.exec(filename)) {
+                    filetype = "servicepack";
+                  }
+                  else if (packageFeaturePackRegex.exec(filename)) {
+                    filetype = "featurepack";
+                  }
+                  else if (packageCFPRegex.exec(filename)) {
+                    filetype = "cumulativefixpack";
+                  }
+                  else if (packageHotfixRegex.exec(filename)) {
+                    filetype = "hotfix";
+                  }
+                  else if (aemSdkAddonRegex.exec(filename)) {
+                    filetype = "addon";
+                  }
+                  else {
+                    // fallback
+                    filetype = "tooling";
+                  }
+                }
+
+                coords.groupId = "adobe.binary.aem." + aemversion + "." + filetype;
+                coords.artifactId = genericMatch[1];
+                coords.version = genericMatch[2];
+                if (genericMatch[3] != "jar") {
+                  coords.type = genericMatch[3];
+                }
+              }
             }
           }
         }
@@ -265,8 +301,16 @@
       </p>
 
       <p>
-        <label for="aemversion">AEM Major Version String (65, 63, 62 etc.)</label>
-        <input id="aemversion" type="text" value="65" required pattern="\d{2}">
+        <label for="aemversion">AEM Major Version</label>
+        <select id="aemversion">
+          <option>cloud</option>
+          <option>65</option>
+          <option>64</option>
+          <option>63</option>
+          <option>62</option>
+          <option>61</option>
+          <option>60</option>
+        </select>
       </p>
 
       <p>
@@ -281,6 +325,9 @@
           <option>featurepack</option>
           <option>overlay</option>
           <option>dispatcher</option>
+          <option>sdk</option>
+          <option>addon</option>
+          <option>tooling</option>
         </select>
       </p>
 
