@@ -534,6 +534,12 @@
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.sightly.runtime</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly.runtime:1.1.0.1_4_0 -->
+        <version>1.1.0-1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.adapter</artifactId>
         <version>2.1.10</version>
       </dependency>
