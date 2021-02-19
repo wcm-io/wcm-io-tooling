@@ -26,7 +26,7 @@
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.parent_toplevel</artifactId>
     <version>1.6.1-SNAPSHOT</version>
-    <relativePath />
+    <relativePath>../parent_toplevel</relativePath>
   </parent>
 
   <groupId>io.wcm</groupId>
@@ -52,6 +52,30 @@
   <properties>
     <site.url.module.prefix>tooling</site.url.module.prefix>
   </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <skip>false</skip>
+            <topSiteURL>${site.deploy.url}</topSiteURL>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
   <distributionManagement>
     <site>
