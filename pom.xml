@@ -97,7 +97,8 @@
         </configuration>
       </plugin>
 
-      <!-- do not generate site for this project -->
+      <!-- do generate site for this project but push it into a separate staging directory because we are not
+           using it -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
