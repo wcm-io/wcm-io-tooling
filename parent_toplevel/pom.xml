@@ -87,7 +87,7 @@
     <site.url.module.prefix>tooling/parent_toplevel</site.url.module.prefix>
     <site.url>https://wcm.io</site.url>
     <site.deploy.id>ssh-wcm.io</site.deploy.id>
-    <site.deploy.url><url>scm:git:https://github.com/wcm-io/wcm-io.github.io.git</url></site.deploy.url>
+    <site.deploy.url>scm:git:https://github.com/wcm-io/wcm-io.github.io.git</site.deploy.url>
 
     <!-- set default empty argLine when not executing jacoco -->
     <argLine />
