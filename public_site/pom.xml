@@ -98,8 +98,8 @@
 
   <distributionManagement>
     <site>
-      <id>github</id>
-      <url>scm:git:git@github.com:wcm-io/wcm-io.github.io.git</url>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}</url>
     </site>
   </distributionManagement>
 
