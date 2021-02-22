@@ -77,16 +77,6 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <configuration>
-            <ignorePathsToDelete>
-              <ignorePathToDelete>samples</ignorePathToDelete>
-            </ignorePathsToDelete>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <configuration>
             <topSiteURL>${project.distributionManagement.site.url}</topSiteURL>
