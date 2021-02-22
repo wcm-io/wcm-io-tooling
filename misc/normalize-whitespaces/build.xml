@@ -5,6 +5,7 @@
   <target name="normalize-whitespaces">
     <replace dir="." encoding="UTF-8">
 
+      <include name="**/*.any"/>
       <include name="**/*.cfg"/>
       <include name="**/*.conf"/>
       <include name="**/*.config"/>
@@ -42,6 +43,7 @@
       <include name="**/*.svg"/>
       <include name="**/*.tf"/>
       <include name="**/*.txt"/>
+      <include name="**/*.vhost"/>
       <include name="**/*.vm"/>
       <include name="**/*.xml"/>
       <include name="**/*.xsd"/>
@@ -71,6 +73,7 @@
     <replaceregexp match="\s+$" replace="" flags="g" byline="true" encoding="UTF-8">
       <fileset dir=".">
 
+        <include name="**/*.any"/>
         <include name="**/*.cfg"/>
         <include name="**/*.conf"/>
         <include name="**/*.config"/>
@@ -108,6 +111,7 @@
         <include name="**/*.svg"/>
         <include name="**/*.tf"/>
         <include name="**/*.txt"/>
+        <include name="**/*.vhost"/>
         <include name="**/*.vm"/>
         <include name="**/*.xml"/>
         <include name="**/*.xsd"/>
@@ -139,6 +143,7 @@
   <target name="normalize-lineendings">
 
     <fixcrlf eol="unix" encoding="UTF-8" srcdir="." includes="
+        **/*.any
         **/*.cfg
         **/*.conf
         **/*.config
@@ -176,6 +181,7 @@
         **/*.svg
         **/*.tf
         **/*.txt
+        **/*.vhost
         **/*.vm
         **/*.xml
         **/*.xsd
