@@ -112,7 +112,6 @@
         <artifactId>maven-scm-publish-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <pubScmUrl>scm:git:git@github.com:wcm-io/wcm-io.github.io.git</pubScmUrl>
           <skipDeletedFiles>true</skipDeletedFiles>
         </configuration>
       </plugin>
