@@ -244,7 +244,6 @@
           <generateReports>true</generateReports>
           <inputEncoding>UTF-8</inputEncoding>
           <outputEncoding>UTF-8</outputEncoding>
-          <skip>true</skip>
         </configuration>
         <executions>
           <execution>
