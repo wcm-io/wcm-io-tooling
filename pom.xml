@@ -120,4 +120,11 @@
     </plugins>
   </build>
 
+  <distributionManagement>
+    <site>
+      <id>${site.deploy.id}</id>
+      <url>${site.deploy.url}</url>
+    </site>
+  </distributionManagement>
+
 </project>
