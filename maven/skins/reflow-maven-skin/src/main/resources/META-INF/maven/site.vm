@@ -20,7 +20,6 @@
 -->
 #*
 
-
 --------------------------------------------------*###
 #**
  * Convenience directive to invoke a method and ignore the return value.
@@ -1184,6 +1183,14 @@
 #end#* /depsCollapse
 
 
+*##if ( $config.brand.getChild( 'name' ) )#*
+  *##set ( $brandName = $config.brand.getChild( 'name' ).getValue() )#*
+*##else#*
+  *##set ( $brandName = $defaultProjectName )#*
+*##end#*
+
+
+
 --------------------------------------------------
 --------------------------------------------------
  The page HTML
@@ -1350,7 +1357,7 @@
     <link rel="apple-touch-icon" href="https://wcm.io/images/favicon-152.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="wcm.io - Libraries and extensions for AEM applications" />
+    <meta name="description" content="${brandName}#if($config.slogan) - $config.slogan.getValue()#{end}" />
 #*  *##foreach ( $author in $authors )##
     <meta name="author" content="$author" />
 #*  *##end#*
@@ -1421,12 +1428,6 @@
 
   // Insert brand if it is available
   *##if ( $config.brand )#*
-
-    *##if ( $config.brand.getChild( 'name' ) )#*
-      *##set ( $brandName = $config.brand.getChild( 'name' ).getValue() )#*
-    *##else#*
-      *##set ( $brandName = $defaultProjectName )#*
-    *##end#*
 
     *##if ( $config.brand.getChild( 'href' ) )#*
       *##currentFileRelativeLink ( $config.brand.getChild( 'href' ).getValue() )##
