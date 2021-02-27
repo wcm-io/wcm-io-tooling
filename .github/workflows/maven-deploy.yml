@@ -3,14 +3,11 @@
 name: Deploy
 
 on:
-  # Run automatically when workflow "Build" completes on default branch
+  # Run automatically when workflow "Build" completes on develop branch
   workflow_run:
-    workflows:
-      - Build
-    branches:
-      - $default-branch
-    types: 
-      - completed
+    workflows: [Build]
+    branches: [develop]
+    types: [completed]
   # Allow to be started manually
   workflow_dispatch:
 
