@@ -8,7 +8,6 @@ on:
     workflows: [Build]
     branches: [develop]
     types: [completed]
-  # Allow to be started manually
   workflow_dispatch:
 
 jobs:

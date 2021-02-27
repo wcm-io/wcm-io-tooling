@@ -12,6 +12,7 @@ on:
     branches-ignore:
       - 'master'
       - 'experimental/**'
+  workflow_dispatch:
 
 jobs:
   build:
