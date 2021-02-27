@@ -329,6 +329,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <configuration>
             <excludePackageNames>*.impl:*.impl.*</excludePackageNames>
+            <notimestamp>true</notimestamp>
           </configuration>
         </plugin>
 

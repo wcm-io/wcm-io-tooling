@@ -58,5 +58,6 @@ jobs:
       - name: Stage and deploy site
         run: >
           mvn -s ./.maven-settings.xml -Pcontinuous-integration -B site:stage scm-publish:publish-scm
+          -Dscmpublish.checkinComment="Maen site: $${{ github.repository }}"
           -Dusername=${{ secrets.GH_SITE_DEPLOY_USERNAME }}
           -Dpassword=${{ secrets.GH_SITE_DEPLOY_PAT }}
