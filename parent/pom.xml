@@ -26,7 +26,7 @@
     <groupId>io.wcm</groupId>
     <artifactId>io.wcm.parent_toplevel</artifactId>
     <version>1.6.3-SNAPSHOT</version>
-    <relativePath>../parent_toplevel</relativePath>
+    <relativePath/>
   </parent>
 
   <groupId>io.wcm</groupId>
