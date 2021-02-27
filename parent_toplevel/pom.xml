@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
     <relativePath />
   </parent>
 
@@ -395,13 +395,6 @@
               <version>1.0.0.v20140518</version>
             </dependency>
            </dependencies>
-        </plugin>
-
-        <!-- Plugin for Maven Site deployment -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>3.1.0</version>
         </plugin>
 
       </plugins>
