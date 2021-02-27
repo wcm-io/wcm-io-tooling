@@ -1,4 +1,5 @@
 # Deploy snapshots to Sonatpe OSS repository and deploy site to GitHub Pages
+# This runs once after the build validation is completed for all environments
 
 name: Deploy
 
