@@ -30,8 +30,6 @@ LOCAL_AEM_PASSWORD = 'admin'
 
 //----------------------------------------------------------------------
 
-@GrabResolver(name='adobe-public-releases', root='https://repo.adobe.com/nexus/content/groups/public')
-
 @Grab('org.slf4j:slf4j-simple:1.7.30')
 @Grab('io.github.http-builder-ng:http-builder-ng-core:1.0.4')
 @Grab('jaxen:jaxen:1.1.6')
