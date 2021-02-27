@@ -3,18 +3,16 @@
 name: Deploy
 
 on:
-  # *** Temporarily enable this for all branches to be able to test it on the github-actions branch - workflow_run only works on default branch ***
-  push:
-    branches-ignore:
-      - 'master'
-      - 'experimental/**'
-#  workflow_run:
-#    workflows:
-#      - Verify
-#    branches:
-#      - $default-branch
-#    types: 
-#      - completed
+  # Run automatically when workflow "Build" completes on default branch
+  workflow_run:
+    workflows:
+      - Build
+    branches:
+      - $default-branch
+    types: 
+      - completed
+  # Allow to be started manually
+  workflow_dispatch:
 
 jobs:
   build:
