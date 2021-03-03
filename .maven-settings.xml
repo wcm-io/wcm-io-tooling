@@ -37,9 +37,11 @@
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
           </releases>
+          <!-- workaround for https://github.com/mojohaus/build-helper-maven-plugin/issues/108
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
+          -->
         </repository>
 
         <repository>
