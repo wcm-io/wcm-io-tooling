@@ -24,6 +24,9 @@
   <body>
 
     <release version="1.1.0" date="not released">
+      <action type="update" dev="sseifert">
+        Use absoluteResourceURL if configured even if project url is configured.
+      </action>
       <action type="fix" dev="sseifert">
         Use configured slogan for HTML meta description.
       </action>

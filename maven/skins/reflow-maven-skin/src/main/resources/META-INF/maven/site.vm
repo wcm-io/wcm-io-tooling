@@ -1377,8 +1377,7 @@
 
   // Use config option <absoluteResourceURL>http://mysite.com/</absoluteResourceURL>
   *##if ( $config.absoluteResourceURL && $config.absoluteResourceURL.getValue() != '' )#*
-    *##currentFileRelativeLink ( $config.absoluteResourceURL.getValue() ) #*
-    *##set ( $resourcePath = $currentFileRelativeLink )#*
+    *##set ( $resourcePath = $config.absoluteResourceURL.getValue() )#*
   *##else#*
     *##set ( $resourcePath = $relativePath )#*
   *##end#*
