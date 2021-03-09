@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="23" date="not released">
+    <release version="23" date="2021-03-09">
       <action type="update" dev="sseifert">
         PMD: Replace rules to be deprecated in PMD 7.0.0.
       </action>
