@@ -35,7 +35,7 @@
   <skin>
     <groupId>io.wcm.maven.skins</groupId>
     <artifactId>reflow-maven-skin</artifactId>
-    <version>1.0.12</version>
+    <version>1.1.0-SNAPSHOT</version>
   </skin>
   <custom>
     <reflowSkin>
@@ -137,7 +137,6 @@
       <item name="Issues" href="https://wcm-io.atlassian.net" />
       <item name="Wiki" href="https://wcm-io.atlassian.net/wiki/" />
       <item name="Mailing Lists" href="https://wcm.io/mailing-lists.html" />
-      <item name="Continuous Integration" href="https://travis-ci.com/wcm-io" />
       <item name="Fork on GitHub" href="https://github.com/wcm-io" />
     </menu>
     <menu name="Maven documentation" inherit="top" ref="reports"/>

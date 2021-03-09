@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.6.2</version>
+  <version>1.6.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
@@ -87,7 +87,7 @@
     <site.url.module.prefix>tooling/parent_toplevel</site.url.module.prefix>
     <site.url>https://wcm.io</site.url>
     <site.deploy.id>ssh-wcm.io</site.deploy.id>
-    <site.deploy.url />
+    <site.deploy.url>scm:git:https://github.com/wcm-io/wcm-io.github.io.git</site.deploy.url>
 
     <!-- set default empty argLine when not executing jacoco -->
     <argLine />
@@ -329,6 +329,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <configuration>
             <excludePackageNames>*.impl:*.impl.*</excludePackageNames>
+            <notimestamp>true</notimestamp>
           </configuration>
         </plugin>
 
@@ -396,13 +397,6 @@
            </dependencies>
         </plugin>
 
-        <!-- Plugin for Maven Site deployment -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-publish-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-
       </plugins>
 
     </pluginManagement>
@@ -437,6 +431,19 @@
           <!-- Do not generate links to teamlist reports -->
           <teamlist>none</teamlist>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
 
     </plugins>
@@ -491,7 +498,7 @@
     <site>
       <id>${site.deploy.id}</id>
       <name>Maven Site Deployment</name>
-      <url>${site.deploy.url}${site.url.module.prefix}</url>
+      <url>${site.deploy.url}/${site.url.module.prefix}</url>
     </site>
   </distributionManagement>
 

@@ -93,9 +93,11 @@
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
           </releases>
+          <!-- workaround for https://github.com/mojohaus/build-helper-maven-plugin/issues/108
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
+          -->
         </pluginRepository>
 
         <pluginRepository>
@@ -146,5 +148,13 @@
   <activeProfiles>
     <activeProfile>default</activeProfile>
   </activeProfiles>
+
+  <servers>
+    <server>
+      <id>ossrh</id>
+      <username>${env.SONATYPE_USERNAME}</username>
+      <password>${env.SONATYPE_PASSWORD}</password>
+    </server>
+  </servers>
 
 </settings>

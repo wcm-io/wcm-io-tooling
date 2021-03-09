@@ -90,8 +90,7 @@
   <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters" />
   <rule ref="category/java/bestpractices.xml/ConstantsInInterface" />
   <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt" />
-  <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInCaseInsensitiveComparisons" />
-  <rule ref="category/java/bestpractices.xml/PositionLiteralsFirstInComparisons" />
+  <rule ref="category/java/bestpractices.xml/LiteralsFirstInComparisons" />
   <rule ref="category/java/bestpractices.xml/PreserveStackTrace" />
   <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
   <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty" />
@@ -121,7 +120,7 @@
   <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" />
 
   <!-- rules previously in rulesets/java/logging-java.xml -->
-  <rule ref="category/java/errorprone.xml/InvalidSlf4jMessageFormat" />
+  <rule ref="category/java/errorprone.xml/InvalidLogMessageFormat" />
   <rule ref="category/java/errorprone.xml/MoreThanOneLogger" />
   <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
   <rule ref="category/java/bestpractices.xml/GuardLogStatement" />
