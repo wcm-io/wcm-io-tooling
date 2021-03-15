@@ -25,13 +25,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.6.3-SNAPSHOT</version>
+  <version>1.6.4</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
