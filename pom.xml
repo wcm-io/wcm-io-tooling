@@ -81,6 +81,7 @@
     <module>maven/plugins/nodejs-maven-plugin</module>
     <module>maven/plugins/wcmio-content-package-maven-plugin</module>
     <module>maven/plugins/json-dialog-conversion-plugin</module>
+    <module>maven/plugins/sling-initial-content-transform-maven-plugin</module>
     <module>maven/skins/reflow-velocity-tools</module>
     <module>maven/skins/reflow-maven-skin</module>
     <module>public_site</module>

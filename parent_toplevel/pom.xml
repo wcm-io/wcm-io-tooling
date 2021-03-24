@@ -279,6 +279,22 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>io.wcm.maven.plugins</groupId>
+        <artifactId>sling-initial-content-transform-maven-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <group>wcm-io</group>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
 
     <pluginManagement>
