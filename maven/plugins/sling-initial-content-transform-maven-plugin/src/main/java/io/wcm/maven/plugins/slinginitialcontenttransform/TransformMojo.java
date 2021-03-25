@@ -53,7 +53,7 @@ import io.wcm.tooling.commons.contentpackagebuilder.ContentPackageBuilder;
 import io.wcm.tooling.commons.contentpackagebuilder.PackageFilter;
 
 /**
- * Extracts Sling-Initial-Content from an OSGi bundle and attaches two artifacts with classifiers instead:
+ * Extracts Sling-Initial-Content from an OSGi bundle and attaches two artifacts with classifiers:
  * <ul>
  * <li><code>bundle</code>: OSGi bundle without the Sling-Initial-Content</li>
  * <li><code>content</code>: Content packages with the Sling-Initial-Content transformed to FileVault</li>
