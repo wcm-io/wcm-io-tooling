@@ -51,7 +51,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.vault.packaging.PackageProperties;
 import org.apache.jackrabbit.vault.util.PlatformNameFormat;
@@ -309,12 +308,13 @@ public final class ContentPackage implements Closeable {
    * @param path Path
    * @throws IOException I/O exception
    */
+  @SuppressWarnings("deprecation")
   private void buildTemplatedMetadataFile(String path) throws IOException {
     try (InputStream is = getClass().getResourceAsStream("/content-package-template/" + path)) {
       String xmlContent = IOUtils.toString(is, StandardCharsets.UTF_8);
       for (Map.Entry<String, Object> entry : metadata.getVars().entrySet()) {
         xmlContent = StringUtils.replace(xmlContent, "{{" + entry.getKey() + "}}",
-            StringEscapeUtils.escapeXml10(entry.getValue().toString()));
+            org.apache.commons.lang3.StringEscapeUtils.escapeXml10(entry.getValue().toString()));
       }
       zip.putNextEntry(new ZipEntry(path));
       try {
