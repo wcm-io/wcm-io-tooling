@@ -279,6 +279,9 @@
         </executions>
       </plugin>
 
+      <!-- For OSGi bundles with Sling-Initial-Content: Additionaly generated two attached files for each bundle containing the content 
+           in a content package and the OGSi bundle without Sling-Initial-Content as an alternative for AEMaaCS deployment.
+           See https://wcm-io.atlassian.net/l/c/3wZPHGBo for more context -->
       <plugin>
         <groupId>io.wcm.maven.plugins</groupId>
         <artifactId>sling-initial-content-transform-maven-plugin</artifactId>
