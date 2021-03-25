@@ -26,7 +26,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.jackrabbit.JcrConstants;
-import org.apache.maven.plugin.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.maven.plugins.slinginitialcontenttransform.contentparser.JsonContentLoader;
 import io.wcm.maven.plugins.slinginitialcontenttransform.contentparser.XmlContentLoader;
@@ -39,13 +40,13 @@ import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
 class WriteContentProcessor implements BundleEntryProcessor {
 
   private final Set<String> ignoreFolderPaths;
-  private final Log log;
   private final JsonContentLoader jsonContentLoader = new JsonContentLoader();
   private final XmlContentLoader xmlContentLoader = new XmlContentLoader();
 
-  WriteContentProcessor(Set<String> ignoreFolderPaths, Log log) {
+  private static final Logger log = LoggerFactory.getLogger(WriteContentProcessor.class);
+
+  WriteContentProcessor(Set<String> ignoreFolderPaths) {
     this.ignoreFolderPaths = ignoreFolderPaths;
-    this.log = log;
   }
 
   @Override
@@ -53,9 +54,7 @@ class WriteContentProcessor implements BundleEntryProcessor {
     if (ignoreFolderPaths.contains(path)) {
       return;
     }
-    if (log.isDebugEnabled()) {
-      log.debug("Add folder: " + path);
-    }
+    log.debug("Add folder: {}", path);
     Map<String, Object> props = new HashMap<>();
     props.put(JcrConstants.JCR_PRIMARYTYPE, "sling:Folder");
     contentPackage.addContent(path, props);
@@ -63,9 +62,7 @@ class WriteContentProcessor implements BundleEntryProcessor {
 
   @Override
   public void jsonContent(String path, BundleEntry entry, ContentPackage contentPackage) throws IOException {
-    if (log.isDebugEnabled()) {
-      log.debug("Add JSON content: " + path);
-    }
+    log.debug("Add JSON content: {}", path);
     try (InputStream is = entry.getInputStream()) {
       ContentElement contentElement = jsonContentLoader.load(is);
       contentPackage.addContent(path, contentElement);
@@ -74,20 +71,17 @@ class WriteContentProcessor implements BundleEntryProcessor {
 
   @Override
   public void xmlContent(String path, BundleEntry entry, ContentPackage contentPackage) throws IOException {
-    if (log.isDebugEnabled()) {
-      log.debug("Add XML content: " + path);
-    }
+    log.debug("Add XML content: {}", path);
     try (InputStream is = entry.getInputStream()) {
       ContentElement contentElement = xmlContentLoader.load(is);
-      contentPackage.addContent(path, contentElement);
+      // we assume xml content is only used in cases where additional properties should be set for a binary file
+      contentPackage.addContentForFile(path, contentElement);
     }
   }
 
   @Override
   public void binaryContent(String path, BundleEntry entry, ContentPackage contentPackage) throws IOException {
-    if (log.isDebugEnabled()) {
-      log.debug("Add binary content: " + path);
-    }
+    log.debug("Add binary content: {}", path);
     try (InputStream is = entry.getInputStream()) {
       contentPackage.addFile(path, is);
     }

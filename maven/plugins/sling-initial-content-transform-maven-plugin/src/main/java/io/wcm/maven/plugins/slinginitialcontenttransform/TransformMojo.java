@@ -45,6 +45,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.tooling.commons.contentpackagebuilder.ContentPackage;
 import io.wcm.tooling.commons.contentpackagebuilder.ContentPackageBuilder;
@@ -53,8 +55,8 @@ import io.wcm.tooling.commons.contentpackagebuilder.PackageFilter;
 /**
  * Extracts Sling-Initial-Content from an OSGi bundle and attaches two artifacts with classifiers instead:
  * <ul>
- * <li>bundle: OSGi bundle without the Sling-Initial-Content</li>
- * <li>content: Content packages with the Sling-Initial-Content transformed to FileVault</li>
+ * <li><code>bundle</code>: OSGi bundle without the Sling-Initial-Content</li>
+ * <li><code>content</code>: Content packages with the Sling-Initial-Content transformed to FileVault</li>
  * </ul>
  */
 @Mojo(name = "transform", requiresProject = true, threadSafe = true, defaultPhase = LifecyclePhase.PACKAGE)
@@ -64,26 +66,37 @@ public class TransformMojo extends AbstractMojo {
   private static final String CLASSIFIER_BUNDLE = "bundle";
   private static final String MANIFEST_FILE = "META-INF/MANIFEST.MF";
 
+  private static final Logger log = LoggerFactory.getLogger(TransformMojo.class);
+
+  /**
+   * The name of the OSGi bundle file to process.
+   */
+  @Parameter(defaultValue = "${project.build.directory}/${project.build.finalName}.jar", required = true)
+  private File file;
+
+  /**
+   * The group of the content package.
+   */
+  @Parameter(defaultValue = "${project.groupId}", required = true)
+  private String group;
+
+  /**
+   * Generate attached "content" artifact with content package with Sling-Initial-Content.
+   */
+  @Parameter(defaultValue = "true", required = true)
+  private boolean generateContent;
+
+  /**
+   * Generate attached "bundle" artifact with OSGi bundle without Sling-Initial-Content.
+   */
+  @Parameter(defaultValue = "true", required = true)
+  private boolean generateBundle;
+
   /**
    * Allows to skip the plugin execution.
    */
   @Parameter(property = "slinginitialcontenttransform.skip", defaultValue = "false")
   private boolean skip;
-
-  /**
-   * The name of the OSGi bundle file to process.
-   */
-  @Parameter(property = "slinginitialcontenttransform.file", defaultValue = "${project.build.directory}/${project.build.finalName}.jar")
-  private File file;
-
-  /**
-   * The group of the package.
-   */
-  @Parameter(
-      property = "slinginitialcontenttransform.group",
-      defaultValue = "${project.groupId}",
-      required = true)
-  private String group;
 
   @Parameter(property = "project", required = true, readonly = true)
   private MavenProject project;
@@ -93,21 +106,21 @@ public class TransformMojo extends AbstractMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     if (skip) {
-      getLog().debug("Skipping execution.");
+      log.debug("Skipping execution.");
       return;
     }
     if (!StringUtils.equals(project.getPackaging(), "jar")) {
-      getLog().debug("Not a jar project: " + project.getPackaging());
+      log.debug("Skipping execution - not a jar project: {}", project.getPackaging());
       return;
     }
     if (!file.exists()) {
-      getLog().warn("File does not exist: " + file.getPath());
+      log.warn("File does not exist: {}", file.getPath());
       return;
     }
 
     try (OsgiBundleFile osgiBundle = new OsgiBundleFile(file)) {
       if (!osgiBundle.hasContent()) {
-        getLog().debug("Bundle does not contain Sling-Initial-Content.");
+        log.debug("Skipping execution - bundle does not contain Sling-Initial-Content.");
         return;
       }
       transformBundle(osgiBundle);
@@ -122,11 +135,14 @@ public class TransformMojo extends AbstractMojo {
    * @throws IOException I/O exception
    */
   private void transformBundle(OsgiBundleFile osgiBundle) throws IOException {
-    File contentPackageFile = createContentPackage(osgiBundle);
-    projectHelper.attachArtifact(project, "zip", CLASSIFIER_CONTENT, contentPackageFile);
-
-    File bundleFile = createBundleWithoutContent(osgiBundle);
-    projectHelper.attachArtifact(project, "jar", CLASSIFIER_BUNDLE, bundleFile);
+    if (generateContent) {
+      File contentPackageFile = createContentPackage(osgiBundle);
+      projectHelper.attachArtifact(project, "zip", CLASSIFIER_CONTENT, contentPackageFile);
+    }
+    if (generateBundle) {
+      File bundleFile = createBundleWithoutContent(osgiBundle);
+      projectHelper.attachArtifact(project, "jar", CLASSIFIER_BUNDLE, bundleFile);
+    }
   }
 
   /**
@@ -164,22 +180,29 @@ public class TransformMojo extends AbstractMojo {
         }
 
         // then generate the actual content in content package
-        WriteContentProcessor writeContent = new WriteContentProcessor(nonDirectoryPaths.getPaths(), getLog());
+        WriteContentProcessor writeContent = new WriteContentProcessor(nonDirectoryPaths.getPaths());
         for (BundleEntry entry : entries) {
           processContent(contentPackage, entry, mapping, writeContent);
         }
       }
     }
 
-    getLog().info("Created package with Sling-Initial-Content: " + contentPackageFile.getName());
+    log.info("Created package with Sling-Initial-Content: {}", contentPackageFile.getName());
     return contentPackageFile;
   }
 
+  /**
+   * Processes a JAR file entry in the OSGi bundle.
+   * @param contentPackage Content package
+   * @param entry Entry
+   * @param mapping Content mapping that is currently processed
+   * @param processor Processor to do the actual work
+   * @throws IOException I/O exception
+   */
   private void processContent(ContentPackage contentPackage, BundleEntry entry, ContentMapping mapping,
       BundleEntryProcessor processor) throws IOException {
     String extension = FilenameUtils.getExtension(entry.getPath());
     if (entry.isDirectory()) {
-      // collect folder path, add later
       String path = StringUtils.removeEnd(entry.getPath(), "/");
       processor.directory(path, contentPackage);
     }
@@ -229,10 +252,16 @@ public class TransformMojo extends AbstractMojo {
       }
     }
 
-    getLog().info("Created bundle without content: " + bundleFile.getName());
+    log.info("Created bundle without content: {}", bundleFile.getName());
     return bundleFile;
   }
 
+  /**
+   * Removes Sling-Initial-Content header of manifest.
+   * @param is Inputstream for manifest file
+   * @return Manifest
+   * @throws IOException I/O exception
+   */
   private Manifest getManifestWithoutSlingInitialContentHeader(InputStream is) throws IOException {
     Manifest manifest = new Manifest(is);
     manifest.getMainAttributes().remove(new Attributes.Name(OsgiBundleFile.HEADER_INITIAL_CONTENT));
