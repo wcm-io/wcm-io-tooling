@@ -31,7 +31,7 @@
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.6.5-SNAPSHOT</version>
+  <version>1.6.6</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
@@ -285,7 +285,7 @@
       <plugin>
         <groupId>io.wcm.maven.plugins</groupId>
         <artifactId>sling-initial-content-transform-maven-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <executions>
           <execution>
             <goals>
