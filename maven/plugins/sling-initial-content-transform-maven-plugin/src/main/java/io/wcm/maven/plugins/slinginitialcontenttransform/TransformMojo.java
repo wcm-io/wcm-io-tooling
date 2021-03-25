@@ -46,12 +46,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 
-import io.wcm.maven.plugins.slinginitialcontenttransform.contentparser.JsonContentLoader;
-import io.wcm.maven.plugins.slinginitialcontenttransform.contentparser.XmlContentLoader;
 import io.wcm.tooling.commons.contentpackagebuilder.ContentPackage;
 import io.wcm.tooling.commons.contentpackagebuilder.ContentPackageBuilder;
 import io.wcm.tooling.commons.contentpackagebuilder.PackageFilter;
-import io.wcm.tooling.commons.contentpackagebuilder.element.ContentElement;
 
 /**
  * Extracts Sling-Initial-Content form an OSGi bundle and attaches two artifacts with classifiers instead:
@@ -92,9 +89,6 @@ public class TransformMojo extends AbstractMojo {
   private MavenProject project;
   @Component
   private MavenProjectHelper projectHelper;
-
-  private final JsonContentLoader jsonContentLoader = new JsonContentLoader();
-  private final XmlContentLoader xmlContentLoader = new XmlContentLoader();
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -161,49 +155,45 @@ public class TransformMojo extends AbstractMojo {
     }
     try (ContentPackage contentPackage = contentPackageBuilder.build(contentPackageFile)) {
       for (ContentMapping mapping : osgiBundle.getContentMappings()) {
-        List<BundleEntry> entries = osgiBundle.getEntries(mapping).collect(Collectors.toList());
+        List<BundleEntry> entries = osgiBundle.getContentEntries(mapping).collect(Collectors.toList());
+
+        // first collect all paths we do not need to create explicit directories for
+        CollectNonDirectoryPathsProcessor nonDirectoryPaths = new CollectNonDirectoryPathsProcessor();
         for (BundleEntry entry : entries) {
-          addContent(contentPackage, entry, mapping);
+          processContent(contentPackage, entry, mapping, nonDirectoryPaths);
+        }
+
+        // then generate the actual content in content package
+        WriteContentProcessor writeContent = new WriteContentProcessor(nonDirectoryPaths.getPaths(), getLog());
+        for (BundleEntry entry : entries) {
+          processContent(contentPackage, entry, mapping, writeContent);
         }
       }
     }
 
-    getLog().info("Extracted Sling-Initial-Content: " + contentPackageFile.getName());
+    getLog().info("Created package with Sling-Initial-Content: " + contentPackageFile.getName());
     return contentPackageFile;
   }
 
-  private void addContent(ContentPackage contentPackage, BundleEntry entry, ContentMapping mapping) throws IOException {
+  private void processContent(ContentPackage contentPackage, BundleEntry entry, ContentMapping mapping,
+      BundleEntryProcessor processor) throws IOException {
     String extension = FilenameUtils.getExtension(entry.getPath());
-    if (mapping.isJson() && StringUtils.equals(extension, "json")) {
-      addJsonContent(contentPackage, entry);
+    if (entry.isDirectory()) {
+      // collect folder path, add later
+      String path = StringUtils.removeEnd(entry.getPath(), "/");
+      processor.directory(path, contentPackage);
     }
-    if (mapping.isXml() && StringUtils.equals(extension, "xml")) {
-      addXmlContent(contentPackage, entry);
+    else if (mapping.isJson() && StringUtils.equals(extension, "json")) {
+      String path = StringUtils.substringBeforeLast(entry.getPath(), ".json");
+      processor.jsonContent(path, entry, contentPackage);
+    }
+    else if (mapping.isXml() && StringUtils.equals(extension, "xml")) {
+      String path = StringUtils.substringBeforeLast(entry.getPath(), ".xml");
+      processor.xmlContent(path, entry, contentPackage);
     }
     else {
-      addBinaryContent(contentPackage, entry);
-    }
-  }
-
-  private void addJsonContent(ContentPackage contentPackage, BundleEntry entry) throws IOException {
-    try (InputStream is = entry.getInputStream()) {
-      ContentElement contentElement = jsonContentLoader.load(is);
-      String path = StringUtils.substringBeforeLast(entry.getPath(), ".json");
-      contentPackage.addContent(path, contentElement);
-    }
-  }
-
-  private void addXmlContent(ContentPackage contentPackage, BundleEntry entry) throws IOException {
-    try (InputStream is = entry.getInputStream()) {
-      ContentElement contentElement = xmlContentLoader.load(is);
-      String path = StringUtils.substringBeforeLast(entry.getPath(), ".xml");
-      contentPackage.addContent(path, contentElement);
-    }
-  }
-
-  private void addBinaryContent(ContentPackage contentPackage, BundleEntry entry) throws IOException {
-    try (InputStream is = entry.getInputStream()) {
-      contentPackage.addFile(entry.getPath(), is);
+      String path = entry.getPath();
+      processor.binaryContent(path, entry, contentPackage);
     }
   }
 

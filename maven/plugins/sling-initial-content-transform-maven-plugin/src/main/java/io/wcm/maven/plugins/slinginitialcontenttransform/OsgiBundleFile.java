@@ -130,13 +130,12 @@ class OsgiBundleFile implements Closeable {
   /**
    * Get all Sling-Initial-Content entries matching for the given mapping.
    * @param mapping Content mapping
-   * @return Content entries. Contains no directory entries.
+   * @return Content entries.
    */
   @SuppressWarnings("null")
-  public Stream<BundleEntry> getEntries(ContentMapping mapping) {
+  public Stream<BundleEntry> getContentEntries(ContentMapping mapping) {
     Pattern bundlePathPattern = Pattern.compile("^" + Pattern.quote(mapping.getBundlePath()) + "/.*$");
     return jarFile.stream()
-        .filter(entry -> !entry.isDirectory())
         .filter(entry -> bundlePathPattern.matcher(entry.getName()).matches())
         .map(entry -> {
           String path = mapping.getContentPath() + StringUtils.substringAfter(entry.getName(), mapping.getBundlePath());
