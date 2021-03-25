@@ -30,10 +30,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.lang3.CharEncoding;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -277,7 +277,7 @@ class ContentPackageBuilderTest {
   @Test
   void testAddBinaries() throws Exception {
 
-    byte[] data1 = "content1".getBytes(CharEncoding.UTF_8);
+    byte[] data1 = "content1".getBytes(StandardCharsets.UTF_8);
     byte[] data2 = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 };
 
     ContentPackageBuilder builder = underTest.group("myGroup").name("myName").rootPath("/test");

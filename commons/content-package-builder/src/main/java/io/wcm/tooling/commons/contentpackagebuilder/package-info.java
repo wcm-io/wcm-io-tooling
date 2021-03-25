@@ -20,5 +20,5 @@
 /**
  * AEM Content Package Builder
  */
-@org.osgi.annotation.versioning.Version("1.7.0")
+@org.osgi.annotation.versioning.Version("1.8.0")
 package io.wcm.tooling.commons.contentpackagebuilder;

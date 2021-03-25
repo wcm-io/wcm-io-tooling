@@ -31,7 +31,7 @@
 
   <groupId>io.wcm</groupId>
   <artifactId>io.wcm.parent_toplevel</artifactId>
-  <version>1.6.4</version>
+  <version>1.6.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Toplevel Parent</name>
@@ -274,6 +274,25 @@
                   <message>Apache Felix maven-bundle-plugin must not longer be used in wcm.io Modules - migrate to bnd Maven plugins.</message>
                 </bannedPlugins>
               </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- For OSGi bundles with Sling-Initial-Content: Additionaly generated two attached files for each bundle containing the content 
+           in a content package and the OGSi bundle without Sling-Initial-Content as an alternative for AEMaaCS deployment.
+           See https://wcm-io.atlassian.net/l/c/3wZPHGBo for more context -->
+      <plugin>
+        <groupId>io.wcm.maven.plugins</groupId>
+        <artifactId>sling-initial-content-transform-maven-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <group>wcm-io</group>
             </configuration>
           </execution>
         </executions>
