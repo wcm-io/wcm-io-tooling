@@ -176,6 +176,36 @@ public final class ContentPackage implements Closeable {
   }
 
   /**
+   * Add some JCR content structure directly to the package.
+   * <p>
+   * This method is used to provide additional properties for a path that is already used by a binary file,
+   * using a special <code>&lt;node-name&gt;.dir/.content.xml</code> syntax.
+   * </p>
+   * @param path Full content path of content root/file node.
+   * @param content Hierarchy of content elements.
+   * @throws IOException I/O exception
+   */
+  public void addContentForFile(String path, ContentElement content) throws IOException {
+    addContent(path + DOT_DIR_FOLDER, content);
+  }
+
+  /**
+   * Add some JCR content structure directly to the package.
+   * <p>
+   * This method is used to provide additional properties for a path that is already used by a binary file,
+   * using a special <code>&lt;node-name&gt;.dir/.content.xml</code> syntax.
+   * </p>
+   * @param path Full content path of content root/file node.
+   * @param content Map with node properties. If the map contains nested maps this builds a tree of JCR nodes.
+   *          The key of the nested map in its parent map is the node name,
+   *          the nested map contain the properties of the child node.
+   * @throws IOException I/O exception
+   */
+  public void addContentForFile(String path, Map<String, Object> content) throws IOException {
+    addContent(path + DOT_DIR_FOLDER, content);
+  }
+
+  /**
    * Adds a binary file.
    * @param path Full content path and file name of file
    * @param inputStream Input stream with binary dta
