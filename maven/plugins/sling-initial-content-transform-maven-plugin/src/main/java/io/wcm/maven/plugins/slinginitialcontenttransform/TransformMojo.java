@@ -51,7 +51,7 @@ import io.wcm.tooling.commons.contentpackagebuilder.ContentPackageBuilder;
 import io.wcm.tooling.commons.contentpackagebuilder.PackageFilter;
 
 /**
- * Extracts Sling-Initial-Content form an OSGi bundle and attaches two artifacts with classifiers instead:
+ * Extracts Sling-Initial-Content from an OSGi bundle and attaches two artifacts with classifiers instead:
  * <ul>
  * <li>bundle: OSGi bundle without the Sling-Initial-Content</li>
  * <li>content: Content packages with the Sling-Initial-Content transformed to FileVault</li>
@@ -118,7 +118,7 @@ public class TransformMojo extends AbstractMojo {
   }
 
   /**
-   * Transform OSGi bundle with Sling-Initial-Content two two separate artifacts with classifier "content" and "bundle".
+   * Transform OSGi bundle with Sling-Initial-Content to two separate artifacts with classifier "content" and "bundle".
    * @throws IOException I/O exception
    */
   private void transformBundle(OsgiBundleFile osgiBundle) throws IOException {

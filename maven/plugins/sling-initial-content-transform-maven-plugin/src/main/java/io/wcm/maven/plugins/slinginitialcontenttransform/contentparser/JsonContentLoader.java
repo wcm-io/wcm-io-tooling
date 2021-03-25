@@ -58,7 +58,7 @@ public final class JsonContentLoader {
       .ignoreResourceNames(IGNORED_NAMES);
 
   /**
-   * Loads a JSON content and transform the contained data structured in nested maps, as supported by the
+   * Loads a JSON content and transforms the contained data structured in nested maps, as supported by the
    * {@link io.wcm.tooling.commons.contentpackagebuilder.ContentPackageBuilder}.
    * @param inputStream JSON input stream
    * @return Nested map with content data
