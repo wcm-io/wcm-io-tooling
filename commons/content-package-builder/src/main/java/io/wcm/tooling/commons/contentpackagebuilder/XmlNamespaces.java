@@ -54,6 +54,11 @@ public final class XmlNamespaces {
   public static final String NS_CRX = "http://www.day.com/crx/1.0";
 
   /**
+   * DAM namespace
+   */
+  public static final String NS_DAM = "http://www.day.com/dam/1.0";
+
+  /**
    * Sling namespace
    */
   public static final String NS_SLING = "http://sling.apache.org/jcr/sling/1.0";
@@ -81,6 +86,7 @@ public final class XmlNamespaces {
       .put("nt", NS_JCR_NT)
       .put("rep", NS_JCR_REP)
       .put("cq", NS_CQ)
+      .put("dam", NS_DAM)
       .put("crx", NS_CRX)
       .put("sling", NS_SLING)
       .put("slingevent", NS_SLING_EVENT)
