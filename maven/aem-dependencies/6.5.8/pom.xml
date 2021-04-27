@@ -293,8 +293,8 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <!-- update-aem-deps:bundle=org.apache.commons.io -->
-        <version>2.6</version>
+        <!-- update-aem-deps:bundle=org.apache.commons.commons-io -->
+        <version>2.7</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cocoon</groupId>
