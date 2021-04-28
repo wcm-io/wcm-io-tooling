@@ -42,12 +42,12 @@ We herewith advise you that the transmission of data via the Internet (i.e. thro
 
 The data processing controller on this website is:
 
-diva-e Digital Value Excellence GmbH<br>
-Ella-Barowsky-Straße 44<br>
+diva-e Digital Value Excellence GmbH<br/>
+Ella-Barowsky-Straße 44<br/>
 10829 Berlin
 
-Telephone +49 30 3464918 20<br>
-Fax +49 30 3464918 29<br>
+Telephone +49 30 3464918 20<br/>
+Fax +49 30 3464918 29<br/>
 E-Mail: info@diva-e.com
 
 The controller is the natural person or legal entity that single-handedly or jointly with others makes decisions as to the purposes of and resources for the processing of personal data (e.g. names, e-mail addresses, etc.).
@@ -58,11 +58,11 @@ We have appointed a data protection officer for our company:
 
 Bugl & Kollegen GmbH
 
-Alexander Bugl<br>
-Sedanstr. 7<br>
+Alexander Bugl<br/>
+Sedanstr. 7<br/>
 93055 Regensburg
 
-Tel. +49 941-630 49 789<br>
+Tel. +49 941-630 49 789<br/>
 kontakt@buglundkollegen.de
 
 #### Revocation of your consent to the processing of data
