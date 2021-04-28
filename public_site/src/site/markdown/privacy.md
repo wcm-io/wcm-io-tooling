@@ -42,27 +42,28 @@ We herewith advise you that the transmission of data via the Internet (i.e. thro
 
 The data processing controller on this website is:
 
-pro!vision GmbH
-Wilmersdorfer Str. 50/51
-D - 10627 Berlin, Germany
+diva-e Digital Value Excellence GmbH<br>
+Ella-Barowsky-Straße 44<br>
+10829 Berlin
 
-Phone: +49 (30) 818 828-50
-E-mail: info@pro-vision.de
+Telephone +49 30 3464918 20<br>
+Fax +49 30 3464918 29<br>
+E-Mail: info@diva-e.com
 
 The controller is the natural person or legal entity that single-handedly or jointly with others makes decisions as to the purposes of and resources for the processing of personal data (e.g. names, e-mail addresses, etc.).
 
 #### Designation of a data protection officer as mandated by law
 
-We have appointed a data protection officer for our company.
+We have appointed a data protection officer for our company:
 
-Thomas Noll
-c/o Fa. DataSecurITy UG
-haftungsbeschränkt
-Kirchstrasse 42
-89180 Berghülen
+Bugl & Kollegen GmbH
 
-Phone: 07344-924849-0
-E-mail: datenschutz@datasecurity-ug.de
+Alexander Bugl<br>
+Sedanstr. 7<br>
+93055 Regensburg
+
+Tel. +49 941-630 49 789<br>
+kontakt@buglundkollegen.de
 
 #### Revocation of your consent to the processing of data
 
