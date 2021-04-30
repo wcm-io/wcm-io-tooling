@@ -21,7 +21,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-dependencies</artifactId>
-  <version>6.5.8.0001-SNAPSHOT</version>
+  <version>6.5.8.0001</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-dependencies</name>
@@ -293,8 +293,8 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <!-- update-aem-deps:bundle=org.apache.commons.io -->
-        <version>2.6</version>
+        <!-- update-aem-deps:bundle=org.apache.commons.commons-io -->
+        <version>2.7</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cocoon</groupId>
