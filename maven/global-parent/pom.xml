@@ -94,7 +94,7 @@
     <!-- Plugin version -->
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
-    <spotbugs-plugin.version>4.2.2</spotbugs-plugin.version>
+    <spotbugs-plugin.version>4.2.3</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.11.0</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
@@ -127,7 +127,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>4.2.2</version>
+        <version>4.2.3</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -572,7 +572,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <version>3.0.1</version>
         </plugin>
 
         <plugin>
@@ -596,7 +596,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jxr-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.1</version>
         </plugin>
 
         <plugin>
@@ -616,7 +616,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.41.1</version>
+              <version>8.42.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -639,7 +639,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.2</version>
         </plugin>
 
         <plugin>
@@ -758,7 +758,7 @@
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.8.0.2131</version>
+          <version>3.9.0.2155</version>
         </plugin>
 
         <plugin>
@@ -819,7 +819,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.6</version>
+          <version>0.8.7</version>
         </plugin>
 
         <plugin>
