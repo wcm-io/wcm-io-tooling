@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Eclipse: Ignore warning for hiding fields through local variables - already validated by Checkstyle.
       </action>
+      <action type="update" dev="sseifert">
+        PMD: Remove "GuardLogStatement" rule - conflicts with code coverage checks.
+      </action>
     </release>
 
     <release version="23" date="2021-03-09">
