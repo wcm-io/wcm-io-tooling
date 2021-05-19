@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Checkstyle: Update rules to comply with checkstyle 8.42.
       </action>
+      <action type="update" dev="sseifert">
+        Eclipse: Ignore warning for hiding fields through local variables - already validated by Checkstyle.
+      </action>
     </release>
 
     <release version="23" date="2021-03-09">
