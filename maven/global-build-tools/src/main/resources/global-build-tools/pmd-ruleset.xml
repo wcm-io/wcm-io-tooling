@@ -123,7 +123,6 @@
   <rule ref="category/java/errorprone.xml/InvalidLogMessageFormat" />
   <rule ref="category/java/errorprone.xml/MoreThanOneLogger" />
   <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
-  <rule ref="category/java/bestpractices.xml/GuardLogStatement" />
   <rule ref="category/java/bestpractices.xml/SystemPrintln" />
 
   <!-- rules previously in rulesets/java/migrating.xml -->

@@ -23,9 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="24" date="not released">
+    <release version="24" date="2021-05-26">
       <action type="update" dev="sseifert">
         Checkstyle: Activate HiddenFieldCheck.setterCanReturnItsClass.
+      </action>
+      <action type="update" dev="sseifert">
+        Checkstyle: Update rules to comply with checkstyle 8.42.
+      </action>
+      <action type="update" dev="sseifert">
+        Eclipse: Ignore warning for hiding fields through local variables - already validated by Checkstyle.
+      </action>
+      <action type="update" dev="sseifert">
+        PMD: Remove "GuardLogStatement" rule - conflicts with code coverage checks.
       </action>
     </release>
 

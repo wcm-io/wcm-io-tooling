@@ -177,7 +177,7 @@
       <property name="allowMissingParamTags" value="true"/>
     </module>
     <module name="JavadocMethod">
-      <property name="scope" value="public"/>
+      <property name="accessModifiers" value="public"/>
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowMissingReturnTag" value="true"/>
     </module>
