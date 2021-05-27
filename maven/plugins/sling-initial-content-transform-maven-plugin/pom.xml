@@ -25,7 +25,7 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.parent</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
     <relativePath>../../parent/pom.xml</relativePath>
   </parent>
 
@@ -48,6 +48,9 @@
   <properties>
     <site.url.module.prefix>tooling/maven/plugins/sling-initial-content-transform-maven-plugin</site.url.module.prefix>
     <maven.version>3.1.0</maven.version>
+
+    <!-- Enable reproducible builds -->
+    <project.build.outputTimestamp>2020-05-27T00:00:00Z</project.build.outputTimestamp>
   </properties>
 
   <prerequisites>
