@@ -48,7 +48,7 @@
     <site.url.module.prefix>tooling/commons/crx-packmgr-helper</site.url.module.prefix>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2020-05-27T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2021-05-27T00:00:00Z</project.build.outputTimestamp>
   </properties>
 
   <dependencies>
