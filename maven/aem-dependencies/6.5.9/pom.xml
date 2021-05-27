@@ -447,7 +447,9 @@
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.resourceresolver</artifactId>
-        <version>1.7.2</version>
+        <!-- Stick with 1.7.0 until problems with versions 1.7.2 and 1.7.4 are solved (SLING-10167, SLING-10346) -->
+        <!-- update-aem-deps:derived-from=org.apache.sling.resourceresolver:1.7.2 -->
+        <version>1.7.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
