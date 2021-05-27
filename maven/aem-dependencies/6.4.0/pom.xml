@@ -144,6 +144,11 @@
         <artifactId>org.osgi.util.tracker</artifactId>
         <version>1.5.1</version>
       </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.dto</artifactId>
+        <version>1.0.0</version>
+      </dependency>
 
       <!-- OSGi annotations -->
       <dependency>
