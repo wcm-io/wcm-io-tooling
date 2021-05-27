@@ -169,6 +169,12 @@
         <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.util.tracker -->
         <version>1.5.2</version>
       </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.dto</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.dto -->
+        <version>1.1.0</version>
+      </dependency>
 
       <!-- OSGi annotations -->
       <dependency>
@@ -675,7 +681,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -685,12 +691,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.0.0-M4</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <goals>deploy</goals>
@@ -721,7 +727,7 @@
         <plugin>
           <groupId>com.amashchenko.maven.plugin</groupId>
           <artifactId>gitflow-maven-plugin</artifactId>
-          <version>1.14.0</version>
+          <version>1.16.0</version>
           <inherited>false</inherited>
           <configuration>
             <skipTestProject>true</skipTestProject>
