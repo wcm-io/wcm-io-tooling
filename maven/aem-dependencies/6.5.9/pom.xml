@@ -175,6 +175,12 @@
         <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.dto -->
         <version>1.1.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.url</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.service.url -->
+        <version>1.0.0</version>
+      </dependency>
 
       <!-- OSGi annotations -->
       <dependency>
