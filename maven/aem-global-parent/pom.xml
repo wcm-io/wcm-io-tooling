@@ -588,7 +588,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.14.5-SNAPSHOT</version>
+              <version>1.14.6</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -600,7 +600,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.14.5-SNAPSHOT</version>
+          <version>1.14.6</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.vault.user}</userId>
