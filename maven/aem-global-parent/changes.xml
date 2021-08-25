@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         sling-maven-plugin: Add precondition for collections4 bundle with new symbolic name: org.apache.commons.commons-collections4.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 39.
+      </action>
     </release>
 
     <release version="1.5.8" date="2021-06-27">
