@@ -546,6 +546,11 @@
         <artifactId>oak-jcr</artifactId>
         <version>${oak.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit.vault</groupId>
+        <artifactId>org.apache.jackrabbit.vault</artifactId>
+        <version>3.2.8</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
