@@ -31,6 +31,9 @@
         Update CONGA AEM Plugin.
       </action>
       <action type="update" dev="sseifert">
+        Update to Jackrabbit filevault-package-maven-plugin 1.1.8.
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 39.
       </action>
     </release>
@@ -38,9 +41,6 @@
     <release version="1.5.8" date="2021-06-27">
       <action type="update" dev="sseifert">
         Update CONGA AEM Plugin.
-      </action>
-      <action type="update" dev="sseifert">
-        Update to Jackrabbit filevault-package-maven-plugin 1.1.8.
       </action>
     </release>
 
