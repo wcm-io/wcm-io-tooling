@@ -34,6 +34,9 @@
         Update to Jackrabbit filevault-package-maven-plugin 1.1.8.
       </action>
       <action type="update" dev="sseifert">
+        wcmio-content-package-maven-plugin: Update excludeProperties patterns to exlcude replication-related properties with suffix strings (as used by latest AEMaaCS releases).
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 39.
       </action>
     </release>

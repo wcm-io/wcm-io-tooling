@@ -542,9 +542,9 @@
               <exclude>jcr\:isCheckedOut</exclude>
               <exclude>cq\:lastModified</exclude>
               <exclude>cq\:lastModifiedBy</exclude>
-              <exclude>cq\:lastReplicated</exclude>
-              <exclude>cq\:lastReplicatedBy</exclude>
-              <exclude>cq\:lastReplicationAction</exclude>
+              <exclude>cq\:lastReplicated.*</exclude>
+              <exclude>cq\:lastReplicatedBy.*</exclude>
+              <exclude>cq\:lastReplicationAction.*</exclude>
               <exclude>cq\:lastRolledout</exclude>
               <exclude>cq\:lastRolledoutBy</exclude>
               <exclude>dam\:extracted</exclude>
@@ -558,7 +558,7 @@
               <exclude>mix\:versionable</exclude>
               <exclude>mix\:referenceable</exclude>
               <exclude>cq\:Taggable</exclude>
-              <exclude>cq\:ReplicationStatus</exclude>
+              <exclude>cq\:ReplicationStatus.*</exclude>
             </excludeMixins>
             <unpackDeleteDirectories>
               <directory>jcr_root</directory>
