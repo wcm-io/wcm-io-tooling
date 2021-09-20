@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.5.10" date="2021-09-20">
+    <release version="1.15.10" date="2021-09-20">
       <action type="update" dev="sseifert">
         wcmio-content-package-maven-plugin: Update excludeProperties patterns to exlcude replication-related properties with suffix strings (as used by latest AEMaaCS releases).
       </action>
@@ -39,6 +39,9 @@
       <action type="update" dev="sseifert">
         Update global-parent dependency to 39.
       </action>
+      <action type="update" dev="sseifert"><![CDATA[
+        <i>PLEASE NOTE:</i> The release number was accidentially updated from 1.5.x to 1.15.x.
+      ]]></action>
     </release>
 
     <release version="1.5.8" date="2021-06-27">
