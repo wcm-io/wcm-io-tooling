@@ -28,6 +28,15 @@
         sling-maven-plugin: Add precondition for collections4 bundle with new symbolic name: org.apache.commons.commons-collections4.
       </action>
       <action type="update" dev="sseifert">
+        Update CONGA AEM Plugin.
+      </action>
+      <action type="update" dev="sseifert">
+        Update to Jackrabbit filevault-package-maven-plugin 1.1.8.
+      </action>
+      <action type="update" dev="sseifert">
+        wcmio-content-package-maven-plugin: Update excludeProperties patterns to exlcude replication-related properties with suffix strings (as used by latest AEMaaCS releases).
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 39.
       </action>
     </release>
@@ -35,9 +44,6 @@
     <release version="1.5.8" date="2021-06-27">
       <action type="update" dev="sseifert">
         Update CONGA AEM Plugin.
-      </action>
-      <action type="update" dev="sseifert">
-        Update to Jackrabbit filevault-package-maven-plugin 1.1.8.
       </action>
     </release>
 

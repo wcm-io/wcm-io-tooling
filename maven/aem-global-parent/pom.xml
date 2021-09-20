@@ -401,7 +401,7 @@
                   <bundle>
                     <groupId>org.apache.sling</groupId>
                     <artifactId>org.apache.sling.fsresource</artifactId>
-                    <version>2.1.16</version>
+                    <version>2.2.0</version>
                   </bundle>
                 </bundles>
                 <preconditions>
@@ -429,7 +429,7 @@
                   <bundle>
                     <groupId>org.apache.sling</groupId>
                     <artifactId>org.apache.sling.fsresource</artifactId>
-                    <version>2.1.16</version>
+                    <version>2.2.0</version>
                   </bundle>
                 </bundles>
                 <preconditions>
@@ -468,7 +468,7 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <version>1.1.6</version>
+          <version>1.1.8</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
             <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
@@ -542,9 +542,9 @@
               <exclude>jcr\:isCheckedOut</exclude>
               <exclude>cq\:lastModified</exclude>
               <exclude>cq\:lastModifiedBy</exclude>
-              <exclude>cq\:lastReplicated</exclude>
-              <exclude>cq\:lastReplicatedBy</exclude>
-              <exclude>cq\:lastReplicationAction</exclude>
+              <exclude>cq\:lastReplicated.*</exclude>
+              <exclude>cq\:lastReplicatedBy.*</exclude>
+              <exclude>cq\:lastReplicationAction.*</exclude>
               <exclude>cq\:lastRolledout</exclude>
               <exclude>cq\:lastRolledoutBy</exclude>
               <exclude>dam\:extracted</exclude>
@@ -558,7 +558,7 @@
               <exclude>mix\:versionable</exclude>
               <exclude>mix\:referenceable</exclude>
               <exclude>cq\:Taggable</exclude>
-              <exclude>cq\:ReplicationStatus</exclude>
+              <exclude>cq\:ReplicationStatus.*</exclude>
             </excludeMixins>
             <unpackDeleteDirectories>
               <directory>jcr_root</directory>
@@ -605,7 +605,7 @@
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
               <artifactId>io.wcm.devops.conga.plugins.aem</artifactId>
-              <version>1.14.6</version>
+              <version>1.14.7-SNAPSHOT</version>
             </dependency>
             <dependency>
               <groupId>io.wcm.devops.conga.plugins</groupId>
@@ -617,7 +617,7 @@
         <plugin>
           <groupId>io.wcm.devops.conga.plugins</groupId>
           <artifactId>conga-aem-maven-plugin</artifactId>
-          <version>1.14.6</version>
+          <version>1.14.7-SNAPSHOT</version>
           <configuration>
             <serviceURL>${sling.url}/crx/packmgr/service</serviceURL>
             <userId>${sling.vault.user}</userId>
