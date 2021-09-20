@@ -154,7 +154,7 @@
       <extension>
         <groupId>io.wcm.maven</groupId>
         <artifactId>io.wcm.maven.global-build-tools</artifactId>
-        <version>25-SNAPSHOT</version>
+        <version>25</version>
       </extension>
 
       <!-- SCP support for deploying sites -->
