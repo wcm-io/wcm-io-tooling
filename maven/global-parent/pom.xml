@@ -94,7 +94,7 @@
     <!-- Plugin version -->
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
-    <spotbugs-plugin.version>4.3.0</spotbugs-plugin.version>
+    <spotbugs-plugin.version>4.4.1</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.11.0</spotbugs-findsecbugs-plugin.version>
 
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
@@ -127,7 +127,7 @@
       <dependency>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-annotations</artifactId>
-        <version>4.4.0</version>
+        <version>4.4.1</version>
         <exclusions>
           <!-- Do not include JSR-305 annotations - the standard never got accepted, use the nullability annotations from Jetbrains instead -->
           <exclusion>
@@ -616,7 +616,7 @@
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.45.1</version>
+              <version>9.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -624,7 +624,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.14.0</version>
+          <version>3.15.0</version>
           <configuration>
             <targetJdk>${java.version}</targetJdk>
             <format>xml</format>
@@ -634,6 +634,14 @@
               <ruleset>global-build-tools/pmd-ruleset.xml</ruleset>
             </rulesets>
           </configuration>
+          <dependencies>
+            <!-- Workaround for https://issues.apache.org/jira/browse/MPMD-325 -->
+            <dependency>
+              <groupId>org.ow2.asm</groupId>
+              <artifactId>asm</artifactId>
+              <version>9.2</version>
+            </dependency>
+          </dependencies>
         </plugin>
 
         <plugin>
@@ -660,7 +668,7 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.11.3</version>
+              <version>1.12.0</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -674,7 +682,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.11.3</version>
+          <version>1.12.0</version>
         </plugin>
 
         <plugin>
@@ -710,7 +718,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.3.2</version>
         </plugin>
 
         <plugin>
