@@ -25,7 +25,13 @@
 
     <release version="1.15.12" date="not released">
       <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 6.0.0.
+      </action>
+      <action type="update" dev="sseifert">
         Update to Jackrabbit filevault-package-maven-plugin 1.2.2.
+      </action>
+      <action type="update" dev="sseifert">
+        Update Maven Sling HTL Maven plugin.
       </action>
     </release>
 
