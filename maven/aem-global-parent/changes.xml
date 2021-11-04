@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         Update Maven Sling HTL Maven plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Add AEM Analyser plugin.
+      </action>
     </release>
 
     <release version="1.15.10" date="2021-09-20">

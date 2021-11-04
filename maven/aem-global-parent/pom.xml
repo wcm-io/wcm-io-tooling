@@ -519,6 +519,12 @@
         </plugin>
 
         <plugin>
+          <groupId>com.adobe.aem</groupId>
+          <artifactId>aemanalyser-maven-plugin</artifactId>
+          <version>1.2.2</version>
+        </plugin>
+
+        <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>wcmio-content-package-maven-plugin</artifactId>
           <version>1.8.4</version>
