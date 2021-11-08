@@ -35,7 +35,7 @@
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.15.10</version>
+  <version>1.15.12</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
@@ -68,7 +68,7 @@
 
     <!-- versions -->
     <sling.sling-maven-plugin.version>2.4.2</sling.sling-maven-plugin.version>
-    <bnd.version>5.3.0</bnd.version>
+    <bnd.version>6.0.0</bnd.version>
 
   </properties>
 
@@ -456,7 +456,7 @@
         <plugin>
           <groupId>org.apache.sling</groupId>
           <artifactId>htl-maven-plugin</artifactId>
-          <version>2.0.2-1.4.0</version>
+          <version>2.0.4-1.4.0</version>
         </plugin>
 
         <plugin>
@@ -468,7 +468,7 @@
         <plugin>
           <groupId>org.apache.jackrabbit</groupId>
           <artifactId>filevault-package-maven-plugin</artifactId>
-          <version>1.1.8</version>
+          <version>1.2.2</version>
           <configuration>
             <filterSource>META-INF/vault/filter.xml</filterSource>
             <thumbnailImage>META-INF/vault/definition/thumbnail.png</thumbnailImage>
@@ -516,6 +516,12 @@
             <builtContentDirectory>jcr_root</builtContentDirectory>
             <verbose>true</verbose>
           </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>com.adobe.aem</groupId>
+          <artifactId>aemanalyser-maven-plugin</artifactId>
+          <version>1.2.2</version>
         </plugin>
 
         <plugin>
