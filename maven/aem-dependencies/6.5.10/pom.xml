@@ -273,6 +273,12 @@
         <version>1.2.5</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2.5</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
         <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0002 -->
@@ -438,6 +444,12 @@
         <artifactId>standard</artifactId>
         <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
         <version>1.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet.jsp.jstl</groupId>
+        <artifactId>jstl-api</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2</version>
       </dependency>
 
       <!-- Dependencies that may required by AEM mocks/Sling mocks with version included in this AEM version -->
