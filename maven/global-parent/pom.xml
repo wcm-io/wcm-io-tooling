@@ -222,9 +222,6 @@
           <excludes>
             <exclude>**/*IT.java</exclude>
           </excludes>
-          <!-- Execute tests in parallel by default -->
-          <parallel>classes</parallel>
-          <threadCount>4</threadCount>
         </configuration>
       </plugin>
 
