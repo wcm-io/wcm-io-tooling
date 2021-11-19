@@ -440,6 +440,11 @@
         <version>1.0</version>
       </dependency>
       <dependency>
+        <groupId>com.github.jknack</groupId>
+        <artifactId>handlebars</artifactId>
+        <version>4.0.5</version>
+      </dependency>
+      <dependency>
         <groupId>taglibs</groupId>
         <artifactId>standard</artifactId>
         <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->

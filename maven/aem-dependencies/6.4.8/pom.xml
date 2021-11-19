@@ -289,6 +289,12 @@
         <artifactId>com.adobe.granite.tagsoup</artifactId>
         <version>1.2.1</version>
       </dependency>
+      <dependency>
+        <groupId>com.github.jknack</groupId>
+        <artifactId>handlebars</artifactId>
+        <!-- update-aem-deps:derived-from=com.adobe.cq.social.cq-social-handlebars:1.9.14 -->
+        <version>4.0.5</version>
+      </dependency>
 
       <!-- Dependencies included in uber jar - but we keep them here for backward compatibility with older aem-dependencies versions -->
       <dependency>
