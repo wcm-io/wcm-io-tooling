@@ -418,16 +418,6 @@
            </dependencies>
         </plugin>
 
-        <plugin>
-          <groupId>org.owasp</groupId>
-          <artifactId>dependency-check-maven</artifactId>
-          <version>6.1.6</version>
-          <configuration>
-            <skipProvidedScope>true</skipProvidedScope>
-            <skipRuntimeScope>true</skipRuntimeScope>
-          </configuration>
-        </plugin>
-
       </plugins>
 
     </pluginManagement>
@@ -475,11 +465,6 @@
             </reports>
           </reportSet>
         </reportSets>
-      </plugin>
-
-      <plugin>
-        <groupId>org.owasp</groupId>
-        <artifactId>dependency-check-maven</artifactId>
       </plugin>
 
     </plugins>

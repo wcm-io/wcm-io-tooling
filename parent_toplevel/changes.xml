@@ -30,6 +30,9 @@
       <action type="fix" dev="sseifert">
         maven-javadoc-plugin: Avoid https://bugs.openjdk.java.net/browse/JDK-8212233 while building for Java 8
       </action>
+      <action type="remove" dev="sseifert">
+        Remove dependency-check-maven, it was enabled by default on all projects at least when building the site.
+      </action>
     </release>
 
     <release version="1.6.8" date="2021-06-01">
