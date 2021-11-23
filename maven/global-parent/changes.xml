@@ -33,6 +33,9 @@
       <action type="update" dev="sseifert">
         maven-surefire-plugin: Use skipTests instead of skip in fast mode, because the latter does not only skip the test execution, but also test compile and test-jar creation.
       </action>
+      <action type="update" dev="sseifert">
+        Update to global-build-tools 26.
+      </action>
     </release>
 
     <release version="39" date="2021-09-20">
