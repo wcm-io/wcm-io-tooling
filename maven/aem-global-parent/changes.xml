@@ -25,6 +25,9 @@
 
     <release version="1.15.14" date="not released">
       <action type="update" dev="sseifert">
+        Update to bnd Maven plugins 6.1.0.
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 40.
       </action>
     </release>

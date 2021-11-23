@@ -68,7 +68,7 @@
 
     <!-- versions -->
     <sling.sling-maven-plugin.version>2.4.2</sling.sling-maven-plugin.version>
-    <bnd.version>6.0.0</bnd.version>
+    <bnd.version>6.1.0</bnd.version>
 
   </properties>
 
