@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         maven-surefire-plugin: Remove default values for deprecated property "parallel" and "threadCount". Running tests in parallen should be controlled in project level.
       </action>
+      <action type="update" dev="sseifert">
+        maven-surefire-plugin: Use skipTests instead of skip in fast mode, because the latter does not only skip the test execution, but also test compile and test-jar creation.
+      </action>
     </release>
 
     <release version="39" date="2021-09-20">
