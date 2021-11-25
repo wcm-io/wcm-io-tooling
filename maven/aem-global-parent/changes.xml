@@ -28,6 +28,9 @@
         Update to bnd Maven plugins 6.1.0.
       </action>
       <action type="update" dev="sseifert">
+        Update to nodejs-maven-plugin 3.0.2.
+      </action>
+      <action type="update" dev="sseifert">
         Update global-parent dependency to 40.
       </action>
     </release>
