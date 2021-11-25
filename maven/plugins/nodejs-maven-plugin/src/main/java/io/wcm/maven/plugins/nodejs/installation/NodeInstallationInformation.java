@@ -125,6 +125,9 @@ public class NodeInstallationInformation {
     else if (Os.isArch("x86_64") || Os.isArch("amd64")) {
       arch = "x64";
     }
+    else if (Os.isArch("aarch64")) {
+      arch = "arm64";
+    }
     else {
       throw new MojoExecutionException("Unsupported OS arch: " + Os.OS_ARCH);
     }
