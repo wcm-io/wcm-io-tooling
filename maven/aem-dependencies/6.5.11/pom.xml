@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  #%L
+  wcm.io
+  %%
+  Copyright (C) 2021 wcm.io
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.wcm.maven</groupId>
+  <artifactId>io.wcm.maven.aem-dependencies</artifactId>
+  <version>6.5.11.0000-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>io.wcm.maven.aem-dependencies</name>
+  <description>Defines Maven dependencies for a specific AEM version, including those that are not defined in the aem-api "Uber" JAR provided by Adobe.</description>
+  <url>https://wcm.io</url>
+
+  <scm>
+    <connection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</connection>
+    <developerConnection>scm:git:https://github.com/wcm-io/wcm-io-tooling.git</developerConnection>
+    <url>https://github.com/wcm-io/wcm-io-tooling</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <inceptionYear>2020</inceptionYear>
+
+  <organization>
+    <name>wcm.io</name>
+    <url>https://wcm.io</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>wcm.io Community</name>
+      <organization>wcm.io</organization>
+      <organizationUrl>https://wcm.io</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+    <!-- versions -->
+    <!-- update-aem-deps:bundle=slf4j.api -->
+    <slf4j.version>1.7.25</slf4j.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.jackrabbit-jcr-commons -->
+    <jackrabbit.version>2.20.2</jackrabbit.version>
+    <!-- update-aem-deps:bundle=org.apache.jackrabbit.oak-core -->
+    <oak.version>1.22.9</oak.version>
+
+    <!-- repository settings -->
+    <distribution.snapshotRepositoryId>ossrh</distribution.snapshotRepositoryId>
+    <distribution.snapshotRepositoryUrl>https://oss.sonatype.org/content/repositories/snapshots</distribution.snapshotRepositoryUrl>
+    <distribution.releaseRepositoryId>ossrh</distribution.releaseRepositoryId>
+    <distribution.releaseRepositoryUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</distribution.releaseRepositoryUrl>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+<!--
+     #######################################################################
+
+      Dependencies from this AEM release:
+      - AEM_6.5_Quickstart.jar
+      - aem-service-pkg-6.5.11.zip
+
+     #######################################################################
+-->
+
+      <!-- AEM public dependencies (includes other public dependencies) -->
+      <dependency>
+        <groupId>com.adobe.aem</groupId>
+        <artifactId>uber-jar</artifactId>
+        <!-- since AEM 6.5.6 this does no longer use the "apis" classifier -->
+        <!-- update-aem-deps:ignore -->
+        <version>6.5.11</version>
+      </dependency>
+      <dependency>
+        <groupId>com.adobe.aem</groupId>
+        <artifactId>uber-jar</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>6.5.11</version>
+        <classifier>apis-with-deprecations</classifier>
+      </dependency>
+
+      <!-- OSGI (individual artifacts) -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.framework</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.framework -->
+        <version>1.9.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.resource</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.resource -->
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.component</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.scr:org.osgi.service.component -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.metatype</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.metatype:org.osgi.service.metatype -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.cm</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.configadmin:org.osgi.service.cm -->
+        <version>1.6.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.event</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.eventadmin:org.osgi.service.event -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.http</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.http.jetty:org.osgi.service.http -->
+        <version>1.2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.http.whiteboard</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.http.jetty:org.osgi.service.http.whiteboard -->
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.log</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.sling.commons.logservice:org.osgi.service.log -->
+        <version>1.3.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.util.converter</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.felix.converter:1.0.2 -->
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.util.tracker</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.util.tracker -->
+        <version>1.5.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.dto</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.dto -->
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.url</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.framework:org.osgi.service.url -->
+        <version>1.0.0</version>
+      </dependency>
+
+      <!-- OSGi annotations -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.bundle</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.versioning</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.component.annotations</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.scr:org.osgi.service.component -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.service.metatype.annotations</artifactId>
+        <!-- update-aem-deps:bundle-package=org.apache.felix.metatype:org.osgi.service.metatype -->
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.servlets.annotations</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>1.2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.adapter.annotations</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>2.0.0</version>
+      </dependency>
+
+      <!-- OSGI (aggregated artifacts - it is recommended to use the individual artifacts instead) -->
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.core</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>7.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.cmpn</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>7.0.0</version>
+      </dependency>
+
+      <!-- Standard APIs -->
+      <dependency>
+        <groupId>javax.jcr</groupId>
+        <artifactId>jcr</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>3.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet.jsp</groupId>
+        <artifactId>jsp-api</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-atinject_1.0_spec</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>javax.mail-api</artifactId>
+        <!-- update-aem-deps:bundle=javax.mail -->
+        <version>1.6.2</version>
+      </dependency>
+
+      <!-- Dependencies not included in uber jar -->
+      <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-spec</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0002 -->
+        <version>4.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-scratchpad</artifactId>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0002 -->
+        <version>4.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0002 -->
+        <version>4.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.adobe.granite</groupId>
+        <artifactId>com.adobe.granite.tagsoup</artifactId>
+        <version>1.2.1</version>
+      </dependency>
+
+      <!-- Dependencies included in uber jar - but we keep them here for backward compatibility with older aem-dependencies versions -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.commons-io -->
+        <version>2.8.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cocoon</groupId>
+        <artifactId>cocoon-xml</artifactId>
+        <version>2.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.xmlgraphics</groupId>
+        <artifactId>fop</artifactId>
+        <!-- update-aem-deps:derived-from=com.day.commons.osgi.wrapper.fop:1.16.0 -->
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-email</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.email -->
+        <version>1.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.math -->
+        <version>2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <!-- update-aem-deps:bundle=com.adobe.granite.joda-time -->
+        <version>2.9.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>4.4.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.httpcomponents.httpclient:4.5.4-B003 -->
+        <version>4.5.4</version>
+      </dependency>
+      <dependency>
+        <groupId>com.day.commons.osgi.wrapper</groupId>
+        <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+        <!-- Latest version not available on Maven Central -->
+        <!-- update-aem-deps:derived-from=com.day.commons.osgi.wrapper.commons-httpclient:3.1.0.26 -->
+        <version>3.1.0.018</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.fileupload -->
+        <version>1.3.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.lang3 -->
+        <version>3.12.0</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <!-- update-aem-deps:bundle=com.day.commons.osgi.wrapper.commons-lang2 -->
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.collections -->
+        <version>3.2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>4.4</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.commons.commons-codec -->
+        <version>1.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.21</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-imaging</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.commons.commons-imaging:1.0-R1725432-B002 -->
+        <version>1.0-alpha1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <!-- update-aem-deps:derived-from=com.adobe.granite.osgi.wrapper.guava:15.0.0.0002 -->
+        <version>15.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <!-- update-aem-deps:bundle=com.adobe.cq.gson -->
+        <version>2.8.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.11.4</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.11.4</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.11.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-annotation_1.3_spec</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.jknack</groupId>
+        <artifactId>handlebars</artifactId>
+        <version>4.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>taglibs</groupId>
+        <artifactId>standard</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet.jsp.jstl</groupId>
+        <artifactId>jstl-api</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2</version>
+      </dependency>
+
+      <!-- Dependencies that may required by AEM mocks/Sling mocks with version included in this AEM version -->
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.api</artifactId>
+        <version>2.22.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.commons.osgi</artifactId>
+        <version>2.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.resourceresolver</artifactId>
+        <version>1.7.10</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.serviceusermapper</artifactId>
+        <version>1.5.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.jcr.api</artifactId>
+        <version>2.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.jcr.resource</artifactId>
+        <version>3.0.18</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.commons.mime</artifactId>
+        <version>2.2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.commons.johnzon</artifactId>
+        <version>1.2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.johnzon</groupId>
+        <artifactId>johnzon-core</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.commons.johnzon:1.2.6 -->
+        <version>1.2.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-json_1.1_spec</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.commons.johnzon:1.2.6 -->
+        <version>1.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.commons.json</artifactId>
+        <version>2.0.20</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.commons.classloader</artifactId>
+        <version>1.4.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.settings</artifactId>
+        <version>1.3.10</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.api</artifactId>
+        <version>2.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.core</artifactId>
+        <version>2.3.2</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.sightly</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly:1.1.2.1_4_0 -->
+        <version>1.1.2-1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.sightly.compiler</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly.compiler:1.1.2.1_4_0 -->
+        <version>1.1.2-1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.sightly.compiler.java</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly.compiler.java:1.1.2.1_4_0 -->
+        <version>1.1.2-1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.sightly.runtime</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.sling.scripting.sightly.runtime:1.1.0.1_4_0 -->
+        <version>1.1.0-1.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.adapter</artifactId>
+        <version>2.1.10</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.i18n</artifactId>
+        <version>2.5.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.models.api</artifactId>
+        <version>1.3.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.models.impl</artifactId>
+        <!-- Stick with 1.4.14 to avoid problems in sling-mocks unit tests until 1.4.18 (or higher) is released with fix from SLING-9856 -->
+        <!-- update-aem-deps:derived-from=org.apache.sling.models.impl:1.4.16 -->
+        <version>1.4.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.caconfig.api</artifactId>
+        <version>1.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.caconfig.spi</artifactId>
+        <version>1.3.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.caconfig.impl</artifactId>
+        <version>1.4.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.xss</artifactId>
+        <version>2.2.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.featureflags</artifactId>
+        <version>1.2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-jcr-commons</artifactId>
+        <version>${jackrabbit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>oak-jcr</artifactId>
+        <version>${oak.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit.vault</groupId>
+        <artifactId>org.apache.jackrabbit.vault</artifactId>
+        <version>3.2.8</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+             <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <skip>true</skip>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-default</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.6.0,)</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.0.0-M1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.0.0-M1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.0.0-M4</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <goals>deploy</goals>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.scm</groupId>
+              <artifactId>maven-scm-provider-gitexe</artifactId>
+              <version>1.11.2</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.9.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.8</version>
+        </plugin>
+        <plugin>
+          <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>1.16.0</version>
+          <inherited>false</inherited>
+          <configuration>
+            <skipTestProject>true</skipTestProject>
+            <verbose>true</verbose>
+            <pushRemote>false</pushRemote>
+            <versionsForceUpdate>true</versionsForceUpdate>
+            <postReleaseGoals>clean deploy -Prelease-profile</postReleaseGoals>
+            <commitMessagePrefix xml:space="preserve">[gitflow-maven-plugin] </commitMessagePrefix>
+            <commitMessages>
+              <!-- Add version number to commit messages -->
+              <hotfixStartMessage>Update versions for hotfix @{version}</hotfixStartMessage>
+              <hotfixFinishMessage>Update for next development version @{version}</hotfixFinishMessage>
+              <hotfixVersionUpdateMessage>Update to hotfix version @{version}</hotfixVersionUpdateMessage>
+              <releaseStartMessage>Update versions for release @{version}</releaseStartMessage>
+              <releaseFinishMessage>Update for next development version @{version}</releaseFinishMessage>
+              <releaseVersionUpdateMessage>Update for next development version @{version}</releaseVersionUpdateMessage>
+            </commitMessages>
+            <gitFlowConfig>
+              <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+              <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+              <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+            </gitFlowConfig>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>external.atlassian.jgitflow</groupId>
+          <artifactId>jgitflow-maven-plugin</artifactId>
+          <version>1.0-m5.1</version>
+          <inherited>false</inherited>
+          <configuration>
+            <scmCommentPrefix xml:space="preserve">[jgitflow-maven-plugin] </scmCommentPrefix>
+            <eol>lf</eol>
+            <flowInitContext>
+              <releaseBranchPrefix>release/${project.artifactId}-</releaseBranchPrefix>
+              <hotfixBranchPrefix>hotfix/${project.artifactId}-</hotfixBranchPrefix>
+              <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+            </flowInitContext>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+
+    <!-- configuration to deploy into maven central -->
+    <profile>
+      <id>release-profile</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- sign the build -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <inherited>false</inherited>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- configure staging process at sonatype.-->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <inherited>false</inherited>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <!-- Deployed artifacts should go to staging to be reviewed before publish -->
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
+  <distributionManagement>
+    <repository>
+      <id>${distribution.releaseRepositoryId}</id>
+      <url>${distribution.releaseRepositoryUrl}</url>
+    </repository>
+    <snapshotRepository>
+      <id>${distribution.snapshotRepositoryId}</id>
+      <url>${distribution.snapshotRepositoryUrl}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
