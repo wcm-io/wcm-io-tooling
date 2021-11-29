@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>nodejs-maven-plugin</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.0.2</version>
   <packaging>maven-plugin</packaging>
 
   <name>Node.js Maven Plugin</name>
@@ -50,7 +50,7 @@
     <maven.version>3.0.5</maven.version>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2021-05-27T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2021-11-29T17:36:38Z</project.build.outputTimestamp>
   </properties>
 
   <prerequisites>

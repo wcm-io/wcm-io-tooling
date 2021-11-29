@@ -25,10 +25,13 @@
 
     <release version="1.6.10" date="not released">
       <action type="update" dev="sseifert">
-        Update to aem-global-parent 1.15.10.
+        Update to aem-global-parent 1.15.14.
       </action>
       <action type="fix" dev="sseifert">
         maven-javadoc-plugin: Avoid https://bugs.openjdk.java.net/browse/JDK-8212233 while building for Java 8
+      </action>
+      <action type="remove" dev="sseifert">
+        Remove dependency-check-maven, it was enabled by default on all projects at least when building the site.
       </action>
     </release>
 

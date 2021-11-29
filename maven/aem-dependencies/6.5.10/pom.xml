@@ -273,6 +273,12 @@
         <version>1.2.5</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.taglibs</groupId>
+        <artifactId>taglibs-standard-impl</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2.5</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
         <!-- update-aem-deps:derived-from=com.adobe.granite.poi:2.0.38.CQ650-B0002 -->
@@ -434,10 +440,21 @@
         <version>1.0</version>
       </dependency>
       <dependency>
+        <groupId>com.github.jknack</groupId>
+        <artifactId>handlebars</artifactId>
+        <version>4.0.5</version>
+      </dependency>
+      <dependency>
         <groupId>taglibs</groupId>
         <artifactId>standard</artifactId>
         <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
         <version>1.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet.jsp.jstl</groupId>
+        <artifactId>jstl-api</artifactId>
+        <!-- update-aem-deps:derived-from=day-commons-jstl:1.2.2 -->
+        <version>1.2</version>
       </dependency>
 
       <!-- Dependencies that may required by AEM mocks/Sling mocks with version included in this AEM version -->
@@ -616,6 +633,12 @@
         <groupId>org.apache.jackrabbit.vault</groupId>
         <artifactId>org.apache.jackrabbit.vault</artifactId>
         <version>3.2.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <!-- update-aem-deps:ignore -->
+        <version>${slf4j.version}</version>
       </dependency>
 
     </dependencies>

@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="3.0.2" date="2021-11-29">
+      <action type="update" dev="bubaumann">
+        Add support for Apple Silicon based Mac.
+      </action>
+    </release>
+
     <release version="3.0.0" date="2019-04-05">
       <action type="update" dev="sseifert"><![CDATA[
         Install Node.js on Windows the same way as for the other platforms using the Node.js archive including the bundled NPM version.

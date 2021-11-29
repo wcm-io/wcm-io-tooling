@@ -18,7 +18,7 @@ Maven Plugin to wrap the Node.js execution.
 The plugin currently supports following platforms:
 
 * Windows (32 and 64 bit)
-* Mac OS (32 and 64 bit)
+* Mac OS (32 and 64 bit and Apple Silicon - arm64)
 * Linux (i386 and amd64)
 
 By default the NPM version that is bundled with Node.js is used. Optionally it is possible to specify a different NPM version to be used.
