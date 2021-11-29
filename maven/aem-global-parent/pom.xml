@@ -594,7 +594,7 @@
         <plugin>
           <groupId>io.wcm.maven.plugins</groupId>
           <artifactId>nodejs-maven-plugin</artifactId>
-          <version>3.0.1-SNAPSHOT</version>
+          <version>3.0.2</version>
         </plugin>
 
         <plugin>
