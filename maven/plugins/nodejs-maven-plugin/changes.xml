@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="3.0.2" date="not released">
+    <release version="3.0.2" date="2021-11-29">
       <action type="update" dev="bubaumann">
         Add support for Apple Silicon based Mac.
       </action>
