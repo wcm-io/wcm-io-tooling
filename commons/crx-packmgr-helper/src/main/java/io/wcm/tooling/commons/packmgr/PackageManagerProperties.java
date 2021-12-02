@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Configuration properties for {@link PackageManagerHelper}.
  */
@@ -32,8 +34,10 @@ public final class PackageManagerProperties {
   private String packageManagerUrl;
   private String userId;
   private String password;
+  private String oauth2AccessToken;
   private String consoleUserId;
   private String consolePassword;
+  private String consoleOauth2AccessToken;
   private int retryCount = 24;
   private int retryDelaySec = 5;
   private String bundleStatusUrl;
@@ -85,15 +89,26 @@ public final class PackageManagerProperties {
   }
 
   /**
+   * OAuth 2 access token to authenticate against the remote CRX system (package manager).
+   * If this is configured, username and password are ignored.
+   * @return OAuth 2 access token.
+   */
+  public String getOAuth2AccessToken() {
+    return this.oauth2AccessToken;
+  }
+
+
+  public void setOAuth2AccessToken(String value) {
+    this.oauth2AccessToken = value;
+  }
+
+  /**
    * The user name to authenticate as against the remote CRX system (Felix console).
    * Fallback to {@link #getUserId()} if not set.
    * @return User ID
    */
   public String getConsoleUserId() {
-    if (this.consoleUserId == null) {
-      return this.userId;
-    }
-    return this.consoleUserId;
+    return StringUtils.defaultString(this.consoleUserId, this.userId);
   }
 
   public void setConsoleUserId(String consoleUserId) {
@@ -106,14 +121,26 @@ public final class PackageManagerProperties {
    * @return Password
    */
   public String getConsolePassword() {
-    if (this.consolePassword == null) {
-      return this.password;
-    }
-    return this.consolePassword;
+    return StringUtils.defaultString(this.consolePassword, this.password);
   }
 
   public void setConsolePassword(String consolePassword) {
     this.consolePassword = consolePassword;
+  }
+
+  /**
+   * OAuth 2 access token to authenticate against the remote CRX system (Felix console).
+   * If this is configured, username and password are ignored.
+   * Fallback to {@link #getOAuth2AccessToken()} if not set.
+   * @return OAuth 2 access token.
+   */
+  public String getConsoleOAuth2AccessToken() {
+    return StringUtils.defaultString(this.consoleOauth2AccessToken, this.oauth2AccessToken);
+  }
+
+
+  public void setConsoleOAuth2AccessToken(String value) {
+    this.consoleOauth2AccessToken = value;
   }
 
   /**

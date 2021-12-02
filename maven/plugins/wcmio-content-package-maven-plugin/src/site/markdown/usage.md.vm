@@ -139,4 +139,22 @@ mvn io.wcm.maven.plugins:wcmio-content-package-maven-plugin:${project.properties
 The full list of available parameters (user property names) can be found in the [plugin documentation][plugindocs].
 
 
+
+$symbol_pound$symbol_pound$symbol_pound HTTP wire logging
+
+The Content Package Maven Plugin uses Apache HTTP Client 4 under the hood, and its logging is bridged to the Maven Logging System (using SLF4J).
+
+To enable logging HTTP headers, use on the Maven command line:
+
+```
+-Dorg.slf4j.simpleLogger.log.org.apache.http.headers=DEBUG
+```
+
+To enable complete HTTP wire logging (produces lots of logging data!), use:
+
+```
+-Dorg.slf4j.simpleLogger.log.org.apache.http.wire=DEBUG
+```
+
+
 [plugindocs]: plugin-info.html

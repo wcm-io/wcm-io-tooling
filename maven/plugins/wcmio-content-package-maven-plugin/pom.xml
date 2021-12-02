@@ -79,7 +79,7 @@
     <dependency>
       <groupId>io.wcm.tooling.commons</groupId>
       <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <version>1.7.4</version>
+      <version>1.7.5-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -95,6 +95,13 @@
     <dependency>
       <groupId>javax.jcr</groupId>
       <artifactId>jcr</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Add logging bridge to capture debug logging from Apache HTTP client 4 -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.32</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -122,11 +129,56 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- Make sure same version as in io.wcm.tooling.commons.crx-packmgr-helper is used, not that from the aem-dependencies -->
+      <!-- Make sure same versions as in io.wcm.tooling.commons.crx-packmgr-helper are used, not that from the aem-dependencies -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>4.4.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.13</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpmime</artifactId>
+        <version>4.5.13</version>
+      </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.21</version>
+      </dependency>
+      <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20140107</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jdom</groupId>
+        <artifactId>jdom2</artifactId>
+        <version>2.0.6</version>
+      </dependency>
+      <dependency>
+        <groupId>jaxen</groupId>
+        <artifactId>jaxen</artifactId>
+        <version>1.1.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-api</artifactId>
+        <version>2.19.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-jcr-commons</artifactId>
+        <version>2.19.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit.vault</groupId>
+        <artifactId>org.apache.jackrabbit.vault</artifactId>
+        <version>3.5.6</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

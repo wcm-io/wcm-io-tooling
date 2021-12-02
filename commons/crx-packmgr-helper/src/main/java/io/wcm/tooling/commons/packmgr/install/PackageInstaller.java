@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import io.wcm.tooling.commons.packmgr.Logger;
@@ -70,11 +71,12 @@ public final class PackageInstaller {
       throw new PackageManagerException("File does not exist: " + file.getAbsolutePath());
     }
 
-    try (CloseableHttpClient packageManagerHttpClient = pkgmgr.getPackageManagerHttpClient();
-        CloseableHttpClient consoleHttpClient = pkgmgr.getConsoleHttpClient()) {
+    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+      HttpClientContext packageManagerHttpClientContext = pkgmgr.getPackageManagerHttpClientContext();
+      HttpClientContext consoleHttpClientContext = pkgmgr.getConsoleHttpClientContext();
 
       // before install: if bundles are still stopping/starting, wait for completion
-      pkgmgr.waitForBundlesActivation(consoleHttpClient);
+      pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
 
       if (packageFile.isInstall()) {
         log.info("Upload and install " + (packageFile.isForce() ? "(force) " : "") + file.getName() + " to " + props.getPackageManagerUrl());
@@ -85,7 +87,7 @@ public final class PackageInstaller {
 
       VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
       if (installer != null) {
-        installer.installPackage(packageFile, pkgmgr, packageManagerHttpClient, consoleHttpClient, props, log);
+        installer.installPackage(packageFile, pkgmgr, httpClient, packageManagerHttpClientContext, consoleHttpClientContext, props, log);
       }
     }
     catch (IOException ex) {

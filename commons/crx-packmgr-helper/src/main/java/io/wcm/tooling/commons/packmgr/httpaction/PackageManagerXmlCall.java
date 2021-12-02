@@ -25,6 +25,7 @@ import java.io.InputStream;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
@@ -40,6 +41,7 @@ import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 public final class PackageManagerXmlCall implements HttpCall<Document> {
 
   private final CloseableHttpClient httpClient;
+  private final HttpClientContext context;
   private final HttpRequestBase method;
   private final Logger log;
 
@@ -47,11 +49,13 @@ public final class PackageManagerXmlCall implements HttpCall<Document> {
 
   /**
    * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerXmlCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
+  public PackageManagerXmlCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
+    this.context = context;
     this.method = method;
     this.log = log;
   }
@@ -62,7 +66,7 @@ public final class PackageManagerXmlCall implements HttpCall<Document> {
       log.debug("Call URL: " + method.getURI());
     }
 
-    try (CloseableHttpResponse response = httpClient.execute(method)) {
+    try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       Document xmlResponse = null;
 
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {

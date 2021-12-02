@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
+import org.apache.jackrabbit.vault.fs.config.ConfigurationException;
 import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
 import org.apache.jackrabbit.vault.fs.filter.DefaultPathFilter;
 
@@ -31,7 +32,7 @@ import org.apache.jackrabbit.vault.fs.filter.DefaultPathFilter;
  */
 public final class Filters {
 
-  private final List<Filter> filters = new ArrayList<Filter>();
+  private final List<Filter> filters = new ArrayList<>();
 
   /**
    * @param filter Filter definition
@@ -43,8 +44,9 @@ public final class Filters {
   /**
    * Merge configured filter paths with existing workspace filter definition.
    * @param workspaceFilter Filter
+   * @throws ConfigurationException Configuration exception
    */
-  void merge(DefaultWorkspaceFilter workspaceFilter) {
+  void merge(DefaultWorkspaceFilter workspaceFilter) throws ConfigurationException {
     for (Filter item : filters) {
       PathFilterSet filterSet = toFilterSet(item);
       boolean exists = false;
@@ -59,7 +61,7 @@ public final class Filters {
     }
   }
 
-  private PathFilterSet toFilterSet(Filter filter) {
+  private PathFilterSet toFilterSet(Filter filter) throws ConfigurationException {
     PathFilterSet filterSet = new PathFilterSet(filter.getRoot());
     if (filter.getIncludes() != null) {
       for (String include : filter.getIncludes()) {

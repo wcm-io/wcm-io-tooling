@@ -56,6 +56,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.jdom2.Document;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import io.wcm.tooling.commons.packmgr.httpaction.BundleStatus;
@@ -78,6 +80,9 @@ public final class PackageManagerHelper {
    */
   public static final String CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX = "Package already exists: ";
 
+  private static final String HTTP_CONTEXT_ATTRIBUTE_PREEMPTIVE_AUTHENTICATION_CREDS = PackageManagerHelper.class.getName() + "_PreemptiveAuthenticationCreds";
+  private static final String HTTP_CONTEXT_ATTRIBUTE_OAUTH2_ACCESS_TOKEN = PackageManagerHelper.class.getName() + "_oauth2AccessToken";
+
   private final PackageManagerProperties props;
   private final Logger log;
 
@@ -91,77 +96,114 @@ public final class PackageManagerHelper {
   }
 
   /**
-   * Set up http client with credentials
-   * @return Http client
+   * Get HTTP client to be used for all communications (package manager and Felix console).
+   * @return HTTP client
    */
-  public CloseableHttpClient getPackageManagerHttpClient() {
-    return getHttpClient(props.getUserId(), props.getPassword());
-  }
-
-  /**
-   * Set up http client with credentials
-   * @return Http client
-   */
-  public CloseableHttpClient getConsoleHttpClient() {
-    return getHttpClient(props.getConsoleUserId(), props.getConsolePassword());
-  }
-
-  private CloseableHttpClient getHttpClient(String userId, String password) {
-    try {
-      URI crxUri = new URI(props.getPackageManagerUrl());
-
-      final AuthScope authScope = new AuthScope(crxUri.getHost(), crxUri.getPort());
-      final Credentials credentials = new UsernamePasswordCredentials(userId, password);
-      final CredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(authScope, credentials);
-
-      HttpClientBuilder httpClientBuilder = HttpClients.custom()
-          .setDefaultCredentialsProvider(credsProvider)
-          .addInterceptorFirst(new HttpRequestInterceptor() {
-            @Override
-            public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+  public @NotNull CloseableHttpClient getHttpClient() {
+    HttpClientBuilder httpClientBuilder = HttpClients.custom()
+        .setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
+          @Override
+          public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+            // keep reusing connections to a minimum - may conflict when instance is restarting and responds in unexpected manner
+            return 1;
+          }
+        })
+        .addInterceptorFirst(new HttpRequestInterceptor() {
+          @Override
+          public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+            Credentials credentials = (Credentials)context.getAttribute(HTTP_CONTEXT_ATTRIBUTE_PREEMPTIVE_AUTHENTICATION_CREDS);
+            if (credentials != null) {
               // enable preemptive authentication
               AuthState authState = (AuthState)context.getAttribute(HttpClientContext.TARGET_AUTH_STATE);
               authState.update(new BasicScheme(), credentials);
             }
-          })
-          .setKeepAliveStrategy(new ConnectionKeepAliveStrategy() {
-            @Override
-            public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
-              // keep reusing connections to a minimum - may conflict when instance is restarting and responds in unexpected manner
-              return 1;
+            String oauth2AccessToken = (String)context.getAttribute(HTTP_CONTEXT_ATTRIBUTE_OAUTH2_ACCESS_TOKEN);
+            if (oauth2AccessToken != null) {
+              // send OAuth 2 bearer token
+              request.setHeader("Authorization", "Bearer " + oauth2AccessToken);
             }
-          });
+          }
+        });
 
-      // timeout settings
-      httpClientBuilder.setDefaultRequestConfig(HttpClientUtil.buildRequestConfig(props));
-
-      // relaxed SSL check
-      if (props.isRelaxedSSLCheck()) {
+    // relaxed SSL check
+    if (props.isRelaxedSSLCheck()) {
+      try {
         SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
         httpClientBuilder.setSSLSocketFactory(sslsf);
       }
-
-      // proxy support
-      Proxy proxy = getProxyForUrl(props.getPackageManagerUrl());
-      if (proxy != null) {
-        httpClientBuilder.setProxy(new HttpHost(proxy.getHost(), proxy.getPort(), proxy.getProtocol()));
-        if (proxy.useAuthentication()) {
-          AuthScope proxyAuthScope = new AuthScope(proxy.getHost(), proxy.getPort());
-          Credentials proxyCredentials = new UsernamePasswordCredentials(proxy.getUsername(), proxy.getPassword());
-          credsProvider.setCredentials(proxyAuthScope, proxyCredentials);
-        }
+      catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex) {
+        throw new PackageManagerException("Could not set relaxedSSLCheck", ex);
       }
+    }
 
-      return httpClientBuilder.build();
+    // proxy support
+    Proxy proxy = getProxyForUrl(props.getPackageManagerUrl());
+    if (proxy != null) {
+      httpClientBuilder.setProxy(new HttpHost(proxy.getHost(), proxy.getPort(), proxy.getProtocol()));
+    }
+
+    return httpClientBuilder.build();
+  }
+
+  /**
+   * Set up http client context with credentials for CRX package manager.
+   * @return Http client context
+   */
+  public @NotNull HttpClientContext getPackageManagerHttpClientContext() {
+    return getHttpClientContext(props.getPackageManagerUrl(),
+        props.getUserId(), props.getPassword(), props.getOAuth2AccessToken());
+  }
+
+  /**
+   * Set up http client context with credentials for Felix console.
+   * @return Http client context. May be null of bundle status URL is set to "-".
+   */
+  public @Nullable HttpClientContext getConsoleHttpClientContext() {
+    String bundleStatusUrl = props.getBundleStatusUrl();
+    if (bundleStatusUrl == null) {
+      return null;
+    }
+    return getHttpClientContext(bundleStatusUrl,
+        props.getConsoleUserId(), props.getConsolePassword(), props.getConsoleOAuth2AccessToken());
+  }
+
+  private @NotNull HttpClientContext getHttpClientContext(String url, String userId, String password, String oauth2AccessToken) {
+    URI uri;
+    try {
+      uri = new URI(url);
     }
     catch (URISyntaxException ex) {
-      throw new PackageManagerException("Invalid url: " + props.getPackageManagerUrl(), ex);
+      throw new PackageManagerException("Invalid url: " + url, ex);
     }
-    catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException ex) {
-      throw new PackageManagerException("Could not set relaxedSSLCheck", ex);
+
+    final CredentialsProvider credsProvider = new BasicCredentialsProvider();
+    HttpClientContext context = new HttpClientContext();
+    context.setCredentialsProvider(credsProvider);
+
+    if (StringUtils.isNotBlank(oauth2AccessToken)) {
+      context.setAttribute(HTTP_CONTEXT_ATTRIBUTE_OAUTH2_ACCESS_TOKEN, oauth2AccessToken);
     }
+    else {
+      // use basic (preemptive) authentication with username/password
+      final AuthScope authScope = new AuthScope(uri.getHost(), uri.getPort());
+      final Credentials credentials = new UsernamePasswordCredentials(userId, password);
+      credsProvider.setCredentials(authScope, credentials);
+      context.setAttribute(HTTP_CONTEXT_ATTRIBUTE_PREEMPTIVE_AUTHENTICATION_CREDS, credentials);
+    }
+
+    // timeout settings
+    context.setRequestConfig(HttpClientUtil.buildRequestConfig(props));
+
+    // proxy support
+    Proxy proxy = getProxyForUrl(url);
+    if (proxy != null && proxy.useAuthentication()) {
+      AuthScope proxyAuthScope = new AuthScope(proxy.getHost(), proxy.getPort());
+      Credentials proxyCredentials = new UsernamePasswordCredentials(proxy.getUsername(), proxy.getPassword());
+      credsProvider.setCredentials(proxyAuthScope, proxyCredentials);
+    }
+
+    return context;
   }
 
   /**
@@ -226,65 +268,71 @@ public final class PackageManagerHelper {
 
   /**
    * Execute CRX HTTP Package manager method and parse JSON response.
-   * @param httpClient Http client
+   * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method Get or Post method
    * @return JSON object
    */
-  public JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpRequestBase method) {
-    PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, method, log);
+  public JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
+    PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, context, method, log);
     return executeHttpCallWithRetry(call, 0);
   }
 
   /**
    * Execute CRX HTTP Package manager method and parse XML response.
-   * @param httpClient Http client
+   * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method Get or Post method
    * @return XML document
    */
-  public Document executePackageManagerMethodXml(CloseableHttpClient httpClient, HttpRequestBase method) {
-    PackageManagerXmlCall call = new PackageManagerXmlCall(httpClient, method, log);
+  public Document executePackageManagerMethodXml(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
+    PackageManagerXmlCall call = new PackageManagerXmlCall(httpClient, context, method, log);
     return executeHttpCallWithRetry(call, 0);
   }
 
   /**
    * Execute CRX HTTP Package manager method and get HTML response.
-   * @param httpClient Http client
+   * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method Get or Post method
    * @return Response from HTML server
    */
-  public String executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpRequestBase method) {
-    PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, method, log);
+  public String executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
+    PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, context, method, log);
     String message = executeHttpCallWithRetry(call, 0);
     return message;
   }
 
   /**
    * Execute CRX HTTP Package manager method and output HTML response.
-   * @param httpClient Http client
+   * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method Get or Post method
    */
-  public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpRequestBase method) {
-    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, method, log);
+  public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
+    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, context, method, log);
     executeHttpCallWithRetry(call, 0);
   }
 
   /**
    * Execute CRX HTTP Package manager method and checks response status. If the response status is not 200 the call
    * fails (after retrying).
-   * @param httpClient Http client
+   * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method Get or Post method
    */
-  public void executePackageManagerMethodStatus(CloseableHttpClient httpClient, HttpRequestBase method) {
-    PackageManagerStatusCall call = new PackageManagerStatusCall(httpClient, method, log);
+  public void executePackageManagerMethodStatus(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
+    PackageManagerStatusCall call = new PackageManagerStatusCall(httpClient, context, method, log);
     executeHttpCallWithRetry(call, 0);
   }
 
   /**
    * Wait for bundles to become active.
-   * @param httpClient Http client
+   * @param httpClient HTTP client
+   * @param context HTTP client context
    */
   @SuppressWarnings("PMD.GuardLogStatement")
-  public void waitForBundlesActivation(CloseableHttpClient httpClient) {
+  public void waitForBundlesActivation(CloseableHttpClient httpClient, HttpClientContext context) {
     if (StringUtils.isBlank(props.getBundleStatusUrl())) {
       log.debug("Skipping check for bundle activation state because no bundleStatusURL is defined.");
       return;
@@ -295,7 +343,7 @@ public final class PackageManagerHelper {
 
     log.info("Check bundle activation status...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
-      BundleStatusCall call = new BundleStatusCall(httpClient, props.getBundleStatusUrl(),
+      BundleStatusCall call = new BundleStatusCall(httpClient, context, props.getBundleStatusUrl(),
           props.getBundleStatusWhitelistBundleNames(), log);
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
 

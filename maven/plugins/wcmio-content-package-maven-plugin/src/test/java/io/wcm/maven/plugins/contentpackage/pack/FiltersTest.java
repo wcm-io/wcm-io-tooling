@@ -22,6 +22,7 @@ package io.wcm.maven.plugins.contentpackage.pack;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.jackrabbit.vault.fs.api.PathFilterSet;
+import org.apache.jackrabbit.vault.fs.config.ConfigurationException;
 import org.apache.jackrabbit.vault.fs.config.DefaultWorkspaceFilter;
 import org.apache.jackrabbit.vault.fs.filter.DefaultPathFilter;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ class FiltersTest {
   }
 
   @Test
-  void testMergeWithEmptyFilter() {
+  void testMergeWithEmptyFilter() throws ConfigurationException {
     underTest.addFilter(newFilter("/content/test1"));
     underTest.addFilter(newFilter("/content/test2", new String[] { "include1" }, new String[] { "exclude1" }));
 
@@ -52,7 +53,7 @@ class FiltersTest {
   }
 
   @Test
-  void testMerge() {
+  void testMerge() throws ConfigurationException {
     underTest.addFilter(newFilter("/content/test1"));
     underTest.addFilter(newFilter("/content/test2", new String[] { "include1" }, new String[] { "exclude1" }));
 
@@ -67,7 +68,7 @@ class FiltersTest {
   }
 
   @Test
-  void testWithOverlap() {
+  void testWithOverlap() throws ConfigurationException {
     underTest.addFilter(newFilter("/content/test1"));
     underTest.addFilter(newFilter("/content/test2", new String[] { "include1" }, new String[] { "exclude1" }));
 
@@ -92,11 +93,11 @@ class FiltersTest {
     return item;
   }
 
-  private PathFilterSet newFilterSet(String path) {
+  private PathFilterSet newFilterSet(String path) throws ConfigurationException {
     return newFilterSet(path, null, null);
   }
 
-  private PathFilterSet newFilterSet(String path, String[] includes, String[] excludes) {
+  private PathFilterSet newFilterSet(String path, String[] includes, String[] excludes) throws ConfigurationException {
     PathFilterSet item = new PathFilterSet(path);
     if (includes != null) {
       for (String include : includes) {

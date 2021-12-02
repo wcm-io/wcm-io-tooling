@@ -22,6 +22,7 @@ package io.wcm.tooling.commons.packmgr.install.composum;
 import java.io.IOException;
 
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONObject;
@@ -50,7 +51,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
 
   @Override
   public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
-      CloseableHttpClient packageManagerHttpClient, CloseableHttpClient consoleHttpClient,
+      CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException {
     // prepare post method
     int index = url.indexOf("/bin/cpm/");
@@ -66,7 +67,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
     post.setEntity(entityBuilder.build());
 
     // execute post
-    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(packageManagerHttpClient, post);
+    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, packageManagerHttpClientContext, post);
     String status = jsonResponse.optString("status", "not-found");
     boolean success = "successful".equals(status);
     String path = jsonResponse.optString("path", null);
@@ -79,7 +80,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
         HttpClientUtil.applyRequestConfig(post, packageFile, props);
 
         // execute post
-        JSONObject jsonResponseInstallation = pkgmgr.executePackageManagerMethodJson(packageManagerHttpClient, post);
+        JSONObject jsonResponseInstallation = pkgmgr.executePackageManagerMethodJson(httpClient, packageManagerHttpClientContext, post);
         String installationStatus = jsonResponseInstallation.optString("status", "not-found");
         if (!"done".equals(installationStatus)) {
           throw new PackageManagerException("Package installation failed: " + status);
@@ -89,7 +90,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
         delay(packageFile.getDelayAfterInstallSec(), log);
 
         // after install: if bundles are still stopping/starting, wait for completion
-        pkgmgr.waitForBundlesActivation(consoleHttpClient);
+        pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
       }
       else {
         log.info("Package uploaded successfully (without installing).");

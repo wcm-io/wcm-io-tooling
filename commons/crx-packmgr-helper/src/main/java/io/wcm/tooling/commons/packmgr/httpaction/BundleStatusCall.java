@@ -20,13 +20,13 @@
 package io.wcm.tooling.commons.packmgr.httpaction;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -39,33 +39,25 @@ import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
   private final CloseableHttpClient httpClient;
+  private final HttpClientContext context;
   private final String bundleStatusURL;
   private final List<Pattern> bundleStatusWhitelistBundleNames;
   private final Logger log;
 
   /**
    * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param bundleStatusURL Bundle status URL
    * @param bundleStatusWhitelistBundleNames Patterns of bundle names to be ignored
    * @param log Logger
    */
-  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL,
+  public BundleStatusCall(CloseableHttpClient httpClient, HttpClientContext context, String bundleStatusURL,
       List<Pattern> bundleStatusWhitelistBundleNames, Logger log) {
     this.httpClient = httpClient;
+    this.context = context;
     this.bundleStatusURL = bundleStatusURL;
     this.bundleStatusWhitelistBundleNames = bundleStatusWhitelistBundleNames;
     this.log = log;
-  }
-
-  /**
-   * @param httpClient HTTP client
-   * @param bundleStatusURL Bundle status URL
-   * @param log Logger
-   * @deprecated Please use {@link #BundleStatusCall(CloseableHttpClient, String, List, Logger)}
-   */
-  @Deprecated
-  public BundleStatusCall(CloseableHttpClient httpClient, String bundleStatusURL, Logger log) {
-    this(httpClient, bundleStatusURL, Collections.emptyList(), log);
   }
 
   @Override
@@ -75,7 +67,7 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
     }
 
     HttpGet method = new HttpGet(bundleStatusURL);
-    try (CloseableHttpResponse response = httpClient.execute(method)) {
+    try (CloseableHttpResponse response = httpClient.execute(method, context)) {
 
       String responseString = EntityUtils.toString(response.getEntity());
       if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {

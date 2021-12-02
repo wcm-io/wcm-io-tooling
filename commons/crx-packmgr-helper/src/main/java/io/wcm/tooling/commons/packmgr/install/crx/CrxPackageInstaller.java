@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -60,19 +61,19 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
 
   @Override
   public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
-      CloseableHttpClient packageManagerHttpClient, CloseableHttpClient consoleHttpClient,
+      CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException {
 
     boolean force = packageFile.isForce();
 
     if (force) {
       // in force mode, just check that package manager is available and then start uploading
-      ensurePackageManagerAvailability(pkgmgr, packageManagerHttpClient);
+      ensurePackageManagerAvailability(pkgmgr, httpClient, packageManagerHttpClientContext);
     }
     else {
       // otherwise check if package is already installed first, and skip further processing if it is
       // this implicitly also checks the availability of the package manager
-      PackageInstalledStatus status = getPackageInstalledStatus(packageFile, pkgmgr, packageManagerHttpClient, log);
+      PackageInstalledStatus status = getPackageInstalledStatus(packageFile, pkgmgr, httpClient, packageManagerHttpClientContext, log);
       switch (status) {
         case NOT_FOUND:
           log.debug("Package is not found in package list: proceed with install.");
@@ -104,7 +105,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
     post.setEntity(entityBuilder.build());
 
     // execute post
-    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(packageManagerHttpClient, post);
+    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, packageManagerHttpClientContext, post);
     boolean success = jsonResponse.optBoolean("success", false);
     String msg = jsonResponse.optString("msg", null);
     String path = jsonResponse.optString("path", null);
@@ -122,13 +123,13 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         }
 
         // execute post
-        pkgmgr.executePackageManagerMethodHtmlOutputResponse(packageManagerHttpClient, post);
+        pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, packageManagerHttpClientContext, post);
 
         // delay further processing after install (if activated)
         delay(packageFile.getDelayAfterInstallSec(), log);
 
         // after install: if bundles are still stopping/starting, wait for completion
-        pkgmgr.waitForBundlesActivation(consoleHttpClient);
+        pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
       }
       else {
         log.info("Package uploaded successfully (without installing).");
@@ -156,19 +157,19 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
     }
   }
 
-  private void ensurePackageManagerAvailability(PackageManagerHelper pkgmgr, CloseableHttpClient httpClient) {
+  private void ensurePackageManagerAvailability(PackageManagerHelper pkgmgr, CloseableHttpClient httpClient, HttpClientContext context) {
     // do a help GET call before upload to ensure package manager is running
     HttpGet get = new HttpGet(url + ".jsp?cmd=help");
-    pkgmgr.executePackageManagerMethodStatus(httpClient, get);
+    pkgmgr.executePackageManagerMethodStatus(httpClient, context, get);
   }
 
-  private PackageInstalledStatus getPackageInstalledStatus(PackageFile packageFile, PackageManagerHelper pkgmgr, CloseableHttpClient httpClient,
-      Logger log) throws IOException {
+  private PackageInstalledStatus getPackageInstalledStatus(PackageFile packageFile, PackageManagerHelper pkgmgr,
+      CloseableHttpClient httpClient, HttpClientContext context, Logger log) throws IOException {
     // list packages in AEM instances and check for exact match
     String baseUrl = VendorInstallerFactory.getBaseUrl(url, log);
     String packageListUrl = baseUrl + PackageInstalledChecker.PACKMGR_LIST_URL;
     HttpGet get = new HttpGet(packageListUrl);
-    JSONObject result = pkgmgr.executePackageManagerMethodJson(httpClient, get);
+    JSONObject result = pkgmgr.executePackageManagerMethodJson(httpClient, context, get);
 
     Map<String, Object> props = ContentPackageProperties.get(packageFile.getFile());
     String group = (String)props.get(PackageProperties.NAME_GROUP);
