@@ -31,9 +31,6 @@
         Update to nodejs-maven-plugin 3.0.2.
       </action>
       <action type="update" dev="sseifert">
-        Update wcmio-content-package-maven-plugin.
-      </action>
-      <action type="update" dev="sseifert">
         Update global-parent dependency to 40.
       </action>
     </release>
