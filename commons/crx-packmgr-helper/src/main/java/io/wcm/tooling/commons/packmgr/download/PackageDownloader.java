@@ -33,6 +33,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -73,7 +74,8 @@ public final class PackageDownloader {
   @SuppressWarnings("PMD.GuardLogStatement")
   @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
   public File downloadFile(File file, String ouputFilePath) {
-    try (CloseableHttpClient httpClient = pkgmgr.getPackageManagerHttpClient()) {
+    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+      HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
       log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());
 
       // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
@@ -82,7 +84,7 @@ public final class PackageDownloader {
           .addBinaryBody("package", file)
           .addTextBody("force", "true");
       post.setEntity(entity.build());
-      JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, post);
+      JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, httpClientContext, post);
       boolean success = jsonResponse.optBoolean("success", false);
       String msg = jsonResponse.optString("msg", null);
       String path = jsonResponse.optString("path", null);
@@ -100,14 +102,14 @@ public final class PackageDownloader {
 
       // 2nd: build package
       HttpPost buildMethod = new HttpPost(props.getPackageManagerUrl() + "/console.html" + path + "?cmd=build");
-      pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, buildMethod);
+      pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, httpClientContext, buildMethod);
 
       // 3rd: download package
       String baseUrl = VendorInstallerFactory.getBaseUrl(props.getPackageManagerUrl(), log);
       HttpGet downloadMethod = new HttpGet(baseUrl + path);
 
       // execute download
-      CloseableHttpResponse response = httpClient.execute(downloadMethod);
+      CloseableHttpResponse response = httpClient.execute(downloadMethod, httpClientContext);
       try {
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 

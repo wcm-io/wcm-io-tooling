@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="26" date="not released">
+    <release version="26" date="2021-12-06">
       <action type="update" dev="sseifert">
         SpotBugs: Suppress DMI_HARDCODED_ABSOLUTE_FILENAME because it's quite common in AEM projects to have hard-coded content path parts in code that look like filenames but are not.
       </action>

@@ -76,6 +76,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   private String password;
 
   /**
+   * OAuth 2 access token to authenticate against the remote CRX system (package manager).
+   * If this is configured, username and password are ignored.
+   */
+  @Parameter(property = "vault.oauth2AccessToken")
+  private String oauth2AccessToken;
+
+  /**
    * The user name to authenticate as against the remote CRX system (Felix console).
    * Defaults to the value from <code>userId</code>.
    */
@@ -88,6 +95,15 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   @Parameter(property = "console.password")
   private String consolePassword;
+
+  /**
+   * OAuth 2 access token to authenticate against the remote CRX system (Felix console).
+   * If this is configured, username and password are ignored.
+   * Defaults to value from <code>authenticationBearerToken</code>.
+   */
+  @Parameter(property = "console.consoleOauth2AccessToken")
+  private String consoleOauth2AccessToken;
+
 
   /**
    * Set this to "true" to skip installing packages to CRX although configured in the POM.
@@ -191,8 +207,10 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     props.setPackageManagerUrl(buildPackageManagerUrl());
     props.setUserId(this.userId);
     props.setPassword(this.password);
+    props.setOAuth2AccessToken(this.oauth2AccessToken);
     props.setConsoleUserId(this.consoleUserId);
     props.setConsolePassword(this.consolePassword);
+    props.setConsoleOAuth2AccessToken(this.consoleOauth2AccessToken);
     props.setRetryCount(this.retryCount);
     props.setRetryDelaySec(this.retryDelay);
     props.setBundleStatusUrl(buildBundleStatusUrl());

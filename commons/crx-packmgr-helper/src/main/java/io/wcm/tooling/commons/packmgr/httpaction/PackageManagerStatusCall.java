@@ -24,6 +24,7 @@ import java.io.IOException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import io.wcm.tooling.commons.packmgr.Logger;
@@ -35,16 +36,19 @@ import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 public final class PackageManagerStatusCall implements HttpCall<Void> {
 
   private final CloseableHttpClient httpClient;
+  private final HttpClientContext context;
   private final HttpRequestBase method;
   private final Logger log;
 
   /**
    * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerStatusCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
+  public PackageManagerStatusCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
+    this.context = context;
     this.method = method;
     this.log = log;
   }
@@ -55,7 +59,7 @@ public final class PackageManagerStatusCall implements HttpCall<Void> {
       log.debug("Call URL: " + method.getURI());
     }
 
-    try (CloseableHttpResponse response = httpClient.execute(method)) {
+    try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
         // debug output response status

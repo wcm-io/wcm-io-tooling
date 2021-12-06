@@ -20,5 +20,5 @@
 /**
  * Package installer for CRX Package Manager
  */
-@org.osgi.annotation.versioning.Version("3.0.0")
+@org.osgi.annotation.versioning.Version("4.0")
 package io.wcm.tooling.commons.packmgr.install.crx;

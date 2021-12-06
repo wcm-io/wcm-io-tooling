@@ -21,6 +21,7 @@ package io.wcm.tooling.commons.packmgr.install;
 
 import java.io.IOException;
 
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import io.wcm.tooling.commons.packmgr.Logger;
@@ -37,15 +38,16 @@ public interface VendorPackageInstaller {
    * Install a Package
    * @param packageFile Package to be installed
    * @param pkgmgr Package Manager
-   * @param packageManagerHttpClient Http Client used to call the package manager
-   * @param consoleHttpClient Http Client used to call the Felix console
+   * @param httpClient Http Client
+   * @param packageManagerHttpClientContext Http Client context used to call the package manager
+   * @param consoleHttpClientContext Http Client context used to call the Felix console
    * @param props Package manager properties
    * @param log Logger to report issues
    * @throws IOException If calls to the Web Service fail
    * @throws PackageManagerException If the package installation failed
    */
   void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
-      CloseableHttpClient packageManagerHttpClient, CloseableHttpClient consoleHttpClient,
+      CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
       PackageManagerProperties props, Logger log) throws IOException, PackageManagerException;
 
 }

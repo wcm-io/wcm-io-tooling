@@ -24,6 +24,7 @@ import java.io.IOException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -36,16 +37,19 @@ import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 public final class PackageManagerHtmlCall implements HttpCall<String> {
 
   private final CloseableHttpClient httpClient;
+  private final HttpClientContext context;
   private final HttpRequestBase method;
   private final Logger log;
 
   /**
    * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerHtmlCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
+  public PackageManagerHtmlCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
+    this.context = context;
     this.method = method;
     this.log = log;
   }
@@ -56,7 +60,7 @@ public final class PackageManagerHtmlCall implements HttpCall<String> {
       log.debug("Call URL: " + method.getURI());
     }
 
-    try (CloseableHttpResponse response = httpClient.execute(method)) {
+    try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       String responseString = EntityUtils.toString(response.getEntity());
 
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {

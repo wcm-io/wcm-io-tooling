@@ -370,7 +370,7 @@
           <items>
             <item>scmVersion</item>
           </items>
-          <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssXXX}</timestampFormat>
+          <timestampFormat>yyyy-MM-dd'T'HH:mm:ssXXX</timestampFormat>
         </configuration>
       </plugin>
 
@@ -739,7 +739,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>buildnumber-maven-plugin</artifactId>
-          <version>1.4</version>
+          <version>3.0.0</version>
         </plugin>
 
         <plugin>

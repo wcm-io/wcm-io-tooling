@@ -24,6 +24,7 @@ import java.io.IOException;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
@@ -38,16 +39,19 @@ import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
 
   private final CloseableHttpClient httpClient;
+  private final HttpClientContext context;
   private final HttpRequestBase method;
   private final Logger log;
 
   /**
    * @param httpClient HTTP client
+   * @param context HTTP client context
    * @param method HTTP method
    * @param log Logger
    */
-  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpRequestBase method, Logger log) {
+  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
     this.httpClient = httpClient;
+    this.context = context;
     this.method = method;
     this.log = log;
   }
@@ -58,7 +62,7 @@ public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
       log.debug("Call URL: " + method.getURI());
     }
 
-    try (CloseableHttpResponse response = httpClient.execute(method)) {
+    try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       JSONObject jsonResponse = null;
 
       String responseString = EntityUtils.toString(response.getEntity());

@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update to aem-global-parent 1.15.14.
       </action>
+      <action type="update" dev="sseifert">
+        Update testing dependencies.
+      </action>
       <action type="fix" dev="sseifert">
         maven-javadoc-plugin: Avoid https://bugs.openjdk.java.net/browse/JDK-8212233 while building for Java 8
       </action>
