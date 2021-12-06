@@ -29,13 +29,13 @@
   <parent>
     <groupId>io.wcm.maven</groupId>
     <artifactId>io.wcm.maven.global-parent</artifactId>
-    <version>40-SNAPSHOT</version>
+    <version>40</version>
     <relativePath />
   </parent>
 
   <groupId>io.wcm.maven</groupId>
   <artifactId>io.wcm.maven.aem-global-parent</artifactId>
-  <version>1.15.13-SNAPSHOT</version>
+  <version>1.15.14</version>
   <packaging>pom</packaging>
 
   <name>io.wcm.maven.aem-global-parent</name>
