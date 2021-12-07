@@ -56,9 +56,7 @@ public final class PackageManagerHtmlCall implements HttpCall<String> {
 
   @Override
   public String execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: {}", method.getURI());
-    }
+    log.debug("Call URL: {}", method.getURI());
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       String responseString = EntityUtils.toString(response.getEntity());
@@ -66,9 +64,7 @@ public final class PackageManagerHtmlCall implements HttpCall<String> {
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
         // debug output whole xml
-        if (log.isDebugEnabled()) {
-          log.debug("CRX Package Manager Response:\n{}", responseString);
-        }
+        log.debug("CRX Package Manager Response:\n{}", responseString);
 
         return responseString;
       }

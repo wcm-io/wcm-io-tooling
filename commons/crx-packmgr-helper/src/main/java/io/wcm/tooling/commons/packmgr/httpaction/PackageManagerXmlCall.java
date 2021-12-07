@@ -61,9 +61,7 @@ public final class PackageManagerXmlCall implements HttpCall<Document> {
 
   @Override
   public Document execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: {}", method.getURI());
-    }
+    log.debug("Call URL: {}", method.getURI());
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       Document xmlResponse = null;

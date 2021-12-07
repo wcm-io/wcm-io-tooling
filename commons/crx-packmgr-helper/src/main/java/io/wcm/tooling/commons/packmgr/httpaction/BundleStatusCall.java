@@ -62,9 +62,7 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
 
   @Override
   public BundleStatus execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: {}", bundleStatusURL);
-    }
+    log.debug("Call URL: {}", bundleStatusURL);
 
     HttpGet method = new HttpGet(bundleStatusURL);
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {

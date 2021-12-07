@@ -58,9 +58,7 @@ public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
 
   @Override
   public JSONObject execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: {}", method.getURI());
-    }
+    log.debug("Call URL: {}", method.getURI());
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       JSONObject jsonResponse = null;
