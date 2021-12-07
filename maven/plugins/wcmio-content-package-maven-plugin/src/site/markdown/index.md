@@ -15,17 +15,12 @@ Upload and download content packages.
 
 ### Overview
 
-This Maven Plugin is an alternative to the [Content Package Maven Plugin][adobe-content-package-maven-plugin] from Adobe.
-
-It supports:
+Features:
 
 * Uploading and installing content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
 * Downloading and extracting content packages via CRX package manager or Sling Launchpad with [Composum console][composum]
-* Building content packages (deprecated)
 
-The wcm.io Content Package Maven plugin aims for compatibility in goal and property names and behavior with the Adobe plugin, so for a lot of use cases it can be used as drop-in replacement. However some goals and features are missing. See [this wiki page](https://wcm-io.atlassian.net/wiki/x/-HkIAw) for a comparison.
-
-Compared to the Adobe plugin the `install` supports more parameters, and is much more sophisticated and failure tolerant when uploading packages. It tries to catch all types of possible problems (e.g. AEM instance not available for some seconds) and retries the upload for a certain amount of time until it succeeds.
+The wcm.io Content Package Maven plugin aims for compatibility in goal and property names and behavior with the old Adobe content-package plugin. Compared to that plugin the `install` supports more parameters, and is much more sophisticated and failure tolerant when uploading packages. It tries to catch all types of possible problems (e.g. AEM instance not available for some seconds) and retries the upload for a certain amount of time until it succeeds.
 
 
 #### `install` goal
@@ -51,28 +46,22 @@ directly and not via the artifact properties.
 
 The `wcmio-content-package-maven-plugin` takes another strategy to download a package that was uploaded
 before. It first starts an upload of the package (without installing it). If it already exists CRX responds
-with the path to this package - this path is used to build the package and download it. Thus the latest
+with the path to this package - this path is used to (re-)build the package and download it. Thus the latest
 package filter options from the local POM are used as well. This strategy is targeted only on
-`content-package` Maven projects, not for downloading arbitrary packages.
+`content-package` Maven projects.
 
 Additional the `download` goal supports compared to the Adobe plugin:
 
 * Unpacking the content package after download.
 * Exclude files, nodes and properties from the unpacked content via pattern lists.
 
-
-#### `package` goal
-
-The `package` goal of this plugin is deprecated. You should use the [Jackrabbit FileVault Package Maven Plugin][jackrabbit-filevault-package-maven-plugin] instead.
-
-This [migration guide][package-migration-guide] lists the migration steps.
+If you want to download arbitrary content packages you can skip upload the content package definition and rebuilding the content package. See [plugin documentation][plugindocs] for details.
 
 
 
 [usage]: usage.html
 [plugindocs]: plugin-info.html
 [changelog]: changes-report.html
-[adobe-content-package-maven-plugin]: https://docs.adobe.com/docs/en/aem/6-3/develop/dev-tools/vlt-mavenplugin.html
 [jackrabbit-filevault-package-maven-plugin]: http://jackrabbit.apache.org/filevault-package-maven-plugin/
 [package-migration-guide]: https://wcm-io.atlassian.net/wiki/x/GYB1BQ
 [composum]: https://github.com/ist-dresden/composum

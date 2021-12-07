@@ -23,7 +23,7 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.9.0" date="not released">
+    <release version="2.0.0" date="not released">
       <action type="add" dev="sseifert">
         Add support for IMS/Auth 2 authentication for AEMaaCS (via oauth2AccessToken).
       </action>
@@ -36,6 +36,9 @@
       <action type="add" dev="sseifert">
         Add jcl-over-slf4j bridge to be able to capture HTTP client debug messages with Maven debug logging.
       </action>
+      <action type="remove" dev="sseifert"><![CDATA[
+        Remove deprecated "package" goal - Use <a href="http://jackrabbit.apache.org/filevault-package-maven-plugin">Jackrabbit FileVault Package Maven Plugin</a> instead. See also <a href="https://wcm-io.atlassian.net/wiki/x/GYB1BQ">migration guide</a>.
+      ]]></action>
     </release>
 
     <release version="1.8.4" date="2020-09-15">
@@ -156,9 +159,9 @@
       <action type="update" dev="sseifert">
         Make bundles starting/stopping wait message more compact.
       </action>
-      <action type="update" dev="sseifert">
-        Mark 'package' goal as deprecated - Jackrabbit filevault-package-maven-plugin should be used instead, see https://wcm-io.atlassian.net/wiki/x/GYB1BQ
-      </action>
+      <action type="update" dev="sseifert"><![CDATA[
+        Mark 'package' goal as deprecated - Jackrabbit filevault-package-maven-plugin should be used instead, see <a href="https://wcm-io.atlassian.net/wiki/x/GYB1BQ">https://wcm-io.atlassian.net/wiki/x/GYB1BQ</a>.
+      ]]></action>
     </release>
 
     <release version="1.6.0" date="2017-09-12">

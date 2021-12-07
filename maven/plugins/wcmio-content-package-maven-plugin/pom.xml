@@ -82,21 +82,6 @@
       <version>1.7.5-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-archiver</artifactId>
-      <version>3.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-archiver</artifactId>
-      <version>3.1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.jcr</groupId>
-      <artifactId>jcr</artifactId>
-      <scope>compile</scope>
-    </dependency>
     <!-- Add logging bridge to capture debug logging from Apache HTTP client 4 -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -104,6 +89,8 @@
       <version>1.7.32</version>
       <scope>compile</scope>
     </dependency>
+
+    <!-- Testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -124,6 +111,7 @@
       <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <dependencyManagement>
