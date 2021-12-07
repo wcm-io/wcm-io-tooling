@@ -22,6 +22,7 @@ package io.wcm.maven.plugins.contentpackage;
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -121,6 +122,31 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
   private String dateLastReplicated;
 
   /**
+   * Whether to upload the local package definition first to CRX package manager before actually downloading the
+   * package. For this, the local package has to been build locally already.
+   */
+  @Parameter(property = "vault.download.uploadPackageDefinition", defaultValue = "true")
+  private boolean uploadPackageDefinition;
+
+  /**
+   * Whether to rebuild the package within the CRX package manager before downloading it to include the latest content
+   * from repository.
+   */
+  @Parameter(property = "vault.download.rebuildPackage", defaultValue = "true")
+  private boolean rebuildPackage;
+
+  /**
+   * Path of the content package to download. The path is detected automatically when
+   * <code>uploadPackageDefinition</code> is set to true (which is default). If set to false, the path
+   * of the content package needs to be specified explicitly.
+   * <p>
+   * Example path: <code>/etc/packages/mygroup/mypackage-1.0.0-SNAPSHOT.zip</code>
+   * </p>
+   */
+  @Parameter(property = "vault.download.contentPackagePath")
+  private String contentPackagePath;
+
+  /**
    * Downloads the files
    */
   @Override
@@ -131,7 +157,22 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
 
     PackageDownloader downloader = new PackageDownloader(getPackageManagerProperties());
 
-    File outputFileObject = downloader.downloadFile(getPackageFile(), this.outputFile);
+    // uploading package definition
+    String packagePath;
+    if (this.uploadPackageDefinition) {
+      packagePath = downloader.uploadPackageDefinition(getPackageFile());
+    }
+    else {
+      if (StringUtils.isBlank(this.contentPackagePath)) {
+        throw new MojoExecutionException("Property contentPackagePath needs to be definen when uploadPackageDefinition=false.");
+      }
+      packagePath = this.contentPackagePath;
+    }
+
+    // download content package
+    File outputFileObject = downloader.downloadContentPackage(packagePath, this.outputFile, this.rebuildPackage);
+
+    // unpack content package
     if (this.unpack) {
       unpackFile(outputFileObject);
     }
