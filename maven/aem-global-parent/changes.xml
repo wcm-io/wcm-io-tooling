@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin.
       </action>
+      <action type="update" dev="sseifert">
+        Update CONGA AEM Plugin.
+      </action>
     </release>
 
     <release version="1.15.14" date="2021-12-06">
