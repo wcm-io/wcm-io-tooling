@@ -55,16 +55,14 @@ public final class PackageManagerStatusCall implements HttpCall<Void> {
 
   @Override
   public Void execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: {}", method.getURI());
-    }
+    log.debug("Call URL: {}", method.getURI());
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
         // debug output response status
-        if (log.isDebugEnabled()) {
-          log.debug("CRX Package Manager Response Status : {} {}", response.getStatusLine().getStatusCode(),
+        if (log.isTraceEnabled()) {
+          log.trace("CRX Package Manager Response Status : {} {}", response.getStatusLine().getStatusCode(),
               response.getStatusLine().getReasonPhrase());
         }
 

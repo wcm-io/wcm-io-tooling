@@ -240,9 +240,9 @@ public final class PackageManagerHelper {
     catch (PackageManagerHttpActionException ex) {
       // retry again if configured so...
       if (runCount < props.getRetryCount()) {
-        log.info("ERROR: {}", ex.getMessage());
+        log.warn("ERROR: {}", ex.getMessage());
         log.debug("HTTP call failed.", ex);
-        log.info("---------------");
+        log.warn("---------------");
 
         StringBuilder msg = new StringBuilder();
         msg.append("HTTP call failed, try again (" + (runCount + 1) + "/" + props.getRetryCount() + ")");
@@ -250,7 +250,7 @@ public final class PackageManagerHelper {
           msg.append(" after " + props.getRetryDelaySec() + " second(s)");
         }
         msg.append("...");
-        log.info(msg.toString());
+        log.warn(msg.toString());
         if (props.getRetryDelaySec() > 0) {
           try {
             Thread.sleep(props.getRetryDelaySec() * DateUtils.MILLIS_PER_SECOND);
@@ -311,7 +311,7 @@ public final class PackageManagerHelper {
    * @param method Get or Post method
    */
   public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
-    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, context, method);
+    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, context, method, props);
     executeHttpCallWithRetry(call, 0);
   }
 

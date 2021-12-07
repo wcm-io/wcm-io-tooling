@@ -48,6 +48,7 @@ public final class PackageManagerProperties {
   private int httpConnectTimeoutSec = 10;
   private int httpSocketTimeoutSec = 60;
   private List<Proxy> proxies;
+  private String packageManagerOutputLogLevel = "INFO";
 
   /**
    * The URL of the HTTP service API of the CRX package manager.
@@ -273,6 +274,18 @@ public final class PackageManagerProperties {
 
   public void setProxies(List<Proxy> proxies) {
     this.proxies = proxies;
+  }
+
+  /**
+   * Log level to be used to log responses from package manager (which may get huge for large packages).
+   * @return Log level (DEBUG or INFO). Default is INFO.
+   */
+  public String getPackageManagerOutputLogLevel() {
+    return this.packageManagerOutputLogLevel;
+  }
+
+  public void setPackageManagerOutputLogLevel(String packageManagerOutputLogLevel) {
+    this.packageManagerOutputLogLevel = packageManagerOutputLogLevel;
   }
 
 }
