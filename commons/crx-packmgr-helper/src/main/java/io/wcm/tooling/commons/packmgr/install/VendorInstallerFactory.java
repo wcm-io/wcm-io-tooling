@@ -19,7 +19,9 @@
  */
 package io.wcm.tooling.commons.packmgr.install;
 
-import io.wcm.tooling.commons.packmgr.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.install.composum.ComposumPackageInstaller;
 import io.wcm.tooling.commons.packmgr.install.crx.CrxPackageInstaller;
@@ -61,6 +63,8 @@ public final class VendorInstallerFactory {
     UNSUPPORTED
   }
 
+  private static final Logger log = LoggerFactory.getLogger(VendorInstallerFactory.class);
+
   private VendorInstallerFactory() {
     // static methods only
   }
@@ -89,11 +93,10 @@ public final class VendorInstallerFactory {
    * Returns the Base Url of a given URL with
    * based on its Vendors from the URL
    * @param url Service URL
-   * @param logger Logger
    * @return Base URL if service vendor was found otherwise the given URL
    */
   @SuppressWarnings("PMD.GuardLogStatement")
-  public static String getBaseUrl(String url, Logger logger) {
+  public static String getBaseUrl(String url) {
     String answer = url;
     switch (identify(url)) {
       case COMPOSUM:
@@ -103,7 +106,7 @@ public final class VendorInstallerFactory {
         answer = url.substring(0, url.indexOf(CRX_URL));
         break;
       default:
-        logger.error("Given URL is not supported: " + url);
+        log.error("Given URL is not supported: {}", url);
         break;
     }
     return answer;

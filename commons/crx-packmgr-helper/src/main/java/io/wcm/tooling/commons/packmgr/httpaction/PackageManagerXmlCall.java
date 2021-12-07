@@ -30,8 +30,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
@@ -43,27 +44,25 @@ public final class PackageManagerXmlCall implements HttpCall<Document> {
   private final CloseableHttpClient httpClient;
   private final HttpClientContext context;
   private final HttpRequestBase method;
-  private final Logger log;
 
   private static final SAXBuilder SAX_BUILDER = new SAXBuilder();
+  private static final Logger log = LoggerFactory.getLogger(PackageManagerXmlCall.class);
 
   /**
    * @param httpClient HTTP client
    * @param context HTTP client context
    * @param method HTTP method
-   * @param log Logger
    */
-  public PackageManagerXmlCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
+  public PackageManagerXmlCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
     this.httpClient = httpClient;
     this.context = context;
     this.method = method;
-    this.log = log;
   }
 
   @Override
   public Document execute() {
     if (log.isDebugEnabled()) {
-      log.debug("Call URL: " + method.getURI());
+      log.debug("Call URL: {}", method.getURI());
     }
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {

@@ -38,9 +38,10 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
@@ -53,16 +54,15 @@ public final class PackageDownloader {
 
   private final PackageManagerProperties props;
   private final PackageManagerHelper pkgmgr;
-  private final Logger log;
+
+  private static final Logger log = LoggerFactory.getLogger(PackageDownloader.class);
 
   /**
    * @param props Package manager configuration properties.
-   * @param log Logger
    */
-  public PackageDownloader(PackageManagerProperties props, Logger log) {
+  public PackageDownloader(PackageManagerProperties props) {
     this.props = props;
-    this.pkgmgr = new PackageManagerHelper(props, log);
-    this.log = log;
+    this.pkgmgr = new PackageManagerHelper(props);
   }
 
   /**
@@ -76,7 +76,7 @@ public final class PackageDownloader {
   public File downloadFile(File file, String ouputFilePath) {
     try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
       HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
-      log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());
+      log.info("Download {} from {}", file.getName(), props.getPackageManagerUrl());
 
       // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
       HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
@@ -98,14 +98,14 @@ public final class PackageDownloader {
         throw new PackageManagerException("Package path detection failed: " + msg);
       }
 
-      log.info("Package path is: " + path + " - now rebuilding package...");
+      log.info("Package path is: {} - now rebuilding package...", path);
 
       // 2nd: build package
       HttpPost buildMethod = new HttpPost(props.getPackageManagerUrl() + "/console.html" + path + "?cmd=build");
       pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, httpClientContext, buildMethod);
 
       // 3rd: download package
-      String baseUrl = VendorInstallerFactory.getBaseUrl(props.getPackageManagerUrl(), log);
+      String baseUrl = VendorInstallerFactory.getBaseUrl(props.getPackageManagerUrl());
       HttpGet downloadMethod = new HttpGet(baseUrl + path);
 
       // execute download
@@ -129,7 +129,7 @@ public final class PackageDownloader {
           responseStream.close();
           fos.close();
 
-          log.info("Package downloaded to " + outputFileObject.getAbsolutePath());
+          log.info("Package downloaded to {}", outputFileObject.getAbsolutePath());
 
           return outputFileObject;
         }

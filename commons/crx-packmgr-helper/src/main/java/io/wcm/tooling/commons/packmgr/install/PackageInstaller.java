@@ -25,8 +25,9 @@ import java.util.Collection;
 
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
@@ -38,16 +39,15 @@ public final class PackageInstaller {
 
   private final PackageManagerProperties props;
   private final PackageManagerHelper pkgmgr;
-  private final Logger log;
+
+  private static final Logger log = LoggerFactory.getLogger(PackageInstaller.class);
 
   /**
    * @param props Package manager configuration properties.
-   * @param log Logger
    */
-  public PackageInstaller(PackageManagerProperties props, Logger log) {
+  public PackageInstaller(PackageManagerProperties props) {
     this.props = props;
-    this.pkgmgr = new PackageManagerHelper(props, log);
-    this.log = log;
+    this.pkgmgr = new PackageManagerHelper(props);
   }
 
   /**
@@ -79,15 +79,15 @@ public final class PackageInstaller {
       pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
 
       if (packageFile.isInstall()) {
-        log.info("Upload and install " + (packageFile.isForce() ? "(force) " : "") + file.getName() + " to " + props.getPackageManagerUrl());
+        log.info("Upload and install {}{} to {}", packageFile.isForce() ? "(force) " : "", file.getName(), props.getPackageManagerUrl());
       }
       else {
-        log.info("Upload " + file.getName() + " to " + props.getPackageManagerUrl());
+        log.info("Upload {} to {}", file.getName(), props.getPackageManagerUrl());
       }
 
       VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
       if (installer != null) {
-        installer.installPackage(packageFile, pkgmgr, httpClient, packageManagerHttpClientContext, consoleHttpClientContext, props, log);
+        installer.installPackage(packageFile, pkgmgr, httpClient, packageManagerHttpClientContext, consoleHttpClientContext, props);
       }
     }
     catch (IOException ex) {

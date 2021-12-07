@@ -26,8 +26,9 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
@@ -42,6 +43,8 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
 
   private final String url;
 
+  private static final Logger log = LoggerFactory.getLogger(ComposumPackageInstaller.class);
+
   /**
    * @param url URL
    */
@@ -52,7 +55,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
   @Override
   public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
       CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
-      PackageManagerProperties props, Logger log) throws IOException, PackageManagerException {
+      PackageManagerProperties props) throws IOException, PackageManagerException {
     // prepare post method
     int index = url.indexOf("/bin/cpm/");
     String baseUrl = url.substring(0, index) + "/bin/cpm/package.";
@@ -87,7 +90,7 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
         }
 
         // delay further processing after install (if activated)
-        delay(packageFile.getDelayAfterInstallSec(), log);
+        delay(packageFile.getDelayAfterInstallSec());
 
         // after install: if bundles are still stopping/starting, wait for completion
         pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
@@ -106,9 +109,9 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
   }
 
   @SuppressWarnings("PMD.GuardLogStatement")
-  private void delay(int seconds, Logger log) {
+  private void delay(int seconds) {
     if (seconds > 0) {
-      log.info("Wait " + seconds + " seconds after package install...");
+      log.info("Wait {} seconds after package install...", seconds);
       try {
         Thread.sleep(seconds * 1000);
       }

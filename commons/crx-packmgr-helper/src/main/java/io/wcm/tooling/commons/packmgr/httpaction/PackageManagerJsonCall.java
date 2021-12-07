@@ -29,8 +29,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
@@ -41,25 +42,24 @@ public final class PackageManagerJsonCall implements HttpCall<JSONObject> {
   private final CloseableHttpClient httpClient;
   private final HttpClientContext context;
   private final HttpRequestBase method;
-  private final Logger log;
+
+  private static final Logger log = LoggerFactory.getLogger(PackageManagerJsonCall.class);
 
   /**
    * @param httpClient HTTP client
    * @param context HTTP client context
    * @param method HTTP method
-   * @param log Logger
    */
-  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
+  public PackageManagerJsonCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
     this.httpClient = httpClient;
     this.context = context;
     this.method = method;
-    this.log = log;
   }
 
   @Override
   public JSONObject execute() {
     if (log.isDebugEnabled()) {
-      log.debug("Call URL: " + method.getURI());
+      log.debug("Call URL: {}", method.getURI());
     }
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {

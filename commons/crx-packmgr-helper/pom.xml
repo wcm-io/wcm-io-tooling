@@ -112,6 +112,11 @@
       <artifactId>org.apache.jackrabbit.vault</artifactId>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>

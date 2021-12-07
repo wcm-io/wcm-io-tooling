@@ -59,6 +59,8 @@ import org.jdom2.Document;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.wcm.tooling.commons.packmgr.httpaction.BundleStatus;
 import io.wcm.tooling.commons.packmgr.httpaction.BundleStatusCall;
@@ -84,15 +86,14 @@ public final class PackageManagerHelper {
   private static final String HTTP_CONTEXT_ATTRIBUTE_OAUTH2_ACCESS_TOKEN = PackageManagerHelper.class.getName() + "_oauth2AccessToken";
 
   private final PackageManagerProperties props;
-  private final Logger log;
+
+  private static final Logger log = LoggerFactory.getLogger(PackageManagerHelper.class);
 
   /**
    * @param props Package manager properties
-   * @param log Logger
    */
-  public PackageManagerHelper(PackageManagerProperties props, Logger log) {
+  public PackageManagerHelper(PackageManagerProperties props) {
     this.props = props;
-    this.log = log;
   }
 
   /**
@@ -239,7 +240,7 @@ public final class PackageManagerHelper {
     catch (PackageManagerHttpActionException ex) {
       // retry again if configured so...
       if (runCount < props.getRetryCount()) {
-        log.info("ERROR: " + ex.getMessage());
+        log.info("ERROR: {}", ex.getMessage());
         log.debug("HTTP call failed.", ex);
         log.info("---------------");
 
@@ -249,7 +250,7 @@ public final class PackageManagerHelper {
           msg.append(" after " + props.getRetryDelaySec() + " second(s)");
         }
         msg.append("...");
-        log.info(msg);
+        log.info(msg.toString());
         if (props.getRetryDelaySec() > 0) {
           try {
             Thread.sleep(props.getRetryDelaySec() * DateUtils.MILLIS_PER_SECOND);
@@ -274,7 +275,7 @@ public final class PackageManagerHelper {
    * @return JSON object
    */
   public JSONObject executePackageManagerMethodJson(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
-    PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, context, method, log);
+    PackageManagerJsonCall call = new PackageManagerJsonCall(httpClient, context, method);
     return executeHttpCallWithRetry(call, 0);
   }
 
@@ -286,7 +287,7 @@ public final class PackageManagerHelper {
    * @return XML document
    */
   public Document executePackageManagerMethodXml(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
-    PackageManagerXmlCall call = new PackageManagerXmlCall(httpClient, context, method, log);
+    PackageManagerXmlCall call = new PackageManagerXmlCall(httpClient, context, method);
     return executeHttpCallWithRetry(call, 0);
   }
 
@@ -298,7 +299,7 @@ public final class PackageManagerHelper {
    * @return Response from HTML server
    */
   public String executePackageManagerMethodHtml(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
-    PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, context, method, log);
+    PackageManagerHtmlCall call = new PackageManagerHtmlCall(httpClient, context, method);
     String message = executeHttpCallWithRetry(call, 0);
     return message;
   }
@@ -310,7 +311,7 @@ public final class PackageManagerHelper {
    * @param method Get or Post method
    */
   public void executePackageManagerMethodHtmlOutputResponse(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
-    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, context, method, log);
+    PackageManagerHtmlMessageCall call = new PackageManagerHtmlMessageCall(httpClient, context, method);
     executeHttpCallWithRetry(call, 0);
   }
 
@@ -322,7 +323,7 @@ public final class PackageManagerHelper {
    * @param method Get or Post method
    */
   public void executePackageManagerMethodStatus(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method) {
-    PackageManagerStatusCall call = new PackageManagerStatusCall(httpClient, context, method, log);
+    PackageManagerStatusCall call = new PackageManagerStatusCall(httpClient, context, method);
     executeHttpCallWithRetry(call, 0);
   }
 
@@ -344,16 +345,15 @@ public final class PackageManagerHelper {
     log.info("Check bundle activation status...");
     for (int i = 1; i <= CHECK_RETRY_COUNT; i++) {
       BundleStatusCall call = new BundleStatusCall(httpClient, context, props.getBundleStatusUrl(),
-          props.getBundleStatusWhitelistBundleNames(), log);
+          props.getBundleStatusWhitelistBundleNames());
       BundleStatus bundleStatus = executeHttpCallWithRetry(call, 0);
 
       boolean instanceReady = true;
 
       // check if bundles are still stopping/staring
       if (!bundleStatus.isAllBundlesRunning()) {
-        log.info("Bundles starting/stopping: " + bundleStatus.getStatusLineCompact()
-            + " - wait " + WAIT_INTERVAL_SEC + " sec "
-            + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+        log.info("Bundles starting/stopping: {} - wait {} sec (max. {} sec) ...",
+            bundleStatus.getStatusLineCompact(), WAIT_INTERVAL_SEC, props.getBundleStatusWaitLimitSec());
         sleep(WAIT_INTERVAL_SEC);
         instanceReady = false;
       }
@@ -363,9 +363,8 @@ public final class PackageManagerHelper {
         for (Pattern blacklistBundleNamePattern : props.getBundleStatusBlacklistBundleNames()) {
           String bundleSymbolicName = bundleStatus.getMatchingBundle(blacklistBundleNamePattern);
           if (bundleSymbolicName != null) {
-            log.info("Bundle '" + bundleSymbolicName + "' is still deployed "
-                + " - wait " + WAIT_INTERVAL_SEC + " sec "
-                + "(max. " + props.getBundleStatusWaitLimitSec() + " sec) ...");
+            log.info("Bundle '{}' is still deployed - wait {} sec (max. {} sec) ...",
+                bundleSymbolicName, WAIT_INTERVAL_SEC, props.getBundleStatusWaitLimitSec());
             sleep(WAIT_INTERVAL_SEC);
             instanceReady = false;
             break;
