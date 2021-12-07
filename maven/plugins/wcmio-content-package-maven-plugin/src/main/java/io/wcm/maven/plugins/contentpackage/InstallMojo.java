@@ -208,7 +208,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       }
     }
     else {
-      PackageInstaller installer = new PackageInstaller(getPackageManagerProperties(), getLoggerWrapper());
+      PackageInstaller installer = new PackageInstaller(getPackageManagerProperties());
       installer.installFiles(items);
     }
   }

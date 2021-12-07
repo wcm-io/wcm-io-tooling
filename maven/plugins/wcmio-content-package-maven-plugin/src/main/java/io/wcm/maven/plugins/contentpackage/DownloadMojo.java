@@ -129,7 +129,7 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       return;
     }
 
-    PackageDownloader downloader = new PackageDownloader(getPackageManagerProperties(), getLoggerWrapper());
+    PackageDownloader downloader = new PackageDownloader(getPackageManagerProperties());
 
     File outputFileObject = downloader.downloadFile(getPackageFile(), this.outputFile);
     if (this.unpack) {
