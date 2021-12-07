@@ -350,7 +350,19 @@
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore-osgi</artifactId>
+        <!-- update-aem-deps:bundle=org.apache.httpcomponents.httpcore -->
+        <version>4.4.8</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
+        <!-- update-aem-deps:derived-from=org.apache.httpcomponents.httpclient:4.5.4-B003 -->
+        <version>4.5.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient-osgi</artifactId>
         <!-- update-aem-deps:derived-from=org.apache.httpcomponents.httpclient:4.5.4-B003 -->
         <version>4.5.4</version>
       </dependency>
