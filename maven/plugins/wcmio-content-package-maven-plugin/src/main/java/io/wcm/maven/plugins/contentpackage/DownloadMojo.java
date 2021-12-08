@@ -20,6 +20,7 @@
 package io.wcm.maven.plugins.contentpackage;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -155,26 +156,33 @@ public final class DownloadMojo extends AbstractContentPackageMojo {
       return;
     }
 
-    PackageDownloader downloader = new PackageDownloader(getPackageManagerProperties());
-
-    // uploading package definition
-    String packagePath;
-    if (this.uploadPackageDefinition) {
-      packagePath = downloader.uploadPackageDefinition(getPackageFile());
+    if (this.uploadPackageDefinition && !this.rebuildPackage) {
+      throw new MojoExecutionException("rebuildPackage=true is required when when uploadPackageDefinition=true.");
     }
-    else {
-      if (StringUtils.isBlank(this.contentPackagePath)) {
-        throw new MojoExecutionException("Property contentPackagePath needs to be definen when uploadPackageDefinition=false.");
+
+    try (PackageDownloader downloader = new PackageDownloader(getPackageManagerProperties())) {
+      // uploading package definition
+      String packagePath;
+      if (this.uploadPackageDefinition) {
+        packagePath = downloader.uploadPackageDefinition(getPackageFile());
       }
-      packagePath = this.contentPackagePath;
+      else {
+        if (StringUtils.isBlank(this.contentPackagePath)) {
+          throw new MojoExecutionException("Property contentPackagePath needs to be definen when uploadPackageDefinition=false.");
+        }
+        packagePath = this.contentPackagePath;
+      }
+
+      // download content package
+      File outputFileObject = downloader.downloadContentPackage(packagePath, this.outputFile, this.rebuildPackage);
+
+      // unpack content package
+      if (this.unpack) {
+        unpackFile(outputFileObject);
+      }
     }
-
-    // download content package
-    File outputFileObject = downloader.downloadContentPackage(packagePath, this.outputFile, this.rebuildPackage);
-
-    // unpack content package
-    if (this.unpack) {
-      unpackFile(outputFileObject);
+    catch (IOException ex) {
+      throw new MojoFailureException("Error during download operation.", ex);
     }
   }
 

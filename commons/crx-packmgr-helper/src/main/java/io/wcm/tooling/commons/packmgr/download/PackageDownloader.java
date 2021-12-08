@@ -21,8 +21,8 @@ package io.wcm.tooling.commons.packmgr.download;
 
 import static io.wcm.tooling.commons.packmgr.PackageManagerHelper.CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX;
 
+import java.io.Closeable;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,10 +50,11 @@ import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 /**
  * Downloads a single AEM content package.
  */
-public final class PackageDownloader {
+public final class PackageDownloader implements Closeable {
 
   private final PackageManagerProperties props;
   private final PackageManagerHelper pkgmgr;
+  private final CloseableHttpClient httpClient;
 
   private static final Logger log = LoggerFactory.getLogger(PackageDownloader.class);
 
@@ -63,6 +64,7 @@ public final class PackageDownloader {
   public PackageDownloader(PackageManagerProperties props) {
     this.props = props;
     this.pkgmgr = new PackageManagerHelper(props);
+    this.httpClient = pkgmgr.getHttpClient();
   }
 
   /**
@@ -71,37 +73,33 @@ public final class PackageDownloader {
    * @return Package path
    */
   public String uploadPackageDefinition(File file) {
-    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
-      HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
+    HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
 
-      // try upload to get path of package - or otherwise make sure package def exists (no install!)
-      log.info("Upload package definition for {} to {} ...", file.getName(), props.getPackageManagerUrl());
-      HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
-      MultipartEntityBuilder entity = MultipartEntityBuilder.create()
-          .addBinaryBody("package", file)
-          .addTextBody("force", "true");
-      post.setEntity(entity.build());
-      JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, httpClientContext, post);
-      boolean success = jsonResponse.optBoolean("success", false);
-      String msg = jsonResponse.optString("msg", null);
-      String packagePath = jsonResponse.optString("path", null);
-      // package already exists - get path from error message and continue
-      if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(packagePath)) {
-        packagePath = StringUtils.substringAfter(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX);
-        success = true;
-      }
-      if (!success) {
-        throw new PackageManagerException("Package path detection failed: " + msg);
-      }
+    if (!file.exists()) {
+      throw new PackageManagerException("File not found: " + file.getAbsolutePath());
+    }
 
-      return packagePath;
+    // try upload to get path of package - or otherwise make sure package def exists (no install!)
+    log.info("Upload package definition for {} to {} ...", file.getName(), props.getPackageManagerUrl());
+    HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
+    MultipartEntityBuilder entity = MultipartEntityBuilder.create()
+        .addBinaryBody("package", file)
+        .addTextBody("force", "true");
+    post.setEntity(entity.build());
+    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, httpClientContext, post);
+    boolean success = jsonResponse.optBoolean("success", false);
+    String msg = jsonResponse.optString("msg", null);
+    String packagePath = jsonResponse.optString("path", null);
+    // package already exists - get path from error message and continue
+    if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(packagePath)) {
+      packagePath = StringUtils.substringAfter(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX);
+      success = true;
     }
-    catch (FileNotFoundException ex) {
-      throw new PackageManagerException("File not found: " + file.getAbsolutePath(), ex);
+    if (!success) {
+      throw new PackageManagerException("Package path detection failed: " + msg);
     }
-    catch (IOException ex) {
-      throw new PackageManagerException("Upload package definition operation failed.", ex);
-    }
+
+    return packagePath;
   }
 
   /**
@@ -114,7 +112,7 @@ public final class PackageDownloader {
    */
   @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
   public File downloadContentPackage(String packagePath, String ouputFilePath, boolean rebuildPackage) {
-    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+    try {
       HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
 
       // (Re-)build package
@@ -174,6 +172,11 @@ public final class PackageDownloader {
     catch (IOException ex) {
       throw new PackageManagerException("Download operation failed.", ex);
     }
+  }
+
+  @Override
+  public void close() throws IOException {
+    httpClient.close();
   }
 
 }
