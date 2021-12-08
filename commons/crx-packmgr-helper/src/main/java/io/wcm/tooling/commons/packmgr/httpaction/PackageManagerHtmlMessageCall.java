@@ -51,6 +51,8 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
 
   private static final Pattern HTML_STYLE = Pattern.compile("<style[^<>]*>[^<>]*</style>", Pattern.MULTILINE | Pattern.DOTALL);
   private static final Pattern HTML_JAVASCRIPT = Pattern.compile("<script[^<>]*>[^<>]*</script>", Pattern.MULTILINE | Pattern.DOTALL);
+  private static final Pattern TEXT_LINE_BREAKS = Pattern.compile("[\n\r]");
+  private static final Pattern HTML_LINE_BREAKS = Pattern.compile("(<br/?>|</p>|</h\\d>)");
   private static final Pattern HTML_ANYTAG = Pattern.compile("<[^<>]*>");
 
   /**
@@ -79,11 +81,14 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
         // debug output whole xml
         log.trace("CRX Package Manager Response:\n{}", responseString);
 
-        // remove all HTML tags and special conctent
+        // remove all HTML tags and special content
         responseString = HTML_STYLE.matcher(responseString).replaceAll("");
         responseString = HTML_JAVASCRIPT.matcher(responseString).replaceAll("");
+        responseString = TEXT_LINE_BREAKS.matcher(responseString).replaceAll("");
+        responseString = HTML_LINE_BREAKS.matcher(responseString).replaceAll("\n");
         responseString = HTML_ANYTAG.matcher(responseString).replaceAll("");
         responseString = StringUtils.replace(responseString, "&nbsp;", " ");
+        responseString = "\n" + StringUtils.trim(responseString);
 
         if (StringUtils.equalsIgnoreCase(props.getPackageManagerOutputLogLevel(), "debug")) {
           log.debug(responseString);
