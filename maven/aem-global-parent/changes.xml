@@ -30,11 +30,17 @@
       <action type="update" dev="sseifert">
         Update CONGA AEM Plugin.
       </action>
+      <action type="update" dev="sseifert">
+        sling-maven-plugin: Simplify bundle prerequisite configuration to support AEM 6.5 and up.
+      </action>
       <action type="remove" dev="sseifert">
         Remove support for Felix SCR Annotations (enforce via ban).
       </action>
       <action type="remove" dev="sseifert">
-        Remove definition of maven-bundle-plugin (warn if it's still in use).
+        Remove Adobe Content Package Plugin (enforce via ban).
+      </action>
+      <action type="remove" dev="sseifert">
+        Remove maven-bundle-plugin (warn if it's still in use).
       </action>
     </release>
 

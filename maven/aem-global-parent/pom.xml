@@ -166,6 +166,22 @@
             </configuration>
           </execution>
           <execution>
+            <id>ban-adobe-content-package-plugin</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedPlugins>
+                  <excludes>
+                    <exclude>com.day.jcr.vault:content-package-maven-plugin</exclude>
+                  </excludes>
+                  <message>Please migrate from Adobe content-package-maven-plugin to Apache Jackrabbit filevault-package-maven-plugin.</message>
+                </bannedPlugins>
+              </rules>
+            </configuration>
+          </execution>
+          <execution>
             <id>ban-maven-scr-annotations</id>
             <goals>
               <goal>enforce</goal>
@@ -353,50 +369,6 @@
                     <version>2.2.0</version>
                   </bundle>
                 </bundles>
-                <preconditions>
-                  <bundle>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-collections4</artifactId>
-                    <version>4.2.0</version>
-                    <symbolicName>org.apache.commons.commons-collections4</symbolicName>
-                  </bundle>
-                </preconditions>
-              </bundlePrerequisite>
-              <bundlePrerequisite>
-                <bundles>
-                  <bundle>
-                    <groupId>org.apache.sling</groupId>
-                    <artifactId>org.apache.sling.commons.johnzon</artifactId>
-                    <version>1.0.0</version>
-                  </bundle>
-                  <bundle>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-collections4</artifactId>
-                    <version>4.1</version>
-                    <symbolicName>org.apache.commons.collections4</symbolicName>
-                  </bundle>
-                  <bundle>
-                    <groupId>org.apache.sling</groupId>
-                    <artifactId>org.apache.sling.fsresource</artifactId>
-                    <version>2.2.0</version>
-                  </bundle>
-                </bundles>
-                <preconditions>
-                  <bundle>
-                    <groupId>org.apache.sling</groupId>
-                    <artifactId>org.apache.sling.resourceresolver</artifactId>
-                    <version>1.5.18</version>
-                  </bundle>
-                </preconditions>
-              </bundlePrerequisite>
-              <bundlePrerequisite>
-                <bundles>
-                  <bundle>
-                    <groupId>org.apache.sling</groupId>
-                    <artifactId>org.apache.sling.fsresource</artifactId>
-                    <version>1.4.8</version>
-                  </bundle>
-                </bundles>
               </bundlePrerequisite>
             </deployFsResourceBundlePrerequisites>
           </configuration>
@@ -448,23 +420,6 @@
               <version>1.0.0</version>
             </dependency>
           </dependencies>
-        </plugin>
-
-        <plugin>
-          <groupId>com.day.jcr.vault</groupId>
-          <artifactId>content-package-maven-plugin</artifactId>
-          <!-- Stick with version 0.5.1 because 0.5.24 contains new validation - and it's recommended to switch to filevault-package-maven-plugin -->
-          <version>0.5.1</version>
-          <configuration>
-            <failOnError>true</failOnError>
-            <failOnMissingEmbed>true</failOnMissingEmbed>
-            <targetURL>${sling.url}/crx/packmgr/service.jsp</targetURL>
-            <serviceURL>${sling.url}/crx/packmgr/service/.json</serviceURL>
-            <userId>${sling.vault.user}</userId>
-            <password>${sling.vault.password}</password>
-            <builtContentDirectory>jcr_root</builtContentDirectory>
-            <verbose>true</verbose>
-          </configuration>
         </plugin>
 
         <plugin>
