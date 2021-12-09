@@ -24,6 +24,9 @@
   <body>
 
     <release version="2.0.0" date="not released">
+      <action type="update" dev="sseifert"><![CDATA[
+        <b>Starting with version 2.0.0 only AEM 6.5 and AEMaaCS are supported.</b>
+      ]]></action>
       <action type="update" dev="sseifert">
         Update wcm.io Content Package Maven plugin 2.0.0.
       </action>
@@ -39,9 +42,9 @@
       <action type="remove" dev="sseifert">
         Remove Adobe Content Package Plugin (enforce via ban).
       </action>
-      <action type="remove" dev="sseifert">
-        Remove maven-bundle-plugin (warn if it's still in use).
-      </action>
+      <action type="remove" dev="sseifert"><![CDATA[
+        Remove maven-bundle-plugin (warn if it's still in use). See <a href="https://wcm-io.atlassian.net/l/c/VYY6hAjh">xmigration guide</a>.
+      ]]></action>
     </release>
 
     <release version="1.15.14" date="2021-12-06">
