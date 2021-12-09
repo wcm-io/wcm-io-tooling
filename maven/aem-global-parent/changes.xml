@@ -23,12 +23,18 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 https://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
-    <release version="1.15.16" date="not released">
+    <release version="2.0.0" date="not released">
       <action type="update" dev="sseifert">
-        Update wcm.io Content Package Maven plugin.
+        Update wcm.io Content Package Maven plugin 2.0.0.
       </action>
       <action type="update" dev="sseifert">
         Update CONGA AEM Plugin.
+      </action>
+      <action type="remove" dev="sseifert">
+        Remove support for Felix SCR Annotations (enforce via ban).
+      </action>
+      <action type="remove" dev="sseifert">
+        Remove definition of maven-bundle-plugin (warn if it's still in use).
       </action>
     </release>
 
