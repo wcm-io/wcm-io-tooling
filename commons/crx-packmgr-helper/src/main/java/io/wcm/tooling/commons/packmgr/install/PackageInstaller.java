@@ -40,6 +40,8 @@ public final class PackageInstaller {
   private final PackageManagerProperties props;
   private final PackageManagerHelper pkgmgr;
 
+  private boolean replicate;
+
   private static final Logger log = LoggerFactory.getLogger(PackageInstaller.class);
 
   /**
@@ -51,12 +53,27 @@ public final class PackageInstaller {
   }
 
   /**
+   * @param replicate Whether to replicate the package after upload.
+   */
+  public void setReplicate(boolean replicate) {
+    this.replicate = replicate;
+  }
+
+  /**
    * Deploy files via package manager.
    * @param packageFiles AEM content packages
    */
   public void installFiles(Collection<PackageFile> packageFiles) {
-    for (PackageFile packageFile : packageFiles) {
-      installFile(packageFile);
+    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+      HttpClientContext packageManagerHttpClientContext = pkgmgr.getPackageManagerHttpClientContext();
+      HttpClientContext consoleHttpClientContext = pkgmgr.getConsoleHttpClientContext();
+
+      for (PackageFile packageFile : packageFiles) {
+        installFile(packageFile, httpClient, packageManagerHttpClientContext, consoleHttpClientContext);
+      }
+    }
+    catch (IOException ex) {
+      throw new PackageManagerException("Install operation failed.", ex);
     }
   }
 
@@ -64,34 +81,39 @@ public final class PackageInstaller {
    * Deploy file via package manager.
    * @param packageFile AEM content package
    */
-  @SuppressWarnings("PMD.GuardLogStatement")
   public void installFile(PackageFile packageFile) {
+    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+      HttpClientContext packageManagerHttpClientContext = pkgmgr.getPackageManagerHttpClientContext();
+      HttpClientContext consoleHttpClientContext = pkgmgr.getConsoleHttpClientContext();
+
+      installFile(packageFile, httpClient, packageManagerHttpClientContext, consoleHttpClientContext);
+    }
+    catch (IOException ex) {
+      throw new PackageManagerException("Install operation failed.", ex);
+    }
+  }
+
+  private void installFile(PackageFile packageFile, CloseableHttpClient httpClient,
+      HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext) throws IOException {
     File file = packageFile.getFile();
     if (!file.exists()) {
       throw new PackageManagerException("File does not exist: " + file.getAbsolutePath());
     }
 
-    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
-      HttpClientContext packageManagerHttpClientContext = pkgmgr.getPackageManagerHttpClientContext();
-      HttpClientContext consoleHttpClientContext = pkgmgr.getConsoleHttpClientContext();
+    // before install: if bundles are still stopping/starting, wait for completion
+    pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
 
-      // before install: if bundles are still stopping/starting, wait for completion
-      pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
-
-      if (packageFile.isInstall()) {
-        log.info("Upload and install {}{} to {}", packageFile.isForce() ? "(force) " : "", file.getName(), props.getPackageManagerUrl());
-      }
-      else {
-        log.info("Upload {} to {}", file.getName(), props.getPackageManagerUrl());
-      }
-
-      VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
-      if (installer != null) {
-        installer.installPackage(packageFile, pkgmgr, httpClient, packageManagerHttpClientContext, consoleHttpClientContext, props);
-      }
+    if (packageFile.isInstall()) {
+      log.info("Upload and install {}{} to {}", packageFile.isForce() ? "(force) " : "", file.getName(), props.getPackageManagerUrl());
     }
-    catch (IOException ex) {
-      throw new PackageManagerException("Install operation failed.", ex);
+    else {
+      log.info("Upload {} to {}", file.getName(), props.getPackageManagerUrl());
+    }
+
+    VendorPackageInstaller installer = VendorInstallerFactory.getPackageInstaller(props.getPackageManagerUrl());
+    if (installer != null) {
+      installer.installPackage(packageFile, replicate,
+          pkgmgr, httpClient, packageManagerHttpClientContext, consoleHttpClientContext, props);
     }
   }
 

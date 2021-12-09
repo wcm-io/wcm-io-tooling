@@ -53,9 +53,14 @@ public class ComposumPackageInstaller implements VendorPackageInstaller {
   }
 
   @Override
-  public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
+  public void installPackage(PackageFile packageFile, boolean replicate, PackageManagerHelper pkgmgr,
       CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
       PackageManagerProperties props) throws IOException, PackageManagerException {
+
+    if (replicate) {
+      throw new IllegalArgumentException("Replicating packages not supported for Composum package installer.");
+    }
+
     // prepare post method
     int index = url.indexOf("/bin/cpm/");
     String baseUrl = url.substring(0, index) + "/bin/cpm/package.";

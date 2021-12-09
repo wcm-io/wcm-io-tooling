@@ -36,6 +36,7 @@ public interface VendorPackageInstaller {
   /**
    * Install a Package
    * @param packageFile Package to be installed
+   * @param replication Replicate package
    * @param pkgmgr Package Manager
    * @param httpClient Http Client
    * @param packageManagerHttpClientContext Http Client context used to call the package manager
@@ -44,7 +45,7 @@ public interface VendorPackageInstaller {
    * @throws IOException If calls to the Web Service fail
    * @throws PackageManagerException If the package installation failed
    */
-  void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
+  void installPackage(PackageFile packageFile, boolean replication, PackageManagerHelper pkgmgr,
       CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
       PackageManagerProperties props) throws IOException, PackageManagerException;
 

@@ -63,7 +63,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
   }
 
   @Override
-  public void installPackage(PackageFile packageFile, PackageManagerHelper pkgmgr,
+  public void installPackage(PackageFile packageFile, boolean replicate, PackageManagerHelper pkgmgr,
       CloseableHttpClient httpClient, HttpClientContext packageManagerHttpClientContext, HttpClientContext consoleHttpClientContext,
       PackageManagerProperties props) throws IOException, PackageManagerException {
 
@@ -114,7 +114,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
     String path = jsonResponse.optString("path", null);
     if (success) {
       if (packageFile.isInstall()) {
-        log.info("Package uploaded, now installing...");
+        log.info("Package uploaded to {}, now installing...", path);
 
         try {
           post = new HttpPost(url + "/console.html" + new URIBuilder().setPath(path).build().getRawPath() + "?cmd=install"
@@ -135,7 +135,7 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
         pkgmgr.waitForBundlesActivation(httpClient, consoleHttpClientContext);
       }
       else {
-        log.info("Package uploaded successfully (without installing).");
+        log.info("Package uploaded successfully to {} (without installing).", path);
       }
     }
     else if (StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && !force) {
@@ -145,6 +145,24 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
       throw new PackageManagerException("Package upload failed: " + msg);
     }
 
+    // replicate content package
+    if (success && replicate) {
+      log.info("Replicate package {}...", path);
+
+      try {
+        post = new HttpPost(url + "/console.html" + new URIBuilder().setPath(path).build().getRawPath() + "?cmd=replicate");
+        HttpClientUtil.applyRequestConfig(post, packageFile, props);
+      }
+      catch (URISyntaxException ex) {
+        throw new PackageManagerException("Invalid path: " + path, ex);
+      }
+
+      // execute post
+      pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, packageManagerHttpClientContext, post);
+    }
+    else {
+      log.info("Package uploaded successfully (without installing).");
+    }
   }
 
   @SuppressWarnings("PMD.GuardLogStatement")

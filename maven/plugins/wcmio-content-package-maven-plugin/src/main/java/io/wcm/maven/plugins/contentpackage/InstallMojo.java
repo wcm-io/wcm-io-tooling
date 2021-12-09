@@ -126,6 +126,12 @@ public final class InstallMojo extends AbstractContentPackageMojo {
   private boolean failOnNoFile;
 
   /**
+   * Replicate package(s) to publish instance after upload.
+   */
+  @Parameter(property = "vault.replicate")
+  private boolean replicate;
+
+  /**
    * <p>
    * Allows to specify multiple package files at once, either referencing local file systems or maven artifacts.
    * This has higher precedence than all other options to specify files.
@@ -169,8 +175,8 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       return;
     }
 
+    // collect files to install
     List<io.wcm.tooling.commons.packmgr.install.PackageFile> items = new ArrayList<>();
-
     ArtifactHelper helper = new ArtifactHelper(repository, localRepository, remoteRepositories);
     if (packageFiles != null && packageFiles.length > 0) {
       for (PackageFile ref : packageFiles) {
@@ -199,6 +205,8 @@ public final class InstallMojo extends AbstractContentPackageMojo {
         items.add(toPackageFile(file));
       }
     }
+
+    // ensure any file exist
     if (items.isEmpty()) {
       if (failOnNoFile) {
         throw new MojoExecutionException("No file found for installing.");
@@ -206,11 +214,13 @@ public final class InstallMojo extends AbstractContentPackageMojo {
       else {
         getLog().warn("No file found for installing.");
       }
+      return;
     }
-    else {
-      PackageInstaller installer = new PackageInstaller(getPackageManagerProperties());
-      installer.installFiles(items);
-    }
+
+    // install files
+    PackageInstaller installer = new PackageInstaller(getPackageManagerProperties());
+    installer.setReplicate(this.replicate);
+    installer.installFiles(items);
   }
 
   private io.wcm.tooling.commons.packmgr.install.PackageFile toPackageFile(PackageFile ref, ArtifactHelper helper)

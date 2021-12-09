@@ -30,6 +30,9 @@
       <action type="add" dev="sseifert" issue="WTOOL-71">
         New configuration parameter packageManagerOutputLogLevel to allow to change log level for package manager output (which may get huge for big packages) from INFO to DEBUG.
       </action>
+      <action type="add" dev="sseifert">
+        PackageInstaller: Flag replicatePackage allows to replicate a package to publish instance after uploading it to author instance.
+      </action>
       <action type="update" dev="sseifert" issue="WTOOL-87">
         Refactor PackageDownload to split uploading package definition from actually downloading the content package. Make rebuilding the content package optional.
       </action>
