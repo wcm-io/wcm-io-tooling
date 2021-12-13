@@ -21,8 +21,8 @@ package io.wcm.tooling.commons.packmgr.download;
 
 import static io.wcm.tooling.commons.packmgr.PackageManagerHelper.CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX;
 
+import java.io.Closeable;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +38,10 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHelper;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
@@ -49,64 +50,82 @@ import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 /**
  * Downloads a single AEM content package.
  */
-public final class PackageDownloader {
+public final class PackageDownloader implements Closeable {
 
   private final PackageManagerProperties props;
   private final PackageManagerHelper pkgmgr;
-  private final Logger log;
+  private final CloseableHttpClient httpClient;
+
+  private static final Logger log = LoggerFactory.getLogger(PackageDownloader.class);
 
   /**
    * @param props Package manager configuration properties.
-   * @param log Logger
    */
-  public PackageDownloader(PackageManagerProperties props, Logger log) {
+  public PackageDownloader(PackageManagerProperties props) {
     this.props = props;
-    this.pkgmgr = new PackageManagerHelper(props, log);
-    this.log = log;
+    this.pkgmgr = new PackageManagerHelper(props);
+    this.httpClient = pkgmgr.getHttpClient();
   }
 
   /**
-   * Download content package from CRX instance.
-   * @param file Local version of package that should be downloaded.
-   * @param ouputFilePath Path to download package from AEM instance to.
-   * @return Downloaded file
+   * Upload the given local package definition (without actually installing it).
+   * @param file Package definition file
+   * @return Package path
    */
-  @SuppressWarnings("PMD.GuardLogStatement")
+  public String uploadPackageDefinition(File file) {
+    HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
+
+    if (!file.exists()) {
+      throw new PackageManagerException("File not found: " + file.getAbsolutePath());
+    }
+
+    // try upload to get path of package - or otherwise make sure package def exists (no install!)
+    log.info("Upload package definition for {} to {} ...", file.getName(), props.getPackageManagerUrl());
+    HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
+    MultipartEntityBuilder entity = MultipartEntityBuilder.create()
+        .addBinaryBody("package", file)
+        .addTextBody("force", "true");
+    post.setEntity(entity.build());
+    JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, httpClientContext, post);
+    boolean success = jsonResponse.optBoolean("success", false);
+    String msg = jsonResponse.optString("msg", null);
+    String packagePath = jsonResponse.optString("path", null);
+    // package already exists - get path from error message and continue
+    if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(packagePath)) {
+      packagePath = StringUtils.substringAfter(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX);
+      success = true;
+    }
+    if (!success) {
+      throw new PackageManagerException("Package path detection failed: " + msg);
+    }
+
+    return packagePath;
+  }
+
+  /**
+   * Download content package from CRX package manager.
+   * @param packagePath Content Package path in AEM instance.
+   * @param ouputFilePath Path to download package from AEM instance to.
+   * @param rebuildPackage Whether to rebuild the package within the CRX package manager before downloading it to
+   *          include the latest content from repository.
+   * @return Downloaded content package file
+   */
   @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED_BAD_PRACTICE")
-  public File downloadFile(File file, String ouputFilePath) {
-    try (CloseableHttpClient httpClient = pkgmgr.getHttpClient()) {
+  public File downloadContentPackage(String packagePath, String ouputFilePath, boolean rebuildPackage) {
+    try {
       HttpClientContext httpClientContext = pkgmgr.getPackageManagerHttpClientContext();
-      log.info("Download " + file.getName() + " from " + props.getPackageManagerUrl());
 
-      // 1st: try upload to get path of package - or otherwise make sure package def exists (no install!)
-      HttpPost post = new HttpPost(props.getPackageManagerUrl() + "/.json?cmd=upload");
-      MultipartEntityBuilder entity = MultipartEntityBuilder.create()
-          .addBinaryBody("package", file)
-          .addTextBody("force", "true");
-      post.setEntity(entity.build());
-      JSONObject jsonResponse = pkgmgr.executePackageManagerMethodJson(httpClient, httpClientContext, post);
-      boolean success = jsonResponse.optBoolean("success", false);
-      String msg = jsonResponse.optString("msg", null);
-      String path = jsonResponse.optString("path", null);
-
-      // package already exists - get path from error message and continue
-      if (!success && StringUtils.startsWith(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX) && StringUtils.isEmpty(path)) {
-        path = StringUtils.substringAfter(msg, CRX_PACKAGE_EXISTS_ERROR_MESSAGE_PREFIX);
-        success = true;
-      }
-      if (!success) {
-        throw new PackageManagerException("Package path detection failed: " + msg);
+      // (Re-)build package
+      if (rebuildPackage) {
+        log.info("Rebuilding package {} ...", packagePath);
+        HttpPost buildMethod = new HttpPost(props.getPackageManagerUrl() + "/console.html" + packagePath + "?cmd=build");
+        pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, httpClientContext, buildMethod);
       }
 
-      log.info("Package path is: " + path + " - now rebuilding package...");
-
-      // 2nd: build package
-      HttpPost buildMethod = new HttpPost(props.getPackageManagerUrl() + "/console.html" + path + "?cmd=build");
-      pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, httpClientContext, buildMethod);
-
-      // 3rd: download package
-      String baseUrl = VendorInstallerFactory.getBaseUrl(props.getPackageManagerUrl(), log);
-      HttpGet downloadMethod = new HttpGet(baseUrl + path);
+      // Download package
+      log.info("Downloading package {} from {} ...", packagePath, props.getPackageManagerUrl());
+      String baseUrl = VendorInstallerFactory.getBaseUrl(props.getPackageManagerUrl());
+      HttpGet downloadMethod = new HttpGet(baseUrl + packagePath);
 
       // execute download
       CloseableHttpResponse response = httpClient.execute(downloadMethod, httpClientContext);
@@ -129,7 +148,7 @@ public final class PackageDownloader {
           responseStream.close();
           fos.close();
 
-          log.info("Package downloaded to " + outputFileObject.getAbsolutePath());
+          log.info("Package downloaded to {}", outputFileObject.getAbsolutePath());
 
           return outputFileObject;
         }
@@ -150,12 +169,14 @@ public final class PackageDownloader {
         }
       }
     }
-    catch (FileNotFoundException ex) {
-      throw new PackageManagerException("File not found: " + file.getAbsolutePath(), ex);
-    }
     catch (IOException ex) {
       throw new PackageManagerException("Download operation failed.", ex);
     }
+  }
+
+  @Override
+  public void close() throws IOException {
+    httpClient.close();
   }
 
 }

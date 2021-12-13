@@ -6,19 +6,13 @@ Content Package Maven Plugin Usage
 
 Examples for using the plugin.
 
-$symbol_pound$symbol_pound$symbol_pound Building content packages
 
-Required steps:
+$symbol_pound$symbol_pound$symbol_pound Example for content package project
 
-* Create a separate maven project for the content package and set the packaging type to `content-package`.
-* Define the package filters either via the `filters` plugin property or a predefined filter.xml references via `filterSource` property.
-* Set `name` and `group` properties for the content package
-* Make sure the content of the jcr_root folder for the package is copied to the `target/classes` folder, or you specify an alternative `builtContentDirectory`.
+This is an example maven content-package project, which also contains a couple of convenience scripts to upload and download packages:
+https://github.com/wcm-io/wcm-io-samples/tree/develop/content-packages/sample-content
 
-Examples from the wcm.io Sample application:
-
-* [Content package with sample content](https://github.com/wcm-io/wcm-io-samples/tree/develop/sample-content)
-* [Content package for application deployment](https://github.com/wcm-io/wcm-io-samples/tree/develop/complete)
+It relies on a default confugration for the plugin defined in [AEM Global Parent][aem-global-parent].
 
 
 $symbol_pound$symbol_pound$symbol_pound Install single content package from filesystem
@@ -158,3 +152,4 @@ To enable complete HTTP wire logging (produces lots of logging data!), use:
 
 
 [plugindocs]: plugin-info.html
+[aem-global-parent]: https://wcm.io/tooling/maven/aem-global-parent.html

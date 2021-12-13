@@ -29,8 +29,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
 
 /**
@@ -42,29 +43,26 @@ public final class BundleStatusCall implements HttpCall<BundleStatus> {
   private final HttpClientContext context;
   private final String bundleStatusURL;
   private final List<Pattern> bundleStatusWhitelistBundleNames;
-  private final Logger log;
+
+  private static final Logger log = LoggerFactory.getLogger(BundleStatusCall.class);
 
   /**
    * @param httpClient HTTP client
    * @param context HTTP client context
    * @param bundleStatusURL Bundle status URL
    * @param bundleStatusWhitelistBundleNames Patterns of bundle names to be ignored
-   * @param log Logger
    */
   public BundleStatusCall(CloseableHttpClient httpClient, HttpClientContext context, String bundleStatusURL,
-      List<Pattern> bundleStatusWhitelistBundleNames, Logger log) {
+      List<Pattern> bundleStatusWhitelistBundleNames) {
     this.httpClient = httpClient;
     this.context = context;
     this.bundleStatusURL = bundleStatusURL;
     this.bundleStatusWhitelistBundleNames = bundleStatusWhitelistBundleNames;
-    this.log = log;
   }
 
   @Override
   public BundleStatus execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: " + bundleStatusURL);
-    }
+    log.debug("Call URL: {}", bundleStatusURL);
 
     HttpGet method = new HttpGet(bundleStatusURL);
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {

@@ -34,7 +34,6 @@ import org.apache.maven.settings.crypto.SettingsDecrypter;
 
 import com.google.common.collect.ImmutableList;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 import io.wcm.tooling.commons.packmgr.install.VendorInstallerFactory;
 
@@ -103,7 +102,6 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
    */
   @Parameter(property = "console.consoleOauth2AccessToken")
   private String consoleOauth2AccessToken;
-
 
   /**
    * Set this to "true" to skip installing packages to CRX although configured in the POM.
@@ -187,6 +185,13 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
   @Parameter(property = "vault.httpSocketTimeoutSec", defaultValue = "60")
   private int httpSocketTimeout;
 
+  /**
+   * Log level to be used to log responses from package manager (which may get huge for large packages).
+   * Possible values are INFO (default) or DEBUG.
+   */
+  @Parameter(property = "vault.packageManagerOutputLogLevel", defaultValue = "INFO")
+  private String packageManagerOutputLogLevel;
+
   @Parameter(property = "session", defaultValue = "${session}", readonly = true)
   private MavenSession session;
 
@@ -221,6 +226,7 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     props.setHttpConnectTimeoutSec(this.httpConnectTimeoutSec);
     props.setHttpSocketTimeoutSec(this.httpSocketTimeout);
     props.setProxies(ProxySupport.getMavenProxies(session, decrypter));
+    props.setPackageManagerOutputLogLevel(this.packageManagerOutputLogLevel);
 
     return props;
   }
@@ -229,10 +235,10 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
     String serviceUrl = this.serviceURL;
     switch (VendorInstallerFactory.identify(serviceUrl)) {
       case CRX:
-        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl, getLoggerWrapper()) + CRX_URL;
+        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl) + CRX_URL;
         break;
       case COMPOSUM:
-        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl, getLoggerWrapper()) + COMPOSUM_URL;
+        serviceUrl = VendorInstallerFactory.getBaseUrl(serviceUrl) + COMPOSUM_URL;
         break;
       default:
         throw new MojoExecutionException("Unsupporte service URL: " + serviceUrl);
@@ -248,61 +254,8 @@ abstract class AbstractContentPackageMojo extends AbstractMojo {
       return this.bundleStatusURL;
     }
     // if not set use hostname from serviceURL and add default path to bundle status
-    String baseUrl = VendorInstallerFactory.getBaseUrl(buildPackageManagerUrl(), getLoggerWrapper());
+    String baseUrl = VendorInstallerFactory.getBaseUrl(buildPackageManagerUrl());
     return baseUrl + "/system/console/bundles/.json";
-  }
-
-  protected Logger getLoggerWrapper() {
-    return new Logger() {
-      @Override
-      public void warn(CharSequence message, Throwable t) {
-        getLog().warn(message, t);
-      }
-      @Override
-      public void warn(CharSequence message) {
-        getLog().warn(message);
-      }
-      @Override
-      public boolean isWarnEnabled() {
-        return getLog().isWarnEnabled();
-      }
-      @Override
-      public boolean isInfoEnabled() {
-        return getLog().isInfoEnabled();
-      }
-      @Override
-      public boolean isErrorEnabled() {
-        return getLog().isErrorEnabled();
-      }
-      @Override
-      public boolean isDebugEnabled() {
-        return getLog().isDebugEnabled();
-      }
-      @Override
-      public void info(CharSequence message, Throwable t) {
-        getLog().info(message, t);
-      }
-      @Override
-      public void info(CharSequence message) {
-        getLog().info(message);
-      }
-      @Override
-      public void error(CharSequence message, Throwable t) {
-        getLog().error(message, t);
-      }
-      @Override
-      public void error(CharSequence message) {
-        getLog().error(message);
-      }
-      @Override
-      public void debug(CharSequence message, Throwable t) {
-        getLog().debug(message, t);
-      }
-      @Override
-      public void debug(CharSequence message) {
-        getLog().debug(message);
-      }
-    };
   }
 
 }

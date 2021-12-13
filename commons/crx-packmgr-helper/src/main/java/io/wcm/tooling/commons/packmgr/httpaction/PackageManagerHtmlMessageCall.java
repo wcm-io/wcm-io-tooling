@@ -29,10 +29,12 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import io.wcm.tooling.commons.packmgr.Logger;
 import io.wcm.tooling.commons.packmgr.PackageManagerException;
 import io.wcm.tooling.commons.packmgr.PackageManagerHttpActionException;
+import io.wcm.tooling.commons.packmgr.PackageManagerProperties;
 
 /**
  * Call that parses a packager manager HTML response and returns the contained message as plain text.
@@ -42,28 +44,34 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
   private final CloseableHttpClient httpClient;
   private final HttpClientContext context;
   private final HttpRequestBase method;
-  private final Logger log;
+  private final PackageManagerProperties props;
 
   private static final String PACKAGE_MANAGER_ERROR_INDICATION = "Error during processing.";
+  private static final Logger log = LoggerFactory.getLogger(PackageManagerHtmlMessageCall.class);
+
+  private static final Pattern HTML_STYLE = Pattern.compile("<style[^<>]*>[^<>]*</style>", Pattern.MULTILINE | Pattern.DOTALL);
+  private static final Pattern HTML_JAVASCRIPT = Pattern.compile("<script[^<>]*>[^<>]*</script>", Pattern.MULTILINE | Pattern.DOTALL);
+  private static final Pattern TEXT_LINE_BREAKS = Pattern.compile("[\n\r]");
+  private static final Pattern HTML_LINE_BREAKS = Pattern.compile("(<br/?>|</p>|</h\\d>)");
+  private static final Pattern HTML_ANYTAG = Pattern.compile("<[^<>]*>");
 
   /**
    * @param httpClient HTTP client
    * @param context HTTP client context
    * @param method HTTP method
-   * @param log Logger
+   * @param props Package manager properties
    */
-  public PackageManagerHtmlMessageCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method, Logger log) {
+  public PackageManagerHtmlMessageCall(CloseableHttpClient httpClient, HttpClientContext context, HttpRequestBase method,
+      PackageManagerProperties props) {
     this.httpClient = httpClient;
     this.context = context;
     this.method = method;
-    this.log = log;
+    this.props = props;
   }
 
   @Override
   public String execute() {
-    if (log.isDebugEnabled()) {
-      log.debug("Call URL: " + method.getURI());
-    }
+    log.debug("Call URL: {}", method.getURI());
 
     try (CloseableHttpResponse response = httpClient.execute(method, context)) {
       String responseString = EntityUtils.toString(response.getEntity());
@@ -71,21 +79,23 @@ public final class PackageManagerHtmlMessageCall implements HttpCall<String> {
       if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 
         // debug output whole xml
-        if (log.isDebugEnabled()) {
-          log.debug("CRX Package Manager Response:\n" + responseString);
-        }
+        log.trace("CRX Package Manager Response:\n{}", responseString);
 
-        // remove all HTML tags and special conctent
-        final Pattern HTML_STYLE = Pattern.compile("<style[^<>]*>[^<>]*</style>", Pattern.MULTILINE | Pattern.DOTALL);
-        final Pattern HTML_JAVASCRIPT = Pattern.compile("<script[^<>]*>[^<>]*</script>", Pattern.MULTILINE | Pattern.DOTALL);
-        final Pattern HTML_ANYTAG = Pattern.compile("<[^<>]*>");
-
+        // remove all HTML tags and special content
         responseString = HTML_STYLE.matcher(responseString).replaceAll("");
         responseString = HTML_JAVASCRIPT.matcher(responseString).replaceAll("");
+        responseString = TEXT_LINE_BREAKS.matcher(responseString).replaceAll("");
+        responseString = HTML_LINE_BREAKS.matcher(responseString).replaceAll("\n");
         responseString = HTML_ANYTAG.matcher(responseString).replaceAll("");
         responseString = StringUtils.replace(responseString, "&nbsp;", " ");
+        responseString = "\n" + StringUtils.trim(responseString);
 
-        log.info(responseString);
+        if (StringUtils.equalsIgnoreCase(props.getPackageManagerOutputLogLevel(), "debug")) {
+          log.debug(responseString);
+        }
+        else {
+          log.info(responseString);
+        }
 
         if (StringUtils.contains(responseString, PACKAGE_MANAGER_ERROR_INDICATION)) {
           throw new PackageManagerException("Package installation failed: " + PACKAGE_MANAGER_ERROR_INDICATION + "\n"
