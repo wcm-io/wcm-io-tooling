@@ -79,7 +79,7 @@
     <dependency>
       <groupId>io.wcm.tooling.commons</groupId>
       <artifactId>io.wcm.tooling.commons.crx-packmgr-helper</artifactId>
-      <version>1.7.5-SNAPSHOT</version>
+      <version>2.0.0</version>
       <scope>compile</scope>
     </dependency>
     <!-- Add logging bridge to capture debug logging from Apache HTTP client 4 -->
