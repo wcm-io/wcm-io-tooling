@@ -32,36 +32,3 @@ Sometimes snapshot are referenced from the Apache Snapshot repository:
   </snapshots>
 </repository>
 ```
-
-
-### wcm.io Intermediate Release Repository
-
-This repository is hosted on wcm.io and provides intermediate releses with revision number from snapshots from the Apache SCM trunk which are not officially released currently. They are replaced with the official versions as soon as they are released by the Apache project.
-
-```xml
-<repository>
-  <id>wcm-io-apache-intermediate-release</id>
-  <url>https://wcm.io/maven/repositories/apache-intermediate-release</url>
-  <layout>default</layout>
-  <releases>
-    <enabled>true</enabled>
-    <updatePolicy>never</updatePolicy>
-  </releases>
-  <snapshots>
-    <enabled>false</enabled>
-  </snapshots>
-</repository>
-
-<pluginRepository>
-  <id>wcm-io-apache-intermediate-release</id>
-  <url>https://wcm.io/maven/repositories/apache-intermediate-release</url>
-  <releases>
-    <enabled>true</enabled>
-    <updatePolicy>never</updatePolicy>
-  </releases>
-  <snapshots>
-    <enabled>false</enabled>
-  </snapshots>
-</pluginRepository>
-
-```
