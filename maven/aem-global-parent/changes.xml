@@ -31,7 +31,7 @@
         Update wcm.io Content Package Maven plugin 2.0.0. This version no longer supports building content packages, see <a href="https://wcm-io.atlassian.net/wiki/x/GYB1BQ">migration guide</a>.
       ]]></action>
       <action type="update" dev="sseifert">
-        Update CONGA AEM Plugin.
+        Update CONGA and CONGA AEM Plugin.
       </action>
       <action type="update" dev="sseifert">
         sling-maven-plugin: Simplify bundle prerequisite configuration to support AEM 6.5 and up.
