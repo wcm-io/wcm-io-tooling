@@ -425,7 +425,7 @@
         <plugin>
           <groupId>com.adobe.aem</groupId>
           <artifactId>aemanalyser-maven-plugin</artifactId>
-          <version>1.2.2</version>
+          <version>1.3.0</version>
         </plugin>
 
         <plugin>
@@ -558,16 +558,6 @@
                 <slingUrl>${sling.publish.url}/system/console</slingUrl>
                 <user>${sling.console.publish.user}</user>
                 <password>${sling.console.publish.password}</password>
-              </configuration>
-            </plugin>
-            <plugin>
-              <groupId>com.day.jcr.vault</groupId>
-              <artifactId>content-package-maven-plugin</artifactId>
-              <configuration>
-                <targetURL>${sling.publish.url}/crx/packmgr/service.jsp</targetURL>
-                <serviceURL>${sling.publish.url}/crx/packmgr/service/.json</serviceURL>
-                <userId>${sling.vault.publish.user}</userId>
-                <password>${sling.vault.publish.password}</password>
               </configuration>
             </plugin>
             <plugin>
