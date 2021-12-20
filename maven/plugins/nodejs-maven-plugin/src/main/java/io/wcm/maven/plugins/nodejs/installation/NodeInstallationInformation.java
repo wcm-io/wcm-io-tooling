@@ -33,6 +33,7 @@ public class NodeInstallationInformation {
 
   private static final String NODEJS_BINARIES_GROUPID = "org.nodejs.dist";
   private static final String NODEJS_BINARIES_ARTIFACTID = "nodejs-binaries";
+  private static final String NPM_CLI_EXECUTABLE_PATH = File.separator + "npm" + File.separator + "bin" + File.separator + "npm-cli.js";
 
   private static final String TYPE_TAR_GZ = "tar.gz";
   static final String TYPE_ZIP = "zip";
@@ -45,8 +46,9 @@ public class NodeInstallationInformation {
   private Dependency npmDependency;
   private File archive;
   private String nodeExecutableRelativePath;
-  private String npmExecutableRelativePath;
   private String nodeJsInstallPath;
+  private String npmPrefixPath;
+  private String nodeModulesBuiltInRootPath;
   private String nodeModulesRootPath;
 
   public Dependency getNodeJsDependency() {
@@ -82,15 +84,11 @@ public class NodeInstallationInformation {
   }
 
   public File getNpmExecutable() {
-    return new File(this.nodeModulesRootPath + File.separator + npmExecutableRelativePath);
+    return new File(this.nodeModulesRootPath + File.separator + "node_modules" + NPM_CLI_EXECUTABLE_PATH);
   }
 
   public File getNpmExecutableBundledWithNodeJs() {
-    return new File(this.nodeJsInstallPath + File.separator + npmExecutableRelativePath);
-  }
-
-  void setNpmExecutableRelativePath(String npmExecutableRelativePath) {
-    this.npmExecutableRelativePath = npmExecutableRelativePath;
+    return new File(this.nodeModulesBuiltInRootPath + File.separator + "node_modules" + NPM_CLI_EXECUTABLE_PATH);
   }
 
   public String getNodeJsInstallPath() {
@@ -99,6 +97,22 @@ public class NodeInstallationInformation {
 
   void setNodeJsInstallPath(String nodeJsInstallPath) {
     this.nodeJsInstallPath = nodeJsInstallPath;
+  }
+
+  public String getNpmPrefixPath() {
+    return this.npmPrefixPath;
+  }
+
+  public void setNpmPrefixPath(String npmPrefixPath) {
+    this.npmPrefixPath = npmPrefixPath;
+  }
+
+  public String getNodeModulesBuiltInRootPath() {
+    return this.nodeModulesBuiltInRootPath;
+  }
+
+  void setNodeModulesBuiltInRootPath(String nodeModulesBuiltInRootPath) {
+    this.nodeModulesBuiltInRootPath = nodeModulesBuiltInRootPath;
   }
 
   public String getNodeModulesRootPath() {
@@ -142,8 +156,9 @@ public class NodeInstallationInformation {
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, OS_WINDOWS, arch, TYPE_ZIP));
       result.setArchive(new File(nodeJsInstallPath + "." + TYPE_ZIP));
       result.setNodeExecutableRelativePath("node.exe");
-      result.setNpmExecutableRelativePath("node_modules" + File.separator
-          + "npm" + File.separator + "bin" + File.separator + "npm-cli.js");
+      result.setNodeModulesBuiltInRootPath(nodeJsInstallPath);
+      result.setNpmPrefixPath(nodeJsInstallPath + getNodeModulesRootPathNpmSuffix(npmVersion));
+      result.setNodeModulesRootPath(result.getNpmPrefixPath());
     }
     else if (Os.isFamily(Os.FAMILY_MAC)) {
       String nodeJsInstallPath = basePath + "node-v" + version + "-" + OS_MACOS + "-" + arch;
@@ -151,8 +166,9 @@ public class NodeInstallationInformation {
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, OS_MACOS, arch, TYPE_TAR_GZ));
       result.setArchive(new File(nodeJsInstallPath + "." + TYPE_TAR_GZ));
       result.setNodeExecutableRelativePath("bin" + File.separator + "node");
-      result.setNpmExecutableRelativePath("lib" + File.separator + "node_modules" + File.separator
-          + "npm" + File.separator + "bin" + File.separator + "npm-cli.js");
+      result.setNodeModulesBuiltInRootPath(nodeJsInstallPath + File.separator + "lib");
+      result.setNpmPrefixPath(nodeJsInstallPath + getNodeModulesRootPathNpmSuffix(npmVersion));
+      result.setNodeModulesRootPath(result.getNpmPrefixPath() + File.separator + "lib");
     }
     else if (Os.isFamily(Os.FAMILY_UNIX)) {
       String nodeJsInstallPath = basePath + "node-v" + version + "-" + OS_LINUX + "-" + arch;
@@ -160,21 +176,24 @@ public class NodeInstallationInformation {
       result.setNodeJsDependency(buildDependency(NODEJS_BINARIES_GROUPID, NODEJS_BINARIES_ARTIFACTID, version, OS_LINUX, arch, TYPE_TAR_GZ));
       result.setArchive(new File(nodeJsInstallPath + "." + TYPE_TAR_GZ));
       result.setNodeExecutableRelativePath("bin" + File.separator + "node");
-      result.setNpmExecutableRelativePath("lib" + File.separator + "node_modules" + File.separator
-          + "npm" + File.separator + "bin" + File.separator + "npm-cli.js");
+      result.setNodeModulesBuiltInRootPath(nodeJsInstallPath + File.separator + "lib");
+      result.setNpmPrefixPath(nodeJsInstallPath + getNodeModulesRootPathNpmSuffix(npmVersion));
+      result.setNodeModulesRootPath(result.getNpmPrefixPath() + File.separator + "lib");
     }
     else {
       throw new MojoExecutionException("Unsupported OS: " + Os.OS_FAMILY);
     }
 
+    return result;
+  }
+
+  private static String getNodeModulesRootPathNpmSuffix(String npmVersion) {
     if (StringUtils.isNotEmpty(npmVersion)) {
-      result.setNodeModulesRootPath(result.getNodeJsInstallPath() + File.separator + "npm-v" + npmVersion);
+      return File.separator + "npm-v" + npmVersion;
     }
     else {
-      result.setNodeModulesRootPath(result.getNodeJsInstallPath());
+      return "";
     }
-
-    return result;
   }
 
   @SuppressWarnings("PMD.UseStringBufferForStringAppends")

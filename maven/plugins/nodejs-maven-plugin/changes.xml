@@ -25,6 +25,12 @@
 
     <release version="3.0.4" date="not released">
       <action type="fix" dev="sseifert">
+        Ensure the NPM versions that is bundled with NodeJS is used when not explicit NPM version is used (was broken on Unix and MacOS systems).
+      </action>
+      <action type="fix" dev="sseifert">
+        Fix handling of global node_modules paths when explicit NPM version is used on different OS.
+      </action>
+      <action type="fix" dev="sseifert">
         Proper handling of symlinks when extracting NodeJS tar archives.
       </action>
     </release>
