@@ -28,7 +28,7 @@
         <b>Starting with version 2.0.0 only AEM 6.5 and AEMaaCS are supported.</b>
       ]]></action>
       <action type="update" dev="sseifert"><![CDATA[
-        Update wcm.io Content Package Maven plugin 2.0.0. This version no longer supports building content packages, see <a href="https://wcm-io.atlassian.net/wiki/x/GYB1BQ">migration guide</a>.
+        Update wcm.io Content Package Maven plugin 2.0.2. This version no longer supports building content packages, see <a href="https://wcm-io.atlassian.net/wiki/x/GYB1BQ">migration guide</a>.
       ]]></action>
       <action type="update" dev="sseifert">
         Update CONGA and CONGA AEM Plugin.
