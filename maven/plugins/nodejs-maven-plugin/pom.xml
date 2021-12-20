@@ -146,6 +146,7 @@
 
   <build>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -169,6 +170,31 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <projectsDirectory>src/it</projectsDirectory>
+          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+          <pomIncludes>
+            <pomInclude>**/pom.xml</pomInclude>
+          </pomIncludes>
+          <postBuildHookScript>verify</postBuildHookScript>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>install</goal>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -194,5 +220,18 @@
       <url>${site.deploy.url}/${site.url.module.prefix}</url>
     </site>
   </distributionManagement>
+
+  <!-- Skip integration tests in "fast" profile -->
+  <profiles>
+    <profile>
+      <id>fast</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <invoker.skip>true</invoker.skip>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>

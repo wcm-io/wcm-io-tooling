@@ -46,6 +46,10 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         run: ./mvnw -s ./.maven-settings.xml -Pcontinuous-integration -B -U clean deploy site
 
+      # Run code coverage check
+      - name: Run code coverage check
+        run: bash <(curl -s https://codecov.io/bash)
+
       # Deploy site to Github Pages
       - name: Stage and deploy site
         run: >
