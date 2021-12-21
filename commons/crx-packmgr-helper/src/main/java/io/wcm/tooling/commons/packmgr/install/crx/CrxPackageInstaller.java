@@ -160,9 +160,6 @@ public class CrxPackageInstaller implements VendorPackageInstaller {
       // execute post
       pkgmgr.executePackageManagerMethodHtmlOutputResponse(httpClient, packageManagerHttpClientContext, post);
     }
-    else {
-      log.info("Package uploaded successfully (without installing).");
-    }
   }
 
   @SuppressWarnings("PMD.GuardLogStatement")

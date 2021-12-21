@@ -82,7 +82,7 @@ public class NodeJsTask extends Task {
         NpmInstallTask installTask = new NpmInstallTask();
         installTask.setLog(getLog());
         installTask.setArguments(new String[] {
-            "--prefix", information.getNodeModulesRootPath(), moduleName
+            "--prefix", information.getNpmPrefixPath(), moduleName
         });
         installTask.execute(information);
       }

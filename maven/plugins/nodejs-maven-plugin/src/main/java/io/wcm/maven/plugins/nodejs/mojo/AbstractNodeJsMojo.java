@@ -233,7 +233,7 @@ public abstract class AbstractNodeJsMojo extends AbstractMojo {
     npmInstallTask.setLog(getLog());
     npmInstallTask.setNpmBundledWithNodeJs(true);
     npmInstallTask.setArguments(new String[] {
-        "--prefix", information.getNodeModulesRootPath(), "--global", "npm@" + npmVersion
+        "--prefix", information.getNpmPrefixPath(), "--global", "npm@" + npmVersion
     });
     npmInstallTask.execute(information);
   }

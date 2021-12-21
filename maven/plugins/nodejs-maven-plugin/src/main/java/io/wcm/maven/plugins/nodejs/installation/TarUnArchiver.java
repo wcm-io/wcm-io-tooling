@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -57,7 +59,12 @@ public class TarUnArchiver {
       while (tarEntry != null) {
         // Create a file for this tarEntry
         final File destPath = new File(baseDir + File.separator + tarEntry.getName());
-        if (tarEntry.isDirectory()) {
+        if (tarEntry.isSymbolicLink()) {
+          Path linkPath = destPath.toPath();
+          Path targetPath = new File(tarEntry.getLinkName()).toPath();
+          Files.createSymbolicLink(linkPath, targetPath);
+        }
+        else if (tarEntry.isDirectory()) {
           destPath.mkdirs();
         }
         else {

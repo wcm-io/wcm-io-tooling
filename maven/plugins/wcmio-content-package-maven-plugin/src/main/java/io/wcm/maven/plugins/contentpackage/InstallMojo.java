@@ -67,12 +67,14 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
    * The groupId of the artifact to install.
+   * Works only if used together with <code>artifactId</code> and <code>version</code>.
    */
   @Parameter(property = "vault.groupId")
   private String groupId;
 
   /**
    * The artifactId of the artifact to install.
+   * Works only if used together with <code>groupId</code> and <code>version</code>.
    */
   @Parameter(property = "vault.artifactId")
   private String artifactId;
@@ -85,6 +87,7 @@ public final class InstallMojo extends AbstractContentPackageMojo {
 
   /**
    * The version of the artifact to install.
+   * Works only if used together with <code>artifactId</code> and <code>groupId</code>.
    */
   @Parameter(property = "vault.version")
   private String version;

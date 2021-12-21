@@ -23,6 +23,12 @@
     xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
   <body>
 
+    <release version="2.0.2" date="not released">
+      <action type="fix" dev="sseifert">
+        Remove misplaced message 'Package uploaded successfully (without installing).' after package install.
+      </action>
+    </release>
+
     <release version="2.0.0" date="2021-12-13">
       <action type="add" dev="sseifert">
         Add support for IMS/Auth 2 authentication for AEMaaCS (via oauth2AccessToken). Use only a single HTTP client instance for both package manager and OSGi console communication.
