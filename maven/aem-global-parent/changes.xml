@@ -42,6 +42,9 @@
       <action type="update" dev="sseifert">
         sling-maven-plugin: Simplify bundle prerequisite configuration to support AEM 6.5 and up.
       </action>
+      <action type="update" dev="sseifert">
+        Update global-parent dependency to 41.
+      </action>
       <action type="remove" dev="sseifert">
         Remove support for Felix SCR Annotations (enforce via ban).
       </action>
