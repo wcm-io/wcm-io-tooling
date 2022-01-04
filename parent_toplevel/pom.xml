@@ -180,17 +180,17 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13.1</version>
+        <version>4.13.2</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-junit-jupiter</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0</version>
       </dependency>
 
     </dependencies>
@@ -407,13 +407,6 @@
               <groupId>org.apache.maven.release</groupId>
               <artifactId>maven-release-oddeven-policy</artifactId>
               <version>${maven-release-plugin.version}</version>
-            </dependency>
-            <!-- workaround for https://issues.apache.org/jira/browse/MRELEASE-1040,
-                 dependency necessary for maven-release-oddeven-policy  -->
-            <dependency>
-              <groupId>org.eclipse.aether</groupId>
-              <artifactId>aether-util</artifactId>
-              <version>1.0.0.v20140518</version>
             </dependency>
            </dependencies>
         </plugin>

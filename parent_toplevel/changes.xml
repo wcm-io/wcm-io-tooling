@@ -30,6 +30,9 @@
       <action type="update" dev="sseifert">
         Update to aem-global-parent 2.0.0.
       </action>
+      <action type="update" dev="sseifert">
+        Update testing dependencies.
+      </action>
     </release>
 
     <release version="1.6.10" date="2021-12-06">
