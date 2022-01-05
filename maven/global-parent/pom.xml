@@ -93,7 +93,7 @@
 
     <!-- Plugin version -->
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-    <maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
+    <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
     <spotbugs-plugin.version>4.5.2.0</spotbugs-plugin.version>
     <spotbugs-findsecbugs-plugin.version>1.11.0</spotbugs-findsecbugs-plugin.version>
 
