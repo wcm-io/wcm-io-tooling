@@ -18,7 +18,7 @@ The first part of the AEM dependencies version number matches with the AEM versi
 </dependency>
 ```
 
-Source code: [wcm-io-tooling-aem-cloud-dependencies](https://github.com/wcm-io/wcm-io-tooling-aem-cloud-dependencies)
+Source code: https://github.com/wcm-io/io.wcm.maven.aem-cloud-dependencies
 
 
 ### AEM 6.5 - Latest Version
@@ -36,7 +36,7 @@ Source code: [wcm-io-tooling-aem-cloud-dependencies](https://github.com/wcm-io/w
 </dependency>
 ```
 
-Source code: [wcm-io-tooling/maven/aem-dependencies](https://github.com/wcm-io/wcm-io-tooling/tree/develop/maven/aem-dependencies)
+Source code: https://github.com/wcm-io/io.wcm.maven.aem-dependencies
 
 
 ### Older AEM 6.x versions
