@@ -21,11 +21,6 @@ jobs:
       matrix:
         java: [8, 11, 17]
         os: [ ubuntu-latest ]
-        include:
-          - java: 11
-            os: windows-latest
-          - java: 11
-            os: macos-latest
 
     steps:
       # Check out Git repository
