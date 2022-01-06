@@ -24,6 +24,9 @@
   <body>
 
     <release version="2.0.2" date="not released">
+      <action type="update" dev="sseifert">
+        Declare maven core dependencies as provided.
+      </action>
       <action type="fix" dev="sseifert">
         Remove misplaced message 'Package uploaded successfully (without installing).' after package install.
       </action>
