@@ -31,7 +31,7 @@
 
   <groupId>io.wcm.maven.plugins</groupId>
   <artifactId>wcmio-content-package-maven-plugin</artifactId>
-  <version>2.0.2</version>
+  <version>2.0.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Content Package Maven Plugin</name>
@@ -50,7 +50,7 @@
     <maven.version>3.0.5</maven.version>
 
     <!-- Enable reproducible builds -->
-    <project.build.outputTimestamp>2022-01-06T10:50:56Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2022-01-06T10:52:09Z</project.build.outputTimestamp>
   </properties>
 
   <prerequisites>
