@@ -42,16 +42,6 @@
     <module>parent</module>
     <module>commons</module>
     <module>maven/parent</module>
-    <module>maven/aem-global-parent</module>
-    <!-- exclude global-build-tools from main build to avoid problem with snapshot dependency to it -->
-    <!--
-    <module>maven/global-build-tools</module>
-    <module>maven/global-build-tools-mixin</module>
-    <module>maven/global-build-tools-test</module>
-    -->
-    <module>maven/global-parent</module>
-    <module>maven/skins/reflow-velocity-tools</module>
-    <module>maven/skins/reflow-maven-skin</module>
     <module>public_site</module>
   </modules>
 
