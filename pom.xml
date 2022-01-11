@@ -39,7 +39,6 @@
 
   <modules>
     <module>parent_toplevel</module>
-    <module>maven/parent</module>
     <module>public_site</module>
   </modules>
 
