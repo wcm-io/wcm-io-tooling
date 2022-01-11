@@ -13,7 +13,7 @@ Helper tools for supporting Unit Tests, Integration test and test automation in 
     * [Handler](wcm-io-mock/handler/): Helps setting up mock environment for wcm.io Handler.
 * Logging configuration
     * [Lockback](logging/logback/): Default configuration for Logback logging in unit tests.
-* [JUnit Commons](junit-commons/): Common extensions of JUnit 4 for supporting AEM Mocks JUnit 4 integration.
+* [JUnit 4 Commons](junit-commons/): Common extensions of JUnit 4 for supporting AEM Mocks JUnit 4 integration.
 
 
 ### Mocking stack
