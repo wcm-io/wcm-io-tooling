@@ -1,4 +1,4 @@
-## wcm.io Tooling Commons
+## Tooling Commons
 
 Support for AEM tooling.
 

@@ -1,4 +1,4 @@
-## wcm.io Maven Tooling
+## Maven Tooling
 
 Maven Parent POMs, Build Tools and Plugins.
 
