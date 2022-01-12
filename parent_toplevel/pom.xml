@@ -98,6 +98,7 @@
     <!-- SonarCloud -->
     <sonar.organization>wcm-io</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.projectKey>${sonar.organization}_${artifactId}</sonar.projectKey>
 
   </properties>
 
