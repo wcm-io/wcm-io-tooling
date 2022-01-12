@@ -27,6 +27,9 @@
       <action type="update" dev="sseifert">
         Do not apply artifactId prefix for release tags as most artifacts have a dedicated git repository.
       </action>
+      <action type="update" dev="sseifert">
+        Set SonarCloud properties.
+      </action>
     </release>
 
     <release version="1.7.0" date="2022-01-07">

@@ -95,6 +95,10 @@
     <!-- Set to 'enabled' to activate org.eclipse.jdt.core.compiler.annotation.nullanalysis feature in eclipse settings -->
     <eclipse.settings.nullanalysis>enabled</eclipse.settings.nullanalysis>
 
+    <!-- SonarCloud -->
+    <sonar.organization>wcm-io</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
   </properties>
 
   <!-- default dependencies for all projects -->
