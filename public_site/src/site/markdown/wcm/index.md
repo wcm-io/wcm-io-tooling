@@ -8,5 +8,4 @@ Extensions for AEM authoring and AEM applications.
 * [Parsys](parsys/): AEM paragraph system based on path configuration in page components.
 * [Commons](commons/): Common WCM utility and helper functions.
 * [Granite UI Extensions](ui/granite/): Granite UI Components for AEM Touch UI.
-* [ExtJS UI Extensions](ui/extjs/): ExtJS Widgets for AEM Classic UI.
 * [Clientlibs UI Extensions](ui/clientlibs/): Extensions for AEM HTML client libraries.
