@@ -2,7 +2,7 @@
 
 The wcm.io modules support the following platforms:
 
-* AEM Version 6.5, AEM Cloud Service
+* AEM Version 6.5.7+, AEM Cloud Service
 * Apache Sling, Apache Felix an others: Versions as included in the corresponding AEM version
 * Oracle Java 8, Java 11 and Java 17
 
