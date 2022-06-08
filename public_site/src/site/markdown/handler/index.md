@@ -2,8 +2,6 @@
 
 Link, Media and RichText Handler infrastructure.
 
-The current version of wcm.io Handler is 1.x. Guideline for migration from [wcm.io Handler 0.x][wcmio-handler-0x]: [Migrate from wcm.io Handler 0.x to 1.x][wcmio-handler-migration]
-
 
 ### Overview
 
@@ -35,8 +33,6 @@ To set up a new AEM project with wcm.io Handler support use the [wcm.io Maven Ar
 [handler-commons]: commons/
 [configuration]: configuration.html
 [wcmio-samples]: https://wcm.io/samples/
-[wcmio-handler-0x]: https://wcm.io/handler-0.x/
-[wcmio-handler-migration]: https://wcm-io.atlassian.net/wiki/x/dhn9Ag
 [wcmio-maven-archetype-aem]: https://wcm.io/tooling/maven/archetypes/aem/
 [adaptto-talk-2019-assets-links-in-aem-projects]: https://adapt.to/2019/en/schedule/assets-and-links-in-aem-projects.html
 [adaptto-talk-2021-dynamic-media]: https://adapt.to/2021/en/schedule/dynamic-media-support-in-wcm-io-media-handler.html
