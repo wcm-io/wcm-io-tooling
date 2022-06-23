@@ -7,10 +7,10 @@
 Links to the latest versions of Apache Sling Context-Aware Configuration bundles:
 
 |---|---|---|
-| [Apache Sling Context-Aware Configuration API](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.api) | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.api/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.api) |
-| [Apache Sling Context-Aware Configuration SPI](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.spi) | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.spi/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.spi) |
-| [Apache Sling Context-Aware Configuration Implementation](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.impl) | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.impl/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.caconfig.impl) |
-| [Apache Johnzon Wrapper Library](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.commons.johnzon) | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.commons.johnzon/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.sling/org.apache.sling.commons.johnzon) |
+| [Apache Sling Context-Aware Configuration API](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.caconfig.api/) | [![Maven Central](https://img.shields.io/maven-central/v/org.apache.sling/org.apache.sling.caconfig.api)](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.caconfig.api/) |
+| [Apache Sling Context-Aware Configuration SPI](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.caconfig.spi/) | [![Maven Central](https://img.shields.io/maven-central/v/org.apache.sling/org.apache.sling.caconfig.spi)](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.caconfig.spi/) |
+| [Apache Sling Context-Aware Configuration Implementation](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.caconfig.impl/) | [![Maven Central](https://img.shields.io/maven-central/v/org.apache.sling/org.apache.sling.caconfig.impl)](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.caconfig.impl/) |
+| [Apache Johnzon Wrapper Library](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.commons.johnzon/) | [![Maven Central](https://img.shields.io/maven-central/v/org.apache.sling/org.apache.sling.commons.johnzon)](https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.commons.johnzon/) |
 
 
 ### Deploy Sling Context-Aware Configuration to AEM 6.1/6.2
