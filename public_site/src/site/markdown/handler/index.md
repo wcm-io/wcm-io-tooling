@@ -5,7 +5,7 @@ Link, Media and RichText Handler infrastructure.
 
 ### Overview
 
-* [General concepts][general-concepts]  for all handlers
+* [General Concepts][general-concepts] for all handlers
 * [URL Handler][url-handler]: URL resolving and processing.
 * [Link Handler][link-handler]: Link resolving, processing and markup generation.
 * [Media Handler][media-handler]: Media resolving, processing and markup generation.

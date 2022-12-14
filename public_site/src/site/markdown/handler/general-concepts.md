@@ -1,6 +1,6 @@
-## wcm.io Handler general concepts
+## wcm.io Handler General Concepts
 
-The wcm.io Handler is a set of libraries that built on each other to provide the following highlevel functionality:
+The wcm.io Handler is a set of libraries that built on each other to provide the following high-level functionality:
 
 * Build and externalize URLs
 * Detect Site Root
@@ -48,12 +48,12 @@ The implementations for the handlers share common patterns:
 
 ### More general concepts
 
-Each of the handler has their own "general concepts" page for more details:
+Each of the handler has their own general concepts page for more details:
 
-* [URL Handler general concepts][url-handler-general-concepts]
-* [Link Handler general concepts][link-handler-general-concepts]
-* [Media Handler general concepts][media-handler-general-concepts]
-* [RichText Handler general concepts][richtext-handler-general-concepts]
+* [URL Handler General Concepts][url-handler-general-concepts]
+* [Link Handler General Concepts][link-handler-general-concepts]
+* [Media Handler General Concepts][media-handler-general-concepts]
+* [RichText Handler General Concepts][richtext-handler-general-concepts]
 
 
 [url-handler]: url/
