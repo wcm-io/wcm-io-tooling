@@ -136,22 +136,12 @@ The Site API is implemented with multi-tenancy in mind. You may want to deploy m
 All OSGi interfaces that can be implemented by applications in the Site API are using the concept of [Context-Aware Services][wcmio-sling-context-aware-services]. With this concept, OSGi service implementations are only applied to "resource contexts", e.g. Sites/page hierarchy subtrees, that belong the the application they are build for. As a result, multiple different implementations of the same service and URL mapping can nicely co-exist on the same AEM instance.
 
 
-### More general concepts
-
-Additional general concepts for the Site API modules:
-
-* [Site API Processor General Concepts][site-api-processor-general-concepts]
-* [Site API Handler General Concepts][site-api-handler-general-concepts]
-
-
 [aem-cf-graphql]: https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/content-fragments.html
 [aem-sling-models-exporter]: https://experienceleague.adobe.com/docs/experience-manager-learn/foundation/development/understand-sling-model-exporter.html?lang=en
 [aem-spa-editor]: https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/implementing/developing/hybrid/editor-overview.html?lang=en
 [aem-persisted-graphql-queries]: https://experienceleague.adobe.com/docs/experience-manager-cloud-service/content/headless/graphql-api/persisted-queries.html?lang=en
 [site-api-processor]: processor/
 [site-api-handler]: handler/
-[site-api-processor-general-concepts]: processor/general-concepts.html
-[site-api-handler-general-concepts]: processor/general-concepts.html
 [wcmio-handler]: https://wcm.io/handler
 [wcmio-sling-context-aware-services]: https://wcm.io/sling/commons/context-aware-services.html
 [jolt]: https://github.com/bazaarvoice/jolt
