@@ -1,4 +1,4 @@
-# Deploy snapshots to Sonatpe OSS repository and deploy site to GitHub Pages
+# Deploy snapshots to Sonatype OSS repository and deploy site to GitHub Pages
 
 name: Deploy
 
@@ -26,8 +26,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: temurin
-          java-version: 8
-          cache: 'maven'
+          java-version: 11
+          cache: maven
 
       - name: Build, verify, deploy, generate site
         env:
