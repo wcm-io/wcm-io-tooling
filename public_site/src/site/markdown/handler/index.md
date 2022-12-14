@@ -13,6 +13,11 @@ Link, Media and RichText Handler infrastructure.
 * [Handler Commons][handler-commons]: Functionality shared by the handler implementations.
 * [System configuration][configuration]
 
+Mock Helper
+
+* [Handler Mock Helper](https://wcm.io/testing/wcm-io-mock/handler/): Helps setting up mock environment for wcm.io Handler.
+
+
 To see how this all works together have a look at the [sample application][wcmio-samples].
 
 To set up a new AEM project with wcm.io Handler support use the [wcm.io Maven Archetype for AEM][wcmio-maven-archetype-aem].

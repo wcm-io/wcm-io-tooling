@@ -10,6 +10,10 @@ Context-Aware means configurations that are related to a content resource or a r
 * [Editor](editor/): Configuration Editor Template for AEM.
 * [Extensions](extensions/): AEM-specific extensions for Sling Context-Aware Configuration.
 
+Mock Helper
+
+* [Context-Aware Configuration Mock Helper](https://wcm.io/testing/wcm-io-mock/caconfig/): Helps setting up mock environment for wcm.io Context-Aware Configuration.
+
 
 ### Supported AEM versions
 

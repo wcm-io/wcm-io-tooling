@@ -9,3 +9,7 @@ Extensions for AEM authoring and AEM applications.
 * [Commons](commons/): Common WCM utility and helper functions.
 * [Granite UI Extensions](ui/granite/): Granite UI Components for AEM Touch UI.
 * [Clientlibs UI Extensions](ui/clientlibs/): Extensions for AEM HTML client libraries.
+
+Mock Helper
+
+* [WCM Mock Helper](https://wcm.io/testing/wcm-io-mock/wcm/): Helps setting up mock environment for wcm.io WCM Commons.
