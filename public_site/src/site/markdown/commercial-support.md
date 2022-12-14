@@ -1,6 +1,6 @@
 ## Commercial support
 
-Technical support can be made available if needed. Please [contact us](mailto:opensource@pro-vision.de) for more details.
+Technical support can be made available if needed. Please [contact us](mailto:wcm-io@diva-e.com) for more details.
 
 We can:
 
