@@ -12,6 +12,6 @@ Unsubscribe from list: wcm-io-dev+unsubscribe@googlegroups.com
 Mailing list archive: https://groups.google.com/forum/#!forum/wcm-io-dev
 
 
-On this list you can ask (and answer) questions, post feature requests or start discussions. Additionally all JIRA notifications are posted on this list.
+On this list you can ask (and answer) questions, post feature requests or start discussions.
 
 Please post only in english.

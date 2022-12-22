@@ -9,7 +9,7 @@ development and maintenance. wcm.io can be used freely and is released under
 
 ### Collaboration tools (Issues, Wiki, Mailing Lists)
 
-Please report any bugs found, feature requests or other issues on [JIRA][jira]. You can signup [here][jira-signup].
+Please report any bugs found, feature requests or other issues in the [wcm.io GitHub projects][wcmio-github].
 
 When creating a new issue, try following [necolas's guidelines][issue-guidelines].
 
@@ -18,8 +18,7 @@ The project's wiki is hosted in [Confluence][confluence].
 Overview over the project's [mailing lists][mailing-lists].
 
 
-[jira]: https://wcm-io.atlassian.net/
-[jira-signup]: https://wcm-io.atlassian.net/admin/users/sign-up
+[wcmio-github]: https://github.com/wcm-io
 [confluence]: https://wcm-io.atlassian.net/wiki/
 [issue-guidelines]: https://github.com/necolas/issue-guidelines/#readme
 [mailing-lists]: https://wcm.io/mailing-lists.html
