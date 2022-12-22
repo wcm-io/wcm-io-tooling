@@ -52,15 +52,15 @@ mvn clean install
 
 ### Acknowledgments
 
-wcm.io was initially contributed and is sponsered by [pro!vision GmbH][pro-vision]
+wcm.io was initially contributed and is sponsored by pro!vision GmbH (now part of [diva-e][diva-e]).
 
-AEM stands for [Adobe Experience Manager][aem] and is a registered Trademark from Adobe
+AEM stands for [Adobe Experience Manager][aem] and is a registered Trademark from Adobe.
 
 The project's websites uses the [Reflow Maven Skin][reflow] by [Andrius Velykis][andrius-velykis].
 
 The "parametrized" JUnit rule from the JUnit Commons project is based on work by [Jens Schauder][schauderhaft].
 
-[pro-vision]: http://www.pro-vision.de
+[diva-e]: https://www.diva-e.com/
 [aem]: http://www.adobe.com/solutions/web-experience-management.html
 [reflow]: http://andriusvelykis.github.io/reflow-maven-skin/
 [andrius-velykis]: http://andrius.velykis.lt/
