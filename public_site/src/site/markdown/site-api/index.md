@@ -8,6 +8,11 @@ Supports Headless AEM projects based on AEM Sites and Sling Models Exporter.
 * [Processor](processor/): Processor API for Headless AEM projects based on AEM Sites.
 * [Handler Extensions](handler/): Support wcm.io Handler infrastructure in Site API.
 
+Integration Tests
+
+* [Site API Open API Validator](openapi-validator/): Validates OAS3 schemas and JSON content.
+* [Site API Integration Test Support](integration-test-support/): Run Cloud Manager integration tests for Site API.
+
 Mock Helper
 
 * [Site API Processor Mock Helper](https://wcm.io/testing/wcm-io-mock/site-api/processor/): Helps setting up mock environment for wcm.io Site API Processor.
