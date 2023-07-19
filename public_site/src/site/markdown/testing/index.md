@@ -13,6 +13,8 @@ Helper tools for supporting Unit Tests, Integration test and test automation in 
     * [Handler](wcm-io-mock/handler/): Helps setting up mock environment for wcm.io Handler.
     * [Site API Processor](wcm-io-mock/site-api/processor/): Helps setting up mock environment for wcm.io Site API Processor.
     * [Site API Handler](wcm-io-mock/site-api/handler/): Helps setting up mock environment for wcm.io Site API with Handler infrastructure.
+    * [Site API Generic Edit](wcm-io-mock/site-api/generic-edit/): Helps setting up mock environment for wcm.io Site API Generic Edit.
+    * [Site API Generic Edit Handler Extensions](wcm-io-mock/site-api/generic-edit/handler/): Helps setting up mock environment for wcm.io Site API Generic Edit Handler Extensions.
 * Logging configuration
     * [Lockback](logging/logback/): Default configuration for Logback logging in unit tests.
 * [JUnit 4 Commons](junit-commons/): Common extensions of JUnit 4 for supporting AEM Mocks JUnit 4 integration.

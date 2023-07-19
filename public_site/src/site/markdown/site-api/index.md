@@ -22,6 +22,8 @@ Mock Helper
 
 * [Site API Processor Mock Helper](https://wcm.io/testing/wcm-io-mock/site-api/processor/): Helps setting up mock environment for wcm.io Site API Processor.
 * [Site API Handler Mock Helper](https://wcm.io/testing/wcm-io-mock/site-api/handler/): Helps setting up mock environment for wcm.io Site API with Handler infrastructure.
+* [Site API Generic Edit Mock Helper](https://wcm.io/testing/wcm-io-mock/site-api/generic-edit/): Helps setting up mock environment for wcm.io Site API Generic Edit.
+* [Site API Generic Edit Handler Extensions Mock Helper](https://wcm.io/testing/wcm-io-mock/site-api/generic-edit/handler/): Helps setting up mock environment for wcm.io Site API Generic Edit Handler Extensions.
 
 
 [general-concepts]: general-concepts.html
