@@ -19,7 +19,7 @@ Mock Helper
 
 Context-Aware Configuration is supported in AEM 6.5 and AEMaaCS out-of-the-box.
 
-If you want to use it in older versions (AEM 6.1 to 6.4), see [Deploy and configure Context-Aware Configuration in AEM 6.1 - 6.4][deploy-configure-caconfig-in-aem].
+If you want to use it in AEM older versions, see [Deploy and configure Context-Aware Configuration in AEM 6.1 - 6.4][deploy-configure-caconfig-in-aem].
 
 ### Further Resources
 
