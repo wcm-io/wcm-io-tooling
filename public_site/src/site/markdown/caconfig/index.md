@@ -17,12 +17,9 @@ Mock Helper
 
 ### Supported AEM versions
 
-Context-Aware Configuration is supported in AEM 6.1 and upwards. AEM 6.0 is not supported.
+Context-Aware Configuration is supported in AEM 6.5 and AEMaaCS out-of-the-box.
 
-When you are using AEM 6.1 or 6.2 you have to additionally deploy the Apache Sling Context-Aware Configuration bundles (API, SPI, Impl) to AEM. In AEM 6.3 you have to update the Apache Sling Context-Aware Configuration SPI and Impl bundles to the latest version to use all features.
-
-See [Deploy and configure Context-Aware Configuration in AEM][deploy-configure-caconfig-in-aem] for details.
-
+If you want to use it in older versions (AEM 6.1 to 6.4), see [Deploy and configure Context-Aware Configuration in AEM 6.1 - 6.4][deploy-configure-caconfig-in-aem].
 
 ### Further Resources
 
