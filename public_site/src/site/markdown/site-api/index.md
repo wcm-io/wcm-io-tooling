@@ -15,7 +15,7 @@ Integration Tests
 
 Generic Edit Mode
 
-* [Site API Generic Edit](generic-edit/): VGeneric Edit Mode for Headless AEM projects based on AEM Sites.
+* [Site API Generic Edit](generic-edit/): Generic Edit Mode for Headless AEM projects based on AEM Sites.
 * [Site API Generic Edit Handler Extensions](generic-edit/handler/): Support wcm.io Handler infrastructure in Site API Generic Edit Mode.
 
 Mock Helper
