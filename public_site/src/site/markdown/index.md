@@ -21,7 +21,6 @@ AEM ([Adobe Experience Manager][aem-website], formerly called CQ) is an enterpri
 wcm.io is a collection of independent modules which can be used standalone or in combination.
 
 * [WCM](wcm/)
-* [DAM](dam/)
 * [Context-Aware Configuration](caconfig/)
 * [Handler](handler/)
 * [Sling Extensions](sling/)
