@@ -105,7 +105,8 @@
           return null;
         }
 
-        var quickstartRegex = /^AEM_(.+)_Quickstart\.jar$/;
+        var quickstartOldRegex = /^AEM_(.+)_Quickstart\.jar$/;
+        var quickstartRegex = /^cq-quickstart-(.+)\.jar$/;
         var dispatcherRegex = /^dispatcher-(.+)-(.+?)\.([^\.]*|tar\.gz)$/g;
         var genericRegex = /^(.+)-(.+?)\.([^\.]*)$/g;
         var aemSdkGenericRegex = /^(.+)-(\d+\.\d+\.\d+\.\d+T\d+Z-\d+)\.([^\.]*)$/g;
@@ -121,7 +122,10 @@
 
         var coords = {};
 
-        var quickstartMatch = quickstartRegex.exec(filename);
+        var quickstartMatch = quickstartOldRegex.exec(filename);
+        if (!quickstartMatch) {
+          quickstartMatch = quickstartRegex.exec(filename);
+        }
         if (quickstartMatch) {
           filetype = "quickstart";
           coords.groupId = "adobe.binary.aem." + aemversion + ".quickstart";
