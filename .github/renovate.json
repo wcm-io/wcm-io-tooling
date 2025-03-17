@@ -1,0 +1,8 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>wcm-io/renovate-config:maven",
+    "github>wcm-io/renovate-config:automerge-parent",
+    "github>wcm-io/renovate-config:automerge-testing"
+  ]
+}
