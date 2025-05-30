@@ -24,6 +24,7 @@ wcm.io is a collection of independent modules which can be used standalone or in
 * [Context-Aware Configuration](caconfig/)
 * [Handler](handler/)
 * [Sling Extensions](sling/)
+* [Site API](site-api/)
 * [Testing](testing/)
 * [Samples](samples/)
 * [Tooling](tooling/)
