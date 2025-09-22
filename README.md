@@ -1,6 +1,6 @@
 <img src="https://wcm.io/images/favicon-16@2x.png"/> wcm.io Tooling
 ======
-[![Build](https://github.com/wcm-io/wcm-io-tooling/workflows/Build/badge.svg?branch=develop)](https://github.com/wcm-io/wcm-io-tooling/actions?query=workflow%3ABuild+branch%3Adevelop)
+[![Build](https://github.com/wcm-io/wcm-io-tooling/actions/workflows/maven-build.yml/badge.svg?branch=develop)](https://github.com/wcm-io/wcm-io-tooling/actions?query=workflow%3ABuild+branch%3Adevelop)
 
 Tooling for Maven and IDEs.
 
