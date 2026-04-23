@@ -20,15 +20,9 @@ jobs:
         distribution: [temurin]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup JDK
-        uses: actions/setup-java@v5
+      - name: Maven Build
+        uses: wcm-io-devops/github-action-maven-build@v1
         with:
-          distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.java }}
-          cache: maven
-
-      - name: Build and verify
-        run: ./mvnw -s ./.maven-settings.xml -Pcontinuous-integration -D"invoker.streamLogsOnFailures=true" -B -U clean verify
+          maven-executable: ./mvnw
+          maven-additional-args: -D"invoker.streamLogsOnFailures=true"
