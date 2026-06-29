@@ -11,7 +11,7 @@ The wcm.io modules support the following platforms:
 
 |Since         |AEM Version              |Java Runtime  |Java Build |
 |--------------|-------------------------|--------------|-----------|
-|May 2026      |6.5.24+,6.6.2+,AEMaaCS   |11,17,21,25   |21,25      |
+|June 2026     |6.5.24+,6.6.2+,AEMaaCS   |11,17,21,25   |21,25      |
 |January 2024  |6.5.17+,6.6.0+,AEMaaCS   |11,17,21      |17,21      | 
 |January 2023  |6.5.7+,AEMaaCS           |11,17,21      |11,17,21   | 
 |January 2022  |6.5.0+                   |8,11,17       |8,11,17    | 
